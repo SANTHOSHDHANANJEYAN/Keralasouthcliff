@@ -5,28 +5,38 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Bed, 
-  Bath, 
-  Wifi, 
-  Car, 
-  Utensils, 
-  Waves, 
-  Mountain, 
+import {
+  Bed,
+  Bath,
+  Wifi,
+  Car,
+  Utensils,
+  Waves,
+  Mountain,
   Sun,
   Wind,
   Shield,
   Crown
 } from 'lucide-react';
 
-const VillasSection = () => {
-  const [selectedVilla, setSelectedVilla] = useState('ground-floor');
+type VillaType = 'ground-floor' | 'top-floor';
 
-  const villas = {
+const VillasSection = () => {
+  const [selectedVilla, setSelectedVilla] = useState<VillaType>('ground-floor');
+
+  const villas: Record<VillaType, {
+    name: string;
+    price: string;
+    description: string;
+    features: { icon: React.ElementType; text: string }[];
+    amenities: string[];
+    images: string[];
+  }> = {
     'ground-floor': {
       name: 'Ground Floor Villa',
       price: '$8,500',
-      description: 'Experience luxury at sea level with direct beach access and private terrace. Feel the ocean breeze and hear the rhythmic waves from your private sanctuary.',
+      description:
+        'Experience luxury at sea level with direct beach access and private terrace. Feel the ocean breeze and hear the rhythmic waves from your private sanctuary.',
       features: [
         { icon: Bed, text: '2 Bedrooms' },
         { icon: Bath, text: '2 Bathrooms' },
@@ -56,7 +66,8 @@ const VillasSection = () => {
     'top-floor': {
       name: 'Top Floor Villa',
       price: '$8,500',
-      description: 'Elevated luxury with breathtaking panoramic views of the Arabian Sea and cliff formations. Watch spectacular sunsets from your private balcony high above the coastline.',
+      description:
+        'Elevated luxury with breathtaking panoramic views of the Arabian Sea and cliff formations. Watch spectacular sunsets from your private balcony high above the coastline.',
       features: [
         { icon: Bed, text: '2 Bedrooms' },
         { icon: Bath, text: '2 Bathrooms' },
@@ -101,19 +112,18 @@ const VillasSection = () => {
           </p>
         </div>
 
-        <Tabs value={selectedVilla} onValueChange={setSelectedVilla} className="w-full">
+        <Tabs value={selectedVilla} onValueChange={(val) => setSelectedVilla(val as VillaType)} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="ground-floor">Ground Floor Villa</TabsTrigger>
             <TabsTrigger value="top-floor">Top Floor Villa</TabsTrigger>
           </TabsList>
 
           <TabsContent value={selectedVilla} className="space-y-8">
-            {/* Image Gallery */}
             <div className="grid md:grid-cols-3 gap-4">
               {currentVilla.images.map((image, index) => (
                 <div key={index} className="relative overflow-hidden rounded-lg">
-                  <img 
-                    src={image} 
+                  <img
+                    src={image}
                     alt={`${currentVilla.name} ${index + 1}`}
                     className="w-full h-64 object-cover hover:scale-110 transition-transform duration-700"
                   />
@@ -121,7 +131,6 @@ const VillasSection = () => {
               ))}
             </div>
 
-            {/* Villa Details */}
             <div className="grid lg:grid-cols-2 gap-12">
               <div>
                 <div className="flex items-center gap-4 mb-6">
@@ -130,10 +139,9 @@ const VillasSection = () => {
                     {currentVilla.price}/night
                   </Badge>
                 </div>
-                
+
                 <p className="text-gray-600 text-lg mb-8">{currentVilla.description}</p>
 
-                {/* Features Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   {currentVilla.features.map((feature, index) => (
                     <div key={index} className="flex items-center gap-2 p-3 bg-white rounded-lg shadow-sm">
@@ -143,8 +151,8 @@ const VillasSection = () => {
                   ))}
                 </div>
 
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white"
                 >
                   Book This Villa Now
