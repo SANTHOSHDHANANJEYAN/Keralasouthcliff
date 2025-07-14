@@ -5,7 +5,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Box, Torus } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Define the prop types
 type FloatingElementProps = {
   position: [number, number, number];
   color: string;
@@ -24,7 +23,13 @@ const FloatingElement: React.FC<FloatingElementProps> = ({ position, color, shap
   });
 
   const Element = shape === 'box' ? Box : shape === 'torus' ? Torus : Sphere;
-  const args = shape === 'box' ? [0.5, 0.5, 0.5] : shape === 'torus' ? [0.3, 0.1, 16, 32] : [0.3];
+
+  const args: any =
+    shape === 'box'
+      ? ([0.5, 0.5, 0.5] as [width: number, height: number, depth: number])
+      : shape === 'torus'
+      ? ([0.3, 0.1, 16, 32] as [radius: number, tube: number, radialSegments: number, tubularSegments: number])
+      : ([0.3] as [radius: number]);
 
   return (
     <Element ref={meshRef} args={args} position={position}>
