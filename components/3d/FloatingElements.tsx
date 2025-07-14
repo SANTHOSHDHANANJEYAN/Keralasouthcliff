@@ -5,7 +5,14 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Box, Torus } from '@react-three/drei';
 import * as THREE from 'three';
 
-const FloatingElement = ({ position, color, shape = 'sphere' }) => {
+// Define the prop types
+type FloatingElementProps = {
+  position: [number, number, number];
+  color: string;
+  shape?: 'sphere' | 'box' | 'torus';
+};
+
+const FloatingElement: React.FC<FloatingElementProps> = ({ position, color, shape = 'sphere' }) => {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -26,13 +33,17 @@ const FloatingElement = ({ position, color, shape = 'sphere' }) => {
   );
 };
 
-const FloatingElements = ({ className = "" }) => {
-  const elements = [
-    { position: [-3, 2, -2], color: "#3B82F6", shape: 'sphere' },
-    { position: [3, 1, -1], color: "#10B981", shape: 'box' },
-    { position: [0, 3, -3], color: "#F59E0B", shape: 'torus' },
-    { position: [-2, 1, 1], color: "#8B5CF6", shape: 'sphere' },
-    { position: [2, 2, 2], color: "#EF4444", shape: 'box' },
+type FloatingElementsProps = {
+  className?: string;
+};
+
+const FloatingElements: React.FC<FloatingElementsProps> = ({ className = '' }) => {
+  const elements: FloatingElementProps[] = [
+    { position: [-3, 2, -2], color: '#3B82F6', shape: 'sphere' },
+    { position: [3, 1, -1], color: '#10B981', shape: 'box' },
+    { position: [0, 3, -3], color: '#F59E0B', shape: 'torus' },
+    { position: [-2, 1, 1], color: '#8B5CF6', shape: 'sphere' },
+    { position: [2, 2, 2], color: '#EF4444', shape: 'box' },
   ];
 
   return (
