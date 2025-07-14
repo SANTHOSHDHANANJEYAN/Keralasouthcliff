@@ -21,7 +21,7 @@ const VillasPreview = () => {
       image: 'https://images.pexels.com/photos/1329711/pexels-photo-1329711.jpeg',
       rating: 4.9,
       maxGuests: 4,
-      isGroundFloor: true
+      isGroundFloor: true,
     },
     {
       id: 2,
@@ -32,11 +32,11 @@ const VillasPreview = () => {
       image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg',
       rating: 4.9,
       maxGuests: 4,
-      isGroundFloor: false
-    }
+      isGroundFloor: false,
+    },
   ];
 
-  const [selectedVilla, setSelectedVilla] = React.useState(null);
+  const [selectedVilla, setSelectedVilla] = React.useState<number | null>(null);
 
   return (
     <section className="py-24 bg-gradient-to-b from-white to-gray-50">
@@ -57,7 +57,6 @@ const VillasPreview = () => {
           </p>
         </motion.div>
 
-        {/* 3D Villa Models */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {villas.map((villa, index) => (
             <motion.div
@@ -80,7 +79,6 @@ const VillasPreview = () => {
           ))}
         </div>
 
-        {/* Villa Details */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           {villas.map((villa) => (
             <motion.div
@@ -97,23 +95,17 @@ const VillasPreview = () => {
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  
-                  {/* Price Badge */}
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-gradient-to-r from-blue-600 to-teal-600 text-white text-lg px-4 py-2">
                       {villa.price}/night
                     </Badge>
                   </div>
-
-                  {/* Rating */}
                   <div className="absolute top-4 left-4">
                     <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
                       <Star className="w-4 h-4 text-yellow-500 fill-current" />
                       <span className="text-sm font-medium">{villa.rating}</span>
                     </div>
                   </div>
-
-                  {/* Virtual Tour Button */}
                   <div className="absolute bottom-4 left-4">
                     <Button
                       size="sm"
@@ -125,7 +117,6 @@ const VillasPreview = () => {
                     </Button>
                   </div>
                 </div>
-                
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-2xl font-bold text-gray-900">{villa.name}</h3>
@@ -144,9 +135,7 @@ const VillasPreview = () => {
                       </div>
                     </div>
                   </div>
-                  
                   <p className="text-gray-600 mb-6 leading-relaxed">{villa.description}</p>
-                  
                   <div className="flex flex-wrap gap-2 mb-6">
                     {villa.features.map((feature, index) => (
                       <Badge key={index} variant="secondary" className="text-xs px-3 py-1">
@@ -154,7 +143,6 @@ const VillasPreview = () => {
                       </Badge>
                     ))}
                   </div>
-                  
                   <div className="flex gap-3">
                     <Button className="flex-1 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white">
                       Book Now
@@ -169,7 +157,6 @@ const VillasPreview = () => {
           ))}
         </div>
 
-        {/* Virtual Tour Modal */}
         {selectedVilla && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -197,7 +184,6 @@ const VillasPreview = () => {
           </motion.div>
         )}
 
-        {/* Comparison Table */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -249,7 +235,6 @@ const VillasPreview = () => {
           </Card>
         </motion.div>
 
-        {/* Special Offers */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -266,7 +251,7 @@ const VillasPreview = () => {
                 <p className="text-sm text-gray-600">Book 30 days in advance and save 15%</p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gradient-to-br from-teal-50 to-teal-100 border-teal-200">
               <CardContent className="p-6 text-center">
                 <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -276,7 +261,7 @@ const VillasPreview = () => {
                 <p className="text-sm text-gray-600">Stay 7+ nights and get complimentary spa treatment</p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
               <CardContent className="p-6 text-center">
                 <div className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
