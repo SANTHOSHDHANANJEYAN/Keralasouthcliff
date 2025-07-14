@@ -23,7 +23,7 @@ const galleryData: Record<CategoryKey, { src: string; alt: string }[]> = {
   ],
 };
 
-const categories: (CategoryKey | 'all')[] = ['all', 'exterior', 'interior', 'rooms', 'amenities'];
+const categories: ('all' | CategoryKey)[] = ['all', 'exterior', 'interior', 'rooms', 'amenities'];
 
 const GallerySection = () => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | CategoryKey>('all');
