@@ -9,7 +9,7 @@ import { Play, Maximize2, Heart, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
 const GalleryPreview = () => {
-  const [likedImages, setLikedImages] = useState(new Set());
+  const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
 
   const galleryImages = [
     {
@@ -50,7 +50,7 @@ const GalleryPreview = () => {
     }
   ];
 
-  const toggleLike = (index) => {
+  const toggleLike = (index: number) => {
     const newLiked = new Set(likedImages);
     if (newLiked.has(index)) {
       newLiked.delete(index);
@@ -195,6 +195,7 @@ const GalleryPreview = () => {
           </div>
         </motion.div>
 
+        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
