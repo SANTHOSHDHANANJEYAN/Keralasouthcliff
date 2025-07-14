@@ -9,7 +9,7 @@ import { Play, Maximize2, Heart, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
 const GalleryPreview = () => {
-  const [likedImages, setLikedImages] = useState(new Set());
+  const [likedImages, setLikedImages] = useState(new Set<number>());
 
   const galleryImages = [
     {
@@ -50,7 +50,7 @@ const GalleryPreview = () => {
     }
   ];
 
-  const toggleLike = (index) => {
+  const toggleLike = (index: number) => {
     const newLiked = new Set(likedImages);
     if (newLiked.has(index)) {
       newLiked.delete(index);
@@ -95,7 +95,7 @@ const GalleryPreview = () => {
                   className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 {/* Category Badge */}
                 <div className="absolute top-4 left-4">
                   <Badge className="bg-white/90 text-gray-900 backdrop-blur-sm">
