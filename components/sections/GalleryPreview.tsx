@@ -23,14 +23,24 @@ const galleryData: Record<CategoryKey, { src: string; alt: string }[]> = {
   ],
 };
 
-const categories: ('all' | CategoryKey)[] = ['all', 'exterior', 'interior', 'rooms', 'amenities'];
+const categories = ['all', 'exterior', 'interior', 'rooms', 'amenities'] as const;
+
+type Category = typeof categories[number]; // 'all' | 'exterior' | 'interior' | ...
+
+const isGalleryCategory = (value: string): value is CategoryKey => {
+  return ['exterior', 'interior', 'rooms', 'amenities'].includes(value);
+};
 
 const GallerySection = () => {
-  const [selectedCategory, setSelectedCategory] = useState<'all' | CategoryKey>('all');
+  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
 
   const allImages = Object.values(galleryData).flat();
   const currentImages =
-    selectedCategory === 'all' ? allImages : galleryData[selectedCategory];
+    selectedCategory === 'all'
+      ? allImages
+      : isGalleryCategory(selectedCategory)
+      ? galleryData[selectedCategory]
+      : [];
 
   return (
     <section className="py-24 bg-gradient-to-b from-white to-gray-50">
