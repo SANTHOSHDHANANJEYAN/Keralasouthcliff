@@ -51,7 +51,7 @@ const Hero = () => {
         ))}
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
       </div>
-      
+
       {/* 3D Interactive Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-20">
         <Suspense fallback={<div />}>
@@ -59,7 +59,6 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Interactive Beach Animation */}
       <div className="absolute bottom-0 left-0 w-full opacity-30">
         <Suspense fallback={<div />}>
           <InteractiveBeach />
@@ -74,27 +73,25 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-
-            
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
-              Kerala South Cliff
+              Embrace the Spirit of
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-emerald-400">
-                Beach View Villas
+                Asteya
               </span>
             </h1>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
             <p className="text-2xl md:text-3xl mb-8 text-gray-200 font-light">
-              Experience Luxury Amidst Nature's Masterpiece
+              The Yogic Path of Non-Stealing and Abundance Within
             </p>
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -102,12 +99,10 @@ const Hero = () => {
           >
             <div className="flex items-center justify-center gap-2 mb-8">
               <MapPin className="w-5 h-5 text-blue-400" />
-              <span className="text-lg text-gray-300">South Cliff, Varkala, Kerala</span>
+              <span className="text-lg text-gray-300">Wisdom Retreats, South Cliff, Kerala</span>
             </div>
-            
-
           </motion.div>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -118,16 +113,9 @@ const Hero = () => {
               size="lg" 
               className="bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white px-10 py-5 text-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-2xl"
             >
-              Book Now - $8,500/night
+              Join Asteya Retreat
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-10 py-5 text-xl font-semibold transform hover:scale-105 transition-all duration-300 backdrop-blur-sm"
-            >
-              <Play className="mr-2" size={20} />
-              Virtual Tour
-            </Button>
+
           </motion.div>
 
           {/* Stats */}
@@ -138,36 +126,21 @@ const Hero = () => {
             className="flex justify-center gap-8 mt-12"
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400">2</div>
-              <div className="text-sm text-gray-300">Luxury Villas</div>
+              <div className="text-3xl font-bold text-blue-400">21</div>
+              <div className="text-sm text-gray-300">Days of Mindful Living</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-teal-400">5★</div>
-              <div className="text-sm text-gray-300">Rating</div>
+              <div className="text-sm text-gray-300">Wisdom Rated</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-400">24/7</div>
-              <div className="text-sm text-gray-300">Concierge</div>
+              <div className="text-3xl font-bold text-emerald-400">100%</div>
+              <div className="text-sm text-gray-300">Self-Awareness Practice</div>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-        >
-          <ChevronDown size={32} />
-        </motion.div>
-        <div className="text-xs mt-2 text-center">Scroll to explore</div>
-      </motion.div>
 
       {/* Slide indicators */}
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2">

@@ -36,10 +36,10 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">K</span>
+              <span className="text-white font-bold text-sm">A</span>
             </div>
             <span className={`font-bold text-lg ${scrolled ? 'text-gray-900' : 'text-white'}`}>
-              Kerala Villas
+              Asteya
             </span>
           </Link>
 
