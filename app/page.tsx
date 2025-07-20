@@ -6,6 +6,7 @@ import LocationPreview from '@/components/sections/LocationPreview';
 import ContactPreview from '@/components/sections/ContactPreview';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import AgendaSection from '@/components/sections/AgendaSection';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <AgendaSection/>
         <VillasPreview />
         <GalleryPreview />
         <AmenitiesPreview />
