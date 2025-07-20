@@ -20,10 +20,11 @@ const cards = [
 
 export default function HeroSection() {
   const [bg, setBg] = useState(bgImages.Individuals);
+  const [activeTitle, setActiveTitle] = useState('Individuals');
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
-      {/* Background Image with Fade Transition */}
+      {/* Background Image */}
       <AnimatePresence mode="wait">
         <motion.div
           key={bg}
@@ -40,7 +41,7 @@ export default function HeroSection() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-black bg-opacity-50" />
+          <div className="absolute inset-0 bg-[#627d6a]/60 backdrop-blur-sm" />
         </motion.div>
       </AnimatePresence>
 
@@ -50,7 +51,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="uppercase text-orange-500 tracking-widest text-sm md:text-lg"
+          className="uppercase text-[#f4b860] tracking-widest text-sm md:text-lg"
         >
           Our Accommodations
         </motion.p>
@@ -59,43 +60,48 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-5xl md:text-7xl font-extrabold uppercase mt-2"
+          className="text-5xl md:text-7xl font-extrabold uppercase mt-2 drop-shadow-lg"
         >
-          Individuals
+          {activeTitle}
         </motion.h1>
 
         <motion.button
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-6 bg-orange-500 text-white py-3 px-6 rounded hover:bg-orange-600 transition duration-300"
+          className="mt-6 py-3 px-6 rounded text-white text-sm md:text-base font-semibold transition-all duration-300 shadow-lg bg-[#627d6a] hover:bg-[#4f6658] hover:shadow-2xl"
         >
           See All Private Rental Companies
         </motion.button>
       </div>
 
-      {/* Cards at Bottom */}
+      {/* Cards */}
       <div className="absolute bottom-0 left-0 right-0 px-4 md:px-10 pb-8 z-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {cards.map((card) => (
-            <div
+            <motion.div
               key={card.title}
-              className="relative h-40 md:h-48 lg:h-56 cursor-pointer group overflow-hidden rounded"
-              onClick={() => setBg(card.image)}
+              className="relative h-40 md:h-48 lg:h-56 cursor-pointer group overflow-hidden rounded-xl border border-white/10"
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              onClick={() => {
+                setBg(card.image);
+                setActiveTitle(card.title);
+              }}
             >
               <Image
                 src={card.image}
                 alt={card.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-cover group-hover:brightness-110 group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-50 group-hover:bg-opacity-40 transition duration-300" />
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition duration-300" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <h3 className="text-white text-lg md:text-xl font-bold">
                   {card.title}
                 </h3>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

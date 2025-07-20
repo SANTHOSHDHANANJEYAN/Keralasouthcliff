@@ -52,11 +52,7 @@ const GalleryPreview = () => {
 
   const toggleLike = (index: number) => {
     const newLiked = new Set(likedImages);
-    if (newLiked.has(index)) {
-      newLiked.delete(index);
-    } else {
-      newLiked.add(index);
-    }
+    newLiked.has(index) ? newLiked.delete(index) : newLiked.add(index);
     setLikedImages(newLiked);
   };
 
@@ -69,7 +65,9 @@ const GalleryPreview = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <Badge className="mb-4 bg-teal-100 text-teal-800 text-lg px-4 py-2">Visual Experience</Badge>
+          <Badge className="mb-4 bg-[#e6f1eb] text-[#627d6a] text-lg px-4 py-2">
+            Visual Experience
+          </Badge>
           <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Gallery Highlights
           </h2>
@@ -96,14 +94,12 @@ const GalleryPreview = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                {/* Category Badge */}
                 <div className="absolute top-4 left-4">
                   <Badge className="bg-white/90 text-gray-900 backdrop-blur-sm">
                     {image.category}
                   </Badge>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Button
                     size="sm"
@@ -113,7 +109,7 @@ const GalleryPreview = () => {
                   >
                     <Heart 
                       size={16} 
-                      className={likedImages.has(index) ? 'fill-red-500 text-red-500' : ''} 
+                      className={likedImages.has(index) ? 'fill-[#627d6a] text-[#627d6a]' : ''} 
                     />
                   </Button>
                   <Button
@@ -125,13 +121,11 @@ const GalleryPreview = () => {
                   </Button>
                 </div>
 
-                {/* Image Info */}
                 <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <h3 className="text-white font-semibold text-lg mb-1">{image.title}</h3>
                   <p className="text-white/80 text-sm">{image.alt}</p>
                 </div>
 
-                {/* Lightbox Trigger */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <div className="absolute inset-0 cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -182,7 +176,7 @@ const GalleryPreview = () => {
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
               <Button
                 size="lg"
-                className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border-white/30 px-8 py-4"
+                className="bg-[#627d6a]/60 backdrop-blur-sm text-white hover:bg-[#4f6658] px-8 py-4"
               >
                 <Play className="mr-3" size={24} />
                 Watch Villa Tour Video
@@ -204,7 +198,7 @@ const GalleryPreview = () => {
           <Link href="/gallery">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700 text-white px-8 py-4 text-lg"
+              className="bg-[#627d6a] hover:bg-[#4f6658] text-white px-8 py-4 text-lg"
             >
               View Full Gallery
             </Button>

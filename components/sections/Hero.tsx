@@ -14,7 +14,7 @@ const Hero = () => {
   const heroImages = [
     'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg',
     'https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg',
-    'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg'
+    'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg',
   ];
 
   useEffect(() => {
@@ -31,8 +31,8 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden ">
-      {/* Background with parallax effect */}
+    <section className="relative h-screen overflow-hidden">
+      {/* Background */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <motion.div
@@ -49,16 +49,15 @@ const Hero = () => {
             }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
       </div>
 
-      {/* 3D Interactive Elements */}
+      {/* 3D Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-20">
         <Suspense fallback={<div />}>
           <FloatingElements />
         </Suspense>
       </div>
-
       <div className="absolute bottom-0 left-0 w-full opacity-30">
         <Suspense fallback={<div />}>
           <InteractiveBeach />
@@ -73,10 +72,10 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight text-[#627d6a]">
               Embrace the Spirit of
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-teal-400 to-emerald-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#627d6a] via-[#90a18d] to-[#b6c6b7]">
                 Asteya
               </span>
             </h1>
@@ -86,9 +85,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
-          >
-
-          </motion.div>
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -96,8 +93,10 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.6 }}
           >
             <div className="flex items-center justify-center gap-2 mb-8">
-              <MapPin className="w-5 h-5 text-blue-400" />
-              <span className="text-lg text-gray-300">Wisdom Retreats, South Cliff, Kerala</span>
+              <MapPin className="w-5 h-5 text-[#627d6a]" />
+              <span className="text-lg text-[#d3d8d1]">
+                Wisdom Retreats, South Cliff, Kerala
+              </span>
             </div>
           </motion.div>
 
@@ -107,13 +106,12 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.9 }}
             className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white px-10 py-5 text-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-2xl"
+            <Button
+              size="lg"
+              className="bg-[#627d6a] hover:bg-[#506654] text-white px-10 py-5 text-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl"
             >
               Join Asteya Retreat
             </Button>
-
           </motion.div>
 
           {/* Stats */}
@@ -124,30 +122,29 @@ const Hero = () => {
             className="flex justify-center gap-8 mt-12"
           >
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400">21</div>
-              <div className="text-sm text-gray-300">Days of Mindful Living</div>
+              <div className="text-3xl font-bold text-[#627d6a]">21</div>
+              <div className="text-sm text-[#c3cec5]">Days of Mindful Living</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-teal-400">5★</div>
-              <div className="text-sm text-gray-300">Wisdom Rated</div>
+              <div className="text-3xl font-bold text-[#627d6a]">5★</div>
+              <div className="text-sm text-[#c3cec5]">Wisdom Rated</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-emerald-400">100%</div>
-              <div className="text-sm text-gray-300">Self-Awareness Practice</div>
+              <div className="text-3xl font-bold text-[#627d6a]">100%</div>
+              <div className="text-sm text-[#c3cec5]">Self-Awareness Practice</div>
             </div>
           </motion.div>
         </div>
       </div>
 
-
-      {/* Slide indicators */}
+      {/* Slide Indicators */}
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2">
         {heroImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index ? 'bg-white' : 'bg-white/50'
+              currentSlide === index ? 'bg-[#627d6a]' : 'bg-[#627d6a]/40'
             }`}
           />
         ))}

@@ -14,40 +14,42 @@ const ContactPreview = () => {
       title: 'Phone',
       value: '+91 9876543210',
       description: 'Available 24/7 for bookings and inquiries',
-      gradient: 'from-green-400 to-emerald-500'
+      gradient: 'from-[#627d6a] to-green-600'
     },
     {
       icon: Mail,
       title: 'Email',
       value: 'info@keralavillas.com',
       description: 'Get in touch via email',
-      gradient: 'from-blue-400 to-cyan-500'
+      gradient: 'from-[#627d6a] to-emerald-500'
     },
     {
       icon: MapPin,
       title: 'Location',
       value: 'South Cliff, Varkala',
       description: 'Kerala, India',
-      gradient: 'from-purple-400 to-pink-500'
+      gradient: 'from-[#627d6a] to-lime-500'
     },
     {
       icon: Clock,
       title: 'Response Time',
       value: 'Within 2 hours',
       description: 'Quick response guaranteed',
-      gradient: 'from-orange-400 to-red-500'
+      gradient: 'from-[#627d6a] to-teal-500'
     }
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-24 bg-gradient-to-b from-white to-[#f5f7f4]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-indigo-100 text-indigo-800">Get in Touch</Badge>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <Badge className="mb-4 bg-[#627d6a]/10 text-[#627d6a] border border-[#627d6a]">
+            Get in Touch
+          </Badge>
+          <h2 className="text-4xl md:text-5xl font-bold text-[#2f3e35] mb-6">
             Contact Us
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg text-[#4b5e52] max-w-2xl mx-auto">
             Ready to experience luxury at Kerala South Cliff Beach View Villas? 
             Contact us for bookings, inquiries, or to plan your perfect getaway.
           </p>
@@ -55,14 +57,14 @@ const ContactPreview = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {contactInfo.map((info, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+            <Card key={index} className="group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
               <CardContent className="p-6 text-center">
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                   <info.icon className="text-white" size={24} />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{info.title}</h3>
-                <p className="text-gray-900 font-medium mb-1">{info.value}</p>
-                <p className="text-gray-600 text-sm">{info.description}</p>
+                <h3 className="text-lg font-semibold text-[#2f3e35] mb-2">{info.title}</h3>
+                <p className="text-[#2f3e35] font-medium mb-1">{info.value}</p>
+                <p className="text-[#5c7264] text-sm">{info.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -72,35 +74,29 @@ const ContactPreview = () => {
           {/* Quick Contact Form */}
           <Card>
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Quick Inquiry</h3>
+              <h3 className="text-2xl font-bold text-[#2f3e35] mb-6">Quick Inquiry</h3>
               <form className="space-y-4">
+                {['Name', 'Email'].map((label) => (
+                  <div key={label}>
+                    <label className="block text-sm font-medium text-[#3d4e44] mb-2">{label}</label>
+                    <input
+                      type={label === 'Email' ? 'email' : 'text'}
+                      placeholder={`Your ${label.toLowerCase()}`}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#627d6a] focus:border-transparent"
+                    />
+                  </div>
+                ))}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                  <input 
-                    type="email" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your email"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea 
+                  <label className="block text-sm font-medium text-[#3d4e44] mb-2">Message</label>
+                  <textarea
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Your message..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#627d6a] focus:border-transparent"
                   />
                 </div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white"
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-[#627d6a] to-[#4a6554] hover:from-[#546f5b] hover:to-[#3f564a] text-white"
                 >
                   Send Message
                 </Button>
@@ -111,43 +107,23 @@ const ContactPreview = () => {
           {/* Booking Information */}
           <Card>
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Booking Information</h3>
+              <h3 className="text-2xl font-bold text-[#2f3e35] mb-6">Booking Information</h3>
               <div className="space-y-6">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Room Rate</p>
-                    <p className="text-gray-600">$8,500 per night (both villas)</p>
+                {[
+                  ['Room Rate', '$8,500 per night (both villas)'],
+                  ['Minimum Stay', '2 nights minimum booking required'],
+                  ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
+                  ['Advance Booking', '50% advance payment required'],
+                  ['Cancellation', 'Free cancellation up to 48 hours']
+                ].map(([label, value], i) => (
+                  <div className="flex items-start gap-3" key={i}>
+                    <div className="w-2 h-2 bg-[#627d6a] rounded-full mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-[#2f3e35]">{label}</p>
+                      <p className="text-[#5c7264]">{value}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Minimum Stay</p>
-                    <p className="text-gray-600">2 nights minimum booking required</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Check-in / Check-out</p>
-                    <p className="text-gray-600">3:00 PM / 12:00 PM</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Advance Booking</p>
-                    <p className="text-gray-600">50% advance payment required</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Cancellation</p>
-                    <p className="text-gray-600">Free cancellation up to 48 hours</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </CardContent>
           </Card>
@@ -155,9 +131,9 @@ const ContactPreview = () => {
 
         <div className="text-center mt-12">
           <Link href="/contact">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-[#627d6a] to-[#4a6554] hover:from-[#546f5b] hover:to-[#3f564a] text-white"
             >
               Complete Contact Form
             </Button>
