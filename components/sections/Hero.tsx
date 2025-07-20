@@ -87,9 +87,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3 }}
           >
-            <p className="text-2xl md:text-3xl mb-8 text-gray-200 font-light">
-              The Yogic Path of Non-Stealing and Abundance Within
-            </p>
+
           </motion.div>
 
           <motion.div
