@@ -31,7 +31,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden bg-gradient-to-b from-slate-900 to-blue-900">
+    <section className="relative h-screen overflow-hidden ">
       {/* Background with parallax effect */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
@@ -74,14 +74,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-              <span className="text-sm font-medium">Luxury Accommodation</span>
-            </div>
+
             
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight">
               Kerala South Cliff
@@ -112,10 +105,7 @@ const Hero = () => {
               <span className="text-lg text-gray-300">South Cliff, Varkala, Kerala</span>
             </div>
             
-            <p className="text-xl mb-12 text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Only 2 exclusive luxury rooms on the pristine South Cliff of Varkala, Kerala. 
-              Where the Arabian Sea meets untouched clifftops in perfect harmony.
-            </p>
+
           </motion.div>
           
           <motion.div
