@@ -4,7 +4,7 @@ import React, { Suspense, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, Maximize, Waves, Play, Star, Users, Bed, Bath } from 'lucide-react';
 import Link from 'next/link';
-
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,7 +22,7 @@ const VillasPreview = () => {
       name: 'Ground Floor Villa',
       description:
         'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves at ground level with unparalleled comfort.',
-      price: '$8,500',
+      price: 'Rs.8,500',
       features: [
         'Private Terrace',
         'Direct Beach Access',
@@ -31,7 +31,7 @@ const VillasPreview = () => {
         '2 Bedrooms',
         '2 Bathrooms',
       ],
-      image: 'https://images.pexels.com/photos/1329711/pexels-photo-1329711.jpeg',
+      image: '/Asteya -website/PDF - Asteya-4.png',
       rating: 4.9,
       maxGuests: 4,
       isGroundFloor: true,
@@ -41,7 +41,7 @@ const VillasPreview = () => {
       name: 'Top Floor Villa',
       description:
         'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset paint the Arabian Sea from your private sanctuary high above.',
-      price: '$8,500',
+      price: 'Rs.8,500',
       features: [
         'Private Balcony',
         'Panoramic Views',
@@ -50,7 +50,7 @@ const VillasPreview = () => {
         '2 Bedrooms',
         '2 Bathrooms',
       ],
-      image: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg',
+      image: '/Asteya -website/PDF - Asteya-2.png',
       rating: 4.9,
       maxGuests: 4,
       isGroundFloor: false,
@@ -108,12 +108,14 @@ const VillasPreview = () => {
             >
               <Card className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-500">
                 <div className="relative">
-                  <img
-                    src={villa.image}
-                    alt={villa.name}
-                    className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105"
-                    onClick={() => setSelectedVilla(villa.id)}
-                  />
+              <Image
+                src={villa.image}
+                alt={villa.name}
+                width={800}
+                height={320}
+                className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                onClick={() => setSelectedVilla(villa.id)}
+              />
                   <div className="absolute inset-0 bg-black/30" />
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-[#627d6a] text-white px-3 py-1">{villa.price}/night</Badge>
@@ -240,8 +242,8 @@ const VillasPreview = () => {
                   </tr>
                   <tr className="border-t">
                     <td className="py-3 px-4 text-left font-bold">Price</td>
-                    <td className="text-[#627d6a] font-semibold">$8,500</td>
-                    <td className="text-[#627d6a] font-semibold">$8,500</td>
+                    <td className="text-[#627d6a] font-semibold">Rs.8,500</td>
+                    <td className="text-[#627d6a] font-semibold">Rs.8,500</td>
                   </tr>
                 </tbody>
               </table>

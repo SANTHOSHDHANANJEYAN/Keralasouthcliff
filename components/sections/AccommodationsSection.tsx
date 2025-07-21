@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const bgImages = {
-  Apartments: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-  Chalets: 'https://images.unsplash.com/photo-1619129237645-3a0c28996c4e',
-  Hotels: 'https://images.unsplash.com/photo-1588789158400-3098d65c6ef9',
-  Individuals: 'https://images.unsplash.com/photo-1585299237731-03b9a2797824',
+  Apartments: '/Asteya -website/Ateya - Living area (1).png',
+  Chalets: '/Asteya -website/Ateya - Living area.png',
+  Hotels: '/Asteya -website/PDF - Asteya-2.png',
+  Individuals: '/Asteya -website/PDF - Asteya-7.png',
 };
 
 const cards = [

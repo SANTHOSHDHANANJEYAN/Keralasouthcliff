@@ -19,12 +19,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/villas', label: 'Villas' },
-    { href: '/gallery', label: 'Gallery' },
-    { href: '/amenities', label: 'Amenities' },
-    { href: '/location', label: 'Location' },
-    { href: '/contact', label: 'Contact' },
+    { href: '/gallery', label: 'Gallery' }, 
   ];
 
   return (
@@ -37,7 +32,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-[#3B7A57] to-[#DAA520] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#627d6a] rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">A</span>
             </div>
             <span
@@ -55,14 +50,14 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-[#DAA520] ${
-                  scrolled ? 'text-[#2d2a26]' : 'text-white hover:text-[#DAA520]'
+                className={`text-sm font-medium transition-colors ${
+                  scrolled ? 'text-[#2d2a26] hover:text-[#627d6a]' : 'text-white hover:text-[#bfcac2]'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-[#3B7A57] to-[#DAA520] hover:from-[#2e5c43] hover:to-[#b8860b] text-white">
+            <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
               Book Now
             </Button>
           </div>
@@ -88,13 +83,13 @@ const Navbar = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[#2d2a26] hover:text-[#DAA520] font-medium"
+                  className="text-[#2d2a26] hover:text-[#627d6a] font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
-              <Button className="bg-gradient-to-r from-[#3B7A57] to-[#DAA520] hover:from-[#2e5c43] hover:to-[#b8860b] text-white">
+              <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
                 Book Now
               </Button>
             </div>

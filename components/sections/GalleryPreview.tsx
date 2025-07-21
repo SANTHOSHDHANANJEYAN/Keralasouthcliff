@@ -7,43 +7,44 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { motion } from 'framer-motion';
 import { Play, Maximize2, Heart, Share2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image'; // ✅ Import Next.js Image component
 
 const GalleryPreview = () => {
   const [likedImages, setLikedImages] = useState(new Set<number>());
 
   const galleryImages = [
     {
-      src: 'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png',
       alt: 'Beach View',
       category: 'Exterior',
       title: 'Pristine Beach Access'
     },
     {
-      src: 'https://images.pexels.com/photos/1329711/pexels-photo-1329711.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png',
       alt: 'Luxury Interior',
       category: 'Interior',
       title: 'Elegant Living Space'
     },
     {
-      src: 'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png',
       alt: 'Bedroom',
       category: 'Rooms',
       title: 'Master Bedroom Suite'
     },
     {
-      src: 'https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (5).png',
       alt: 'Bathroom',
       category: 'Amenities',
       title: 'Luxury Bathroom'
     },
     {
-      src: 'https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (1).png',
       alt: 'Sunset View',
       category: 'Views',
       title: 'Spectacular Sunset'
     },
     {
-      src: 'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg',
+      src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png',
       alt: 'Terrace',
       category: 'Outdoor',
       title: 'Private Terrace'
@@ -59,6 +60,7 @@ const GalleryPreview = () => {
   return (
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,6 +79,7 @@ const GalleryPreview = () => {
           </p>
         </motion.div>
 
+        {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {galleryImages.map((image, index) => (
             <motion.div 
@@ -86,11 +89,14 @@ const GalleryPreview = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
             >
-              <div className="relative">
-                <img 
-                  src={image.src} 
+              <div className="relative w-full h-80">
+                <Image 
+                  src={image.src}
                   alt={image.alt}
-                  className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-700 rounded-xl"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
+                  priority={index < 3} // Load first few images eagerly
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -126,6 +132,7 @@ const GalleryPreview = () => {
                   <p className="text-white/80 text-sm">{image.alt}</p>
                 </div>
 
+                {/* Dialog View */}
                 <Dialog>
                   <DialogTrigger asChild>
                     <div className="absolute inset-0 cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -139,11 +146,12 @@ const GalleryPreview = () => {
                     </div>
                   </DialogTrigger>
                   <DialogContent className="max-w-6xl max-h-[90vh] p-0">
-                    <div className="relative">
-                      <img 
-                        src={image.src} 
+                    <div className="relative w-full h-[85vh]">
+                      <Image
+                        src={image.src}
                         alt={image.alt}
-                        className="w-full h-full object-contain max-h-[85vh]"
+                        fill
+                        className="object-contain rounded-xl"
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
                         <h3 className="text-white font-bold text-xl mb-2">{image.title}</h3>
@@ -160,18 +168,19 @@ const GalleryPreview = () => {
           ))}
         </div>
 
-        {/* Video Section */}
+        {/* Video Preview */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-            <img 
+          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-full h-96">
+            <Image 
               src="https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg"
               alt="Villa Video Preview"
-              className="w-full h-96 object-cover"
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
               <Button
@@ -189,6 +198,7 @@ const GalleryPreview = () => {
           </div>
         </motion.div>
 
+        {/* CTA Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

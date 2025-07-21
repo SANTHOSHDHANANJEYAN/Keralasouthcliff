@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
-import { Button } from '@/components/ui/button';
-import { ChevronDown, Play, Star, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import FloatingElements from '@/components/3d/FloatingElements';
 import InteractiveBeach from '@/components/3d/InteractiveBeach';
@@ -12,9 +10,10 @@ const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroImages = [
-    'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg',
-    'https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg',
-    'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg',
+    '/Asteya -website/PDF - Asteya-1.png',
+    '/Asteya -website/PDF - Asteya-2.png',
+    '/Asteya -website/PDF - Asteya-4.png',
+    '/Asteya -website/PDF - Asteya-7.png',
   ];
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const Hero = () => {
             }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
+        <div className="absolute inset-0 " />
       </div>
 
       {/* 3D Elements */}
@@ -64,77 +63,9 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Content */}
+      {/* Content (Removed all text) */}
       <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="text-center text-white max-w-5xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-tight text-[#627d6a]">
-              Embrace the Spirit of
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#627d6a] via-[#90a18d] to-[#b6c6b7]">
-                Asteya
-              </span>
-            </h1>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6 }}
-          >
-            <div className="flex items-center justify-center gap-2 mb-8">
-              <MapPin className="w-5 h-5 text-[#627d6a]" />
-              <span className="text-lg text-[#d3d8d1]">
-                Wisdom Retreats, South Cliff, Kerala
-              </span>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-          >
-            <Button
-              size="lg"
-              className="bg-[#627d6a] hover:bg-[#506654] text-white px-10 py-5 text-xl font-semibold transform hover:scale-105 transition-all duration-300 shadow-xl"
-            >
-              Join Asteya Retreat
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.2 }}
-            className="flex justify-center gap-8 mt-12"
-          >
-            <div className="text-center">
-              <div className="text-3xl font-bold text-[#627d6a]">21</div>
-              <div className="text-sm text-[#c3cec5]">Days of Mindful Living</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-[#627d6a]">5★</div>
-              <div className="text-sm text-[#c3cec5]">Wisdom Rated</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-[#627d6a]">100%</div>
-              <div className="text-sm text-[#c3cec5]">Self-Awareness Practice</div>
-            </div>
-          </motion.div>
-        </div>
+        {/* Intentionally left empty */}
       </div>
 
       {/* Slide Indicators */}

@@ -9,22 +9,22 @@ const slides = [
     headline: 'ASTEYA',
     subheadline: 'NON-STEALING',
     text: `Practice contentment and integrity by not taking what isn’t freely given — in thoughts, actions, or resources.`,
-    leftImg: 'https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg',
-    rightImg: 'https://images.pexels.com/photos/1553963/pexels-photo-1553963.jpeg',
+    leftImg: '/Asteya -website/Asteya - beach villa  (1).png',
+    rightImg: '/Asteya -website/Asteya - beach villa  (2).png',
   },
   {
     headline: 'GRATITUDE',
     subheadline: 'FOR WHAT IS',
     text: `True wealth is recognizing abundance in what we already have — not in what we try to possess.`,
-    leftImg: 'https://images.pexels.com/photos/357155/pexels-photo-357155.jpeg',
-    rightImg: 'https://images.pexels.com/photos/1287460/pexels-photo-1287460.jpeg',
+    leftImg: '/Asteya -website/Asteya - beach villa  (3).png',
+    rightImg: '/Asteya -website/Asteya - beach villa  (4).png',
   },
   {
     headline: 'SIMPLICITY',
     subheadline: 'IN LIVING',
     text: `A mindful life avoids exploitation and embraces mutual respect — for people and planet alike.`,
-    leftImg: 'https://images.pexels.com/photos/572897/pexels-photo-572897.jpeg',
-    rightImg: 'https://images.pexels.com/photos/814499/pexels-photo-814499.jpeg',
+    leftImg: '/Asteya -website/Asteya - beach villa  (5).png',
+    rightImg: '/Asteya -website/Asteya - beach villa .png',
   },
 ];
 
