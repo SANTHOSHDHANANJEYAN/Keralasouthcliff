@@ -35,14 +35,13 @@ const ActivitiesSection: React.FC = () => {
   }, []);
 
   const springTransition = {
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 100,
     damping: 20,
   };
 
   return (
     <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-[#627d6a]">
-      {/* Background slideshow */}
       <div className="absolute inset-0 -z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -65,7 +64,6 @@ const ActivitiesSection: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* Title */}
       <div className="absolute top-14 z-30 text-center w-full">
         <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-white/20 shadow-md">
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-[0.25em] uppercase">
@@ -75,7 +73,6 @@ const ActivitiesSection: React.FC = () => {
         </div>
       </div>
 
-      {/* SVG words */}
       {['OUTDOOR', 'INDOOR', 'WILL-BE'].map((word, i) => (
         <div
           key={word}
@@ -107,7 +104,6 @@ const ActivitiesSection: React.FC = () => {
         </div>
       ))}
 
-      {/* Image slides */}
       {[
         { images: leftImages, position: 'left-[5%] md:left-[10%]', rotation: '-rotate-[8deg]', z: 'z-20', direction: -1 },
         { images: middleImages, position: 'left-1/2 -translate-x-1/2', rotation: 'rotate-[10deg]', z: 'z-30', direction: 0 },
@@ -135,7 +131,7 @@ const ActivitiesSection: React.FC = () => {
                   ? { x: -40, opacity: 0 }
                   : { y: -40, opacity: 0, scale: 0.95 }
               }
-              transition={{ ...springTransition, duration: 0.9 }}
+              transition={springTransition}
               className="absolute inset-0 rounded-2xl overflow-hidden"
             >
               <Image
