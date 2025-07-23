@@ -161,14 +161,7 @@ const VillasPreview = () => {
                       </Badge>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    <Button className="flex-1 bg-[#627d6a] text-white hover:bg-[#556c5d]">
-                      Book Now
-                    </Button>
-                    <Button variant="outline" size="icon">
-                      <Eye size={16} />
-                    </Button>
-                  </div>
+
                 </CardContent>
               </Card>
             </motion.div>

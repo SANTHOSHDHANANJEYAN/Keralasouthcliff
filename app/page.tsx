@@ -8,6 +8,9 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AgendaSection from '@/components/sections/AgendaSection';
 import AccommodationsSection from '@/components/sections/AccommodationsSection';
+import Slider from '../components/sections/Slider';
+import ActivitiesSection from '@/components/sections/ActivitiesSection';
+import SocialNetworksSection from '@/components/sections/SocialNetworksSection';
 
 export default function Home() {
   return (
@@ -19,8 +22,11 @@ export default function Home() {
         <VillasPreview />
         <AccommodationsSection/>
         <GalleryPreview />
+        <ActivitiesSection/>
         <AmenitiesPreview />
         <LocationPreview />
+        <Slider/>
+        <SocialNetworksSection/>
         <ContactPreview />
       </main>
       <Footer />

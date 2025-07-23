@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,9 +19,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { href: '/gallery', label: 'Gallery' }, 
-  ];
+  const navLinks = [{ href: '/gallery', label: 'Gallery' }];
 
   return (
     <nav
@@ -32,8 +31,14 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-[#627d6a] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">A</span>
+            <div className="w-10 h-10 rounded-lg overflow-hidden flex items-center justify-center">
+              <Image
+                src="/Asteya -website/logo.jpg"
+                alt="Asteya Logo"
+                width={40}
+                height={40}
+                className="w-full h-full object-contain"
+              />
             </div>
             <span
               className={`font-bold text-lg ${
@@ -57,9 +62,11 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
-            <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
-              Book Now
-            </Button>
+            <Link href="/villas">
+              <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
+                Book Now
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -89,9 +96,11 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
-                Book Now
-              </Button>
+              <Link href="/Slots" onClick={() => setIsOpen(false)}>
+                <Button className="w-full bg-[#627d6a] hover:bg-[#506654] text-white">
+                  Book Now
+                </Button>
+              </Link>
             </div>
           </div>
         )}

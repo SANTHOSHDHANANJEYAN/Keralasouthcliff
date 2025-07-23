@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +23,7 @@ import {
 type VillaType = 'ground-floor' | 'top-floor';
 
 const VillasSection = () => {
+  const router = useRouter();
   const [selectedVilla, setSelectedVilla] = useState<VillaType>('ground-floor');
 
   const villas: Record<VillaType, {
@@ -98,6 +100,10 @@ const VillasSection = () => {
 
   const currentVilla = villas[selectedVilla];
 
+  const handleNavigateToGallery = () => {
+    router.push('/Slots');
+  };
+
   return (
     <section className="py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,9 +159,10 @@ const VillasSection = () => {
 
                 <Button
                   size="lg"
+                  onClick={handleNavigateToGallery}
                   className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white"
                 >
-                  Book This Villa Now
+                  Check Availability
                 </Button>
               </div>
 
