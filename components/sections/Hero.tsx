@@ -30,8 +30,8 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden bg-black text-white">
-      {/* Background Slides with Grayscale */}
+    <section className="relative h-screen overflow-hidden text-white">
+      {/* Background Slides */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <motion.div
@@ -45,14 +45,12 @@ const Hero = () => {
               backgroundImage: `url("${image}")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              filter: 'grayscale(100%) brightness(0.7)',
             }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
 
-      {/* 3D Elements in Faded White Tone */}
+      {/* 3D Elements */}
       <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <Suspense fallback={<div />}>
           <FloatingElements />
@@ -64,9 +62,9 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Hero Content (Can add text here later) */}
+      {/* Hero Content */}
       <div className="relative z-10 flex items-center justify-center h-full">
-        {/* Add any content if needed */}
+        {/* Add your text/content here */}
       </div>
 
       {/* Slide Indicators */}
