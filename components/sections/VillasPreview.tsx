@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import Villa3DModel from '@/components/3d/Villa3DModel';
+
 import VirtualTour from '@/components/interactive/VirtualTour';
 
 const VillasPreview = () => {
@@ -19,7 +19,7 @@ const VillasPreview = () => {
       id: 1,
       name: 'Ground Floor Villa',
       description:
-        'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves at ground level with unparalleled comfort.',
+        'Spacious luxury accommodation with direct beach access and private terrace.Experience rhythm of waves at ground level with unparalleled comfort.',
       price: 'Rs.8,500',
       features: [
         'Private Terrace',
@@ -81,14 +81,7 @@ const VillasPreview = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              <Card className="overflow-hidden hover:shadow-xl transition-all duration-500 border border-black">
-                <CardContent className="p-0 bg-white">
-                  <h3 className="text-xl font-bold text-center text-black py-4">{villa.name}</h3>
-                  <Suspense fallback={<div className="h-96 bg-gray-200 animate-pulse" />}>
-                    <Villa3DModel isGroundFloor={villa.isGroundFloor} />
-                  </Suspense>
-                </CardContent>
-              </Card>
+
             </motion.div>
           ))}
         </div>
@@ -186,55 +179,7 @@ const VillasPreview = () => {
           </motion.div>
         )}
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-24"
-        >
-          <Card className="border border-black">
-            <CardContent className="p-8 bg-white">
-              <h3 className="text-2xl font-bold text-center mb-6 text-black">Villa Comparison</h3>
-              <table className="w-full text-left border-collapse text-black">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-3 font-semibold border-b border-black">Feature</th>
-                    <th className="px-4 py-3 text-center border-b border-black">Ground Floor</th>
-                    <th className="px-4 py-3 text-center border-b border-black">Top Floor</th>
-                  </tr>
-                </thead>
-                <tbody className="text-center text-black">
-                  <tr className="border-t border-black">
-                    <td className="py-3 px-4 text-left">Beach Access</td>
-                    <td>Direct</td>
-                    <td>Via stairs</td>
-                  </tr>
-                  <tr className="border-t border-black">
-                    <td className="py-3 px-4 text-left">View</td>
-                    <td>Beach Level</td>
-                    <td>Cliff Panoramic</td>
-                  </tr>
-                  <tr className="border-t border-black">
-                    <td className="py-3 px-4 text-left">Outdoor</td>
-                    <td>Terrace</td>
-                    <td>Balcony</td>
-                  </tr>
-                  <tr className="border-t border-black">
-                    <td className="py-3 px-4 text-left">Sunset</td>
-                    <td>Partial</td>
-                    <td>Unobstructed</td>
-                  </tr>
-                  <tr className="border-t border-black">
-                    <td className="py-3 px-4 text-left font-bold">Price</td>
-                    <td className="text-black font-semibold">Rs.8,500</td>
-                    <td className="text-black font-semibold">Rs.8,500</td>
-                  </tr>
-                </tbody>
-              </table>
-            </CardContent>
-          </Card>
-        </motion.div>
-
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

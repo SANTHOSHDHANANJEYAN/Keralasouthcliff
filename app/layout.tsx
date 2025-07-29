@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Kerala South Cliff Beach View Villas - Luxury Accommodation',
+  title: 'Asetya Beach Villas - Luxury Accommodation',
   description: 'Experience luxury amidst nature\'s masterpiece. Only 2 exclusive villas on South Cliff, Varkala, Kerala.',
   keywords: 'Kerala luxury villas, Varkala accommodation, South Cliff beach view, luxury rooms Kerala',
 };
