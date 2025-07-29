@@ -41,24 +41,24 @@ const GallerySection = () => {
   const currentImages = selectedCategory === 'all' ? allImages : galleryData[selectedCategory];
 
   return (
-    <section className="py-24 bg-black text-white">
+    <section className="py-24 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-white text-black uppercase">Visual Experience</Badge>
+          <Badge className="mb-4 bg-black text-white uppercase">Visual Experience</Badge>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Explore our stunning collection of images showcasing the beauty and luxury 
             of Kerala South Cliff Beach View Villas.
           </p>
         </div>
 
         <Tabs value={selectedCategory} onValueChange={(val) => setSelectedCategory(val as Category)} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-10 bg-white/10 border border-white/20 rounded-lg overflow-hidden">
+          <TabsList className="grid w-full grid-cols-5 mb-10 bg-gray-100 border border-gray-200 rounded-lg overflow-hidden">
             {['all', 'exterior', 'interior', 'rooms', 'amenities'].map((cat) => (
               <TabsTrigger
                 key={cat}
                 value={cat}
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-black"
+                className="text-black data-[state=active]:bg-black data-[state=active]:text-white font-medium"
               >
                 {cat.charAt(0).toUpperCase() + cat.slice(1)}
               </TabsTrigger>
@@ -70,21 +70,20 @@ const GallerySection = () => {
               {currentImages.map((image, index) => (
                 <Dialog key={index}>
                   <DialogTrigger asChild>
-                    <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-white/30 transition-all duration-500 transform hover:-translate-y-2 cursor-pointer">
+                    <div className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1 cursor-pointer bg-white border border-gray-200">
                       <img 
                         src={image.src} 
                         alt={image.alt}
-                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0"
+                        className="w-full h-64 object-cover group-hover:scale-105 group-hover:brightness-105 transition-transform duration-700"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Badge className="bg-white/10 text-white border border-white/20 backdrop-blur-sm">
+                      <div className="absolute bottom-4 left-4">
+                        <Badge className="bg-white text-black border border-gray-300 shadow-sm">
                           {image.alt}
                         </Badge>
                       </div>
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-black">
+                  <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-white">
                     <img 
                       src={image.src} 
                       alt={image.alt}

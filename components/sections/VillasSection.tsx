@@ -36,7 +36,7 @@ const VillasSection = () => {
   }> = {
     'ground-floor': {
       name: 'Ground Floor Villa',
-      price: '$8,500',
+      price: '₹8,500',
       description:
         'Experience luxury at sea level with direct beach access and private terrace. Feel the ocean breeze and hear the rhythmic waves from your private sanctuary.',
       features: [
@@ -67,7 +67,7 @@ const VillasSection = () => {
     },
     'top-floor': {
       name: 'Top Floor Villa',
-      price: '$8,500',
+      price: '₹8,500',
       description:
         'Elevated luxury with breathtaking panoramic views of the Arabian Sea and cliff formations. Watch spectacular sunsets from your private balcony high above the coastline.',
       features: [
@@ -105,29 +105,29 @@ const VillasSection = () => {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-blue-100 text-blue-800">Exclusive Accommodation</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <Badge className="mb-4 bg-black text-white">Exclusive Accommodation</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
             Our Luxury Villas
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Choose between our two exclusive villas, each offering a unique perspective 
             of Kerala's stunning coastline and unparalleled luxury amenities.
           </p>
         </div>
 
         <Tabs value={selectedVilla} onValueChange={(val) => setSelectedVilla(val as VillaType)} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
-            <TabsTrigger value="ground-floor">Ground Floor Villa</TabsTrigger>
-            <TabsTrigger value="top-floor">Top Floor Villa</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-8 border border-black rounded-lg">
+            <TabsTrigger value="ground-floor" className="data-[state=active]:bg-black data-[state=active]:text-white">Ground Floor Villa</TabsTrigger>
+            <TabsTrigger value="top-floor" className="data-[state=active]:bg-black data-[state=active]:text-white">Top Floor Villa</TabsTrigger>
           </TabsList>
 
           <TabsContent value={selectedVilla} className="space-y-8">
             <div className="grid md:grid-cols-3 gap-4">
               {currentVilla.images.map((image, index) => (
-                <div key={index} className="relative overflow-hidden rounded-lg">
+                <div key={index} className="relative overflow-hidden rounded-lg border border-gray-200">
                   <img
                     src={image}
                     alt={`${currentVilla.name} ${index + 1}`}
@@ -140,19 +140,19 @@ const VillasSection = () => {
             <div className="grid lg:grid-cols-2 gap-12">
               <div>
                 <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-3xl font-bold text-gray-900">{currentVilla.name}</h2>
-                  <Badge className="bg-gradient-to-r from-blue-600 to-teal-600 text-white text-lg px-4 py-2">
+                  <h2 className="text-3xl font-bold text-black">{currentVilla.name}</h2>
+                  <Badge className="bg-black text-white text-lg px-4 py-2">
                     {currentVilla.price}/night
                   </Badge>
                 </div>
 
-                <p className="text-gray-600 text-lg mb-8">{currentVilla.description}</p>
+                <p className="text-gray-700 text-lg mb-8">{currentVilla.description}</p>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   {currentVilla.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 p-3 bg-white rounded-lg shadow-sm">
-                      <feature.icon className="text-blue-600" size={20} />
-                      <span className="text-sm font-medium text-gray-700">{feature.text}</span>
+                    <div key={index} className="flex items-center gap-2 p-3 bg-white border border-black rounded-lg">
+                      <feature.icon className="text-black" size={20} />
+                      <span className="text-sm font-medium text-black">{feature.text}</span>
                     </div>
                   ))}
                 </div>
@@ -160,21 +160,21 @@ const VillasSection = () => {
                 <Button
                   size="lg"
                   onClick={handleNavigateToGallery}
-                  className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white"
+                  className="w-full bg-black text-white hover:bg-gray-900"
                 >
                   Check Availability
                 </Button>
               </div>
 
               <div>
-                <Card>
+                <Card className="border border-black">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">Amenities Included</h3>
+                    <h3 className="text-xl font-bold text-black mb-4">Amenities Included</h3>
                     <ul className="space-y-3">
                       {currentVilla.amenities.map((amenity, index) => (
                         <li key={index} className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                          <span className="text-gray-700">{amenity}</span>
+                          <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-black">{amenity}</span>
                         </li>
                       ))}
                     </ul>

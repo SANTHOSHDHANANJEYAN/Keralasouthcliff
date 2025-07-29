@@ -6,23 +6,23 @@ import Image from 'next/image';
 
 const slides = [
   {
-    headline: 'ASTEYA',
-    subheadline: 'NON-STEALING',
-    text: `Practice contentment and integrity by not taking what isn’t freely given — in thoughts, actions, or resources.`,
+    headline: 'CLARITY',
+    subheadline: 'BLACK AND WHITE',
+    text: `See the world with honesty and bold contrast — where truth stands out, and distractions fade away.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (1).png',
     rightImg: '/Asteya -website/Asteya - beach villa  (2).png',
   },
   {
-    headline: 'GRATITUDE',
-    subheadline: 'FOR WHAT IS',
-    text: `True wealth is recognizing abundance in what we already have — not in what we try to possess.`,
+    headline: 'BALANCE',
+    subheadline: 'LIGHT AND SHADOW',
+    text: `Both light and shadow define form. Embrace duality — in simplicity lies harmony.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (3).png',
     rightImg: '/Asteya -website/Asteya - beach villa  (4).png',
   },
   {
-    headline: 'SIMPLICITY',
-    subheadline: 'IN LIVING',
-    text: `A mindful life avoids exploitation and embraces mutual respect — for people and planet alike.`,
+    headline: 'ESSENCE',
+    subheadline: 'NO FILTER',
+    text: `Strip away the excess. What remains is essential, pure, and unmistakably true.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (5).png',
     rightImg: '/Asteya -website/Asteya - beach villa .png',
   },
@@ -60,7 +60,7 @@ export default function AgendaSection() {
   };
 
   return (
-    <section className="w-full h-screen flex items-center bg-[#f3f7f4] overflow-hidden relative">
+    <section className="w-full h-screen flex items-center overflow-hidden relative bg-black">
       {/* Left Image */}
       <div className="w-1/3 h-full relative">
         <AnimatePresence mode="wait" custom={direction}>
@@ -79,7 +79,7 @@ export default function AgendaSection() {
       </div>
 
       {/* Center Content */}
-      <div className="w-1/3 px-10 flex flex-col justify-center space-y-6 z-10">
+      <div className="w-1/3 px-10 flex flex-col justify-center space-y-6 z-10 text-white">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].headline}
@@ -89,19 +89,19 @@ export default function AgendaSection() {
             animate="center"
             exit="exit"
           >
-            <h2 className="text-[100px] leading-none font-bold text-emerald-600">{slides[index].headline}</h2>
-            <h1 className="text-[70px] leading-tight font-black text-emerald-900">{slides[index].subheadline}</h1>
-            <p className="text-emerald-700 italic text-lg leading-relaxed mt-4">{slides[index].text}</p>
+            <h2 className="text-[100px] leading-none font-bold text-white">{slides[index].headline}</h2>
+            <h1 className="text-[70px] leading-tight font-black text-gray-300">{slides[index].subheadline}</h1>
+            <p className="text-gray-400 italic text-lg leading-relaxed mt-4">{slides[index].text}</p>
             <div className="flex items-center gap-6 mt-6">
               <button
                 onClick={handlePrev}
-                className="w-14 h-14 rounded-full border-4 border-emerald-400 flex items-center justify-center text-xl hover:bg-emerald-200 transition"
+                className="w-14 h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
               >
                 ←
               </button>
               <button
                 onClick={handleNext}
-                className="w-14 h-14 rounded-full border-4 border-emerald-400 flex items-center justify-center text-xl hover:bg-emerald-200 transition"
+                className="w-14 h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
               >
                 →
               </button>

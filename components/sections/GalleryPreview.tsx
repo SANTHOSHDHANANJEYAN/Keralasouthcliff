@@ -71,9 +71,7 @@ const GalleryPreview = () => {
           <Badge className="mb-4 bg-gray-200 text-gray-800 text-lg px-4 py-2">
             Visual Experience
           </Badge>
-          <h2 className="text-5xl md:text-6xl font-bold text-black mb-6">
-            Gallery Highlights
-          </h2>
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">Gallery Highlights</h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Immerse yourself in the beauty of our villas through stunning visuals 
             that capture the essence of luxury living by the Arabian Sea.
@@ -88,21 +86,20 @@ const GalleryPreview = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+              className="group relative overflow-hidden rounded-xl border border-gray-200 shadow hover:shadow-md transition-all duration-500"
             >
               <div className="relative w-full h-80">
                 <Image 
                   src={image.src}
                   alt={image.alt}
                   fill
-                  className="object-cover grayscale group-hover:scale-110 transition-transform duration-700 rounded-xl"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700 rounded-xl"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                   priority={index < 3}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="absolute top-4 left-4">
-                  <Badge className="bg-white/80 text-black backdrop-blur-sm">
+                  <Badge className="bg-white text-black border border-black/10 shadow-sm">
                     {image.category}
                   </Badge>
                 </div>
@@ -112,25 +109,29 @@ const GalleryPreview = () => {
                     size="sm"
                     variant="ghost"
                     onClick={() => toggleLike(index)}
-                    className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 p-2"
+                    className="bg-white/80 text-black hover:bg-gray-200 p-2"
                   >
                     <Heart 
                       size={16} 
-                      className={likedImages.has(index) ? 'fill-white text-white' : ''} 
+                      className={likedImages.has(index) ? 'fill-black text-black' : ''} 
                     />
                   </Button>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 p-2"
+                    className="bg-white/80 text-black hover:bg-gray-200 p-2"
                   >
                     <Share2 size={16} />
                   </Button>
                 </div>
 
                 <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <h3 className="text-white font-semibold text-lg mb-1">{image.title}</h3>
-                  <p className="text-white/80 text-sm">{image.alt}</p>
+                  <h3 className="text-black font-semibold text-lg mb-1 bg-white/80 px-2 py-1 rounded">
+                    {image.title}
+                  </h3>
+                  <p className="text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">
+                    {image.alt}
+                  </p>
                 </div>
 
                 {/* Dialog View */}
@@ -139,14 +140,14 @@ const GalleryPreview = () => {
                     <div className="absolute inset-0 cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
                         size="lg"
-                        className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 border-white/30"
+                        className="bg-white/80 text-black hover:bg-gray-200 border border-black/10"
                       >
                         <Maximize2 className="mr-2" size={20} />
                         View Full Size
                       </Button>
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="max-w-6xl max-h-[90vh] p-0">
+                  <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white">
                     <div className="relative w-full h-[85vh]">
                       <Image
                         src={image.src}
@@ -154,10 +155,10 @@ const GalleryPreview = () => {
                         fill
                         className="object-contain rounded-xl"
                       />
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                        <h3 className="text-white font-bold text-xl mb-2">{image.title}</h3>
-                        <p className="text-white/80">{image.alt}</p>
-                        <Badge className="mt-2 bg-white/20 text-white backdrop-blur-sm">
+                      <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-6">
+                        <h3 className="text-black font-bold text-xl mb-2">{image.title}</h3>
+                        <p className="text-gray-700">{image.alt}</p>
+                        <Badge className="mt-2 bg-gray-100 text-black border border-black/10">
                           {image.category}
                         </Badge>
                       </div>
@@ -176,25 +177,25 @@ const GalleryPreview = () => {
           transition={{ duration: 0.8 }}
           className="mb-16"
         >
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl w-full h-96">
+          <div className="relative rounded-2xl overflow-hidden border border-gray-200 w-full h-96">
             <Image 
               src="https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg"
               alt="Villa Video Preview"
               fill
-              className="object-cover grayscale"
+              className="object-cover"
             />
-            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
               <Button
                 size="lg"
-                className="bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 px-8 py-4"
+                className="bg-white text-black hover:bg-gray-100 px-8 py-4 border border-black/10"
               >
                 <Play className="mr-3" size={24} />
                 Watch Villa Tour Video
               </Button>
             </div>
-            <div className="absolute bottom-6 left-6">
-              <h3 className="text-white font-bold text-2xl mb-2">Experience Kerala Villas</h3>
-              <p className="text-white/80">Take a cinematic journey through our luxury accommodation</p>
+            <div className="absolute bottom-6 left-6 bg-white/80 px-4 py-2 rounded shadow">
+              <h3 className="text-black font-bold text-2xl mb-1">Experience Kerala Villas</h3>
+              <p className="text-gray-700">Take a cinematic journey through our luxury accommodation</p>
             </div>
           </div>
         </motion.div>
@@ -209,7 +210,7 @@ const GalleryPreview = () => {
           <Link href="/gallery">
             <Button 
               size="lg" 
-              className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-lg"
+              className="bg-black hover:bg-gray-900 text-white px-8 py-4 text-lg"
             >
               View Full Gallery
             </Button>

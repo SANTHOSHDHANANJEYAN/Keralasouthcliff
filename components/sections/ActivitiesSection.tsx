@@ -16,20 +16,13 @@ const rightImages = [
   '/Asteya -website/Asteya - beach villa  (3).png',
   '/Asteya -website/Asteya - beach villa  (6).png',
 ];
-const bgImages = [
-  '/backgrounds/activities-bg1.jpg',
-  '/backgrounds/activities-bg2.jpg',
-  '/backgrounds/activities-bg3.jpg',
-];
 
 const ActivitiesSection: React.FC = () => {
   const [index, setIndex] = useState(0);
-  const [bgIndex, setBgIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % leftImages.length);
-      setBgIndex((prev) => (prev + 1) % bgImages.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -41,36 +34,14 @@ const ActivitiesSection: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-black">
-      <div className="absolute inset-0 -z-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`bg-${bgIndex}`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.4 }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={bgImages[bgIndex]}
-              alt="Background"
-              fill
-              className="object-cover"
-              quality={75}
-            />
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
+    <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-white">
       {/* Title */}
       <div className="absolute top-14 z-30 text-center w-full">
-        <div className="bg-black/30 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-white/20 shadow-md">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-[0.25em] uppercase">
+        <div className="bg-white/30 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-black/20 shadow-md">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-black tracking-[0.25em] uppercase">
             Activities
           </h2>
-          <div className="w-20 h-1 bg-white mx-auto mt-2 rounded-full" />
+          <div className="w-20 h-1 bg-black mx-auto mt-2 rounded-full" />
         </div>
       </div>
 
@@ -98,7 +69,7 @@ const ActivitiesSection: React.FC = () => {
               style={{
                 fontSize: '200px',
                 fill: 'none',
-                stroke: 'rgba(255,255,255,0.04)',
+                stroke: 'rgba(0,0,0,0.04)',
                 strokeWidth: 3,
                 fontFamily: 'system-ui, sans-serif',
                 letterSpacing: '0.05em',
@@ -145,7 +116,7 @@ const ActivitiesSection: React.FC = () => {
                 src={group.images[index]}
                 alt="Activity"
                 fill
-                className="object-cover rounded-2xl grayscale hover:grayscale-0 hover:scale-[1.03] transition-transform duration-700 ease-in-out"
+                className="object-cover rounded-2xl transition-transform duration-700 ease-in-out"
                 quality={85}
               />
             </motion.div>
