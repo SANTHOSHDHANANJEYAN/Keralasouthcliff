@@ -38,30 +38,31 @@ const GallerySection = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category>('all');
 
   const allImages = Object.values(galleryData).flat();
-  const currentImages =
-    selectedCategory === 'all' ? allImages : galleryData[selectedCategory];
+  const currentImages = selectedCategory === 'all' ? allImages : galleryData[selectedCategory];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-24 bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-teal-100 text-teal-800">Visual Experience</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            Photo Gallery
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <Badge className="mb-4 bg-white text-black uppercase">Visual Experience</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Explore our stunning collection of images showcasing the beauty and luxury 
             of Kerala South Cliff Beach View Villas.
           </p>
         </div>
 
         <Tabs value={selectedCategory} onValueChange={(val) => setSelectedCategory(val as Category)} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="exterior">Exterior</TabsTrigger>
-            <TabsTrigger value="interior">Interior</TabsTrigger>
-            <TabsTrigger value="rooms">Rooms</TabsTrigger>
-            <TabsTrigger value="amenities">Amenities</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 mb-10 bg-white/10 border border-white/20 rounded-lg overflow-hidden">
+            {['all', 'exterior', 'interior', 'rooms', 'amenities'].map((cat) => (
+              <TabsTrigger
+                key={cat}
+                value={cat}
+                className="text-white data-[state=active]:bg-white data-[state=active]:text-black"
+              >
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           <TabsContent value={selectedCategory}>
@@ -69,25 +70,25 @@ const GallerySection = () => {
               {currentImages.map((image, index) => (
                 <Dialog key={index}>
                   <DialogTrigger asChild>
-                    <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 cursor-pointer">
+                    <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-white/30 transition-all duration-500 transform hover:-translate-y-2 cursor-pointer">
                       <img 
                         src={image.src} 
                         alt={image.alt}
-                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <Badge className="bg-white/20 text-white backdrop-blur-sm">
+                        <Badge className="bg-white/10 text-white border border-white/20 backdrop-blur-sm">
                           {image.alt}
                         </Badge>
                       </div>
                     </div>
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                  <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-black">
                     <img 
                       src={image.src} 
                       alt={image.alt}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain rounded-lg"
                     />
                   </DialogContent>
                 </Dialog>

@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-[#fdfaf6]/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+        scrolled ? 'bg-white/90 backdrop-blur-md shadow-md' : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +42,7 @@ const Navbar = () => {
             </div>
             <span
               className={`font-bold text-lg ${
-                scrolled ? 'text-[#2d2a26]' : 'text-white'
+                scrolled ? 'text-black' : 'text-white'
               }`}
             >
               Asteya
@@ -56,14 +56,16 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
-                  scrolled ? 'text-[#2d2a26] hover:text-[#627d6a]' : 'text-white hover:text-[#bfcac2]'
+                  scrolled
+                    ? 'text-black hover:text-gray-600'
+                    : 'text-white hover:text-gray-300'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
             <Link href="/villas">
-              <Button className="bg-[#627d6a] hover:bg-[#506654] text-white">
+              <Button className="bg-white text-black hover:bg-black hover:text-white border border-black">
                 Book Now
               </Button>
             </Link>
@@ -75,7 +77,7 @@ const Navbar = () => {
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
-              className={scrolled ? 'text-[#2d2a26]' : 'text-white'}
+              className={scrolled ? 'text-black' : 'text-white'}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
@@ -84,20 +86,20 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-[#fdfaf6]/95 backdrop-blur-md shadow-lg rounded-lg mt-2 p-4">
+          <div className="md:hidden bg-white/95 backdrop-blur-md shadow-lg rounded-lg mt-2 p-4">
             <div className="flex flex-col space-y-4">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-[#2d2a26] hover:text-[#627d6a] font-medium"
+                  className="text-black hover:text-gray-700 font-medium"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
                 </Link>
               ))}
               <Link href="/Slots" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-[#627d6a] hover:bg-[#506654] text-white">
+                <Button className="w-full bg-white text-black hover:bg-black hover:text-white border border-black">
                   Book Now
                 </Button>
               </Link>

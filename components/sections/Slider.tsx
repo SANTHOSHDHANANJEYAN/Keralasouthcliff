@@ -49,10 +49,6 @@ const Slider: React.FC = () => {
     setCurrentSlide((prev) => (prev + 1) % sliderData.length);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + sliderData.length) % sliderData.length);
-  };
-
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
@@ -67,7 +63,7 @@ const Slider: React.FC = () => {
   const slide = sliderData[currentSlide];
 
   return (
-    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+    <div className="relative w-full h-screen overflow-hidden flex items-center justify-center bg-black">
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
@@ -81,11 +77,11 @@ const Slider: React.FC = () => {
             src={slide.image}
             alt={slide.mainTitle}
             fill
-            className="object-cover"
+            className="object-cover grayscale brightness-[0.8]"
             quality={100}
             priority
           />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/60" />
         </motion.div>
       </AnimatePresence>
 
@@ -111,7 +107,7 @@ const Slider: React.FC = () => {
             {slide.subTitle && (
               <motion.p
                 key={slide.subTitle}
-                className="text-3xl md:text-5xl font-bold text-[#627d6a] tracking-wide drop-shadow-lg"
+                className="text-2xl md:text-4xl font-medium text-gray-300 tracking-wide"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -134,11 +130,11 @@ const Slider: React.FC = () => {
                       <Image src={stat.icon} alt="icon" width={32} height={32} />
                     </div>
                     <span className="text-2xl font-bold mr-2">{stat.count}</span>
-                    <span className="text-base sm:text-lg">{stat.text}</span>
+                    <span className="text-base sm:text-lg text-white">{stat.text}</span>
                   </div>
                 ))}
                 {slide.orangeBarPresent && (
-                  <div className="mt-6 w-full h-2 bg-[#627d6a] rounded-full" />
+                  <div className="mt-6 w-full h-2 bg-white rounded-full" />
                 )}
               </motion.div>
             )}
@@ -146,14 +142,15 @@ const Slider: React.FC = () => {
 
           {/* Right Controls */}
           <div className="col-span-3 flex flex-col items-end justify-center relative">
-            {/* Pagination */}
             <div className="absolute bottom-8 right-6 flex space-x-3">
               {sliderData.map((_, index) => (
                 <motion.button
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? 'bg-[#627d6a] scale-125' : 'bg-white opacity-50'
+                    currentSlide === index
+                      ? 'bg-white scale-125'
+                      : 'bg-gray-400 opacity-50'
                   }`}
                   whileHover={{ scale: 1.2 }}
                 />

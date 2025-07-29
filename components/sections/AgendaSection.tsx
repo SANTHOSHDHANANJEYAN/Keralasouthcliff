@@ -43,17 +43,19 @@ export default function AgendaSection() {
   };
 
   const variants = {
-    enter: (dir: string) => ({
+    enter: (dir: 'left' | 'right') => ({
       x: dir === 'right' ? 300 : -300,
       opacity: 0,
     }),
     center: {
       x: 0,
       opacity: 1,
+      transition: { duration: 0.6 },
     },
-    exit: (dir: string) => ({
+    exit: (dir: 'left' | 'right') => ({
       x: dir === 'right' ? -300 : 300,
       opacity: 0,
+      transition: { duration: 0.6 },
     }),
   };
 
@@ -61,7 +63,7 @@ export default function AgendaSection() {
     <section className="w-full h-screen flex items-center bg-[#f3f7f4] overflow-hidden relative">
       {/* Left Image */}
       <div className="w-1/3 h-full relative">
-        <AnimatePresence custom={direction} mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].leftImg}
             custom={direction}
@@ -69,7 +71,6 @@ export default function AgendaSection() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.6 }}
             className="absolute inset-0"
           >
             <Image src={slides[index].leftImg} alt="Left" fill className="object-cover" />
@@ -79,7 +80,7 @@ export default function AgendaSection() {
 
       {/* Center Content */}
       <div className="w-1/3 px-10 flex flex-col justify-center space-y-6 z-10">
-        <AnimatePresence custom={direction} mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].headline}
             custom={direction}
@@ -87,12 +88,10 @@ export default function AgendaSection() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.6 }}
           >
             <h2 className="text-[100px] leading-none font-bold text-emerald-600">{slides[index].headline}</h2>
             <h1 className="text-[70px] leading-tight font-black text-emerald-900">{slides[index].subheadline}</h1>
             <p className="text-emerald-700 italic text-lg leading-relaxed mt-4">{slides[index].text}</p>
-
             <div className="flex items-center gap-6 mt-6">
               <button
                 onClick={handlePrev}
@@ -113,7 +112,7 @@ export default function AgendaSection() {
 
       {/* Right Image */}
       <div className="w-1/3 h-full relative">
-        <AnimatePresence custom={direction} mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].rightImg}
             custom={direction}
@@ -121,7 +120,6 @@ export default function AgendaSection() {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.6 }}
             className="absolute inset-0"
           >
             <Image src={slides[index].rightImg} alt="Right" fill className="object-cover" />

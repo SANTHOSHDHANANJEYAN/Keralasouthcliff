@@ -30,8 +30,8 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden">
-      {/* Background */}
+    <section className="relative h-screen overflow-hidden bg-black text-white">
+      {/* Background Slides with Grayscale */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <motion.div
@@ -45,37 +45,38 @@ const Hero = () => {
               backgroundImage: `url("${image}")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              filter: 'grayscale(100%) brightness(0.7)',
             }}
           />
         ))}
-        <div className="absolute inset-0 " />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
 
-      {/* 3D Elements */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-20">
+      {/* 3D Elements in Faded White Tone */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-10">
         <Suspense fallback={<div />}>
           <FloatingElements />
         </Suspense>
       </div>
-      <div className="absolute bottom-0 left-0 w-full opacity-30">
+      <div className="absolute bottom-0 left-0 w-full opacity-15">
         <Suspense fallback={<div />}>
           <InteractiveBeach />
         </Suspense>
       </div>
 
-      {/* Content (Removed all text) */}
+      {/* Hero Content (Can add text here later) */}
       <div className="relative z-10 flex items-center justify-center h-full">
-        {/* Intentionally left empty */}
+        {/* Add any content if needed */}
       </div>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
         {heroImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index ? 'bg-[#627d6a]' : 'bg-[#627d6a]/40'
+            className={`w-3 h-3 rounded-full border border-white transition-all duration-300 ${
+              currentSlide === index ? 'bg-white' : 'bg-transparent'
             }`}
           />
         ))}

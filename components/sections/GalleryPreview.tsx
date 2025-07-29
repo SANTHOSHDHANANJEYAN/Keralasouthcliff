@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { motion } from 'framer-motion';
 import { Play, Maximize2, Heart, Share2 } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image'; // ✅ Import Next.js Image component
+import Image from 'next/image';
 
 const GalleryPreview = () => {
   const [likedImages, setLikedImages] = useState(new Set<number>());
@@ -58,8 +58,9 @@ const GalleryPreview = () => {
   };
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -67,13 +68,13 @@ const GalleryPreview = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <Badge className="mb-4 bg-[#e6f1eb] text-[#627d6a] text-lg px-4 py-2">
+          <Badge className="mb-4 bg-gray-200 text-gray-800 text-lg px-4 py-2">
             Visual Experience
           </Badge>
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h2 className="text-5xl md:text-6xl font-bold text-black mb-6">
             Gallery Highlights
           </h2>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Immerse yourself in the beauty of our villas through stunning visuals 
             that capture the essence of luxury living by the Arabian Sea.
           </p>
@@ -94,14 +95,14 @@ const GalleryPreview = () => {
                   src={image.src}
                   alt={image.alt}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 rounded-xl"
+                  className="object-cover grayscale group-hover:scale-110 transition-transform duration-700 rounded-xl"
                   sizes="(max-width: 1024px) 100vw, 33vw"
-                  priority={index < 3} // Load first few images eagerly
+                  priority={index < 3}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                 <div className="absolute top-4 left-4">
-                  <Badge className="bg-white/90 text-gray-900 backdrop-blur-sm">
+                  <Badge className="bg-white/80 text-black backdrop-blur-sm">
                     {image.category}
                   </Badge>
                 </div>
@@ -111,17 +112,17 @@ const GalleryPreview = () => {
                     size="sm"
                     variant="ghost"
                     onClick={() => toggleLike(index)}
-                    className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 p-2"
+                    className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 p-2"
                   >
                     <Heart 
                       size={16} 
-                      className={likedImages.has(index) ? 'fill-[#627d6a] text-[#627d6a]' : ''} 
+                      className={likedImages.has(index) ? 'fill-white text-white' : ''} 
                     />
                   </Button>
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 p-2"
+                    className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 p-2"
                   >
                     <Share2 size={16} />
                   </Button>
@@ -138,7 +139,7 @@ const GalleryPreview = () => {
                     <div className="absolute inset-0 cursor-pointer flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <Button
                         size="lg"
-                        className="bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 border-white/30"
+                        className="bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 border-white/30"
                       >
                         <Maximize2 className="mr-2" size={20} />
                         View Full Size
@@ -180,12 +181,12 @@ const GalleryPreview = () => {
               src="https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg"
               alt="Villa Video Preview"
               fill
-              className="object-cover"
+              className="object-cover grayscale"
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
               <Button
                 size="lg"
-                className="bg-[#627d6a]/60 backdrop-blur-sm text-white hover:bg-[#4f6658] px-8 py-4"
+                className="bg-black/50 backdrop-blur-sm text-white hover:bg-black/70 px-8 py-4"
               >
                 <Play className="mr-3" size={24} />
                 Watch Villa Tour Video
@@ -208,7 +209,7 @@ const GalleryPreview = () => {
           <Link href="/gallery">
             <Button 
               size="lg" 
-              className="bg-[#627d6a] hover:bg-[#4f6658] text-white px-8 py-4 text-lg"
+              className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-lg"
             >
               View Full Gallery
             </Button>

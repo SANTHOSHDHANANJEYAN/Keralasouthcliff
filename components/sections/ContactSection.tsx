@@ -24,11 +24,9 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
-      toast.success('Message sent successfully! We\'ll get back to you within 2 hours.');
+      toast.success("Message sent successfully! We'll get back to you within 2 hours.");
       setFormData({
         name: '',
         email: '',
@@ -50,34 +48,10 @@ const ContactSection = () => {
   };
 
   const contactInfo = [
-    {
-      icon: Phone,
-      title: 'Phone',
-      value: '+91 9876543210',
-      description: 'Available 24/7 for bookings and inquiries',
-      gradient: 'from-green-400 to-emerald-500'
-    },
-    {
-      icon: Mail,
-      title: 'Email',
-      value: 'info@keralavillas.com',
-      description: 'Get in touch via email',
-      gradient: 'from-blue-400 to-cyan-500'
-    },
-    {
-      icon: MapPin,
-      title: 'Location',
-      value: 'South Cliff, Varkala',
-      description: 'Kerala, India 695141',
-      gradient: 'from-purple-400 to-pink-500'
-    },
-    {
-      icon: Clock,
-      title: 'Response Time',
-      value: 'Within 2 hours',
-      description: 'Quick response guaranteed',
-      gradient: 'from-orange-400 to-red-500'
-    }
+    { icon: Phone, title: 'Phone', value: '+91 9876543210', description: 'Available 24/7 for bookings and inquiries' },
+    { icon: Mail, title: 'Email', value: 'info@keralavillas.com', description: 'Get in touch via email' },
+    { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
+    { icon: Clock, title: 'Response Time', value: 'Within 2 hours', description: 'Quick response guaranteed' }
   ];
 
   const bookingInfo = [
@@ -92,29 +66,28 @@ const ContactSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-indigo-100 text-indigo-800">Get in Touch</Badge>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <Badge className="mb-4 bg-black text-white border border-black">Get in Touch</Badge>
+          <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
             Contact & Booking
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Ready to experience luxury at Kerala South Cliff Beach View Villas? 
-            Contact us for bookings, inquiries, or to plan your perfect getaway.
+          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+            Ready to experience luxury at Kerala South Cliff Beach View Villas? Contact us for bookings, inquiries, or to plan your perfect getaway.
           </p>
         </div>
 
-        {/* Contact Information */}
+        {/* Contact Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {contactInfo.map((info, index) => (
-            <Card key={index} className="group hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2">
+            <Card key={index} className="group hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 bg-gray-100">
               <CardContent className="p-6 text-center">
-                <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-black flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <info.icon className="text-white" size={24} />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{info.title}</h3>
-                <p className="text-gray-900 font-medium mb-1">{info.value}</p>
+                <h3 className="text-lg font-semibold text-black mb-2">{info.title}</h3>
+                <p className="text-black font-medium mb-1">{info.value}</p>
                 <p className="text-gray-600 text-sm">{info.description}</p>
               </CardContent>
             </Card>
@@ -123,9 +96,9 @@ const ContactSection = () => {
 
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Booking Form */}
-          <Card>
+          <Card className="bg-white">
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Booking & Inquiry Form</h3>
+              <h3 className="text-2xl font-bold text-black mb-6">Booking & Inquiry Form</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -136,7 +109,7 @@ const ContactSection = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                       placeholder="Your full name"
                     />
                   </div>
@@ -148,7 +121,7 @@ const ContactSection = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                       placeholder="Your email address"
                     />
                   </div>
@@ -162,7 +135,7 @@ const ContactSection = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                       placeholder="Your phone number"
                     />
                   </div>
@@ -172,7 +145,7 @@ const ContactSection = () => {
                       name="guests"
                       value={formData.guests}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                     >
                       <option value="">Select guests</option>
                       <option value="1">1 Guest</option>
@@ -191,7 +164,7 @@ const ContactSection = () => {
                       name="checkIn"
                       value={formData.checkIn}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                   </div>
                   <div>
@@ -201,7 +174,7 @@ const ContactSection = () => {
                       name="checkOut"
                       value={formData.checkOut}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -212,7 +185,7 @@ const ContactSection = () => {
                     name="villa"
                     value={formData.villa}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
                   >
                     <option value="">Select villa</option>
                     <option value="ground-floor">Ground Floor Villa</option>
@@ -228,15 +201,15 @@ const ContactSection = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Tell us about your requirements, special requests, or any questions..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                    placeholder="Tell us about your requirements..."
                   />
                 </div>
 
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 text-white"
+                  className="w-full bg-black text-white hover:bg-white hover:text-black border border-black"
                 >
                   {isSubmitting ? (
                     <>
@@ -254,27 +227,25 @@ const ContactSection = () => {
             </CardContent>
           </Card>
 
-          {/* Booking Information */}
-          <Card>
+          {/* Booking Info */}
+          <Card className="bg-gray-100">
             <CardContent className="p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Booking Information</h3>
+              <h3 className="text-2xl font-bold text-black mb-6">Booking Information</h3>
               <div className="space-y-4">
                 {bookingInfo.map((info, index) => (
                   <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="text-green-500 mt-1 flex-shrink-0" size={16} />
+                    <CheckCircle className="text-black mt-1 flex-shrink-0" size={16} />
                     <div>
-                      <p className="font-medium text-gray-900">{info.label}</p>
-                      <p className="text-gray-600">{info.value}</p>
+                      <p className="font-medium text-black">{info.label}</p>
+                      <p className="text-gray-700">{info.value}</p>
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">Special Offer</h4>
-                <p className="text-blue-800 text-sm">
-                  Book for 7 nights or more and get 15% discount on your total stay. 
-                  Contact us for more details about seasonal offers and packages.
+              <div className="mt-8 p-4 bg-white border border-black rounded-lg">
+                <h4 className="font-semibold text-black mb-2">Special Offer</h4>
+                <p className="text-gray-700 text-sm">
+                  Book for 7 nights or more and get 15% discount. Contact us for seasonal offers.
                 </p>
               </div>
             </CardContent>
@@ -282,17 +253,17 @@ const ContactSection = () => {
         </div>
 
         {/* Emergency Contact */}
-        <Card className="max-w-2xl mx-auto">
+        <Card className="max-w-2xl mx-auto bg-black text-white">
           <CardContent className="p-8 text-center">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">Emergency Contact</h3>
-            <p className="text-gray-600 mb-4">
-              For urgent inquiries or last-minute bookings, please call our 24/7 emergency hotline:
+            <h3 className="text-xl font-bold mb-4">Emergency Contact</h3>
+            <p className="mb-4">
+              For urgent inquiries, call our 24/7 emergency hotline:
             </p>
-            <div className="flex items-center justify-center gap-2 text-xl font-semibold text-green-600">
+            <div className="flex items-center justify-center gap-2 text-xl font-semibold">
               <Phone size={20} />
               <span>+91 9876543210</span>
             </div>
-            <p className="text-sm text-gray-500 mt-2">Available 24 hours a day, 7 days a week</p>
+            <p className="text-sm text-gray-300 mt-2">Available 24/7</p>
           </CardContent>
         </Card>
       </div>

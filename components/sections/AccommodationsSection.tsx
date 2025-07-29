@@ -41,7 +41,7 @@ export default function HeroSection() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0 bg-[#627d6a]/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
         </motion.div>
       </AnimatePresence>
 
@@ -51,7 +51,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="uppercase text-[#f4b860] tracking-widest text-sm md:text-lg"
+          className="uppercase tracking-widest text-sm md:text-lg text-gray-200"
         >
           Our Accommodations
         </motion.p>
@@ -60,7 +60,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-5xl md:text-7xl font-extrabold uppercase mt-2 drop-shadow-lg"
+          className="text-5xl md:text-7xl font-extrabold uppercase mt-2 drop-shadow-xl"
         >
           {activeTitle}
         </motion.h1>
@@ -69,7 +69,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7 }}
-          className="mt-6 py-3 px-6 rounded text-white text-sm md:text-base font-semibold transition-all duration-300 shadow-lg bg-[#627d6a] hover:bg-[#4f6658] hover:shadow-2xl"
+          className="mt-6 py-3 px-6 rounded bg-white text-black text-sm md:text-base font-semibold transition-all duration-300 shadow-lg hover:bg-black hover:text-white border border-white"
         >
           See All Private Rental Companies
         </motion.button>
@@ -81,7 +81,7 @@ export default function HeroSection() {
           {cards.map((card) => (
             <motion.div
               key={card.title}
-              className="relative h-40 md:h-48 lg:h-56 cursor-pointer group overflow-hidden rounded-xl border border-white/10"
+              className="relative h-40 md:h-48 lg:h-56 cursor-pointer group overflow-hidden rounded-xl border border-white/20"
               whileHover={{ scale: 1.03 }}
               transition={{ type: 'spring', stiffness: 300 }}
               onClick={() => {
@@ -93,9 +93,9 @@ export default function HeroSection() {
                 src={card.image}
                 alt={card.title}
                 fill
-                className="object-cover group-hover:brightness-110 group-hover:scale-105 transition-transform duration-500"
+                className="object-cover filter grayscale group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition duration-300" />
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition duration-300" />
               <div className="absolute inset-0 flex items-center justify-center">
                 <h3 className="text-white text-lg md:text-xl font-bold">
                   {card.title}

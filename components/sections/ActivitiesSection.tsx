@@ -41,7 +41,7 @@ const ActivitiesSection: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-[#627d6a]">
+    <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-black">
       <div className="absolute inset-0 -z-10">
         <AnimatePresence mode="wait">
           <motion.div
@@ -59,13 +59,14 @@ const ActivitiesSection: React.FC = () => {
               className="object-cover"
               quality={75}
             />
-            <div className="absolute inset-0 bg-[#627d6a]/70 backdrop-blur-md" />
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
           </motion.div>
         </AnimatePresence>
       </div>
 
+      {/* Title */}
       <div className="absolute top-14 z-30 text-center w-full">
-        <div className="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-white/20 shadow-md">
+        <div className="bg-black/30 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-white/20 shadow-md">
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white tracking-[0.25em] uppercase">
             Activities
           </h2>
@@ -73,11 +74,16 @@ const ActivitiesSection: React.FC = () => {
         </div>
       </div>
 
+      {/* Floating Words */}
       {['OUTDOOR', 'INDOOR', 'WILL-BE'].map((word, i) => (
         <div
           key={word}
           className={`absolute left-1/2 top-1/2 z-0 -translate-x-1/2 ${
-            i === 0 ? '-translate-y-[160%] -rotate-6' : i === 1 ? '-translate-y-1/2 rotate-3' : '-translate-y-[10%] -rotate-1'
+            i === 0
+              ? '-translate-y-[160%] -rotate-6'
+              : i === 1
+              ? '-translate-y-1/2 rotate-3'
+              : '-translate-y-[10%] -rotate-1'
           }`}
         >
           <svg
@@ -92,7 +98,7 @@ const ActivitiesSection: React.FC = () => {
               style={{
                 fontSize: '200px',
                 fill: 'none',
-                stroke: 'rgba(255,255,255,0.06)',
+                stroke: 'rgba(255,255,255,0.04)',
                 strokeWidth: 3,
                 fontFamily: 'system-ui, sans-serif',
                 letterSpacing: '0.05em',
@@ -104,6 +110,7 @@ const ActivitiesSection: React.FC = () => {
         </div>
       ))}
 
+      {/* Images */}
       {[
         { images: leftImages, position: 'left-[5%] md:left-[10%]', rotation: '-rotate-[8deg]', z: 'z-20', direction: -1 },
         { images: middleImages, position: 'left-1/2 -translate-x-1/2', rotation: 'rotate-[10deg]', z: 'z-30', direction: 0 },
@@ -138,7 +145,7 @@ const ActivitiesSection: React.FC = () => {
                 src={group.images[index]}
                 alt="Activity"
                 fill
-                className="object-cover rounded-2xl hover:scale-[1.03] transition-transform duration-700 ease-in-out"
+                className="object-cover rounded-2xl grayscale hover:grayscale-0 hover:scale-[1.03] transition-transform duration-700 ease-in-out"
                 quality={85}
               />
             </motion.div>
