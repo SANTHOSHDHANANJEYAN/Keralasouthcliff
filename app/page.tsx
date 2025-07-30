@@ -8,9 +8,10 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AgendaSection from '@/components/sections/AgendaSection';
 import AccommodationsSection from '@/components/sections/AccommodationsSection';
-import Slider from '../components/sections/Slider';
+import Slider from '@/components/sections/Slider';
 import ActivitiesSection from '@/components/sections/ActivitiesSection';
 import SocialNetworksSection from '@/components/sections/SocialNetworksSection';
+import WhatsAppButton from '@/components/ui/WhatsAppButton'; // ✅ NEW
 
 export default function Home() {
   return (
@@ -18,19 +19,19 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <AgendaSection/>
+        <AgendaSection />
         <VillasPreview />
-        <AccommodationsSection/>
+        <AccommodationsSection />
         <GalleryPreview />
-        <ActivitiesSection/>
+        <ActivitiesSection />
         <AmenitiesPreview />
         <LocationPreview />
-        <Slider/>
-        <SocialNetworksSection/>
+        <Slider />
+        <SocialNetworksSection />
         <ContactPreview />
       </main>
       <Footer />
-
+      <WhatsAppButton /> {/* ✅ Added the floating button */}
     </div>
   );
 }
