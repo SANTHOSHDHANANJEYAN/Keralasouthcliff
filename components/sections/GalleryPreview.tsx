@@ -26,7 +26,7 @@ const GalleryPreview = () => {
       title: 'Elegant Living Space'
     },
     {
-      src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png',
+      src: '/astega/9.jpg',
       alt: 'Bedroom',
       category: 'Rooms',
       title: 'Master Bedroom Suite'
@@ -44,7 +44,7 @@ const GalleryPreview = () => {
       title: 'Spectacular Sunset'
     },
     {
-      src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png',
+      src: '/astega/13.jpg',
       alt: 'Terrace',
       category: 'Outdoor',
       title: 'Private Terrace'
@@ -98,11 +98,7 @@ const GalleryPreview = () => {
                   priority={index < 3}
                 />
 
-                <div className="absolute top-4 left-4">
-                  <Badge className="bg-white text-black border border-black/10 shadow-sm">
-                    {image.category}
-                  </Badge>
-                </div>
+
 
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Button

@@ -14,6 +14,11 @@ const Hero = () => {
     '/Asteya -website/PDF - Asteya-2.png',
     '/Asteya -website/PDF - Asteya-4.png',
     '/Asteya -website/PDF - Asteya-7.png',
+    '/astega/7.jpg',
+    '/astega/9.jpg',
+    '/astega/14.jpg',
+    '/astega/28.jpg',
+    '/astega/29.jpg',
   ];
 
   useEffect(() => {

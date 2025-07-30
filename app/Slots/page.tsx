@@ -25,7 +25,7 @@ export default function BookingPage() {
 
     // Send confirmation email
     try {
-      const res = await fetch('/pages/api/sendEmail', {
+      const res = await fetch('/api/sendEmail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectedDate, userEmail: email }),
