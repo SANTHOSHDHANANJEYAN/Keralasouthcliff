@@ -68,9 +68,7 @@ const GalleryPreview = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <Badge className="mb-4 bg-gray-200 text-gray-800 text-lg px-4 py-2">
-            Visual Experience
-          </Badge>
+
           <h2 className="text-5xl md:text-6xl font-bold mb-6">Gallery Highlights</h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Immerse yourself in the beauty of our villas through stunning visuals 

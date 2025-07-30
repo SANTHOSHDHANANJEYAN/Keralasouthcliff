@@ -36,14 +36,7 @@ const ActivitiesSection: React.FC = () => {
   return (
     <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-white">
       {/* Title */}
-      <div className="absolute top-14 z-30 text-center w-full">
-        <div className="bg-white/30 backdrop-blur-md px-6 py-4 rounded-xl inline-block border border-black/20 shadow-md">
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-black tracking-[0.25em] uppercase">
-            Activities
-          </h2>
-          <div className="w-20 h-1 bg-black mx-auto mt-2 rounded-full" />
-        </div>
-      </div>
+   
 
       {/* Floating Words */}
       {['OUTDOOR', 'INDOOR', 'WILL-BE'].map((word, i) => (

@@ -20,7 +20,7 @@ const cards = [
 
 export default function HeroSection() {
   const [bg, setBg] = useState(bgImages.Individuals);
-  const [activeTitle, setActiveTitle] = useState('Individuals');
+  const [activeTitle, setActiveTitle] = useState('LUXURY VILLAS');
 
   return (
     <section className="relative h-screen w-full overflow-hidden">
@@ -53,7 +53,7 @@ export default function HeroSection() {
           transition={{ delay: 0.3 }}
           className="uppercase tracking-widest text-sm md:text-lg text-gray-200"
         >
-          Our Accommodations
+          Asteya Stay Comfort
         </motion.p>
 
         <motion.h1
@@ -65,14 +65,6 @@ export default function HeroSection() {
           {activeTitle}
         </motion.h1>
 
-        <motion.button
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.7 }}
-          className="mt-6 py-3 px-6 rounded bg-white text-black text-sm md:text-base font-semibold transition-all duration-300 shadow-lg hover:bg-black hover:text-white border border-white"
-        >
-          See All Private Rental Companies
-        </motion.button>
       </div>
 
       {/* Cards */}

@@ -6,27 +6,29 @@ import Image from 'next/image';
 
 const slides = [
   {
-    headline: 'CLARITY',
-    subheadline: 'BLACK AND WHITE',
-    text: `See the world with honesty and bold contrast — where truth stands out, and distractions fade away.`,
+    headline: 'GROUND FLOOR VILLA',
+    subheadline: 'SERENE & SECLUDED',
+    text: `Enjoy direct beach access and a peaceful, nature-filled stay.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (1).png',
     rightImg: '/Asteya -website/Asteya - beach villa  (2).png',
   },
   {
-    headline: 'BALANCE',
-    subheadline: 'LIGHT AND SHADOW',
-    text: `Both light and shadow define form. Embrace duality — in simplicity lies harmony.`,
+    headline: 'TOP FLOOR VILLA',
+    subheadline: 'VIEWS & VIBES',
+    text: `Soak in stunning sea views from your private upper retreat.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (3).png',
     rightImg: '/Asteya -website/Asteya - beach villa  (4).png',
   },
   {
-    headline: 'ESSENCE',
-    subheadline: 'NO FILTER',
-    text: `Strip away the excess. What remains is essential, pure, and unmistakably true.`,
+    headline: 'DUAL VILLAS',
+    subheadline: 'CHOOSE YOUR SPACE',
+    text: `Grounded calm or elevated charm — pick your perfect escape.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (5).png',
     rightImg: '/Asteya -website/Asteya - beach villa .png',
   },
 ];
+
+
 
 export default function AgendaSection() {
   const [index, setIndex] = useState(0);

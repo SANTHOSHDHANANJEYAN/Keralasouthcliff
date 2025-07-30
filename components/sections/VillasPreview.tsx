@@ -64,9 +64,9 @@ const VillasPreview = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <Badge className="mb-4 bg-black text-white text-lg px-4 py-2">Asteya Retreat Villas</Badge>
+          
           <h2 className="text-5xl md:text-6xl font-bold text-black mb-6">
-            Only 2 Villas — Asteya Luxury
+            Asteya Villas
           </h2>
           <p className="text-xl text-gray-700 max-w-4xl mx-auto">
             A peaceful sanctuary set on Kerala’s sun-kissed coast. Choose your experience — ground or sky.

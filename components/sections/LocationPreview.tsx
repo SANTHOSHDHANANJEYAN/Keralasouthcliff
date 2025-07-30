@@ -57,9 +57,7 @@ const LocationPreview = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge className="mb-4 text-[13px] py-1 px-3 rounded-full font-medium bg-black text-white shadow">
-            Prime Location
-          </Badge>
+
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4">South Cliff, Varkala</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Perfectly positioned on the famous South Cliff of Varkala, Kerala, offering unparalleled access to beach, culture, and natural beauty.
