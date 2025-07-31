@@ -25,7 +25,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-
         <Suspense fallback={null}>
           <AboutOurStory />
           <AgendaSection />
