@@ -94,8 +94,8 @@ const VillasSection = () => {
       description:
         'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
       features: [
-        { icon: Bed, text: '3 Bedrooms' },
-        { icon: Bath, text: '3 Bathrooms' },
+        { icon: Bed, text: '2 Bedrooms' },
+        { icon: Bath, text: '2 Bathrooms' },
         { icon: Waves, text: 'Sea View' },
         { icon: Mountain, text: 'Garden View' },
         { icon: Wifi, text: 'High-Speed WiFi' },
