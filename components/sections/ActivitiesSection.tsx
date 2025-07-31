@@ -23,7 +23,7 @@ const ActivitiesSection: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % leftImages.length);
-    }, 5000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 
@@ -33,11 +33,15 @@ const ActivitiesSection: React.FC = () => {
     damping: 20,
   };
 
-  return (
-    <div className="relative w-full h-[700px] md:h-[900px] lg:h-[1000px] overflow-hidden flex items-center justify-center bg-white">
-      {/* Title */}
-   
+  const sizes = {
+    base: 'w-[180px] h-[260px]',
+    sm: 'sm:w-[220px] sm:h-[300px]',
+    md: 'md:w-[280px] md:h-[380px]',
+    lg: 'lg:w-[360px] lg:h-[480px]',
+  };
 
+  return (
+    <div className="relative w-full h-[650px] sm:h-[750px] md:h-[900px] lg:h-[1000px] flex items-center justify-center overflow-hidden bg-white">
       {/* Floating Words */}
       {['OUTDOOR', 'INDOOR', 'WILL-BE'].map((word, i) => (
         <div
@@ -51,7 +55,7 @@ const ActivitiesSection: React.FC = () => {
           }`}
         >
           <svg
-            className="w-[600px] h-[200px] md:w-[800px] md:h-[250px] lg:w-[1000px] lg:h-[300px]"
+            className="w-[500px] h-[160px] sm:w-[600px] sm:h-[200px] md:w-[800px] md:h-[250px] lg:w-[1000px] lg:h-[300px]"
             viewBox="0 0 1000 300"
           >
             <text
@@ -74,15 +78,15 @@ const ActivitiesSection: React.FC = () => {
         </div>
       ))}
 
-      {/* Images */}
+      {/* Image Groups */}
       {[
-        { images: leftImages, position: 'left-[5%] md:left-[10%]', rotation: '-rotate-[8deg]', z: 'z-20', direction: -1 },
+        { images: leftImages, position: 'left-[2%] sm:left-[6%]', rotation: '-rotate-[8deg]', z: 'z-20', direction: -1 },
         { images: middleImages, position: 'left-1/2 -translate-x-1/2', rotation: 'rotate-[10deg]', z: 'z-30', direction: 0 },
-        { images: rightImages, position: 'right-[5%] md:right-[10%]', rotation: 'rotate-[15deg]', z: 'z-20', direction: 1 },
+        { images: rightImages, position: 'right-[2%] sm:right-[6%]', rotation: 'rotate-[15deg]', z: 'z-20', direction: 1 },
       ].map((group, i) => (
         <div
           key={i}
-          className={`absolute top-[40%] md:top-[30%] ${group.position} ${group.z} transform ${group.rotation} shadow-2xl transition-all duration-700 w-[260px] h-[360px] md:w-[320px] md:h-[430px] lg:w-[360px] lg:h-[480px]`}
+          className={`absolute top-[40%] sm:top-[35%] md:top-[30%] ${group.position} ${group.z} transform ${group.rotation} shadow-xl transition-all duration-700 ${sizes.base} ${sizes.sm} ${sizes.md} ${sizes.lg}`}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -107,10 +111,12 @@ const ActivitiesSection: React.FC = () => {
             >
               <Image
                 src={group.images[index]}
-                alt="Activity"
+                alt={`Villa Image ${i}`}
                 fill
+                sizes="(max-width: 640px) 180px, (max-width: 768px) 240px, (max-width: 1024px) 320px, 360px"
                 className="object-cover rounded-2xl transition-transform duration-700 ease-in-out"
-                quality={85}
+                quality={75}
+                priority={i === 1 && index === 0}
               />
             </motion.div>
           </AnimatePresence>

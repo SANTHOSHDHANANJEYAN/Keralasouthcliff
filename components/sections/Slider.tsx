@@ -54,9 +54,7 @@ const Slider: React.FC = () => {
   };
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      nextSlide();
-    }, 8000);
+    const timer = setInterval(nextSlide, 8000);
     return () => clearInterval(timer);
   }, []);
 
@@ -77,29 +75,29 @@ const Slider: React.FC = () => {
             src={slide.image}
             alt={slide.mainTitle}
             fill
-            className="object-cover grayscale brightness-[0.8]"
-            quality={100}
+            className="object-cover brightness-[0.7]"
+            quality={80}
             priority
           />
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-black/50 sm:bg-black/60" />
         </motion.div>
       </AnimatePresence>
 
       <div className="relative z-10 w-full h-full flex items-center justify-center">
-        <div className="grid grid-cols-12 gap-4 w-full h-full px-4 sm:px-8 lg:px-24">
-          {/* Left Vertical Label */}
-          <div className="col-span-1 flex items-center justify-center -rotate-90 origin-center text-white text-xs md:text-lg font-bold tracking-widest uppercase">
+        <div className="grid grid-cols-12 gap-4 w-full h-full px-4 sm:px-6 md:px-12 lg:px-24">
+          {/* Left Text Vertical */}
+          <div className="hidden sm:flex col-span-1 items-center justify-center -rotate-90 origin-center text-white text-xs md:text-lg font-bold tracking-widest uppercase">
             {slide.leftText}
           </div>
 
-          {/* Center Content */}
-          <div className="col-span-8 flex flex-col justify-center items-center text-center space-y-6">
+          {/* Center Title/SubTitle */}
+          <div className="col-span-12 sm:col-span-10 md:col-span-8 flex flex-col justify-center items-center text-center space-y-6">
             <motion.h1
               key={slide.mainTitle}
-              className="text-4xl md:text-7xl font-extrabold text-white drop-shadow-md"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white drop-shadow-lg"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+              transition={{ delay: 0.2, duration: 0.6 }}
             >
               {slide.mainTitle}
             </motion.h1>
@@ -107,7 +105,7 @@ const Slider: React.FC = () => {
             {slide.subTitle && (
               <motion.p
                 key={slide.subTitle}
-                className="text-2xl md:text-4xl font-medium text-gray-300 tracking-wide"
+                className="text-lg sm:text-2xl md:text-3xl text-gray-300"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -115,34 +113,11 @@ const Slider: React.FC = () => {
                 {slide.subTitle}
               </motion.p>
             )}
-
-            {/* Stats Section */}
-            {slide.stats && (
-              <motion.div
-                className="absolute bottom-1/4 right-8 sm:right-24 p-6 bg-white/10 backdrop-blur-2xl rounded-xl text-white shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-              >
-                {slide.stats.map((stat, index) => (
-                  <div key={index} className="flex items-center mb-4 last:mb-0">
-                    <div className="w-8 h-8 mr-4 flex items-center justify-center">
-                      <Image src={stat.icon} alt="icon" width={32} height={32} />
-                    </div>
-                    <span className="text-2xl font-bold mr-2">{stat.count}</span>
-                    <span className="text-base sm:text-lg text-white">{stat.text}</span>
-                  </div>
-                ))}
-                {slide.orangeBarPresent && (
-                  <div className="mt-6 w-full h-2 bg-white rounded-full" />
-                )}
-              </motion.div>
-            )}
           </div>
 
-          {/* Right Controls */}
-          <div className="col-span-3 flex flex-col items-end justify-center relative">
-            <div className="absolute bottom-8 right-6 flex space-x-3">
+          {/* Right Side Controls */}
+          <div className="hidden md:flex col-span-3 items-center justify-end relative">
+            <div className="absolute bottom-6 right-6 flex space-x-3">
               {sliderData.map((_, index) => (
                 <motion.button
                   key={index}
@@ -150,13 +125,50 @@ const Slider: React.FC = () => {
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     currentSlide === index
                       ? 'bg-white scale-125'
-                      : 'bg-gray-400 opacity-50'
+                      : 'bg-gray-400 opacity-60'
                   }`}
                   whileHover={{ scale: 1.2 }}
                 />
               ))}
             </div>
           </div>
+
+          {/* Stats Box - visible only on md+ screens */}
+          {slide.stats && (
+            <motion.div
+              className="hidden md:block absolute bottom-24 right-6 sm:right-16 bg-white/10 backdrop-blur-md rounded-xl p-5 text-white shadow-lg"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              {slide.stats.map((stat, index) => (
+                <div key={index} className="flex items-center mb-4 last:mb-0">
+                  <Image src={stat.icon} alt="icon" width={28} height={28} className="mr-3" />
+                  <span className="text-xl font-bold mr-2">{stat.count}</span>
+                  <span className="text-base text-white">{stat.text}</span>
+                </div>
+              ))}
+              {slide.orangeBarPresent && (
+                <div className="mt-4 w-full h-2 bg-white rounded-full" />
+              )}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Slide Dots for Mobile/Tablet */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex md:hidden space-x-3">
+          {sliderData.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                currentSlide === index
+                  ? 'bg-white scale-110'
+                  : 'bg-gray-400 opacity-50'
+              }`}
+              whileHover={{ scale: 1.1 }}
+            />
+          ))}
         </div>
       </div>
     </div>

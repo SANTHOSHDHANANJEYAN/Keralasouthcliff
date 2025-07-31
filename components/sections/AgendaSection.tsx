@@ -28,8 +28,6 @@ const slides = [
   },
 ];
 
-
-
 export default function AgendaSection() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right'>('right');
@@ -62,9 +60,9 @@ export default function AgendaSection() {
   };
 
   return (
-    <section className="w-full h-screen flex items-center overflow-hidden relative bg-black">
+    <section className="w-full min-h-screen flex flex-col lg:flex-row items-center overflow-hidden relative bg-black">
       {/* Left Image */}
-      <div className="w-1/3 h-full relative">
+      <div className="w-full lg:w-1/3 h-[300px] sm:h-[400px] lg:h-screen relative">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].leftImg}
@@ -81,7 +79,7 @@ export default function AgendaSection() {
       </div>
 
       {/* Center Content */}
-      <div className="w-1/3 px-10 flex flex-col justify-center space-y-6 z-10 text-white">
+      <div className="w-full lg:w-1/3 px-6 sm:px-10 xl:px-16 py-10 flex flex-col justify-center space-y-6 z-10 text-white text-center lg:text-left">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].headline}
@@ -91,19 +89,25 @@ export default function AgendaSection() {
             animate="center"
             exit="exit"
           >
-            <h2 className="text-[100px] leading-none font-bold text-white">{slides[index].headline}</h2>
-            <h1 className="text-[70px] leading-tight font-black text-gray-300">{slides[index].subheadline}</h1>
-            <p className="text-gray-400 italic text-lg leading-relaxed mt-4">{slides[index].text}</p>
-            <div className="flex items-center gap-6 mt-6">
+            <h2 className="text-4xl sm:text-5xl xl:text-7xl 2xl:text-[100px] leading-none font-bold">
+              {slides[index].headline}
+            </h2>
+            <h1 className="text-2xl sm:text-3xl xl:text-5xl 2xl:text-[70px] font-black text-gray-300 mt-2">
+              {slides[index].subheadline}
+            </h1>
+            <p className="text-sm sm:text-base xl:text-lg text-gray-400 italic mt-4 leading-relaxed">
+              {slides[index].text}
+            </p>
+            <div className="flex justify-center lg:justify-start items-center gap-6 mt-6">
               <button
                 onClick={handlePrev}
-                className="w-14 h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
               >
                 ←
               </button>
               <button
                 onClick={handleNext}
-                className="w-14 h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-4 border-white text-white flex items-center justify-center text-xl hover:bg-gray-800 transition"
               >
                 →
               </button>
@@ -113,7 +117,7 @@ export default function AgendaSection() {
       </div>
 
       {/* Right Image */}
-      <div className="w-1/3 h-full relative">
+      <div className="w-full lg:w-1/3 h-[300px] sm:h-[400px] lg:h-screen relative">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={slides[index].rightImg}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,72 +11,46 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { motion } from 'framer-motion';
 
-const iconVariants = {
-  initial: { scale: 1, opacity: 0 },
-  animate: { scale: 1.1, opacity: 1 },
-  hover: { scale: 1.25, boxShadow: '0px 4px 15px rgba(0,0,0,0.2)' },
-};
-
-const images = [
-  '/images/social-slide-1.jpg',
-  '/images/social-slide-2.jpg',
-  '/images/social-slide-3.jpg',
-];
-
 const SocialNetworksSection: React.FC = () => {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
+  const backgroundImage = '/ani.gif'; // Replace with your static background image
 
   return (
-    <div className="relative w-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px] bg-[#f9f9f9] flex flex-col items-center justify-center overflow-hidden py-16">
-
-      {/* Background Image Slideshow */}
+    <div className="relative w-full min-h-[500px] md:min-h-[650px] lg:min-h-[800px] bg-white flex flex-col items-center justify-center overflow-hidden py-12 md:py-16 lg:py-20">
+      {/* Static Background Image */}
       <div className="absolute inset-0 z-0">
-        {images.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`Slide ${index + 1}`}
-            fill
-            className={`object-cover transition-opacity duration-1000 ease-in-out ${current === index ? 'opacity-100' : 'opacity-0'}`}
-          />
-        ))}
-        <div className="absolute inset-0 bg-white/85 backdrop-blur-md" />
+        <Image
+          src={backgroundImage}
+          alt="Background"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm" />
       </div>
 
-      {/* Content */}
+      {/* Foreground Content */}
       <motion.div
-        className="relative z-10 flex flex-col items-center"
-        initial={{ opacity: 0, y: 30 }}
+        className="relative z-10 flex flex-col items-center text-center px-4"
+        initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <motion.p
-          className="text-sm md:text-base lg:text-lg font-semibold text-neutral-500 tracking-widest uppercase mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-        >
-          FOLLOW US
-        </motion.p>
+        <p className="text-sm md:text-base tracking-widest text-neutral-500 uppercase font-medium mb-4">
+          Follow Us
+        </p>
 
         <motion.h1
-          className="text-6xl md:text-8xl lg:text-9xl font-black text-black uppercase leading-none"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-black uppercase leading-none"
+          initial={{ scale: 0.95, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
         >
           NETWORKS
         </motion.h1>
 
-        <div className="flex space-x-6 my-8 md:my-12">
+        {/* Social Icons */}
+        <div className="flex flex-wrap justify-center gap-5 md:gap-6 my-6 md:my-10">
           {[
             { icon: faFacebookF, url: 'https://facebook.com', label: 'Facebook' },
             { icon: faInstagram, url: 'https://instagram.com', label: 'Instagram' },
@@ -88,29 +62,26 @@ const SocialNetworksSection: React.FC = () => {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              variants={iconVariants}
-              initial="initial"
-              whileInView="animate"
-              whileHover="hover"
-              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
-              className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-black text-black flex items-center justify-center bg-white shadow hover:bg-black hover:text-white transition-all duration-300"
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full border border-black bg-white text-black flex items-center justify-center hover:bg-black hover:text-white transition-all duration-300 shadow"
               aria-label={item.label}
             >
-              <FontAwesomeIcon icon={item.icon} className="text-xl md:text-2xl" />
+              <FontAwesomeIcon icon={item.icon} className="text-lg sm:text-xl md:text-2xl" />
             </motion.a>
           ))}
         </div>
 
         <motion.h2
-          className="text-6xl md:text-8xl lg:text-9xl font-black text-gray-900 uppercase leading-none"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-gray-900 uppercase leading-none"
           initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.2 }}
         >
           SOCIAL
         </motion.h2>
       </motion.div>
-
     </div>
   );
 };

@@ -35,21 +35,19 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden text-white">
+    <section className="relative min-h-[100dvh] overflow-hidden text-white">
       {/* Background Slides */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
           <motion.div
             key={index}
-            className="absolute inset-0"
+            className="absolute inset-0 bg-cover bg-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: currentSlide === index ? 1 : 0 }}
             transition={{ duration: 1.5 }}
             style={{
               transform: `translateY(${scrollY * 0.3}px)`,
               backgroundImage: `url("${image}")`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
             }}
           />
         ))}
@@ -67,18 +65,15 @@ const Hero = () => {
         </Suspense>
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        {/* Add your text/content here */}
-      </div>
+
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+      <div className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
         {heroImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full border border-white transition-all duration-300 ${
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border border-white transition-all duration-300 ${
               currentSlide === index ? 'bg-white' : 'bg-transparent'
             }`}
           />
