@@ -117,3 +117,11 @@
   background-color: #627d6a !important;
   color: white !important;
 }
+/* globals.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

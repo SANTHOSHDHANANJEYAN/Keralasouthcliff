@@ -7,17 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  Bed,
-  Bath,
-  Wifi,
-  Car,
-  Utensils,
-  Waves,
-  Mountain,
-  Sun,
-  Wind,
-  Shield,
-  Crown
+  Bed, Bath, Wifi, Car, Waves, Mountain, Sun, Shield, Crown
 } from 'lucide-react';
 
 type VillaType = 'sea-garden-room' | 'landscape-room' | 'exclusive-villa';
@@ -125,59 +115,65 @@ const VillasSection = () => {
   };
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-16 sm:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
             Our Asteya's Luxury Villas
-          </h1>
-          <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Choose between our three exclusive options, each offering a unique perspective 
-            of Kerala's coastline and tranquil luxury.
+          </h2>
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+            Choose from our luxurious villas, each with a unique view and premium amenities.
           </p>
         </div>
 
-        <Tabs value={selectedVilla} onValueChange={(val) => setSelectedVilla(val as VillaType)} className="w-full">
-          <TabsList className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-8 border border-black rounded-lg">
-            <TabsTrigger value="sea-garden-room" className="data-[state=active]:bg-black data-[state=active]:text-white">
+        <Tabs
+          value={selectedVilla}
+          onValueChange={(val) => setSelectedVilla(val as VillaType)}
+          className="w-full"
+        >
+          {/* Tabs list with horizontal scroll on mobile */}
+          <TabsList className="flex sm:grid sm:grid-cols-3 gap-2 overflow-x-auto mb-8 rounded-lg border border-black no-scrollbar">
+            <TabsTrigger value="sea-garden-room" className="flex-1 min-w-max whitespace-nowrap px-4 py-2 text-sm sm:text-base data-[state=active]:bg-black data-[state=active]:text-white">
               Sea & Garden View
             </TabsTrigger>
-            <TabsTrigger value="landscape-room" className="data-[state=active]:bg-black data-[state=active]:text-white">
+            <TabsTrigger value="landscape-room" className="flex-1 min-w-max whitespace-nowrap px-4 py-2 text-sm sm:text-base data-[state=active]:bg-black data-[state=active]:text-white">
               Landscape View
             </TabsTrigger>
-            <TabsTrigger value="exclusive-villa" className="data-[state=active]:bg-black data-[state=active]:text-white">
+            <TabsTrigger value="exclusive-villa" className="flex-1 min-w-max whitespace-nowrap px-4 py-2 text-sm sm:text-base data-[state=active]:bg-black data-[state=active]:text-white">
               Entire Villa
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value={selectedVilla} className="space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <TabsContent value={selectedVilla} className="space-y-10">
+            {/* Image Gallery */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {currentVilla.images.map((image, index) => (
-                <div key={index} className="relative overflow-hidden rounded-lg border border-gray-200">
+                <div key={index} className="overflow-hidden rounded-lg border border-gray-200">
                   <img
                     src={image}
                     alt={`${currentVilla.name} ${index + 1}`}
-                    className="w-full h-64 object-cover hover:scale-110 transition-transform duration-700"
+                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Info Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div>
-                <div className="flex items-center gap-4 mb-6">
-                  <h2 className="text-3xl font-bold text-black">{currentVilla.name}</h2>
-                  <Badge className="bg-black text-white text-lg px-4 py-2">
+                <div className="flex flex-wrap items-center gap-3 mb-4">
+                  <h3 className="text-xl sm:text-2xl font-bold text-black">{currentVilla.name}</h3>
+                  <Badge className="bg-black text-white text-base px-3 py-1.5">
                     {currentVilla.price}/night
                   </Badge>
                 </div>
 
-                <p className="text-gray-700 text-lg mb-8">{currentVilla.description}</p>
+                <p className="text-gray-700 text-sm sm:text-base mb-6">{currentVilla.description}</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
                   {currentVilla.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 p-3 bg-white border border-black rounded-lg">
+                    <div key={index} className="flex items-center gap-2 p-3 border border-black rounded-md bg-white">
                       <feature.icon className="text-black" size={20} />
                       <span className="text-sm font-medium text-black">{feature.text}</span>
                     </div>
@@ -185,9 +181,8 @@ const VillasSection = () => {
                 </div>
 
                 <Button
-                  size="lg"
                   onClick={handleNavigateToGallery}
-                  className="w-full bg-black text-white hover:bg-gray-900"
+                  className="w-full sm:w-auto bg-black text-white hover:bg-gray-900"
                 >
                   Check Availability
                 </Button>
@@ -196,12 +191,12 @@ const VillasSection = () => {
               <div>
                 <Card className="border border-black">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-black mb-4">Amenities Included</h3>
+                    <h4 className="text-lg font-semibold text-black mb-4">Amenities Included</h4>
                     <ul className="space-y-3">
                       {currentVilla.amenities.map((amenity, index) => (
                         <li key={index} className="flex items-start gap-3">
-                          <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
-                          <span className="text-black">{amenity}</span>
+                          <div className="w-2 h-2 mt-2 rounded-full bg-black" />
+                          <span className="text-sm text-black">{amenity}</span>
                         </li>
                       ))}
                     </ul>
