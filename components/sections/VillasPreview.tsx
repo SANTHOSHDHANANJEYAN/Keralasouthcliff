@@ -25,8 +25,8 @@ const VillasPreview = () => {
         'Direct Beach Access',
         'Ocean View',
         'Luxury Amenities',
-        '2 Bedrooms',
-        '2 Bathrooms',
+        '1 Bedrooms',
+        '1 Bathrooms',
       ],
       image: '/astega/7.jpg',
       rating: 4.9,
@@ -44,8 +44,8 @@ const VillasPreview = () => {
         'Panoramic Views',
         'Sunset Views',
         'Premium Luxury',
-        '2 Bedrooms',
-        '2 Bathrooms',
+        '1 Bedrooms',
+        '1 Bathrooms',
       ],
       image: '/astega/20.jpg',
       rating: 4.9,
@@ -131,11 +131,11 @@ const VillasPreview = () => {
                       </div>
                       <div className="flex items-center gap-1">
                         <Bed size={16} />
-                        2 beds
+                        1 beds
                       </div>
                       <div className="flex items-center gap-1">
                         <Bath size={16} />
-                        2 baths
+                        1 baths
                       </div>
                     </div>
                   </div>
