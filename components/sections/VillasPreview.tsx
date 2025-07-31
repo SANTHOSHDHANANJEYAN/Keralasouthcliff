@@ -28,9 +28,9 @@ const VillasPreview = () => {
         '2 Bedrooms',
         '2 Bathrooms',
       ],
-      image: '/Asteya -website/PDF - Asteya-4.png',
+      image: '/astega/7.jpg',
       rating: 4.9,
-      maxGuests: 4,
+      maxGuests: 6,
       isGroundFloor: true,
     },
     {
@@ -47,9 +47,9 @@ const VillasPreview = () => {
         '2 Bedrooms',
         '2 Bathrooms',
       ],
-      image: '/Asteya -website/PDF - Asteya-2.png',
+      image: '/astega/20.jpg',
       rating: 4.9,
-      maxGuests: 4,
+      maxGuests: 6,
       isGroundFloor: false,
     },
   ];

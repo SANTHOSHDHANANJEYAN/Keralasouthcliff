@@ -79,6 +79,20 @@
   body {
     @apply bg-background text-foreground;
   }
+   .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 /* Hide scrollbar */
 .scrollbar-hide::-webkit-scrollbar {
@@ -87,4 +101,19 @@
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.react-datepicker__day.booked-day {
+  background-color: #e74c3c !important;
+  color: white !important;
+  border-radius: 0.3rem;
+}
+
+.react-datepicker__day.today-highlight {
+  border: 2px solid #627d6a;
+  font-weight: bold;
+}
+
+.react-datepicker__day:hover {
+  background-color: #627d6a !important;
+  color: white !important;
 }

@@ -1,101 +1,111 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
+import DatePicker from 'react-datepicker';
+import Image from 'next/image';
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 export default function BookingPage() {
   const today = dayjs();
-  const days = Array.from({ length: 14 }, (_, i) => today.add(i, 'day'));
+  const router = useRouter();
 
   const [bookedDates, setBookedDates] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleBooking = async () => {
+  const handleBooking = () => {
     if (!selectedDate || !email) return;
 
-    if (bookedDates.includes(selectedDate)) {
+    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+
+    if (bookedDates.includes(formattedDate)) {
       setMessage('❌ This date is already booked!');
       return;
     }
 
-    setBookedDates([...bookedDates, selectedDate]);
-    setMessage(`✅ Booked successfully for ${selectedDate}`);
+    const subject = encodeURIComponent(`Booking Confirmation - ${formattedDate}`);
+    const body = encodeURIComponent(
+      `Hello,\n\nI would like to confirm a booking for the date: ${formattedDate}.\n\nThank you.\n\nEmail: ${email}`
+    );
 
-    // Send confirmation email
-    try {
-      const res = await fetch('/api/sendEmail', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ selectedDate, userEmail: email }),
-      });
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=yourbooking@email.com&su=${subject}&body=${body}`;
+    window.open(gmailLink, '_blank');
 
-      const data = await res.json();
-      if (res.ok) {
-        setMessage((msg) => msg + '\n📩 Confirmation sent to your email.');
-      } else {
-        setMessage((msg) => msg + `\n⚠️ Email error: ${data.error}`);
-      }
-    } catch (err) {
-      setMessage((msg) => msg + `\n⚠️ Failed to send email.`);
-    }
+    setBookedDates([...bookedDates, formattedDate]);
+    setMessage(`📩 Gmail opened. Please confirm and send your booking manually.`);
+  };
+
+  const isDateBooked = (date: Date) =>
+    bookedDates.includes(dayjs(date).format('YYYY-MM-DD'));
+
+  const getDayClass = (date: Date) => {
+    const formatted = dayjs(date).format('YYYY-MM-DD');
+    if (bookedDates.includes(formatted)) return 'booked-day';
+    if (dayjs(date).isSame(dayjs(), 'day')) return 'today-highlight';
+    return '';
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10">
-      <h1 className="text-3xl font-bold mb-6">Room Booking</h1>
-
-      <input
-        type="email"
-        placeholder="Enter your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="mb-4 px-4 py-2 rounded border border-gray-300"
-        required
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <Image
+        src="/astega/32.png"
+        alt="Booking Background"
+        layout="fill"
+        objectFit="cover"
+        priority
+        className="z-[-1]"
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {days.map((day) => {
-          const dateStr = day.format('YYYY-MM-DD');
-          const isBooked = bookedDates.includes(dateStr);
+      <div className="w-full max-w-md bg-white/90 text-black shadow-2xl rounded-xl p-6 sm:p-8 z-10">
+        <h1 className="text-3xl font-bold text-center mb-6 tracking-wide">🛏️ Book Your Villa</h1>
 
-          return (
-            <button
-              key={dateStr}
-              disabled={isBooked}
-              onClick={() => setSelectedDate(dateStr)}
-              className={`p-4 rounded-lg border shadow text-center transition 
-                ${
-                  isBooked
-                    ? 'bg-red-300 text-white cursor-not-allowed'
-                    : selectedDate === dateStr
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white hover:bg-blue-100'
-                }`}
-            >
-              <p className="font-semibold">{day.format('MMM DD')}</p>
-              {isBooked && <p className="text-xs">Booked</p>}
-            </button>
-          );
-        })}
-      </div>
+        <input
+          type="email"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-4 py-3 border border-black/30 rounded-lg mb-5 focus:outline-none focus:ring-2 focus:ring-black transition-all"
+          required
+        />
 
-      <div className="mt-6">
+        <div className="mb-6">
+          <DatePicker
+            selected={selectedDate}
+            onChange={(date) => setSelectedDate(date)}
+            minDate={today.toDate()}
+            maxDate={today.add(60, 'day').toDate()}
+            filterDate={(date) => !isDateBooked(date)}
+            placeholderText="Select a booking date"
+            dateFormat="yyyy-MM-dd"
+            dayClassName={getDayClass}
+            className="w-full px-4 py-3 border border-black/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-black transition-all"
+            inline
+          />
+        </div>
+
         <button
           onClick={handleBooking}
           disabled={!selectedDate || !email}
-          className="px-6 py-3 bg-green-500 text-white rounded-lg disabled:opacity-50"
+          className="w-full py-3 mb-3 bg-black text-white font-semibold rounded-lg hover:bg-white hover:text-black border border-black transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Confirm Booking
         </button>
-      </div>
 
-      {message && (
-        <p className="mt-4 text-lg font-medium text-gray-700 whitespace-pre-line">
-          {message}
-        </p>
-      )}
-    </div>
+        <button
+          onClick={() => router.push('/#')}
+          className="w-full py-3 bg-white text-black border border-black font-semibold rounded-lg hover:bg-black hover:text-white transition-all"
+        >
+          ⬅️ Back to Home
+        </button>
+
+        {message && (
+          <div className="mt-4 text-center text-sm text-black">{message}</div>
+        )}
+      </div>
+    </section>
   );
 }

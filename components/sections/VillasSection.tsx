@@ -20,11 +20,11 @@ import {
   Crown
 } from 'lucide-react';
 
-type VillaType = 'ground-floor' | 'top-floor';
+type VillaType = 'sea-garden-room' | 'landscape-room' | 'exclusive-villa';
 
 const VillasSection = () => {
   const router = useRouter();
-  const [selectedVilla, setSelectedVilla] = useState<VillaType>('ground-floor');
+  const [selectedVilla, setSelectedVilla] = useState<VillaType>('sea-garden-room');
 
   const villas: Record<VillaType, {
     name: string;
@@ -34,29 +34,25 @@ const VillasSection = () => {
     amenities: string[];
     images: string[];
   }> = {
-    'ground-floor': {
-      name: 'Ground Floor Villa',
-      price: '₹8,500',
+    'sea-garden-room': {
+      name: 'Sea & Garden View Room',
+      price: '₹8,000',
       description:
-        'Experience luxury at sea level with direct beach access and private terrace. Feel the ocean breeze and hear the rhythmic waves from your private sanctuary.',
+        'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea.',
       features: [
-        { icon: Bed, text: '2 Bedrooms' },
-        { icon: Bath, text: '2 Bathrooms' },
-        { icon: Waves, text: 'Direct Beach Access' },
-        { icon: Wind, text: 'Private Terrace' },
+        { icon: Bed, text: '1 Bedroom' },
+        { icon: Bath, text: '1 Bathroom' },
+        { icon: Waves, text: 'Sea Glimpse' },
+        { icon: Mountain, text: 'Garden Facing' },
         { icon: Wifi, text: 'High-Speed WiFi' },
-        { icon: Car, text: 'Private Parking' },
-        { icon: Utensils, text: 'Kitchenette' },
         { icon: Shield, text: '24/7 Security' }
       ],
       amenities: [
-        'King-size bed with premium linens',
-        'Private terrace with beach furniture',
-        'Direct access to pristine beach',
-        'Marble bathroom with rainfall shower',
-        'Fully equipped modern kitchenette',
-        'Air conditioning and ceiling fans',
-        'Complimentary high-speed WiFi',
+        'Comfortable double bed',
+        'Private garden-facing patio',
+        'Elegant en-suite bathroom',
+        'Air conditioning and ceiling fan',
+        'Complimentary WiFi',
         'Daily housekeeping service'
       ],
       images: [
@@ -65,35 +61,59 @@ const VillasSection = () => {
         'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg'
       ]
     },
-    'top-floor': {
-      name: 'Top Floor Villa',
-      price: '₹8,500',
+    'landscape-room': {
+      name: 'Landscape View Room',
+      price: '₹8,000',
       description:
-        'Elevated luxury with breathtaking panoramic views of the Arabian Sea and cliff formations. Watch spectacular sunsets from your private balcony high above the coastline.',
+        'Scenic landscape with partial sea and garden view – perfect for slow mornings.',
       features: [
-        { icon: Bed, text: '2 Bedrooms' },
-        { icon: Bath, text: '2 Bathrooms' },
-        { icon: Mountain, text: 'Cliff Views' },
-        { icon: Sun, text: 'Sunset Views' },
+        { icon: Bed, text: '1 Bedroom' },
+        { icon: Bath, text: '1 Bathroom' },
+        { icon: Mountain, text: 'Landscape View' },
+        { icon: Sun, text: 'Natural Light' },
         { icon: Wifi, text: 'High-Speed WiFi' },
-        { icon: Car, text: 'Private Parking' },
-        { icon: Utensils, text: 'Kitchenette' },
-        { icon: Crown, text: 'Premium Luxury' }
+        { icon: Car, text: 'Free Parking' }
       ],
       amenities: [
-        'Master suite with panoramic windows',
-        'Private balcony with premium furniture',
-        'Unobstructed cliff and ocean views',
-        'Luxury bathroom with soaking tub',
-        'Premium kitchenette with modern appliances',
-        'Climate control and ceiling fans',
-        'Complimentary high-speed WiFi',
-        'Concierge services available'
+        'Large window with scenic views',
+        'Cozy reading corner',
+        'Modern bathroom amenities',
+        'Complimentary WiFi',
+        'Air conditioning',
+        'Daily housekeeping'
       ],
       images: [
         'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg',
         'https://images.pexels.com/photos/1329711/pexels-photo-1329711.jpeg',
         'https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg'
+      ]
+    },
+    'exclusive-villa': {
+      name: 'Exclusive Villa Stay – Sea & Garden View',
+      price: '₹12,000',
+      description:
+        'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
+      features: [
+        { icon: Bed, text: '3 Bedrooms' },
+        { icon: Bath, text: '3 Bathrooms' },
+        { icon: Waves, text: 'Sea View' },
+        { icon: Mountain, text: 'Garden View' },
+        { icon: Wifi, text: 'High-Speed WiFi' },
+        { icon: Crown, text: 'Exclusive Privacy' }
+      ],
+      amenities: [
+        'Entire villa for your group',
+        'Private balconies and patio',
+        'Spacious common areas',
+        'Full-service kitchen',
+        'Butler and concierge services',
+        'Daily housekeeping',
+        'High-speed WiFi'
+      ],
+      images: [
+        'https://images.pexels.com/photos/210557/pexels-photo-210557.jpeg',
+        'https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg',
+        'https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg'
       ]
     }
   };
@@ -108,20 +128,26 @@ const VillasSection = () => {
     <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-black text-white">Exclusive Accommodation</Badge>
           <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
             Our Luxury Villas
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Choose between our two exclusive villas, each offering a unique perspective 
-            of Kerala's stunning coastline and unparalleled luxury amenities.
+            Choose between our three exclusive options, each offering a unique perspective 
+            of Kerala's coastline and tranquil luxury.
           </p>
         </div>
 
         <Tabs value={selectedVilla} onValueChange={(val) => setSelectedVilla(val as VillaType)} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 border border-black rounded-lg">
-            <TabsTrigger value="ground-floor" className="data-[state=active]:bg-black data-[state=active]:text-white">Ground Floor Villa</TabsTrigger>
-            <TabsTrigger value="top-floor" className="data-[state=active]:bg-black data-[state=active]:text-white">Top Floor Villa</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-3 mb-8 border border-black rounded-lg">
+            <TabsTrigger value="sea-garden-room" className="data-[state=active]:bg-black data-[state=active]:text-white">
+              Sea & Garden View
+            </TabsTrigger>
+            <TabsTrigger value="landscape-room" className="data-[state=active]:bg-black data-[state=active]:text-white">
+              Landscape View
+            </TabsTrigger>
+            <TabsTrigger value="exclusive-villa" className="data-[state=active]:bg-black data-[state=active]:text-white">
+              Entire Villa
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value={selectedVilla} className="space-y-8">
@@ -132,6 +158,7 @@ const VillasSection = () => {
                     src={image}
                     alt={`${currentVilla.name} ${index + 1}`}
                     className="w-full h-64 object-cover hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                   />
                 </div>
               ))}

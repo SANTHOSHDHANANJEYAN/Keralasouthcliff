@@ -24,7 +24,7 @@ const slides = [
     subheadline: 'CHOOSE YOUR SPACE',
     text: `Grounded calm or elevated charm — pick your perfect escape.`,
     leftImg: '/Asteya -website/Asteya - beach villa  (5).png',
-    rightImg: '/Asteya -website/Asteya - beach villa .png',
+    rightImg: '/astega/1.jpg',
   },
 ];
 

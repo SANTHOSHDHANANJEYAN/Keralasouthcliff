@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const contactInfo = [
   {
@@ -73,42 +74,19 @@ const ContactPreview = () => {
           ))}
         </div>
 
-        {/* Form + Info Grid */}
+        {/* Image + Booking Info Grid */}
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Quick Contact Form */}
-          <Card className="shadow-sm">
-            <CardContent className="p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Quick Inquiry</h3>
-              <form className="space-y-4">
-                {['Name', 'Email'].map((label) => (
-                  <div key={label}>
-                    <label className="block text-sm font-medium text-gray-800 mb-1">
-                      {label}
-                    </label>
-                    <input
-                      type={label === 'Email' ? 'email' : 'text'}
-                      placeholder={`Your ${label.toLowerCase()}`}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                    />
-                  </div>
-                ))}
-                <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-1">Message</label>
-                  <textarea
-                    rows={4}
-                    placeholder="Your message..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-900 text-white"
-                >
-                  Send Message
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          {/* Image Instead of Form */}
+          <div className="w-full h-full">
+            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
+              <Image
+                src="/contactimg.gif" // Replace this with your actual image path
+                alt="Contact Visual"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
 
           {/* Booking Information */}
           <Card className="shadow-sm">

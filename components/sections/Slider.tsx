@@ -4,41 +4,36 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type Stat = {
-  icon: string;
-  count: string;
-  text: string;
-};
-
 type Slide = {
   id: number;
   image: string;
   leftText: string;
   mainTitle: string;
   subTitle?: string;
-  stats?: Stat[];
-  orangeBarPresent?: boolean;
 };
 
 const sliderData: Slide[] = [
   {
     id: 1,
     image: '/Asteya -website/PDF - Asteya-1.png',
-    leftText: 'LES PORT',
-    mainTitle: 'BIKE PARK',
-    stats: [
-      { icon: '/icons/bike.svg', count: '19', text: 'Itinéraires dédiés' },
-      { icon: '/icons/lift.svg', count: '10', text: 'Remontées mécaniques' },
-      { icon: '/icons/ticket.svg', count: '1', text: 'Forfait' },
-    ],
-    orangeBarPresent: true,
+    leftText: 'ASTEYA',
+    mainTitle: 'Sea & Garden View Room',
+    subTitle: 'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea',
   },
   {
     id: 2,
     image: '/Asteya -website/PDF - Asteya-2.png',
-    leftText: 'PORTES DU SOLEIL',
-    mainTitle: "L'AVENTURE",
-    subTitle: 'AUTREMENT',
+    leftText: 'ASTEYA',
+    mainTitle: 'Landscape View Room',
+    subTitle: 'Scenic landscape with partial sea and garden view – perfect for slow mornings.',
+  },
+  {
+    id: 3,
+    image: '/Asteya -website/Ateya - Living area (1).png',
+    leftText: 'ASTEYA',
+    mainTitle: 'Exclusive Villa Stay – Sea & Garden View',
+    subTitle:
+      'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
   },
 ];
 
@@ -105,7 +100,7 @@ const Slider: React.FC = () => {
             {slide.subTitle && (
               <motion.p
                 key={slide.subTitle}
-                className="text-lg sm:text-2xl md:text-3xl text-gray-300"
+                className="text-lg sm:text-2xl md:text-3xl text-gray-300 max-w-3xl"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -115,7 +110,7 @@ const Slider: React.FC = () => {
             )}
           </div>
 
-          {/* Right Side Controls */}
+          {/* Right Slide Dots */}
           <div className="hidden md:flex col-span-3 items-center justify-end relative">
             <div className="absolute bottom-6 right-6 flex space-x-3">
               {sliderData.map((_, index) => (
@@ -132,30 +127,9 @@ const Slider: React.FC = () => {
               ))}
             </div>
           </div>
-
-          {/* Stats Box - visible only on md+ screens */}
-          {slide.stats && (
-            <motion.div
-              className="hidden md:block absolute bottom-24 right-6 sm:right-16 bg-white/10 backdrop-blur-md rounded-xl p-5 text-white shadow-lg"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              {slide.stats.map((stat, index) => (
-                <div key={index} className="flex items-center mb-4 last:mb-0">
-                  <Image src={stat.icon} alt="icon" width={28} height={28} className="mr-3" />
-                  <span className="text-xl font-bold mr-2">{stat.count}</span>
-                  <span className="text-base text-white">{stat.text}</span>
-                </div>
-              ))}
-              {slide.orangeBarPresent && (
-                <div className="mt-4 w-full h-2 bg-white rounded-full" />
-              )}
-            </motion.div>
-          )}
         </div>
 
-        {/* Slide Dots for Mobile/Tablet */}
+        {/* Mobile Slide Dots */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex md:hidden space-x-3">
           {sliderData.map((_, index) => (
             <motion.button

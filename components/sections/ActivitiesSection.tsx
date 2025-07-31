@@ -5,16 +5,16 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const leftImages = [
-  '/Asteya -website/Asteya - beach villa  (1).png',
-  '/Asteya -website/Asteya - beach villa  (4).png',
+  '/astega/1.jpg',
+  '/astega/2.jpg',
 ];
 const middleImages = [
-  '/Asteya -website/Asteya - beach villa  (2).png',
-  '/Asteya -website/Asteya - beach villa  (5).png',
+'/astega/3.jpg',
+'/astega/4.jpg',
 ];
 const rightImages = [
-  '/Asteya -website/Asteya - beach villa  (3).png',
-  '/Asteya -website/Asteya - beach villa  (6).png',
+'/astega/5.jpg',
+'/astega/6.jpg',
 ];
 
 const ActivitiesSection: React.FC = () => {
