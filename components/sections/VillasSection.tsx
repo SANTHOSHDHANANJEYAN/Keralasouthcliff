@@ -36,7 +36,7 @@ const VillasSection = () => {
   }> = {
     'sea-garden-room': {
       name: 'Sea & Garden View Room',
-      price: '₹8,000',
+      price: '₹8,500',
       description:
         'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea.',
       features: [
@@ -63,7 +63,7 @@ const VillasSection = () => {
     },
     'landscape-room': {
       name: 'Landscape View Room',
-      price: '₹8,000',
+      price: '₹8,500',
       description:
         'Scenic landscape with partial sea and garden view – perfect for slow mornings.',
       features: [
@@ -90,7 +90,7 @@ const VillasSection = () => {
     },
     'exclusive-villa': {
       name: 'Exclusive Villa Stay – Sea & Garden View',
-      price: '₹12,000',
+      price: '₹16,000',
       description:
         'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
       features: [
@@ -129,7 +129,7 @@ const VillasSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-black mb-6">
-            Our Luxury Villas
+            Our Asteya's Luxury Villas
           </h1>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Choose between our three exclusive options, each offering a unique perspective 
