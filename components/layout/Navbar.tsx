@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +64,11 @@ const Navbar = () => {
                   {link.label}
                 </Link>
                 {idx !== navLinks.length - 1 && (
-                  <div className={`h-5 w-px ${scrolled ? 'bg-gray-300' : 'bg-white/30'}`} />
+                  <div
+                    className={`h-5 w-px ${
+                      scrolled ? 'bg-gray-300' : 'bg-white/30'
+                    }`}
+                  />
                 )}
               </React.Fragment>
             ))}
@@ -88,25 +93,33 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden bg-white/95 backdrop-blur-md shadow-xl rounded-lg mt-2 p-4 space-y-4 animate-slide-down">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-black hover:text-gray-700 font-medium text-base"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.25 }}
+              className="md:hidden bg-white/95 backdrop-blur-md shadow-xl rounded-lg mt-2 p-4 space-y-4"
+            >
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block text-black hover:text-gray-700 font-medium text-base"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link href="/villas" onClick={() => setIsOpen(false)}>
+                <Button className="w-full bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
+                  Book Now
+                </Button>
               </Link>
-            ))}
-            <Link href="/villas" onClick={() => setIsOpen(false)}>
-              <Button className="w-full bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
-                Book Now
-              </Button>
-            </Link>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
