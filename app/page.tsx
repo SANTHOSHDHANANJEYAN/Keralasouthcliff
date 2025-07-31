@@ -12,6 +12,7 @@ import Slider from '@/components/sections/Slider';
 import ActivitiesSection from '@/components/sections/ActivitiesSection';
 import SocialNetworksSection from '@/components/sections/SocialNetworksSection';
 import WhatsAppButton from '@/components/ui/WhatsAppButton'; // ✅ NEW
+import AboutOurStory from '@/components/sections/AboutOurStory';
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <AboutOurStory/>
         <AgendaSection />
         <VillasPreview />
         <AccommodationsSection />
