@@ -32,7 +32,7 @@ export default function BookingPage() {
       `Hello,\n\nI would like to confirm a booking for the date: ${formattedDate}.\n\nThank you.\n\nEmail: ${email}`
     );
 
-    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=yourbooking@email.com&su=${subject}&body=${body}`;
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`;
     window.open(gmailLink, '_blank');
 
     setBookedDates([...bookedDates, formattedDate]);

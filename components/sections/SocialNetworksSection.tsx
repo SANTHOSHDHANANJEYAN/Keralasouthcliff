@@ -54,7 +54,7 @@ const SocialNetworksSection: React.FC = () => {
           {[
             {
               icon: faInstagram,
-              url: 'https://instagram.com',
+              url: 'https://www.instagram.com/asteya_beachvilla?igsh=MWtlZzlndW9hanNvNA==',
               label: 'Instagram',
             },
             {
@@ -69,7 +69,7 @@ const SocialNetworksSection: React.FC = () => {
             },
             {
               icon: faGoogle,
-              url: 'https://www.google.com/maps/',
+              url: 'https://maps.app.goo.gl/tJA7xEK8aJxHxFnW7',
               label: 'Google',
             },
           ].map((item) => (

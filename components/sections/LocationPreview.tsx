@@ -56,7 +56,7 @@ const LocationPreview = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">South Cliff, Varkala</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Asteya Beach Villa South Cliff, Varkala</h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
             Perfectly positioned on the famous South Cliff of Varkala, Kerala, offering unparalleled access to beach, culture, and natural beauty.
           </p>
@@ -64,15 +64,20 @@ const LocationPreview = () => {
 
         {/* Map + Location */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
-          {/* Map Card */}
+          {/* Embedded Google Map */}
           <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition duration-300">
             <CardContent className="p-0">
-              <div className="relative h-80 sm:h-96 flex items-center justify-center bg-gradient-to-br from-gray-100 to-white">
-                <div className="text-center">
-                  <MapPin className="w-14 h-14 text-black/80" aria-hidden="true" />
-                  <p className="mt-3 text-gray-700 font-semibold">Interactive Map</p>
-                  <p className="text-sm text-gray-500">South Cliff, Varkala, Kerala</p>
-                </div>
+              <div className="relative h-80 sm:h-96">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.6135488368222!2d76.70730627501536!3d8.728196091321585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05ef1d0df6c4e5%3A0xff88936a28adc795!2sAsteya!5e0!3m2!1sen!2sin!4v1753987144978!5m2!1sen!2sin"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="South Cliff Varkala Map"
+                ></iframe>
               </div>
             </CardContent>
           </Card>
@@ -84,7 +89,7 @@ const LocationPreview = () => {
               <div className="flex items-start gap-3 mb-4">
                 <MapPin className="mt-1 text-black" size={20} />
                 <div>
-                  <p className="font-medium">South Cliff, Varkala</p>
+                  <p className="font-medium">Asteya , Near Perumkulam , south cliff, varkala - 695141</p>
                   <p className="text-gray-500 text-sm">Kerala, India</p>
                 </div>
               </div>

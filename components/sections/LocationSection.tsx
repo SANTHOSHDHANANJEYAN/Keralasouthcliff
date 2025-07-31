@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   MapPin, Clock, Plane, Car, Train,
-  Navigation, Camera, Waves, Mountain, TreePine
+  Camera, Waves, Mountain, TreePine
 } from 'lucide-react';
 
 const LocationSection = () => {
@@ -114,27 +114,29 @@ const LocationSection = () => {
 
         {/* Map + Details */}
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
-          <Card className="border border-gray-200">
-            <CardContent className="p-0">
-              <div className="relative h-96 bg-gray-100 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-black mx-auto mb-4" />
-                  <p className="text-black font-medium">Interactive Map</p>
-                  <p className="text-sm text-gray-600">South Cliff, Varkala, Kerala</p>
-                  <p className="text-xs text-gray-500 mt-2">8.7334° N, 76.7156° E</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Embedded Map */}
+          <div className="w-full h-100">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.6135488368222!2d76.70730627501536!3d8.728196091321585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05ef1d0df6c4e5%3A0xff88936a28adc795!2sAsteya!5e0!3m2!1sen!2sin!4v1753987144978!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={false}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="South Cliff Varkala Map"
+            ></iframe>
+          </div>
 
+          {/* Text Content */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-black mb-4">Our Location</h3>
               <div className="flex items-start gap-3 mb-4">
                 <MapPin className="text-black mt-1 flex-shrink-0" size={20} />
                 <div>
-                  <p className="font-medium text-black">South Cliff, Varkala</p>
-                  <p className="text-gray-600">Kerala, India 695141</p>
+                  <p className="font-medium text-black">Asteya , Near Perumkulam , south cliff, varkala - 695141</p>
+                  <p className="text-gray-600">Kerala, India</p>
                 </div>
               </div>
               <p className="text-gray-700">
