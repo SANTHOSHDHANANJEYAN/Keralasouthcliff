@@ -4,10 +4,10 @@ import React from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faFacebookF,
   faInstagram,
   faYoutube,
-  faTiktok,
+  faGoogle,
+  faAirbnb,
 } from '@fortawesome/free-brands-svg-icons';
 import { motion } from 'framer-motion';
 
@@ -52,10 +52,26 @@ const SocialNetworksSection: React.FC = () => {
         {/* Social Icons */}
         <div className="flex flex-wrap justify-center gap-5 md:gap-6 my-6 md:my-10">
           {[
-            { icon: faFacebookF, url: 'https://facebook.com', label: 'Facebook' },
-            { icon: faInstagram, url: 'https://instagram.com', label: 'Instagram' },
-            { icon: faYoutube, url: 'https://youtube.com', label: 'YouTube' },
-            { icon: faTiktok, url: 'https://tiktok.com', label: 'TikTok' },
+            {
+              icon: faInstagram,
+              url: 'https://instagram.com',
+              label: 'Instagram',
+            },
+            {
+              icon: faYoutube,
+              url: 'https://youtube.com',
+              label: 'YouTube',
+            },
+            {
+              icon: faAirbnb,
+              url: 'https://www.airbnb.com/',
+              label: 'Airbnb',
+            },
+            {
+              icon: faGoogle,
+              url: 'https://www.google.com/maps/',
+              label: 'Google',
+            },
           ].map((item) => (
             <motion.a
               key={item.label}
