@@ -1,128 +1,109 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/rooms', label: 'Rooms' },
+  { href: '/entire-villa', label: 'Entire Villa' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/#contact', label: 'Contact' },
+];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+export default function Navbar() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/rooms', label: 'Rooms' },
-    { href: '/entire-villa', label: 'Entire Villa' },
-    { href: '/gallery', label: 'Gallery' },
-    { href: '/#contact', label: 'Contact Us' },
-  ];
-
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/90 backdrop-blur-md shadow-md' : 'bg-transparent'
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all ${
+        scrolled
+          ? 'backdrop-blur-xl bg-white/80 border-b border-gray-200 shadow-md'
+          : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-32 h-12 flex items-center justify-center transition-transform hover:scale-105">
-              <Image
-                src="/Asteya -website/image.png"
-                alt="Asteya Logo"
-                width={140}
-                height={60}
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between h-20">
+        <Link href="/" className="flex items-center space-x-2">
+          <Image
+            src="/Asteya -website/image.png"
+            alt="Logo"
+            width={140}
+            height={60}
+            className="object-contain"
+            priority
+          />
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map((link, idx) => (
-              <React.Fragment key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors ${
-                    scrolled
-                      ? 'text-black hover:text-gray-600'
-                      : 'text-white hover:text-gray-300'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-                {idx !== navLinks.length - 1 && (
-                  <div
-                    className={`h-5 w-px ${
-                      scrolled ? 'bg-gray-300' : 'bg-white/30'
-                    }`}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-            <Link href="/villas">
-              <Button className="bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
-                Book Now
-              </Button>
+        {/* Desktop Menu */}
+        <nav className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`relative text-sm font-medium transition-colors group ${
+                scrolled ? 'text-black' : 'text-white'
+              }`}
+            >
+              {link.label}
+              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-current transition-all group-hover:w-full" />
             </Link>
-          </div>
+          ))}
+          <Link href="/villas">
+            <button className="rounded-full px-4 py-2 bg-black text-white hover:bg-white hover:text-black border border-black transition">
+              Book Now
+            </button>
+          </Link>
+        </nav>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className={scrolled ? 'text-black' : 'text-white'}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.25 }}
-              className="md:hidden bg-white/95 backdrop-blur-md shadow-xl rounded-lg mt-2 p-4 space-y-4"
-            >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block text-black hover:text-gray-700 font-medium text-base"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link href="/villas" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-white text-black border border-black hover:bg-black hover:text-white transition-all duration-300">
-                  Book Now
-                </Button>
-              </Link>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Mobile Toggle */}
+        <button
+          className={`md:hidden p-2 rounded transition ${
+            scrolled ? 'text-black' : 'text-white'
+          }`}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
-    </nav>
-  );
-};
 
-export default Navbar;
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.nav
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white text-black shadow-lg px-6 py-4 space-y-4"
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="block text-base font-semibold hover:text-gray-600"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/villas" onClick={() => setIsOpen(false)}>
+              <button className="w-full px-4 py-2 rounded-full bg-black text-white hover:bg-white hover:text-black border border-black transition">
+                Book Now
+              </button>
+            </Link>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
