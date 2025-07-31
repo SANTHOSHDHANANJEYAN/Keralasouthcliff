@@ -9,15 +9,12 @@ import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Villas', href: '/villas' },
-  { label: 'Amenities', href: '/amenities' },
+  { label: 'Entire Villas', href: '/villas' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Agenda', href: '/agenda' },
-  { label: 'Location', href: '/location' },
   { label: 'Contact', href: '/contact' },
   {
     label: 'Book Now',
-    href: '/booking',
+    href: '/villas',
     isButton: true,
   },
 ];
@@ -43,13 +40,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/logo.png"
+            src="/Asteya -website/image.png"
             alt="Logo"
-            width={40}
+            width={120}
             height={40}
             className="rounded-full"
           />
-          <span className="text-xl font-semibold text-[#627d6a]">Asteya</span>
+ 
         </Link>
 
         {/* Desktop Menu */}
@@ -59,7 +56,7 @@ const Navbar = () => {
               <Button
                 key={link.href}
                 asChild
-                className="bg-gradient-to-r from-[#627d6a] to-[#4b6659] text-white hover:from-[#506e5f] hover:to-[#3f5447] rounded-full px-6 py-2 text-sm font-semibold shadow-md"
+                className="bg-black text-white hover:brightness-110 rounded-full px-6 py-2 text-sm font-semibold shadow-md transition"
               >
                 <Link href={link.href}>{link.label}</Link>
               </Button>
@@ -67,7 +64,7 @@ const Navbar = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-gray-700 hover:text-[#627d6a] font-medium transition"
+                className="text-gray-800 hover:text-gray-600 font-medium transition"
               >
                 {link.label}
               </Link>
@@ -78,7 +75,7 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsOpen(true)}
-          className="md:hidden text-gray-700"
+          className="md:hidden text-black"
         >
           <Menu size={28} />
         </button>
@@ -95,7 +92,7 @@ const Navbar = () => {
             className="fixed top-0 right-0 z-50 h-screen w-4/5 max-w-xs bg-white shadow-xl border-l border-gray-200 flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b">
-              <div className="text-lg font-semibold">Hello, Guest!</div>
+              <div className="text-lg font-semibold text-black">Hello, Guest!</div>
               <button
                 className="text-gray-500 hover:text-black"
                 onClick={() => setIsOpen(false)}
@@ -112,8 +109,8 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={`flex items-center justify-between text-base font-medium px-3 py-3 rounded-lg transition ${
                     link.isButton
-                      ? 'bg-gradient-to-r from-[#627d6a] to-[#4b6659] text-white font-semibold'
-                      : 'text-gray-800 hover:bg-gray-100'
+                      ? 'bg-black text-white font-semibold hover:brightness-110'
+                      : 'text-black hover:bg-gray-100'
                   }`}
                 >
                   <span>{link.label}</span>
