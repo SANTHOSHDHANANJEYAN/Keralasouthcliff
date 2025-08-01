@@ -41,7 +41,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
             <div className="relative col-span-1 row-span-2">
-                <Image src={villa.images[0]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg"/>
+                <Image src={villa.images[0]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg" priority/>
             </div>
             <div className="relative">
                 <Image src={villa.images[1]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg"/>
