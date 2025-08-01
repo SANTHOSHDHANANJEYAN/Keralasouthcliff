@@ -32,6 +32,7 @@ const VillasPreview = () => {
       rating: 4.9,
       maxGuests: 6,
       isGroundFloor: true,
+      slug: 'sea-garden-room',
     },
     {
       id: 2,
@@ -51,6 +52,7 @@ const VillasPreview = () => {
       rating: 4.9,
       maxGuests: 6,
       isGroundFloor: false,
+      slug: 'landscape-room',
     },
   ];
 
@@ -153,6 +155,11 @@ const VillasPreview = () => {
                       </Badge>
                     ))}
                   </div>
+                  <Link href={`/villas/${villa.slug}`} passHref>
+                    <Button asChild className="mt-4 w-full bg-black text-white hover:bg-gray-800">
+                      <a>Book Now</a>
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </motion.div>
