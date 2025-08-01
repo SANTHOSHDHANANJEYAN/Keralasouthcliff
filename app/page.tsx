@@ -15,7 +15,6 @@ const GalleryPreview = dynamic(() => import('@/components/sections/GalleryPrevie
 const ActivitiesSection = dynamic(() => import('@/components/sections/ActivitiesSection'), { ssr: false });
 const AmenitiesPreview = dynamic(() => import('@/components/sections/AmenitiesPreview'), { ssr: false });
 const LocationPreview = dynamic(() => import('@/components/sections/LocationPreview'), { ssr: false });
-const Slider = dynamic(() => import('@/components/sections/Slider'), { ssr: false });
 const SocialNetworksSection = dynamic(() => import('@/components/sections/SocialNetworksSection'), { ssr: false });
 const ContactPreview = dynamic(() => import('@/components/sections/ContactPreview'), { ssr: false });
 
@@ -34,7 +33,6 @@ export default function Home() {
           <ActivitiesSection />
           <AmenitiesPreview />
           <LocationPreview />
-          <Slider />
           <SocialNetworksSection />
           <ContactPreview />
         </Suspense>

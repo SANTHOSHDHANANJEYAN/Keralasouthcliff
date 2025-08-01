@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker';
@@ -16,6 +16,19 @@ export default function BookingPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const savedDates = localStorage.getItem('bookedDates');
+    if (savedDates) {
+      setBookedDates(JSON.parse(savedDates));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (bookedDates.length) {
+      localStorage.setItem('bookedDates', JSON.stringify(bookedDates));
+    }
+  }, [bookedDates]);
 
   const handleBooking = () => {
     if (!selectedDate || !email) return;

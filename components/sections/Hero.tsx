@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import FloatingElements from '@/components/3d/FloatingElements';
 import InteractiveBeach from '@/components/3d/InteractiveBeach';
@@ -51,19 +52,41 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[100dvh] w-full overflow-hidden text-white">
+      {/* Preload images to prevent flash on change */}
+      <div style={{ display: 'none' }}>
+        {slides.map((slide, index) => (
+          <Image
+            key={`preload-${index}`}
+            src={slide.backgroundImage}
+            alt=""
+            width={1920}
+            height={1080}
+            priority={index < 2} // Eagerly load the first two images
+          />
+        ))}
+      </div>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-          style={{
-            backgroundImage: `url('${slides[current].backgroundImage}')`,
-            transform: `translateY(${scrollY * 0.2}px)`,
-          }}
-          initial={{ opacity: 0, scale: 1.02 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 0.8 }}
-        />
+          className="absolute inset-0 z-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
+        >
+          <Image
+            src={slides[current].backgroundImage}
+            alt={slides[current].headline}
+            layout="fill"
+            objectFit="cover"
+            priority
+            className="transform-gpu"
+            style={{
+              transform: `translateY(${scrollY * 0.2}px) scale(1.05)`,
+            }}
+          />
+        </motion.div>
       </AnimatePresence>
 
       {/* Overlay */}
@@ -84,22 +107,22 @@ const Hero = () => {
       {/* Slide Content */}
       <div className="relative z-30 flex flex-col items-center justify-center h-screen text-center px-4">
         <motion.h1
-          key={slides[current].headline}
+          key={`${slides[current].headline}-h1`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -30 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-6xl font-bold mb-4"
+          className="text-4xl md:text-6xl font-bold mb-4 text-white/95"
         >
           {slides[current].headline}
         </motion.h1>
         <motion.p
-          key={slides[current].subheadline}
+          key={`${slides[current].subheadline}-p`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-2xl font-medium"
+          className="text-lg md:text-2xl font-medium text-white/95"
         >
           {slides[current].subheadline}
         </motion.p>

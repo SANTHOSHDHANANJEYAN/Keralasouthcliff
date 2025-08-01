@@ -32,6 +32,7 @@ const VillasPreview = () => {
       rating: 4.9,
       maxGuests: 6,
       isGroundFloor: true,
+      slug: 'sea-garden-room',
     },
     {
       id: 2,
@@ -51,11 +52,12 @@ const VillasPreview = () => {
       rating: 4.9,
       maxGuests: 6,
       isGroundFloor: false,
+      slug: 'landscape-room',
     },
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="pt-0 pb-16 md:pt-0 md:pb-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -153,6 +155,11 @@ const VillasPreview = () => {
                       </Badge>
                     ))}
                   </div>
+                  <Link href={`/villas/${villa.slug}`} passHref>
+                    <Button asChild className="mt-4 w-full bg-black text-white hover:bg-gray-800">
+                      <a>Book Now</a>
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </motion.div>
