@@ -9,14 +9,13 @@ import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Entire Villas', href: '/villas' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Contact', href: '/contact' },
   {
     label: 'Book Now',
     href: '/villas',
     isButton: true,
   },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact Us', href: '/contact' },
 ];
 
 const Navbar = () => {
@@ -42,11 +41,10 @@ const Navbar = () => {
           <Image
             src="/Asteya -website/image.png"
             alt="Logo"
-            width={120}
-            height={40}
+            width={150}
+            height={50}
             className="rounded-full"
           />
- 
         </Link>
 
         {/* Desktop Menu */}
