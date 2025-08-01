@@ -57,7 +57,7 @@ const VillasPreview = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="pt-0 pb-16 md:pt-0 md:pb-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
