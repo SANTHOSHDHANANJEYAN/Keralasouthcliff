@@ -3,22 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Playfair_Display, Montserrat } from 'next/font/google';
+
+const playfair = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
 
 const slides = [
   {
     backgroundImage: '/astega/5.jpg',
-    headline: 'ASTEYA',
-    subheadline: 'LUXURY. MINDFULNESS. NATURE.',
   },
   {
     backgroundImage: '/astega/9.jpg',
-    headline: 'GROUND FLOOR VILLA',
-    subheadline: 'PRIVATE AND PEACEFUL',
   },
   {
     backgroundImage: '/astega/14.jpg',
-    headline: 'TOP FLOOR VILLA',
-    subheadline: 'ELEVATED COMFORT',
   },
 ];
 
@@ -47,7 +45,7 @@ const Hero = () => {
         >
           <Image
             src={slide.backgroundImage}
-            alt={slide.headline}
+            alt="Background"
             fill
             className="object-cover"
             priority={index === current}
@@ -58,12 +56,18 @@ const Hero = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* Static Text Content (does not fade) */}
+      {/* Static Text Content (unchanging) */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+        <h1
+          className={`${playfair.className} text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
+          style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.5)' }}
+        >
           ASTEYA
         </h1>
-        <p className="text-lg md:text-2xl font-medium opacity-85">
+        <p
+          className={`${montserrat.className} text-lg md:text-2xl font-medium tracking-[0.25em] uppercase opacity-90`}
+          style={{ textShadow: '0px 1px 6px rgba(0,0,0,0.4)' }}
+        >
           LUXURY. MINDFULNESS. NATURE.
         </p>
       </div>
@@ -73,21 +77,7 @@ const Hero = () => {
         <div className="h-full bg-white animate-progress" key={current} />
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-6">
-        <button
-          onClick={prevSlide}
-          className="bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
+
 
       {/* Progress Animation */}
       <style jsx>{`
