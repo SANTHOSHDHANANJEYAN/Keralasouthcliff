@@ -99,14 +99,6 @@ const AmenitiesPreview = () => {
           transition={{ duration: 0.8 }}
           className="text-center mt-20"
         >
-          <Link href="/amenities">
-            <Button 
-              size="lg" 
-              className="bg-black hover:bg-gray-900 text-white px-8 py-4 text-lg"
-            >
-              View All Amenities
-            </Button>
-          </Link>
         </motion.div>
       </div>
     </section>

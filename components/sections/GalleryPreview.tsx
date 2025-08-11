@@ -163,43 +163,8 @@ export default function GalleryPreview() {
           ))}
         </div>
 
-        {/* Video Preview */}
-        <div className="mb-20">
-          <div className="relative rounded-2xl overflow-hidden border border-gray-200 w-full h-72 sm:h-96 lg:h-[28rem]">
-            <Image
-              src="https://images.pexels.com/photos/237272/pexels-photo-237272.jpeg"
-              alt="Villa Video Preview"
-              fill
-              className="object-cover"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Button
-                size="lg"
-                className="bg-white text-black hover:bg-gray-100 px-6 py-3 text-sm sm:text-base"
-              >
-                <Play className="mr-2 sm:mr-3" size={20} />
-                Watch Villa Tour Video
-              </Button>
-            </div>
-            <div className="absolute bottom-4 left-4 bg-white/90 px-4 py-3 rounded shadow max-w-sm">
-              <h3 className="text-black font-bold text-lg sm:text-xl mb-1">Experience Kerala Villas</h3>
-              <p className="text-sm text-gray-700">Take a cinematic journey through our luxury accommodation</p>
-            </div>
-          </div>
-        </div>
+       
 
-        {/* CTA */}
-        <div className="text-center">
-          <Link href="/gallery">
-            <Button
-              size="lg"
-              className="bg-black hover:bg-gray-900 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
-            >
-              View Full Gallery
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );

@@ -52,7 +52,7 @@ const LocationPreview = () => {
   ];
 
   return (
-    <section className="py-20 md:py-24 bg-white text-gray-900">
+    <section className=" bg-white text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -142,17 +142,8 @@ const LocationPreview = () => {
           </div>
         </div>
 
-        {/* CTA Button */}
-        <div className="text-center">
-          <Link href="/location">
-            <Button
-              size="lg"
-              className="bg-black text-white px-6 py-3 text-base font-medium shadow-md hover:shadow-lg hover:bg-gray-800 transition duration-300"
-            >
-              View Detailed Location Info
-            </Button>
-          </Link>
-        </div>
+      
+
       </div>
     </section>
   );

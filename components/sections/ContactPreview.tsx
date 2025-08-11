@@ -113,17 +113,7 @@ const ContactPreview = () => {
           </Card>
         </div>
 
-        {/* CTA Button */}
-        <div className="text-center mt-12">
-          <Link href="/contact">
-            <Button
-              size="lg"
-              className="bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-900 text-white px-8 py-3 text-base sm:text-lg"
-            >
-              Complete Contact Form
-            </Button>
-          </Link>
-        </div>
+
       </div>
     </section>
   );

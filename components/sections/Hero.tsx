@@ -1,10 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import FloatingElements from '@/components/3d/FloatingElements';
-import InteractiveBeach from '@/components/3d/InteractiveBeach';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const slides = [
@@ -26,123 +23,86 @@ const slides = [
 ];
 
 const Hero = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [current, setCurrent] = useState(0);
 
-  // Auto slide change every 6 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 6000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        setScrollY(window.scrollY);
-      });
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => clearInterval(timer);
   }, []);
 
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative min-h-[100dvh] w-full overflow-hidden text-white">
-      {/* Preload images to prevent flash on change */}
-      <div style={{ display: 'none' }}>
-        {slides.map((slide, index) => (
+    <section className="relative min-h-screen w-full overflow-hidden text-white">
+      {/* Background Images */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+            index === current ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+          }`}
+        >
           <Image
-            key={`preload-${index}`}
             src={slide.backgroundImage}
-            alt=""
-            width={1920}
-            height={1080}
-            priority={index < 2} // Eagerly load the first two images
+            alt={slide.headline}
+            fill
+            className="object-cover"
+            priority={index === current}
           />
-        ))}
+        </div>
+      ))}
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* Static Text Content (does not fade) */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4">
+          ASTEYA
+        </h1>
+        <p className="text-lg md:text-2xl font-medium opacity-85">
+          LUXURY. MINDFULNESS. NATURE.
+        </p>
       </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current}
-          className="absolute inset-0 z-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
-        >
-          <Image
-            src={slides[current].backgroundImage}
-            alt={slides[current].headline}
-            layout="fill"
-            objectFit="cover"
-            priority
-            className="transform-gpu"
-            style={{
-              transform: `translateY(${scrollY * 0.2}px) scale(1.05)`,
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10" />
-
-      {/* 3D Elements */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none z-20">
-        <Suspense fallback={null}>
-          <FloatingElements />
-        </Suspense>
-      </div>
-      <div className="absolute bottom-0 left-0 w-full opacity-10 pointer-events-none z-20">
-        <Suspense fallback={null}>
-          <InteractiveBeach />
-        </Suspense>
+      {/* Progress Bar */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-40 h-1 bg-white/50 rounded-full overflow-hidden">
+        <div className="h-full bg-white animate-progress" key={current} />
       </div>
 
-      {/* Slide Content */}
-      <div className="relative z-30 flex flex-col items-center justify-center h-screen text-center px-4">
-        <motion.h1
-          key={`${slides[current].headline}-h1`}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -30 }}
-          transition={{ duration: 0.6 }}
-          className="text-4xl md:text-6xl font-bold mb-4 text-white/95"
-        >
-          {slides[current].headline}
-        </motion.h1>
-        <motion.p
-          key={`${slides[current].subheadline}-p`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg md:text-2xl font-medium text-white/95"
-        >
-          {slides[current].subheadline}
-        </motion.p>
-      </div>
-
-      {/* Arrows */}
-      <div className="absolute bottom-10 z-40 left-0 right-0 flex justify-center gap-6">
+      {/* Navigation Buttons */}
+      <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-6">
         <button
           onClick={prevSlide}
-          className="bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur"
+          className="bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110"
         >
           <ChevronLeft size={24} />
         </button>
         <button
           onClick={nextSlide}
-          className="bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur"
+          className="bg-white/90 hover:bg-white text-black p-3 rounded-full shadow-lg transition-transform hover:scale-110"
         >
           <ChevronRight size={24} />
         </button>
       </div>
+
+      {/* Progress Animation */}
+      <style jsx>{`
+        @keyframes progressFill {
+          from {
+            width: 0%;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        .animate-progress {
+          animation: progressFill 6s linear forwards;
+        }
+      `}</style>
     </section>
   );
 };
