@@ -94,7 +94,7 @@ const ContactPreview = () => {
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
               <div className="space-y-5">
                 {[
-                  ['Room Rate', '$8,500 per night (both villas)'],
+                  ['Room Rate', 'Give request for price details(both villas)'],
                   ['Minimum Stay', '2 nights minimum booking required'],
                   ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
                   ['Advance Booking', '50% advance payment required'],

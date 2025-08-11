@@ -18,7 +18,6 @@ const VillasPreview = () => {
       id: 1,
       name: 'Ground Floor Villa',
       description: 'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
-      price: 'Rs.8,500',
       features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
       image: '/astega/7.jpg',
       rating: 4.9,
@@ -29,7 +28,6 @@ const VillasPreview = () => {
       id: 2,
       name: 'Top Floor Villa',
       description: 'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
-      price: 'Rs.8,500',
       features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
       image: '/astega/20.jpg',
       rating: 4.9,
@@ -40,7 +38,6 @@ const VillasPreview = () => {
       id: 3,
       name: 'Whole Villa',
       description: 'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
-      price: 'Rs.9,500',
       features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
       image: '/astega/5.jpg',
       rating: 5.0,
@@ -94,9 +91,6 @@ const VillasPreview = () => {
                     <Star size={16} className="text-yellow-500" />
                     <span className="text-sm font-medium">{villa.rating}</span>
                   </div>
-                  <div className="absolute top-4 right-4 bg-black/80 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    {villa.price}/night
-                  </div>
                 </div>
 
                 <CardContent className="p-6">
@@ -148,9 +142,6 @@ const VillasPreview = () => {
               <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
                 <Star size={16} className="text-yellow-500" />
                 <span className="text-sm font-medium">{villa.rating}</span>
-              </div>
-              <div className="absolute top-4 right-4 bg-black/80 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                {villa.price}/night
               </div>
             </div>
 

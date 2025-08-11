@@ -46,7 +46,7 @@ const SocialNetworksSection: React.FC = () => {
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1, duration: 0.6 }}
         >
-          NETWORKS
+          SOCIAL
         </motion.h1>
 
         {/* Social Icons */}
@@ -95,7 +95,7 @@ const SocialNetworksSection: React.FC = () => {
           whileInView={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          SOCIAL
+          NETWORK
         </motion.h2>
       </motion.div>
     </div>
