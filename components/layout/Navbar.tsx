@@ -14,7 +14,7 @@ const navLinks = [
   { label: 'Contact Us', href: '/contact' },
 ];
 
-// Animation for desktop and mobile nav items
+// Animation for nav items
 const navItemVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
   visible: (i: number) => ({
@@ -30,9 +30,17 @@ const navItemVariants: Variants = {
 
 // Animation for the mobile menu container
 const mobileMenuVariants: Variants = {
-  hidden: { x: '100%' },
-  visible: { x: 0, transition: { duration: 0.3, ease: 'easeOut' as any } },
-  exit: { x: '100%', transition: { duration: 0.25, ease: 'easeIn' as any } },
+  hidden: { opacity: 0, x: '100%' },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.35, ease: 'easeOut' as any },
+  },
+  exit: {
+    opacity: 0,
+    x: '100%',
+    transition: { duration: 0.25, ease: 'easeIn' as any },
+  },
 };
 
 const Navbar = () => {
@@ -47,8 +55,10 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all ${
-        isScrolled ? 'bg-[#202020]/95 shadow-sm backdrop-blur' : 'bg-[#202020]'
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-[#202020]/80 shadow-lg backdrop-blur-lg'
+          : 'bg-[#202020]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -64,7 +74,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex space-x-6 items-center">
+        <nav className="hidden md:flex space-x-8 items-center">
           {navLinks.map((link, i) =>
             link.isButton ? (
               <motion.div
@@ -76,7 +86,7 @@ const Navbar = () => {
               >
                 <Button
                   asChild
-                  className="bg-[#f4c542] text-[#202020] hover:bg-[#e0b93c] rounded-full px-6 py-2 text-sm font-semibold shadow-md transition"
+                  className="bg-gradient-to-r from-[#f4c542] to-[#e0b93c] text-[#202020] hover:from-[#ffd75e] hover:to-[#eec54a] rounded-full px-6 py-2 text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   <Link href={link.href}>{link.label}</Link>
                 </Button>
@@ -91,7 +101,7 @@ const Navbar = () => {
               >
                 <Link
                   href={link.href}
-                  className="text-white hover:text-gray-300 font-medium transition"
+                  className="relative text-white font-medium transition-colors after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-[#f4c542] after:transition-all hover:after:w-full"
                 >
                   {link.label}
                 </Link>
@@ -119,9 +129,11 @@ const Navbar = () => {
           >
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <div className="text-lg font-semibold text-white">Hello, Guest!</div>
+              <div className="text-lg font-semibold text-white">
+                Welcome 👋
+              </div>
               <button
-                className="text-gray-400 hover:text-white"
+                className="text-gray-400 hover:text-white transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <X size={24} />
@@ -129,7 +141,7 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Links */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+            <div className="flex-1 overflow-y-auto px-4 py-4 space-y-2">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -142,9 +154,9 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center justify-between text-base font-medium px-3 py-3 rounded-lg transition ${
+                    className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded-lg transition-all ${
                       link.isButton
-                        ? 'bg-[#f4c542] text-[#202020] font-semibold hover:bg-[#e0b93c]'
+                        ? 'bg-gradient-to-r from-[#f4c542] to-[#e0b93c] text-[#202020] font-semibold hover:from-[#ffd75e] hover:to-[#eec54a]'
                         : 'text-white hover:bg-gray-800'
                     }`}
                   >
