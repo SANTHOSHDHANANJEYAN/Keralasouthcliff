@@ -11,6 +11,7 @@ const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    countryCode: '+91',
     phone: '',
     checkIn: '',
     checkOut: '',
@@ -24,12 +25,17 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Combine full phone number
+    const fullPhone = `${formData.countryCode} ${formData.phone}`;
+
     setTimeout(() => {
       setIsSubmitting(false);
-      toast.success("Message sent successfully! We'll get back to you within 2 hours.");
+      toast.success(`Message sent successfully! We'll get back to you within 2 hours. Phone: ${fullPhone}`);
       setFormData({
         name: '',
         email: '',
+        countryCode: '+91',
         phone: '',
         checkIn: '',
         checkOut: '',
@@ -40,7 +46,9 @@ const ContactSection = () => {
     }, 2000);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -55,7 +63,7 @@ const ContactSection = () => {
   ];
 
   const bookingInfo = [
-    { label: 'Room Rate', value: '$8,500 per night (both villas)' },
+    { label: 'Room Rate', value: 'Give request for Price Details(both villas)' },
     { label: 'Minimum Stay', value: '2 nights minimum booking required' },
     { label: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM' },
     { label: 'Advance Booking', value: '50% advance payment required' },
@@ -103,8 +111,8 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
@@ -115,8 +123,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-                    <input 
-                      type="email" 
+                    <input
+                      type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
@@ -130,18 +138,32 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
-                      placeholder="Your phone number"
-                    />
+                    <div className="flex">
+                      <select
+                        name="countryCode"
+                        value={formData.countryCode}
+                        onChange={handleChange}
+                        className="px-3 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-black focus:border-transparent bg-white"
+                      >
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+61">🇦🇺 +61</option>
+                        <option value="+971">🇦🇪 +971</option>
+                      </select>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 border-l-0 rounded-r-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                        placeholder="Your phone number"
+                      />
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Number of Guests</label>
-                    <select 
+                    <select
                       name="guests"
                       value={formData.guests}
                       onChange={handleChange}
@@ -159,8 +181,8 @@ const ContactSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Check-in Date</label>
-                    <input 
-                      type="date" 
+                    <input
+                      type="date"
                       name="checkIn"
                       value={formData.checkIn}
                       onChange={handleChange}
@@ -169,8 +191,8 @@ const ContactSection = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Check-out Date</label>
-                    <input 
-                      type="date" 
+                    <input
+                      type="date"
                       name="checkOut"
                       value={formData.checkOut}
                       onChange={handleChange}
@@ -181,7 +203,7 @@ const ContactSection = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Villa Preference</label>
-                  <select 
+                  <select
                     name="villa"
                     value={formData.villa}
                     onChange={handleChange}
@@ -196,7 +218,7 @@ const ContactSection = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                  <textarea 
+                  <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
@@ -206,8 +228,8 @@ const ContactSection = () => {
                   />
                 </div>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   disabled={isSubmitting}
                   className="w-full bg-black text-white hover:bg-white hover:text-black border border-black"
                 >
