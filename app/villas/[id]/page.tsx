@@ -82,7 +82,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             {/* Right side: Booking form */}
             <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
               <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
-              <p className="text-xl font-semibold text-black mb-4">{villa.price}<span className="text-base font-normal">/night</span></p>
+             
               <Calendar
                 mode="single"
                 className="rounded-md border"

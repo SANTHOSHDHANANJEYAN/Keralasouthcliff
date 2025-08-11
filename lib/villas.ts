@@ -6,7 +6,6 @@ export interface VillaFeature {
 export interface Villa {
   id: string;
   name: string;
-  price: string;
   description: string;
   features: VillaFeature[];
   amenities: string[];
@@ -17,7 +16,7 @@ export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
-    price: '₹8,500',
+    
     description: 'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
@@ -46,7 +45,6 @@ export const villas: Villa[] = [
   {
     id: 'landscape-room',
     name: 'Landscape View Room',
-    price: '₹8,500',
     description: 'Scenic landscape with partial sea and garden view – perfect for slow mornings.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
@@ -73,9 +71,8 @@ export const villas: Villa[] = [
     ]
   },
   {
-    id: 'exclusive-villa',
+    id: 'luxury-landscape',
     name: 'Exclusive Villa Stay – Sea & Garden View',
-    price: '₹16,000',
     description: 'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
     features: [
       { iconName: 'Bed', text: '2 Bedrooms' },

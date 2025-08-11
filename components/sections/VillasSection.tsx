@@ -36,7 +36,6 @@ const VillasSection = () => {
                     {villa.description.substring(0, 120)}...
                   </p>
                   <div className="flex justify-between items-center mt-auto">
-                    <span className="text-lg font-semibold text-black">{villa.price}/night</span>
                     <Button asChild variant="default" className="bg-black text-white">
                       <a>View Details</a>
                     </Button>
