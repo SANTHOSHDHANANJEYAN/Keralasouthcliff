@@ -57,7 +57,7 @@ const ContactSection = () => {
 
   const contactInfo = [
     { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7 for bookings and inquiries' },
-    { icon: Mail, title: 'Email', value: 'info@keralavillas.com', description: 'Get in touch via email' },
+    { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Get in touch via email' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
     { icon: Clock, title: 'Response Time', value: 'quick response', description: 'Quick response guaranteed' }
   ];
@@ -70,8 +70,7 @@ const ContactSection = () => {
     { label: 'Cancellation', value: 'Free cancellation up to 48 hours' },
     { label: 'Maximum Guests', value: '4 guests per villa' },
     { label: 'Payment Methods', value: 'Credit card, bank transfer, PayPal' },
-    { label: 'Booking Confirmation', value: 'BOOKING CONFIRMATION VIA EMAIL / WHATSAPP
-' }
+    { label: 'Booking Confirmation', value: 'BOOKING CONFIRMATION VIA EMAIL / WHATSAPP'}
   ];
 
   return (
