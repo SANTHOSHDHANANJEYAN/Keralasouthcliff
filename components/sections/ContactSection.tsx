@@ -282,7 +282,7 @@ const ContactSection = () => {
             </p>
             <div className="flex items-center justify-center gap-2 text-xl font-semibold">
               <Phone size={20} />
-              <span>+91 79941 44472/span>
+              <span>+91 79941 44472</span>
             </div>
             <p className="text-sm text-gray-300 mt-2">Available 24/7</p>
           </CardContent>
