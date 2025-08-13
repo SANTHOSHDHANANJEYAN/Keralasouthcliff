@@ -56,21 +56,22 @@ const ContactSection = () => {
   };
 
   const contactInfo = [
-    { icon: Phone, title: 'Phone', value: '+91 9876543210', description: 'Available 24/7 for bookings and inquiries' },
+    { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7 for bookings and inquiries' },
     { icon: Mail, title: 'Email', value: 'info@keralavillas.com', description: 'Get in touch via email' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Clock, title: 'Response Time', value: 'Within 2 hours', description: 'Quick response guaranteed' }
+    { icon: Clock, title: 'Response Time', value: 'quick response', description: 'Quick response guaranteed' }
   ];
 
   const bookingInfo = [
-    { label: 'Room Rate', value: 'Give request for Price Details(both villas)' },
-    { label: 'Minimum Stay', value: '2 nights minimum booking required' },
+    { label: 'Room Rate', value: 'PRICE ON REQUEST ( DUE TO SEASON)' },
+    { label: 'Minimum Stay', value: '1 DAY MINIMUM STAY' },
     { label: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM' },
     { label: 'Advance Booking', value: '50% advance payment required' },
     { label: 'Cancellation', value: 'Free cancellation up to 48 hours' },
     { label: 'Maximum Guests', value: '4 guests per villa' },
     { label: 'Payment Methods', value: 'Credit card, bank transfer, PayPal' },
-    { label: 'Booking Confirmation', value: 'Instant confirmation via email' }
+    { label: 'Booking Confirmation', value: 'BOOKING CONFIRMATION VIA EMAIL / WHATSAPP
+' }
   ];
 
   return (
@@ -282,7 +283,7 @@ const ContactSection = () => {
             </p>
             <div className="flex items-center justify-center gap-2 text-xl font-semibold">
               <Phone size={20} />
-              <span>+91 9876543210</span>
+              <span>+91 79941 44472/span>
             </div>
             <p className="text-sm text-gray-300 mt-2">Available 24/7</p>
           </CardContent>
