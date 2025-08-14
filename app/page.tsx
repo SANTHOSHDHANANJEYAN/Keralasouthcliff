@@ -30,9 +30,10 @@ export default function Home() {
           <GalleryPreview />
           <ActivitiesSection />
           <AmenitiesPreview />
-          <LocationPreview />
+          <ContactPreview/>
           <SocialNetworksSection />
-          <ContactPreview />
+          
+          <LocationPreview />
         </Suspense>
       </main>
       <Footer />
