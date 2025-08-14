@@ -11,14 +11,14 @@ const contactInfo = [
   {
     icon: Phone,
     title: 'Phone',
-    value: '+91 9876543210',
+    value: '+91 79941 44472',
     description: 'Available 24/7 for bookings and inquiries',
     gradient: 'from-gray-700 to-black',
   },
   {
     icon: Mail,
     title: 'Email',
-    value: 'info@keralavillas.com',
+    value: 'contact.asteya@gmail.com',
     description: 'Get in touch via email',
     gradient: 'from-gray-700 to-black',
   },
@@ -32,7 +32,7 @@ const contactInfo = [
   {
     icon: Clock,
     title: 'Response Time',
-    value: 'Within 2 hours',
+    value: 'Quick Response',
     description: 'Quick response guaranteed',
     gradient: 'from-gray-700 to-black',
   },
@@ -95,7 +95,7 @@ const ContactPreview = () => {
               <div className="space-y-5">
                 {[
                   ['Room Rate', 'Give request for price details(both villas)'],
-                  ['Minimum Stay', '2 nights minimum booking required'],
+                  ['Minimum Stay', '1 Day minimum booking required'],
                   ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
                   ['Advance Booking', '50% advance payment required'],
                   ['Cancellation', 'Free cancellation up to 48 hours'],
