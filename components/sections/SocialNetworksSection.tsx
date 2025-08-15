@@ -64,7 +64,7 @@ const SocialNetworksSection: React.FC = () => {
             },
             {
               icon: faAirbnb,
-              url: 'https://www.airbnb.com/',
+              url: 'https://www.airbnb.com/rooms/1402615767778764793?check_in=2025-08-30&check_out=2025-09-04&search_mode=regular_search&adults=1&category_tag=Tag%3A8678&children=0&infants=0&pets=0&photo_id=2271043217&source_impression_id=p3_1755263966_P3JomxgL2MPN0G4o&previous_page_section_name=1000&federated_search_id=ea04ee53-8df7-4b67-a865-c1e23cb186df',
               label: 'Airbnb',
             },
             {
