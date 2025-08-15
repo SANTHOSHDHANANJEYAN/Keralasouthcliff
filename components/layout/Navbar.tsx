@@ -57,8 +57,8 @@ const Navbar = () => {
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#202020]/80 shadow-lg backdrop-blur-lg'
-          : 'bg-[#202020]'
+          ? 'bg-[#333333]/80 shadow-lg backdrop-blur-lg'
+          : 'bg-[#333333]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -125,7 +125,7 @@ const Navbar = () => {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed top-0 right-0 z-50 h-screen w-4/5 max-w-xs bg-[#202020] shadow-xl border-l border-gray-700 flex flex-col"
+            className="fixed top-0 right-0 z-50 h-screen w-4/5 max-w-xs bg-[#333333] shadow-xl border-l border-gray-700 flex flex-col"
           >
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b border-gray-700">
