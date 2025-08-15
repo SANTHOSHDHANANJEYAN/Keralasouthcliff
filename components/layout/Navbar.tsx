@@ -5,11 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Book Now', href: '/villas', isButton: true },
+  { label: 'Book Now', href: '/villas' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Contact Us', href: '/contact' },
 ];
@@ -75,39 +74,22 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <nav className="hidden md:flex space-x-8 items-center">
-          {navLinks.map((link, i) =>
-            link.isButton ? (
-              <motion.div
-                key={link.href}
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={navItemVariants}
+          {navLinks.map((link, i) => (
+            <motion.div
+              key={link.href}
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={navItemVariants}
+            >
+              <Link
+                href={link.href}
+                className="relative text-white font-medium transition-colors after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-[#f4c542] after:transition-all hover:after:w-full"
               >
-                <Button
-                  asChild
-                  className="bg-gradient-to-r from-[#f4c542] to-[#e0b93c] text-[#202020] hover:from-[#ffd75e] hover:to-[#eec54a] rounded-full px-6 py-2 text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300"
-                >
-                  <Link href={link.href}>{link.label}</Link>
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div
-                key={link.href}
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={navItemVariants}
-              >
-                <Link
-                  href={link.href}
-                  className="relative text-white font-medium transition-colors after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-[#f4c542] after:transition-all hover:after:w-full"
-                >
-                  {link.label}
-                </Link>
-              </motion.div>
-            )
-          )}
+                {link.label}
+              </Link>
+            </motion.div>
+          ))}
         </nav>
 
         {/* Mobile Menu Toggle */}
@@ -154,14 +136,10 @@ const Navbar = () => {
                   <Link
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center justify-between text-base font-medium px-4 py-3 rounded-lg transition-all ${
-                      link.isButton
-                        ? 'bg-gradient-to-r from-[#f4c542] to-[#e0b93c] text-[#202020] font-semibold hover:from-[#ffd75e] hover:to-[#eec54a]'
-                        : 'text-white hover:bg-gray-800'
-                    }`}
+                    className="flex items-center justify-between text-base font-medium px-4 py-3 rounded-lg text-white hover:bg-gray-800 transition-all"
                   >
                     <span>{link.label}</span>
-                    {!link.isButton && <span className="text-gray-400">{'›'}</span>}
+                    <span className="text-gray-400">{'›'}</span>
                   </Link>
                 </motion.div>
               ))}
