@@ -64,7 +64,7 @@ export default function GalleryPreview() {
 
         {/* Heading */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery Highlights</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
             Immerse yourself in the beauty of our villas through stunning visuals that capture the essence of luxury living by the Arabian Sea.
           </p>
