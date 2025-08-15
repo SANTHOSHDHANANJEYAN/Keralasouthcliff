@@ -57,7 +57,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Static Text Content (unchanging) */}
-      <div className="pt-[2rem] absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+      <div className="pt-[4rem] absolute inset-0 flex flex-col items-center justify-center text-center px-4">
         <h1
           className={`${playfair.className} text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
           style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.5)' }}
@@ -76,8 +76,6 @@ const Hero = () => {
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-40 h-1 bg-white/50 rounded-full overflow-hidden">
         <div className="h-full bg-white animate-progress" key={current} />
       </div>
-
-
 
       {/* Progress Animation */}
       <style jsx>{`
