@@ -63,10 +63,7 @@ const GallerySection = () => {
     <section className="py-20 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="inline-block mb-4 bg-black text-white uppercase px-4 py-2 rounded-full shadow">
-            Visual Experience
-          </span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Photo Gallery</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Explore our elegant cliffside villa interiors and exotic beachfront views.
           </p>
