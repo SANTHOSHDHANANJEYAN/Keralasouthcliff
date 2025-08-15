@@ -57,7 +57,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Static Text Content (unchanging) */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+      <div className="pt-[2rem] absolute inset-0 flex flex-col items-center justify-center text-center px-4">
         <h1
           className={`${playfair.className} text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
           style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.5)' }}
