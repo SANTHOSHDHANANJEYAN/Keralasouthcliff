@@ -12,7 +12,7 @@ const LocationPreview = () => {
       distance: '0.1 km',
       time: '2 min walk',
       description: 'Direct access to pristine beach',
-      image: '/asteya/Varkalabeach.jpg',
+      image: '../asteya/Varkalabeach.jpg',
       url: 'https://en.wikipedia.org/wiki/Varkala_Beach',
     },
     {
@@ -20,7 +20,7 @@ const LocationPreview = () => {
       distance: '0.0 km',
       time: 'On property',
       description: 'Located on the famous South Cliff',
-      image: '/asteya/varkalacliff',
+      image: '../asteya/varkalacliff',
       url: 'https://en.wikipedia.org/wiki/Varkala',
     },
     {
@@ -28,7 +28,7 @@ const LocationPreview = () => {
       distance: '1.2 km',
       time: '15 min walk',
       description: 'Ancient temple with spiritual significance',
-      image: '/asteya/temple',
+      image: '../asteya/temple',
       url: 'https://en.wikipedia.org/wiki/Janardanaswamy_Temple',
     },
     {
@@ -36,7 +36,7 @@ const LocationPreview = () => {
       distance: '4.5 km',
       time: '10 min drive',
       description: 'Secluded beach with backwaters',
-      image: '/asteya/kappilbeach',
+      image: '../asteya/kappilbeach',
       url: 'https://en.wikipedia.org/wiki/Kappil_Beach',
     },
   ];
