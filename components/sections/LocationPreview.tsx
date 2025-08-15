@@ -36,7 +36,7 @@ const LocationPreview = () => {
       distance: '4.5 km',
       time: '10 min drive',
       description: 'Secluded beach with backwaters',
-      image: '../asteya/kappilbeach',
+      image: 'public/astega/kappilbeach.jpg',
       url: 'https://en.wikipedia.org/wiki/Kappil_Beach',
     },
   ];
