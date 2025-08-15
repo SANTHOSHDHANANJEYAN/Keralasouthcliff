@@ -59,7 +59,7 @@ const LocationPreview = () => {
   ];
 
   return (
-    <section className="pt-[2rem] bg-white text-gray-900">
+    <section className="pt-8 bg-white text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
@@ -73,7 +73,7 @@ const LocationPreview = () => {
         </div>
 
         {/* Map + Location */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16 items-start">
           {/* Embedded Google Map */}
           <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition duration-300">
             <CardContent className="p-0">
@@ -93,14 +93,14 @@ const LocationPreview = () => {
           </Card>
 
           {/* Location Details */}
-          <div className="space-y-10">
+          <div className="flex flex-col justify-between space-y-10">
             <div>
               <h3 className="text-xl md:text-2xl font-bold mb-4">Our Location</h3>
               <div className="flex items-start gap-3 mb-4">
                 <MapPin className="mt-1 text-black" size={20} />
                 <div>
                   <p className="font-medium">
-                    Asteya , Near Perumkulam , south cliff, varkala - 695141
+                    Asteya, Near Perumkulam, South Cliff, Varkala - 695141
                   </p>
                   <p className="text-gray-500 text-sm">Kerala, India</p>
                 </div>
@@ -118,7 +118,7 @@ const LocationPreview = () => {
               <div className="space-y-4">
                 {transportOptions.map((option, index) => (
                   <div key={index} className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center">
+                    <div className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center shrink-0">
                       <option.icon size={20} aria-hidden="true" />
                     </div>
                     <div>
@@ -149,10 +149,10 @@ const LocationPreview = () => {
                 href={attraction.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group"
+                className="group block h-full"
               >
-                <Card className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300">
-                  <CardContent className="p-0">
+                <Card className="h-full flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300">
+                  <CardContent className="p-0 flex flex-col h-full">
                     {/* Thumbnail */}
                     <div className="w-full h-40 relative">
                       <Image
@@ -163,7 +163,7 @@ const LocationPreview = () => {
                       />
                     </div>
                     {/* Text */}
-                    <div className="p-6">
+                    <div className="p-6 flex flex-col flex-grow">
                       <h4 className="font-semibold mb-2 group-hover:text-[#f4c542] transition-colors">
                         {attraction.name}
                       </h4>
@@ -173,12 +173,8 @@ const LocationPreview = () => {
                           {attraction.time}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">
-                        {attraction.distance}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {attraction.description}
-                      </p>
+                      <p className="text-sm text-gray-600">{attraction.distance}</p>
+                      <p className="text-sm text-gray-500">{attraction.description}</p>
                     </div>
                   </CardContent>
                 </Card>
