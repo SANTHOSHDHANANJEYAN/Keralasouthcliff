@@ -20,7 +20,7 @@ const LocationPreview = () => {
       distance: '0.0 km',
       time: 'On property',
       description: 'Located on the famous South Cliff',
-      image: '../asteya/varkalacliff',
+      image: 'public/astega/varkalacliff.jpg',
       url: 'https://en.wikipedia.org/wiki/Varkala',
     },
     {
