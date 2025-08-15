@@ -59,7 +59,7 @@ const Hero = () => {
       {/* Static Text Content (unchanging) */}
       <div className=" absolute inset-0 flex flex-col items-center justify-center text-center px-4">
         <h1
-          className={`${playfair.className} pt-[6rem] text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
+          className={`${playfair.className} pt-[18rem] text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
           style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.5)' }}
         >
           ASTEYA
