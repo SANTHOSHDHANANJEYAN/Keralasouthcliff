@@ -40,7 +40,7 @@ const contactInfo = [
 
 const ContactPreview = () => {
   return (
-    <section className=" bg-gradient-to-b from-white to-gray-100">
+    <section className="pb-[2rem] bg-gradient-to-b from-white to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-14 md:mb-20">
