@@ -28,7 +28,7 @@ const LocationPreview = () => {
       distance: '1.2 km',
       time: '15 min walk',
       description: 'Ancient temple with spiritual significance',
-      image: '../asteya/temple',
+      image: 'public/astega/temple.jpg',
       url: 'https://en.wikipedia.org/wiki/Janardanaswamy_Temple',
     },
     {
