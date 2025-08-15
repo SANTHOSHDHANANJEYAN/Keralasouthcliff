@@ -1,10 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Clock, Plane, Car } from 'lucide-react';
-import Link from 'next/link';
+import Image from 'next/image';
 
 const LocationPreview = () => {
   const nearbyAttractions = [
@@ -13,24 +12,32 @@ const LocationPreview = () => {
       distance: '0.1 km',
       time: '2 min walk',
       description: 'Direct access to pristine beach',
+      image: '/images/varkala-beach.jpg',
+      url: 'https://en.wikipedia.org/wiki/Varkala_Beach',
     },
     {
       name: 'Varkala Cliff',
       distance: '0.0 km',
       time: 'On property',
       description: 'Located on the famous South Cliff',
+      image: '/images/varkala-cliff.jpg',
+      url: 'https://en.wikipedia.org/wiki/Varkala',
     },
     {
       name: 'Janardanaswamy Temple',
       distance: '1.2 km',
       time: '15 min walk',
       description: 'Ancient temple with spiritual significance',
+      image: '/images/janardanaswamy-temple.jpg',
+      url: 'https://en.wikipedia.org/wiki/Janardanaswamy_Temple',
     },
     {
       name: 'Kappil Beach',
       distance: '4.5 km',
       time: '10 min drive',
       description: 'Secluded beach with backwaters',
+      image: '/images/kappil-beach.jpg',
+      url: 'https://en.wikipedia.org/wiki/Kappil_Beach',
     },
   ];
 
@@ -56,9 +63,12 @@ const LocationPreview = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Asteya Beach Villa South Cliff, Varkala</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
+            Asteya Beach Villa South Cliff, Varkala
+          </h2>
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            Perfectly positioned on the famous South Cliff of Varkala, Kerala, offering unparalleled access to beach, culture, and natural beauty.
+            Perfectly positioned on the famous South Cliff of Varkala, Kerala,
+            offering unparalleled access to beach, culture, and natural beauty.
           </p>
         </div>
 
@@ -89,12 +99,16 @@ const LocationPreview = () => {
               <div className="flex items-start gap-3 mb-4">
                 <MapPin className="mt-1 text-black" size={20} />
                 <div>
-                  <p className="font-medium">Asteya , Near Perumkulam , south cliff, varkala - 695141</p>
+                  <p className="font-medium">
+                    Asteya , Near Perumkulam , south cliff, varkala - 695141
+                  </p>
                   <p className="text-gray-500 text-sm">Kerala, India</p>
                 </div>
               </div>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Situated on the spectacular South Cliff of Varkala, our villas offer direct access to the pristine beach while being surrounded by natural beauty and culture.
+                Situated on the spectacular South Cliff of Varkala, our villas
+                offer direct access to the pristine beach while being surrounded
+                by natural beauty and culture.
               </p>
             </div>
 
@@ -109,8 +123,12 @@ const LocationPreview = () => {
                     </div>
                     <div>
                       <p className="font-medium">{option.title}</p>
-                      <p className="text-sm text-gray-500">{option.distance} • {option.time}</p>
-                      <p className="text-sm text-gray-400">{option.description}</p>
+                      <p className="text-sm text-gray-500">
+                        {option.distance} • {option.time}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        {option.description}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -121,29 +139,53 @@ const LocationPreview = () => {
 
         {/* Nearby Attractions */}
         <div className="mb-16">
-          <h3 className="text-xl md:text-2xl font-bold text-center mb-8">Nearby Attractions</h3>
+          <h3 className="text-xl md:text-2xl font-bold text-center mb-8">
+            Nearby Attractions
+          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {nearbyAttractions.map((attraction, index) => (
-              <Card
+              <a
                 key={index}
-                className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300"
+                href={attraction.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
               >
-                <CardContent className="p-6">
-                  <h4 className="font-semibold mb-2">{attraction.name}</h4>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Clock size={14} className="text-gray-500" />
-                    <span className="text-sm text-gray-600">{attraction.time}</span>
-                  </div>
-                  <p className="text-sm text-gray-600">{attraction.distance}</p>
-                  <p className="text-sm text-gray-500">{attraction.description}</p>
-                </CardContent>
-              </Card>
+                <Card className="bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300">
+                  <CardContent className="p-0">
+                    {/* Thumbnail */}
+                    <div className="w-full h-40 relative">
+                      <Image
+                        src={attraction.image}
+                        alt={attraction.name}
+                        fill
+                        className="object-cover rounded-t-lg"
+                      />
+                    </div>
+                    {/* Text */}
+                    <div className="p-6">
+                      <h4 className="font-semibold mb-2 group-hover:text-[#f4c542] transition-colors">
+                        {attraction.name}
+                      </h4>
+                      <div className="flex items-center gap-2 mb-1">
+                        <Clock size={14} className="text-gray-500" />
+                        <span className="text-sm text-gray-600">
+                          {attraction.time}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {attraction.distance}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {attraction.description}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
             ))}
           </div>
         </div>
-
-      
-
       </div>
     </section>
   );
