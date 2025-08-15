@@ -12,7 +12,7 @@ const LocationPreview = () => {
       distance: '0.1 km',
       time: '2 min walk',
       description: 'Direct access to pristine beach',
-      image: '../asteya/Varkalabeach.jpg',
+      image: 'public/astega/Varkalabeach.jpg',
       url: 'https://en.wikipedia.org/wiki/Varkala_Beach',
     },
     {
