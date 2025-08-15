@@ -52,7 +52,7 @@ const LocationPreview = () => {
   ];
 
   return (
-    <section className=" bg-white text-gray-900">
+    <section className="pt-[2rem] bg-white text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
