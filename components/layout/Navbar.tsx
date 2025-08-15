@@ -112,7 +112,7 @@ const Navbar = () => {
             {/* Header */}
             <div className="flex justify-between items-center p-4 border-b border-gray-700">
               <div className="text-lg font-semibold text-white">
-                Welcome 👋
+                Welcome to Asteya Villas 👋
               </div>
               <button
                 className="text-gray-400 hover:text-white transition-colors"
