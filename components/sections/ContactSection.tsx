@@ -6,7 +6,6 @@ import 'react-phone-input-2/lib/style.css';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
-import { toast } from 'sonner';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -20,26 +19,28 @@ const ContactSection = () => {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success(`Message sent successfully! We'll contact you shortly. Phone: ${formData.phone}`);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        checkIn: '',
-        checkOut: '',
-        guests: '',
-        villa: '',
-        message: ''
-      });
-    }, 2000);
+    const subject = encodeURIComponent("Villa Booking & Inquiry");
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nGuests: ${formData.guests}\nCheck-in: ${formData.checkIn}\nCheck-out: ${formData.checkOut}\nVilla Preference: ${formData.villa}\nMessage: ${formData.message}`
+    );
+
+    // Open Gmail compose window
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`, '_blank');
+
+    // Reset the form
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      checkIn: '',
+      checkOut: '',
+      guests: '',
+      villa: '',
+      message: ''
+    });
   };
 
   const handleChange = (
@@ -213,22 +214,13 @@ const ContactSection = () => {
 
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
                   className="w-full bg-black text-white hover:bg-white hover:text-black border border-black flex items-center justify-center gap-2 py-3 rounded-xl font-semibold transition-all"
                 >
-                  {isSubmitting ? (
-                    <div className="flex items-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                      Sending...
-                    </div>
-                  ) : (
-                    <>
-                      <Send size={16} />
-                      Send Inquiry
-                    </>
-                  )}
+                  <Send size={16} />
+                  Send Inquiry
                 </Button>
               </form>
+              
             </CardContent>
           </Card>
 

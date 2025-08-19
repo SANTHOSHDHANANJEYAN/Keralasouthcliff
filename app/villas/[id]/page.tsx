@@ -87,7 +87,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
                 mode="single"
                 className="rounded-md border"
               />
-              <Link href="/Slots" passHref>
+              <Link href="/contact" passHref>
                 <Button className="w-full mt-4 bg-black text-white hover:bg-gray-800">Book Now</Button>
               </Link>
             </div>

@@ -8,11 +8,8 @@ import Hero from '@/components/sections/Hero';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 
 const AboutOurStory = dynamic(() => import('@/components/sections/AboutOurStory'), { ssr: false });
-
 const VillasPreview = dynamic(() => import('@/components/sections/VillasPreview'), { ssr: false });
-
 const GalleryPreview = dynamic(() => import('@/components/sections/GalleryPreview'), { ssr: false });
-const ActivitiesSection = dynamic(() => import('@/components/sections/ActivitiesSection'), { ssr: false });
 const AmenitiesPreview = dynamic(() => import('@/components/sections/AmenitiesPreview'), { ssr: false });
 const LocationPreview = dynamic(() => import('@/components/sections/LocationPreview'), { ssr: false });
 const SocialNetworksSection = dynamic(() => import('@/components/sections/SocialNetworksSection'), { ssr: false });
@@ -28,7 +25,7 @@ export default function Home() {
           <AboutOurStory />
           <VillasPreview />
           <GalleryPreview />
-          <ActivitiesSection />
+
           <AmenitiesPreview />
           <ContactPreview/>
           <SocialNetworksSection />
