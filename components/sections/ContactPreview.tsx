@@ -1,122 +1,136 @@
 'use client';
 
-import React from 'react';
+import React, { useState, memo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 
-const contactInfo = [
-  {
-    icon: Phone,
-    title: 'Phone',
-    value: '+91 79941 44472',
-    description: 'Available 24/7 for bookings and inquiries',
-    gradient: 'from-gray-700 to-black',
-  },
-  {
-    icon: Mail,
-    title: 'Email',
-    value: 'contact.asteya@gmail.com',
-    description: 'Get in touch via email',
-    gradient: 'from-gray-700 to-black',
-  },
-  {
-    icon: MapPin,
-    title: 'Location',
-    value: 'South Cliff, Varkala',
-    description: 'Kerala, India',
-    gradient: 'from-gray-700 to-black',
-  },
-  {
-    icon: Clock,
-    title: 'Response Time',
-    value: 'Quick Response',
-    description: 'Quick response guaranteed',
-    gradient: 'from-gray-700 to-black',
-  },
+const galleryImages = [
+  { src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
+  { src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
+  { src: '/astega/9.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
+  { src: '/Asteya -website/Thank You 900k followers (Flyer) (5).png', alt: 'Bathroom', category: 'Amenities', title: 'Luxury Bathroom' },
+  { src: '/Asteya -website/Thank You 900k followers (Flyer) (1).png', alt: 'Sunset View', category: 'Views', title: 'Spectacular Sunset' },
+  { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
 ];
 
-const ContactPreview = () => {
+// Types for GalleryItem props
+interface GalleryImage {
+  src: string;
+  alt: string;
+  category: string;
+  title: string;
+}
+
+interface GalleryItemProps {
+  image: GalleryImage;
+  index: number;
+  likedImages: Set<number>;
+  toggleLike: (index: number) => void;
+  setSelectedImage: (image: GalleryImage) => void;
+}
+
+// Memoized Gallery Item
+const GalleryItem = memo(function GalleryItem({
+  image,
+  index,
+  likedImages,
+  toggleLike,
+  setSelectedImage,
+}: GalleryItemProps) {
   return (
-    <section className="pb-[2rem] bg-gradient-to-b from-white to-gray-100">
+    <div className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="relative w-full h-64 sm:h-72 md:h-80">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={800}
+          height={600}
+          className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
+
+        {/* Hover Buttons */}
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Button size="icon" variant="ghost" onClick={() => toggleLike(index)} className="bg-white/80 p-2">
+            <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
+          </Button>
+          <Button size="icon" variant="ghost" className="bg-white/80 p-2">
+            <Share2 size={16} />
+          </Button>
+        </div>
+
+        {/* Hover Title */}
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{image.title}</h3>
+          <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">{image.alt}</p>
+        </div>
+
+        {/* Dialog */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <div
+              onClick={() => setSelectedImage(image)}
+              className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            >
+              <Button size="sm" className="bg-white/90 text-black border border-black/10">
+                <Maximize2 className="mr-2" size={16} /> View
+              </Button>
+            </div>
+          </DialogTrigger>
+          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
+            <div className="relative w-full h-[85vh]">
+              <Image src={image.src} alt={image.alt} fill className="object-contain" sizes="90vw" />
+              <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
+                <h3 className="text-black font-bold text-lg sm:text-xl mb-1">{image.title}</h3>
+                <p className="text-sm sm:text-base text-gray-700">{image.alt}</p>
+                <Badge className="mt-2 bg-gray-100 text-black border border-black/10">{image.category}</Badge>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </div>
+  );
+});
+GalleryItem.displayName = "GalleryItem";
+
+export default function GalleryPreview() {
+  const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
+  const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
+
+  const toggleLike = (index: number) => {
+    const updated = new Set(likedImages);
+    updated.has(index) ? updated.delete(index) : updated.add(index);
+    setLikedImages(updated);
+  };
+
+  return (
+    <section className="py-20 sm:py-24 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-14 md:mb-20">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
-            Contact Us
-          </h2>
-          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            Ready to experience luxury at Kerala South Cliff Beach View Villas?
-            Contact us for bookings, inquiries, or to plan your perfect getaway.
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
+            Immerse yourself in the beauty of our villas through stunning visuals that capture the essence of luxury living by the Arabian Sea.
           </p>
         </div>
 
-        {/* Contact Cards */}
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-12">
-          {contactInfo.map((info, index) => (
-            <Card
-              key={index}
-              className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-            >
-              <CardContent className="p-6 text-center">
-                <div
-                  className={`w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-105 transition-transform`}
-                >
-                  <info.icon className="text-white" size={22} />
-                </div>
-                <h3 className="text-base font-semibold text-black">{info.title}</h3>
-                <p className="text-sm font-medium text-gray-800">{info.value}</p>
-                <p className="text-xs text-gray-500 mt-1">{info.description}</p>
-              </CardContent>
-            </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
+          {galleryImages.map((img, idx) => (
+            <GalleryItem
+              key={idx}
+              image={img}
+              index={idx}
+              likedImages={likedImages}
+              toggleLike={toggleLike}
+              setSelectedImage={setSelectedImage}
+            />
           ))}
         </div>
-
-        {/* Image + Booking Info Grid */}
-        <div className="grid gap-10 lg:grid-cols-2">
-          {/* Image Instead of Form */}
-          <div className="w-full h-full">
-            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
-              <Image
-                src="/contactimg.gif" // Replace this with your actual image path
-                alt="Contact Visual"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Booking Information */}
-          <Card className="shadow-sm">
-            <CardContent className="p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
-              <div className="space-y-5">
-                {[
-                  ['Room Rate', 'Give request for price details(both villas)'],
-                  ['Minimum Stay', '1 Day minimum booking required'],
-                  ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
-                  ['Advance Booking', '50% advance payment required'],
-                  ['Cancellation', 'Free cancellation up to 48 hours'],
-                ].map(([label, value], i) => (
-                  <div className="flex items-start gap-3" key={i}>
-                    <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-semibold text-black">{label}</p>
-                      <p className="text-sm text-gray-600">{value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-
       </div>
     </section>
   );
-};
-
-export default ContactPreview;
+}
