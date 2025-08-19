@@ -24,6 +24,7 @@ export default function Home() {
         <Suspense fallback={null}>
           <AboutOurStory />
           <VillasPreview />
+          <GalleryPreview />
           <AmenitiesPreview />
           <ContactPreview/>
           <SocialNetworksSection />
