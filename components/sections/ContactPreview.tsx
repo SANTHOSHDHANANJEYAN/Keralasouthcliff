@@ -3,11 +3,16 @@
 import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 
-const galleryImages = [
+const galleryImages: {
+  src: string;
+  alt: string;
+  category: string;
+  title: string;
+}[] = [
   { src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
   { src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
   { src: '/astega/9.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
@@ -118,7 +123,13 @@ export default function GalleryPreview() {
         <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
           {selectedImage && (
             <div className="relative w-full h-[85vh]">
-              <Image src={selectedImage.src} alt={selectedImage.alt} fill className="object-contain" sizes="90vw" />
+              <Image
+                src={selectedImage.src}
+                alt={selectedImage.alt}
+                fill
+                className="object-contain"
+                sizes="90vw"
+              />
               <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
                 <h3 className="text-black font-bold text-lg sm:text-xl mb-1">{selectedImage.title}</h3>
                 <p className="text-sm sm:text-base text-gray-700">{selectedImage.alt}</p>
