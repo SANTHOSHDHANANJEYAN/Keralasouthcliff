@@ -26,7 +26,8 @@ export default function Home() {
           <VillasPreview />
           <GalleryPreview />
           <AmenitiesPreview />
-          
+          <ContactPreview/>
+          <SocialNetworksSection />
           
           <LocationPreview />
         </Suspense>
