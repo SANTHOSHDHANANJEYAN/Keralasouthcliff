@@ -1,139 +1,132 @@
 'use client';
 
-import React, { useState, memo, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
-const galleryImages: {
+type GalleryImage = {
   src: string;
   alt: string;
-  category: string;
   title: string;
-}[] = [
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
-  { src: '/astega/9.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (5).png', alt: 'Bathroom', category: 'Amenities', title: 'Luxury Bathroom' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (1).png', alt: 'Sunset View', category: 'Views', title: 'Spectacular Sunset' },
-  { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
+  category: string;
+};
+
+const images: GalleryImage[] = [
+  { src: '/astega/1.jpg', alt: 'Beach View', title: 'Pristine Beach', category: 'Exterior' },
+  { src: '/astega/2.jpg', alt: 'Luxury Interior', title: 'Elegant Living', category: 'Interior' },
+  { src: '/astega/3.jpg', alt: 'Master Bedroom', title: 'Master Suite', category: 'Rooms' },
+  { src: '/astega/4.jpg', alt: 'Bathroom', title: 'Luxury Bath', category: 'Amenities' },
+  { src: '/astega/5.jpg', alt: 'Sunset View', title: 'Sunset Glory', category: 'Views' },
+  { src: '/astega/6.jpg', alt: 'Terrace', title: 'Private Terrace', category: 'Outdoor' },
 ];
 
-interface GalleryItemProps {
-  image: {
-    src: string;
-    alt: string;
-    category: string;
-    title: string;
-  };
-  index: number;
-  likedImages: Set<number>;
-  toggleLike: (index: number) => void;
-  setSelectedImage: (image: { src: string; alt: string; category: string; title: string }) => void;
-}
+const categories = ['All', ...Array.from(new Set(images.map(img => img.category)))];
 
-const GalleryItem = memo(function GalleryItem({
-  image,
-  index,
-  likedImages,
-  toggleLike,
-  setSelectedImage,
-}: GalleryItemProps) {
-  return (
-    <div className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-      <div className="relative w-full h-64 sm:h-72 md:h-80">
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={800}
-          height={600}
-          className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
-          loading={index < 2 ? 'eager' : 'lazy'}
-          priority={index < 2}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        />
-
-        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <Button size="icon" variant="ghost" onClick={() => toggleLike(index)} className="bg-white/80 p-2">
-            <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
-          </Button>
-          <Button size="icon" variant="ghost" className="bg-white/80 p-2">
-            <Share2 size={16} />
-          </Button>
-        </div>
-
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{image.title}</h3>
-          <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">{image.alt}</p>
-        </div>
-
-        <div
-          onClick={() => setSelectedImage(image)}
-          className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-        >
-          <Button size="sm" className="bg-white/90 text-black border border-black/10">
-            <Maximize2 className="mr-2" size={16} /> View
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-});
-
-export default function GalleryPreview() {
-  const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [selectedImage, setSelectedImage] = useState<null | typeof galleryImages[0]>(null);
+export default function FancyGallery() {
+  const [liked, setLiked] = useState<Set<number>>(new Set());
+  const [selected, setSelected] = useState<GalleryImage | null>(null);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   const toggleLike = useCallback((index: number) => {
-    setLikedImages((prev) => {
+    setLiked(prev => {
       const updated = new Set(prev);
       updated.has(index) ? updated.delete(index) : updated.add(index);
       return updated;
     });
   }, []);
 
+  const filtered = activeCategory === 'All' ? images : images.filter(img => img.category === activeCategory);
+
   return (
-    <section className="pt-[2rem] bg-white text-black">
+    <section className="pt-12 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
-            Immerse yourself in the beauty of our villas through stunning visuals that capture the essence of luxury living by the Arabian Sea.
-          </p>
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-bold mb-2">Our Gallery</h2>
+          <p className="text-gray-700 max-w-2xl mx-auto">Explore our luxury villas with stunning visuals and immersive experiences.</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
-          {galleryImages.map((img, idx) => (
-            <GalleryItem
-              key={idx}
-              image={img}
-              index={idx}
-              likedImages={likedImages}
-              toggleLike={toggleLike}
-              setSelectedImage={setSelectedImage}
-            />
+        {/* Category Tabs */}
+        <div className="flex justify-center gap-4 mb-8">
+          {categories.map(cat => (
+            <Button
+              key={cat}
+              size="sm"
+              variant={activeCategory === cat ? 'default' : 'outline'}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </Button>
+          ))}
+        </div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((img, idx) => (
+            <motion.div
+              key={img.src}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition"
+            >
+              <div className="relative w-full h-64 sm:h-72 md:h-80">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={800}
+                  height={600}
+                  className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
+                  loading={idx < 2 ? 'eager' : 'lazy'}
+                  priority={idx < 2}
+                />
+
+                {/* Hover buttons */}
+                <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <Button size="icon" variant="ghost" onClick={() => toggleLike(idx)} className="bg-white/80 p-2">
+                    <Heart size={16} className={liked.has(idx) ? 'fill-black text-black' : ''} />
+                  </Button>
+                  <Button size="icon" variant="ghost" className="bg-white/80 p-2">
+                    <Share2 size={16} />
+                  </Button>
+                </div>
+
+                {/* Hover title */}
+                <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{img.title}</h3>
+                  <Badge className="bg-gray-100 text-black border border-black/10">{img.category}</Badge>
+                </div>
+
+                {/* View button */}
+                <div
+                  onClick={() => setSelected(img)}
+                  className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                >
+                  <Button size="sm" className="bg-white/90 text-black border border-black/10">
+                    <Maximize2 className="mr-2" size={16} /> View
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Global Dialog */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+      {/* Lightbox Dialog */}
+      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
         <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
-          {selectedImage && (
+          {selected && (
             <div className="relative w-full h-[85vh]">
-              <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                fill
-                className="object-contain"
-                sizes="90vw"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
-                <h3 className="text-black font-bold text-lg sm:text-xl mb-1">{selectedImage.title}</h3>
-                <p className="text-sm sm:text-base text-gray-700">{selectedImage.alt}</p>
-                <Badge className="mt-2 bg-gray-100 text-black border border-black/10">{selectedImage.category}</Badge>
+              <Image src={selected.src} alt={selected.alt} fill className="object-contain" sizes="90vw" />
+              <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-6">
+                <h3 className="text-black font-bold text-xl mb-1">{selected.title}</h3>
+                <p className="text-gray-700">{selected.alt}</p>
+                <Badge className="mt-2 bg-gray-100 text-black border border-black/10">{selected.category}</Badge>
               </div>
             </div>
           )}
