@@ -16,21 +16,21 @@ const galleryImages = [
   { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
 ];
 
-interface GalleryImage {
-  src: string;
-  alt: string;
-  category: string;
-  title: string;
-}
-
+// GalleryItem Props Interface
 interface GalleryItemProps {
-  image: GalleryImage;
+  image: {
+    src: string;
+    alt: string;
+    category: string;
+    title: string;
+  };
   index: number;
   likedImages: Set<number>;
   toggleLike: (index: number) => void;
-  setSelectedImage: (image: GalleryImage) => void;
+  setSelectedImage: (image: { src: string; alt: string; category: string; title: string }) => void;
 }
 
+// Memoized Gallery Item
 const GalleryItem = memo(function GalleryItem({
   image,
   index,
@@ -52,7 +52,7 @@ const GalleryItem = memo(function GalleryItem({
         />
 
         {/* Hover Buttons */}
-        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <Button size="icon" variant="ghost" onClick={() => toggleLike(index)} className="bg-white/80 p-2">
             <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
           </Button>
@@ -62,7 +62,7 @@ const GalleryItem = memo(function GalleryItem({
         </div>
 
         {/* Hover Title */}
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{image.title}</h3>
           <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">{image.alt}</p>
         </div>
@@ -72,7 +72,7 @@ const GalleryItem = memo(function GalleryItem({
           <DialogTrigger asChild>
             <div
               onClick={() => setSelectedImage(image)}
-              className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+              className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
             >
               <Button size="sm" className="bg-white/90 text-black border border-black/10">
                 <Maximize2 className="mr-2" size={16} /> View
@@ -94,11 +94,10 @@ const GalleryItem = memo(function GalleryItem({
     </div>
   );
 });
-GalleryItem.displayName = 'GalleryItem';
 
 export default function GalleryPreview() {
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
 
   const toggleLike = (index: number) => {
     const updated = new Set(likedImages);
@@ -107,7 +106,7 @@ export default function GalleryPreview() {
   };
 
   return (
-    <section className="py-20 sm:py-24 bg-white text-black">
+    <section className="pt-[2rem] bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
