@@ -16,7 +16,6 @@ const galleryImages = [
   { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
 ];
 
-// Types for GalleryItem props
 interface GalleryImage {
   src: string;
   alt: string;
@@ -32,7 +31,6 @@ interface GalleryItemProps {
   setSelectedImage: (image: GalleryImage) => void;
 }
 
-// Memoized Gallery Item
 const GalleryItem = memo(function GalleryItem({
   image,
   index,
@@ -54,7 +52,7 @@ const GalleryItem = memo(function GalleryItem({
         />
 
         {/* Hover Buttons */}
-        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
           <Button size="icon" variant="ghost" onClick={() => toggleLike(index)} className="bg-white/80 p-2">
             <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
           </Button>
@@ -64,7 +62,7 @@ const GalleryItem = memo(function GalleryItem({
         </div>
 
         {/* Hover Title */}
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
           <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{image.title}</h3>
           <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">{image.alt}</p>
         </div>
@@ -74,7 +72,7 @@ const GalleryItem = memo(function GalleryItem({
           <DialogTrigger asChild>
             <div
               onClick={() => setSelectedImage(image)}
-              className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
             >
               <Button size="sm" className="bg-white/90 text-black border border-black/10">
                 <Maximize2 className="mr-2" size={16} /> View
@@ -96,11 +94,11 @@ const GalleryItem = memo(function GalleryItem({
     </div>
   );
 });
-GalleryItem.displayName = "GalleryItem";
+GalleryItem.displayName = 'GalleryItem';
 
 export default function GalleryPreview() {
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
   const toggleLike = (index: number) => {
     const updated = new Set(likedImages);
