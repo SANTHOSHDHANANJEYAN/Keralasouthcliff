@@ -1,169 +1,122 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Share2, Maximize2 } from 'lucide-react';
-import Image from 'next/image';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import React from 'react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
-type GalleryImage = {
-  src: string;
-  alt: string;
-  title: string;
-  category: string;
-};
-
-const images: GalleryImage[] = [
-  { src: '/astega/1.jpg', alt: 'Beach View', title: 'Pristine Beach', category: 'Exterior' },
-  { src: '/astega/2.jpg', alt: 'Luxury Interior', title: 'Elegant Living', category: 'Interior' },
-  { src: '/astega/3.jpg', alt: 'Master Bedroom', title: 'Master Suite', category: 'Rooms' },
-  { src: '/astega/4.jpg', alt: 'Bathroom', title: 'Luxury Bath', category: 'Amenities' },
-  { src: '/astega/5.jpg', alt: 'Sunset View', title: 'Sunset Glory', category: 'Views' },
-  { src: '/astega/6.jpg', alt: 'Terrace', title: 'Private Terrace', category: 'Outdoor' },
+const contactInfo = [
+  {
+    icon: Phone,
+    title: 'Phone',
+    value: '+91 79941 44472',
+    description: 'Available 24/7 for bookings and inquiries',
+    gradient: 'from-gray-700 to-black',
+  },
+  {
+    icon: Mail,
+    title: 'Email',
+    value: 'contact.asteya@gmail.com',
+    description: 'Get in touch via email',
+    gradient: 'from-gray-700 to-black',
+  },
+  {
+    icon: MapPin,
+    title: 'Location',
+    value: 'South Cliff, Varkala',
+    description: 'Kerala, India',
+    gradient: 'from-gray-700 to-black',
+  },
+  {
+    icon: Clock,
+    title: 'Response Time',
+    value: 'Quick Response',
+    description: 'Quick response guaranteed',
+    gradient: 'from-gray-700 to-black',
+  },
 ];
 
-const categories = ['All', ...Array.from(new Set(images.map(img => img.category)))];
-
-export default function FancyGallery() {
-  const [liked, setLiked] = useState<Set<number>>(new Set());
-  const [selected, setSelected] = useState<GalleryImage | null>(null);
-  const [activeCategory, setActiveCategory] = useState('All');
-
-  const toggleLike = useCallback((index: number) => {
-    setLiked(prev => {
-      const updated = new Set(prev);
-      updated.has(index) ? updated.delete(index) : updated.add(index);
-      return updated;
-    });
-  }, []);
-
-  const filtered = activeCategory === 'All' ? images : images.filter(img => img.category === activeCategory);
-
+const ContactPreview = () => {
   return (
-    <section className="pt-12 bg-white text-black">
+    <section className="pb-[2rem] bg-gradient-to-b from-white to-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold mb-2">Our Gallery</h2>
-          <p className="text-gray-700 max-w-2xl mx-auto">
-            Explore our luxury villas with stunning visuals and immersive experiences.
+        <div className="text-center mb-14 md:mb-20">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
+            Contact Us
+          </h2>
+          <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+            Ready to experience luxury at Kerala South Cliff Beach View Villas?
+            Contact us for bookings, inquiries, or to plan your perfect getaway.
           </p>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex justify-center gap-3 mb-8 flex-wrap">
-          {categories.map(cat => (
-            <Button
-              key={cat}
-              size="sm"
-              variant={activeCategory === cat ? 'default' : 'outline'}
-              onClick={() => setActiveCategory(cat)}
-              className="rounded-full px-4"
+        {/* Contact Cards */}
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-12">
+          {contactInfo.map((info, index) => (
+            <Card
+              key={index}
+              className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
-              {cat}
-            </Button>
+              <CardContent className="p-6 text-center">
+                <div
+                  className={`w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-105 transition-transform`}
+                >
+                  <info.icon className="text-white" size={22} />
+                </div>
+                <h3 className="text-base font-semibold text-black">{info.title}</h3>
+                <p className="text-sm font-medium text-gray-800">{info.value}</p>
+                <p className="text-xs text-gray-500 mt-1">{info.description}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
-        {/* Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {filtered.map((img, idx) => (
-              <motion.div
-                key={img.src}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3 }}
-                className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition"
-              >
-                <div className="relative w-full h-64 sm:h-72 md:h-80">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={800}
-                    height={600}
-                    className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110"
-                    loading={idx < 2 ? 'eager' : 'lazy'}
-                    priority={idx < 2}
-                  />
-
-                  {/* Hover buttons */}
-                  <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => toggleLike(idx)}
-                      className="bg-white/80 p-2 hover:bg-white"
-                    >
-                      <Heart
-                        size={16}
-                        className={liked.has(idx) ? 'fill-red-500 text-red-500' : 'text-gray-700'}
-                      />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="bg-white/80 p-2 hover:bg-white">
-                      <Share2 size={16} className="text-gray-700" />
-                    </Button>
-                  </div>
-
-                  {/* Hover title */}
-                  <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">
-                      {img.title}
-                    </h3>
-                    <Badge className="bg-gray-100 text-black border border-black/10">{img.category}</Badge>
-                  </div>
-
-                  {/* View button */}
-                  <div
-                    onClick={() => setSelected(img)}
-                    className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                  >
-                    <Button size="sm" className="bg-white/90 text-black border border-black/10">
-                      <Maximize2 className="mr-2" size={16} /> View
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Lightbox Dialog */}
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="max-w-6xl max-h-[95vh] p-0 bg-white rounded-xl overflow-hidden">
-          {selected && (
-            <div className="relative w-full h-[85vh] flex items-center justify-center bg-black">
+        {/* Image + Booking Info Grid */}
+        <div className="grid gap-10 lg:grid-cols-2">
+          {/* Image Instead of Form */}
+          <div className="w-full h-full">
+            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
               <Image
-                src={selected.src}
-                alt={selected.alt}
+                src="/contactimg.gif" // Replace this with your actual image path
+                alt="Contact Visual"
                 fill
-                className="object-contain"
-                sizes="90vw"
-                priority
+                className="object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-6">
-                <h3 className="text-black font-bold text-xl mb-1">{selected.title}</h3>
-                <p className="text-gray-700">{selected.alt}</p>
-                <Badge className="mt-2 bg-gray-100 text-black border border-black/10">
-                  {selected.category}
-                </Badge>
-              </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </div>
+
+          {/* Booking Information */}
+          <Card className="shadow-sm">
+            <CardContent className="p-6 sm:p-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
+              <div className="space-y-5">
+                {[
+                  ['Room Rate', 'Give request for price details(both villas)'],
+                  ['Minimum Stay', '1 Day minimum booking required'],
+                  ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
+                  ['Advance Booking', '50% advance payment required'],
+                  ['Cancellation', 'Free cancellation up to 48 hours'],
+                ].map(([label, value], i) => (
+                  <div className="flex items-start gap-3" key={i}>
+                    <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-black">{label}</p>
+                      <p className="text-sm text-gray-600">{value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+
+      </div>
     </section>
   );
-}
+};
+
+export default ContactPreview;

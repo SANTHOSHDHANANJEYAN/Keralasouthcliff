@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
@@ -16,72 +16,99 @@ const galleryImages = [
   { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
 ];
 
-// Memoized Gallery Item
-const GalleryItem = memo(({ image, index, likedImages, toggleLike, setSelectedImage }) => (
-  <div className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-    <div className="relative w-full h-64 sm:h-72 md:h-80">
-      <Image
-        src={image.src}
-        alt={image.alt}
-        width={800}
-        height={600}
-        className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
-        loading={index === 0 ? 'eager' : 'lazy'}
-        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      />
+type GalleryImage = {
+  src: string;
+  alt: string;
+  category: string;
+  title: string;
+};
 
-      {/* Hover Buttons */}
-      <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <Button size="icon" variant="ghost" onClick={() => toggleLike(index)} className="bg-white/80 p-2">
-          <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
-        </Button>
-        <Button size="icon" variant="ghost" className="bg-white/80 p-2">
-          <Share2 size={16} />
-        </Button>
-      </div>
+type GalleryItemProps = {
+  image: GalleryImage;
+  index: number;
+  likedImages: Set<number>;
+  toggleLike: (index: number) => void;
+  onOpen: (image: GalleryImage) => void;
+};
 
-      {/* Hover Title */}
-      <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">{image.title}</h3>
-        <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">{image.alt}</p>
-      </div>
+const GalleryItem = memo(function GalleryItem({
+  image,
+  index,
+  likedImages,
+  toggleLike,
+  onOpen,
+}: GalleryItemProps) {
+  return (
+    <div className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="relative w-full h-64 sm:h-72 md:h-80">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={800}
+          height={600}
+          className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
 
-      {/* Dialog */}
-      <Dialog>
-        <DialogTrigger asChild>
-          <div
-            onClick={() => setSelectedImage(image)}
-            className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        {/* Hover Buttons */}
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => toggleLike(index)}
+            className="bg-white/80 p-2"
           >
-            <Button size="sm" className="bg-white/90 text-black border border-black/10">
-              <Maximize2 className="mr-2" size={16} /> View
-            </Button>
-          </div>
-        </DialogTrigger>
-        <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
-          <div className="relative w-full h-[85vh]">
-            <Image src={image.src} alt={image.alt} fill className="object-contain" sizes="90vw" />
-            <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
-              <h3 className="text-black font-bold text-lg sm:text-xl mb-1">{image.title}</h3>
-              <p className="text-sm sm:text-base text-gray-700">{image.alt}</p>
-              <Badge className="mt-2 bg-gray-100 text-black border border-black/10">{image.category}</Badge>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+            <Heart
+              size={16}
+              className={likedImages.has(index) ? 'fill-black text-black' : ''}
+            />
+          </Button>
+          <Button size="icon" variant="ghost" className="bg-white/80 p-2">
+            <Share2 size={16} />
+          </Button>
+        </div>
+
+        {/* Hover Title */}
+        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">
+            {image.title}
+          </h3>
+          <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">
+            {image.alt}
+          </p>
+        </div>
+
+        {/* View Button */}
+        <div
+          onClick={() => onOpen(image)}
+          className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        >
+          <Button size="sm" className="bg-white/90 text-black border border-black/10">
+            <Maximize2 className="mr-2" size={16} /> View
+          </Button>
+        </div>
+      </div>
     </div>
-  </div>
-));
+  );
+});
+GalleryItem.displayName = 'GalleryItem';
 
 export default function GalleryPreview() {
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [selectedImage, setSelectedImage] = useState(galleryImages[0]);
+  const [openImage, setOpenImage] = useState<GalleryImage | null>(null);
 
-  const toggleLike = (index: number) => {
-    const updated = new Set(likedImages);
-    updated.has(index) ? updated.delete(index) : updated.add(index);
-    setLikedImages(updated);
-  };
+  const toggleLike = useCallback((index: number) => {
+    setLikedImages(prev => {
+      const updated = new Set(prev);
+      updated.has(index) ? updated.delete(index) : updated.add(index);
+      return updated;
+    });
+  }, []);
+
+  const handleOpen = useCallback((image: GalleryImage) => {
+    setOpenImage(image);
+  }, []);
 
   return (
     <section className="pt-[2rem] bg-white text-black">
@@ -101,10 +128,36 @@ export default function GalleryPreview() {
               index={idx}
               likedImages={likedImages}
               toggleLike={toggleLike}
-              setSelectedImage={setSelectedImage}
+              onOpen={handleOpen}
             />
           ))}
         </div>
+
+        {/* Single Centralized Dialog */}
+        <Dialog open={!!openImage} onOpenChange={() => setOpenImage(null)}>
+          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
+            {openImage && (
+              <div className="relative w-full h-[85vh]">
+                <Image
+                  src={openImage.src}
+                  alt={openImage.alt}
+                  fill
+                  className="object-contain"
+                  sizes="90vw"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
+                  <h3 className="text-black font-bold text-lg sm:text-xl mb-1">
+                    {openImage.title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-gray-700">{openImage.alt}</p>
+                  <Badge className="mt-2 bg-gray-100 text-black border border-black/10">
+                    {openImage.category}
+                  </Badge>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
