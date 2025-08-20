@@ -32,7 +32,7 @@ export default function Home() {
         </Suspense>
       </main>
       <Footer />
-      <WhatsAppButton />
+   
     </div>
   );
 }
