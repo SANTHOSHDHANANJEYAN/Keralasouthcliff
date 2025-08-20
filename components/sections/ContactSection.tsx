@@ -173,7 +173,7 @@ const ContactSection = () => {
 
               {/* Villa Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Villa / Course</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Select Villa</label>
                 <select
                   name="villa"
                   value={formData.villa}
@@ -181,14 +181,9 @@ const ContactSection = () => {
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
                 >
                   <option value="">Choose an option</option>
-                  <option value="50 Hr Multi-Style-Yoga TTC">50 Hr Multi-Style-Yoga TTC</option>
-                  <option value="100 Hr Multi-Style-Yoga TTC">100 Hr Multi-Style-Yoga TTC</option>
-                  <option value="200 Hr Multi-Style-Yoga TTC">200 Hr Multi-Style-Yoga TTC</option>
-                  <option value="300 Hr Multi-Style-Yoga TTC">300 Hr Multi-Style-Yoga TTC</option>
-                  <option value="21 Days Yoga Immersion Course">21 Days Yoga Immersion Course</option>
-                  <option value="7 Days Yoga Holiday Retreat">7 Days Yoga Holiday Retreat</option>
-                  <option value="14 Days Yoga Detox Retreat">14 Days Yoga Detox Retreat</option>
-                  <option value="21 Days Yoga Wellness Retreat">21 Days Yoga Wellness Retreat</option>
+                  <option value="Top Floor</option>
+                  <option value="Ground Floor</option>
+                  <option value=Entire Villa</option>
                 </select>
               </div>
 
