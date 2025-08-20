@@ -3,9 +3,8 @@
 import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -14,10 +13,16 @@ const ContactSection = () => {
     phone: '',
     checkIn: '',
     checkOut: '',
-    guests: '',
+    guests: 1,
     villa: '',
     message: ''
   });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,26 +32,18 @@ const ContactSection = () => {
       `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nGuests: ${formData.guests}\nCheck-in: ${formData.checkIn}\nCheck-out: ${formData.checkOut}\nVilla Preference: ${formData.villa}\nMessage: ${formData.message}`
     );
 
-    // Open Gmail compose window
     window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`, '_blank');
 
-    // Reset the form
     setFormData({
       name: '',
       email: '',
       phone: '',
       checkIn: '',
       checkOut: '',
-      guests: '',
+      guests: 1,
       villa: '',
       message: ''
     });
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const contactInfo = [
@@ -70,8 +67,6 @@ const ContactSection = () => {
   return (
     <section className="relative bg-white py-24 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Book Your Stay</h2>
           <p className="text-lg max-w-2xl mx-auto">
@@ -79,13 +74,10 @@ const ContactSection = () => {
           </p>
         </div>
 
-        {/* Info Cards */}
+        {/* Contact Info Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
           {contactInfo.map((info, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
+            <div key={idx} className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300">
               <div className="w-16 h-16 mb-4 rounded-full bg-black flex items-center justify-center">
                 <info.icon className="text-white" size={28} />
               </div>
@@ -96,135 +88,97 @@ const ContactSection = () => {
           ))}
         </div>
 
-        {/* Main Form + Booking Info Grid */}
+        {/* Form & Booking Info */}
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Booking Form */}
-          <Card className="bg-gray-100 shadow-lg rounded-3xl">
-            <CardContent className="p-10">
-              <h3 className="text-3xl font-bold mb-8 text-center">Booking & Inquiry</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Full Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      placeholder="Your Name"
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email *</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="Your Email"
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    />
-                  </div>
-                </div>
+          <div className="w-full rounded-xl p-8">
+            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Phone Number</label>
-                    <PhoneInput
-                      country={'in'}
-                      value={formData.phone}
-                      onChange={(phone) => setFormData({ ...formData, phone })}
-                      inputClass="w-[15rem] border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent text-black"
-                      dropdownClass="z-50"
-                      enableSearch
-                      inputStyle={{ height: '48px', color: '#000' }}
-                      buttonStyle={{ width: '2.5rem' }}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Guests</label>
-                    <select
-                      name="guests"
-                      value={formData.guests}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    >
-                      <option value="">Select Guests</option>
-                      <option value="1">1 Guest</option>
-                      <option value="2">2 Guests</option>
-                      <option value="3">3 Guests</option>
-                      <option value="4">4 Guests</option>
-                    </select>
-                  </div>
-                </div>
+              <PhoneInput
+                country={"in"}
+                value={formData.phone}
+                onChange={(phone) => setFormData({ ...formData, phone })}
+                inputClass="!w-full !p-3 !border !border-gray-300 !rounded-md !focus:outline-none !focus:ring-2 !focus:ring-yellow-300 !bg-white"
+              />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Check-in</label>
-                    <input
-                      type="date"
-                      name="checkIn"
-                      value={formData.checkIn}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Check-out</label>
-                    <input
-                      type="date"
-                      name="checkOut"
-                      value={formData.checkOut}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    />
-                  </div>
-                </div>
+              <input
+                type="date"
+                name="checkIn"
+                value={formData.checkIn}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
+              <input
+                type="date"
+                name="checkOut"
+                value={formData.checkOut}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Villa Preference</label>
-                    <select
-                      name="villa"
-                      value={formData.villa}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    >
-                      <option value="">Select Villa</option>
-                      <option value="ground-floor">Ground Floor</option>
-                      <option value="top-floor">Top Floor</option>
-                      <option value="either">Either</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Message</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={4}
-                      placeholder="Your Requirements..."
-                      className="w-full px-4 py-3 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent bg-white text-black"
-                    />
-                  </div>
-                </div>
+              <input
+                type="number"
+                name="guests"
+                min={1}
+                max={4}
+                value={formData.guests}
+                onChange={handleChange}
+                placeholder="Number of Guests (max 4)"
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
 
-                <Button
-                  type="submit"
-                  className="w-full bg-black text-white hover:bg-white hover:text-black border border-black flex items-center justify-center gap-2 py-3 rounded-xl font-semibold transition-all"
-                >
-                  <Send size={16} />
-                  Send Inquiry
-                </Button>
-              </form>
-              
-            </CardContent>
-          </Card>
+              <select
+                name="villa"
+                value={formData.villa}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              >
+                <option value="">Select Villa</option>
+                <option value="50 Hr Multi-Style-Yoga TTC">50 Hr Multi-Style-Yoga TTC</option>
+                <option value="100 Hr Multi-Style-Yoga TTC">100 Hr Multi-Style-Yoga TTC</option>
+                <option value="200 Hr Multi-Style-Yoga TTC">200 Hr Multi-Style-Yoga TTC</option>
+                <option value="300 Hr Multi-Style-Yoga TTC">300 Hr Multi-Style-Yoga TTC</option>
+                <option value="21 Days Yoga Immersion Course">21 Days Yoga Immersion Course</option>
+                <option value="7 Days Yoga Holiday Retreat">7 Days Yoga Holiday Retreat</option>
+                <option value="14 Days Yoga Detox Retreat">14 Days Yoga Detox Retreat</option>
+                <option value="21 Days Yoga Wellness Retreat">21 Days Yoga Wellness Retreat</option>
+              </select>
 
-          {/* Booking Information */}
+              <textarea
+                name="message"
+                rows={4}
+                placeholder="Enter your message..."
+                maxLength={180}
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
+              />
+              <span className="text-sm text-gray-400 self-end">{formData.message.length}/180</span>
+
+              <button
+                type="submit"
+                className="bg-green-700 text-white py-3 px-6 rounded-md hover:bg-green-800 self-start"
+              >
+                Enquire Now
+              </button>
+            </form>
+          </div>
+
           <Card className="bg-gray-100 shadow-lg rounded-3xl p-10 flex flex-col justify-between">
             <h3 className="text-3xl font-bold mb-8">Booking Information</h3>
             <div className="space-y-4">
