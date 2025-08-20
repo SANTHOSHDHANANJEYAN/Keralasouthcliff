@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Card } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Clock, CheckCircle, Users, Calendar } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -49,14 +49,10 @@ const ContactSection = () => {
     });
   };
 
-  // ✅ Contact info updated with Check-in, Check-out, and Guests
   const contactInfo = [
     { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7' },
     { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Reach us anytime' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Calendar, title: 'Check-in', value: '3:00 PM', description: 'Flexible on request' },
-    { icon: Calendar, title: 'Check-out', value: '12:00 PM', description: 'Flexible on request' },
-    { icon: Users, title: 'Guests', value: 'Up to 4 Guests', description: 'Per villa' },
     { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond within 2 hours' }
   ];
 
@@ -74,6 +70,7 @@ const ContactSection = () => {
   return (
     <section className="relative bg-white py-24 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Book Your Stay</h2>
           <p className="text-lg max-w-2xl mx-auto">
@@ -81,8 +78,8 @@ const ContactSection = () => {
           </p>
         </div>
 
-        {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        {/* Contact Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
           {contactInfo.map((info, idx) => (
             <div
               key={idx}
@@ -101,89 +98,118 @@ const ContactSection = () => {
         {/* Form & Booking Info */}
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Form */}
-          <div className="w-full rounded-xl p-8">
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
+          <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+              {/* Name & Email */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  />
+                </div>
+              </div>
 
-              <PhoneInput
-                country={"in"}
-                value={formData.phone}
-                onChange={(phone) => setFormData({ ...formData, phone })}
-                inputClass="!w-full !p-3 !border !border-gray-300 !rounded-md !focus:outline-none !focus:ring-2 !focus:ring-yellow-300 !bg-white"
-              />
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <PhoneInput
+                  country={"in"}
+                  value={formData.phone}
+                  onChange={(phone) => setFormData({ ...formData, phone })}
+                  inputClass="!w-full !p-3 !border !border-gray-300 !rounded-md !focus:ring-2 !focus:ring-yellow-400"
+                />
+              </div>
 
-              <input
-                type="date"
-                name="checkIn"
-                value={formData.checkIn}
-                onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
-              <input
-                type="date"
-                name="checkOut"
-                value={formData.checkOut}
-                onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
+              {/* Check-in / Check-out / Guests */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Check-in</label>
+                  <input
+                    type="date"
+                    name="checkIn"
+                    value={formData.checkIn}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Check-out</label>
+                  <input
+                    type="date"
+                    name="checkOut"
+                    value={formData.checkOut}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
+                  <input
+                    type="number"
+                    name="guests"
+                    min={1}
+                    max={4}
+                    value={formData.guests}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  />
+                </div>
+              </div>
 
-              <input
-                type="number"
-                name="guests"
-                min={1}
-                max={4}
-                value={formData.guests}
-                onChange={handleChange}
-                placeholder="Number of Guests (max 4)"
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
+              {/* Villa Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Select Villa / Course</label>
+                <select
+                  name="villa"
+                  value={formData.villa}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                >
+                  <option value="">Choose an option</option>
+                  <option value="50 Hr Multi-Style-Yoga TTC">50 Hr Multi-Style-Yoga TTC</option>
+                  <option value="100 Hr Multi-Style-Yoga TTC">100 Hr Multi-Style-Yoga TTC</option>
+                  <option value="200 Hr Multi-Style-Yoga TTC">200 Hr Multi-Style-Yoga TTC</option>
+                  <option value="300 Hr Multi-Style-Yoga TTC">300 Hr Multi-Style-Yoga TTC</option>
+                  <option value="21 Days Yoga Immersion Course">21 Days Yoga Immersion Course</option>
+                  <option value="7 Days Yoga Holiday Retreat">7 Days Yoga Holiday Retreat</option>
+                  <option value="14 Days Yoga Detox Retreat">14 Days Yoga Detox Retreat</option>
+                  <option value="21 Days Yoga Wellness Retreat">21 Days Yoga Wellness Retreat</option>
+                </select>
+              </div>
 
-              <select
-                name="villa"
-                value={formData.villa}
-                onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              >
-                <option value="">Select Villa</option>
-                <option value="50 Hr Multi-Style-Yoga TTC">50 Hr Multi-Style-Yoga TTC</option>
-                <option value="100 Hr Multi-Style-Yoga TTC">100 Hr Multi-Style-Yoga TTC</option>
-                <option value="200 Hr Multi-Style-Yoga TTC">200 Hr Multi-Style-Yoga TTC</option>
-                <option value="300 Hr Multi-Style-Yoga TTC">300 Hr Multi-Style-Yoga TTC</option>
-                <option value="21 Days Yoga Immersion Course">21 Days Yoga Immersion Course</option>
-                <option value="7 Days Yoga Holiday Retreat">7 Days Yoga Holiday Retreat</option>
-                <option value="14 Days Yoga Detox Retreat">14 Days Yoga Detox Retreat</option>
-                <option value="21 Days Yoga Wellness Retreat">21 Days Yoga Wellness Retreat</option>
-              </select>
+              {/* Message */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  name="message"
+                  rows={4}
+                  maxLength={180}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                />
+                <span className="text-xs text-gray-400 float-right">{formData.message.length}/180</span>
+              </div>
 
-              <textarea
-                name="message"
-                rows={4}
-                placeholder="Enter your message..."
-                maxLength={180}
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-300 bg-white"
-              />
-              <span className="text-sm text-gray-400 self-end">{formData.message.length}/180</span>
-
+              {/* Submit */}
               <button
                 type="submit"
-                className="bg-green-700 text-white py-3 px-6 rounded-md hover:bg-green-800 self-start"
+                className="bg-green-700 text-white py-3 px-6 rounded-md hover:bg-green-800 transition-colors"
               >
                 Enquire Now
               </button>
@@ -206,7 +232,9 @@ const ContactSection = () => {
             </div>
             <div className="mt-8 bg-white p-4 rounded-xl border border-black">
               <h4 className="font-semibold mb-1">Special Offer</h4>
-              <p className="text-sm">Book for 7 nights or more and get 15% discount. Seasonal offers available.</p>
+              <p className="text-sm">
+                Book for 7 nights or more and get 15% discount. Seasonal offers available.
+              </p>
             </div>
           </Card>
         </div>
