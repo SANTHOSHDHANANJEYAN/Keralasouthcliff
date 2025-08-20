@@ -49,12 +49,13 @@ const ContactSection = () => {
     });
   };
 
-  // Updated contact info with Check-in/Check-out & Guests
+  // ✅ Contact info updated with Check-in, Check-out, and Guests
   const contactInfo = [
     { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7' },
     { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Reach us anytime' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Calendar, title: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM', description: 'Flexible timings on request' },
+    { icon: Calendar, title: 'Check-in', value: '3:00 PM', description: 'Flexible on request' },
+    { icon: Calendar, title: 'Check-out', value: '12:00 PM', description: 'Flexible on request' },
     { icon: Users, title: 'Guests', value: 'Up to 4 Guests', description: 'Per villa' },
     { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond within 2 hours' }
   ];
@@ -203,4 +204,15 @@ const ContactSection = () => {
                 </div>
               ))}
             </div>
-            <div className
+            <div className="mt-8 bg-white p-4 rounded-xl border border-black">
+              <h4 className="font-semibold mb-1">Special Offer</h4>
+              <p className="text-sm">Book for 7 nights or more and get 15% discount. Seasonal offers available.</p>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactSection;
