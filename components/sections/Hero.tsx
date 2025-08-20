@@ -10,13 +10,13 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
 
 const slides = [
   {
-    backgroundImage: '/astega/5.jpg',
+    backgroundImage: '/astega/5-min.jpg',
   },
   {
-    backgroundImage: '/astega/9.jpg',
+    backgroundImage: '/astega/9-min.jpg',
   },
   {
-    backgroundImage: '/astega/14.jpg',
+    backgroundImage: '/astega/14-min.jpg',
   },
 ];
 

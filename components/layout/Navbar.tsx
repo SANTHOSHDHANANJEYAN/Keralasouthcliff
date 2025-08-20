@@ -64,7 +64,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/Asteya -website/image.png"
+            src="/image.png"
             alt="Logo"
             width={150}
             height={50}

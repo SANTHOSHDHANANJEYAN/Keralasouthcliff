@@ -42,7 +42,7 @@ const AboutOurStory = () => {
         >
           <div className="relative h-full w-full overflow-hidden rounded-2xl shadow-xl">
             <Image
-              src="/Asteya -website/Thank You 900k followers (Flyer) (3).png"
+              src="/astega/23-min.jpg"
               alt="Our Story"
               layout="fill"
               className="object-cover w-full h-full transition-transform duration-500 hover:scale-105 grayscale"

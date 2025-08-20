@@ -8,12 +8,12 @@ import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 
 const galleryImages = [
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (3).png', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (4).png', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
-  { src: '/astega/9.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (5).png', alt: 'Bathroom', category: 'Amenities', title: 'Luxury Bathroom' },
-  { src: '/Asteya -website/Thank You 900k followers (Flyer) (1).png', alt: 'Sunset View', category: 'Views', title: 'Spectacular Sunset' },
-  { src: '/astega/13.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
+  { src: '/astega/1-min.jpg', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
+  { src: '/astega/4-min.jpg', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
+  { src: '/astega/9-min.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
+  { src: '/astega/5-min.jpg', alt: 'Bathroom', category: 'Amenities', title: 'Luxury Bathroom' },
+  { src: '/astega/1-min.jpg', alt: 'Sunset View', category: 'Views', title: 'Spectacular Sunset' },
+  { src: '/astega/13-min.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
 ];
 
 type GalleryImage = {
