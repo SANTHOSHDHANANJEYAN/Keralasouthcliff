@@ -28,8 +28,6 @@ export default function Home() {
           <AmenitiesPreview />
           <ContactPreview/>
           <SocialNetworksSection />
-          
-          <LocationPreview />
         </Suspense>
       </main>
       <Footer />
