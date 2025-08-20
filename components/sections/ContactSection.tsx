@@ -53,7 +53,7 @@ const ContactSection = () => {
     { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7' },
     { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Reach us anytime' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond within 2 hours' }
+    { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond Immediately' }
   ];
 
   const bookingInfo = [
