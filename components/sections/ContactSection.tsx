@@ -18,18 +18,43 @@ const ContactSection = () => {
     message: ''
   });
 
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: false }); // remove error once user types
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const subject = encodeURIComponent("Villa Booking & Inquiry");
+    const requiredFields = ['name', 'email', 'phone', 'checkIn', 'checkOut', 'villa'];
+    const newErrors: { [key: string]: boolean } = {};
+
+    requiredFields.forEach((field) => {
+      if (!formData[field as keyof typeof formData]) {
+        newErrors[field] = true;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      alert('⚠️ Please fill all required fields before submitting.');
+      return;
+    }
+
+    const subject = encodeURIComponent('Villa Booking & Inquiry');
     const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\nGuests: ${formData.guests}\nCheck-in: ${formData.checkIn}\nCheck-out: ${formData.checkOut}\nVilla Preference: ${formData.villa}\nMessage: ${formData.message}`
+      `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Guests: ${formData.guests}\n` +
+        `Check-in: ${formData.checkIn}\n` +
+        `Check-out: ${formData.checkOut}\n` +
+        `Villa Preference: ${formData.villa}\n` +
+        `Message: ${formData.message}`
     );
 
     window.open(
@@ -47,6 +72,7 @@ const ContactSection = () => {
       villa: '',
       message: ''
     });
+    setErrors({});
   };
 
   const contactInfo = [
@@ -109,7 +135,9 @@ const ContactSection = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                    className={`w-full p-3 border ${
+                      errors.name ? 'border-red-500' : 'border-gray-300'
+                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
                   />
                 </div>
                 <div>
@@ -119,7 +147,9 @@ const ContactSection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                    className={`w-full p-3 border ${
+                      errors.email ? 'border-red-500' : 'border-gray-300'
+                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
                   />
                 </div>
               </div>
@@ -128,10 +158,15 @@ const ContactSection = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                 <PhoneInput
-                  country={"in"}
+                  country={'in'}
                   value={formData.phone}
-                  onChange={(phone) => setFormData({ ...formData, phone })}
-                  inputClass="!w-full !p-3 !border !border-gray-300 !rounded-md !focus:ring-2 !focus:ring-yellow-400"
+                  onChange={(phone) => {
+                    setFormData({ ...formData, phone });
+                    setErrors({ ...errors, phone: false });
+                  }}
+                  inputClass={`!w-full !p-3 !rounded-md !border ${
+                    errors.phone ? '!border-red-500' : '!border-gray-300'
+                  } !focus:ring-2 !focus:ring-yellow-400`}
                 />
               </div>
 
@@ -144,7 +179,9 @@ const ContactSection = () => {
                     name="checkIn"
                     value={formData.checkIn}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                    className={`w-full p-3 border ${
+                      errors.checkIn ? 'border-red-500' : 'border-gray-300'
+                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
                   />
                 </div>
                 <div>
@@ -154,7 +191,9 @@ const ContactSection = () => {
                     name="checkOut"
                     value={formData.checkOut}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                    className={`w-full p-3 border ${
+                      errors.checkOut ? 'border-red-500' : 'border-gray-300'
+                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
                   />
                 </div>
                 <div>
@@ -178,12 +217,14 @@ const ContactSection = () => {
                   name="villa"
                   value={formData.villa}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  className={`w-full p-3 border ${
+                    errors.villa ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-2 focus:ring-yellow-400`}
                 >
                   <option value="">Choose an option</option>
-                  <option value="Top Floor</option>
-                  <option value="Ground Floor</option>
-                  <option value=Entire Villa</option>
+                  <option value="Top Floor">Top Floor</option>
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="Entire Villa">Entire Villa</option>
                 </select>
               </div>
 
