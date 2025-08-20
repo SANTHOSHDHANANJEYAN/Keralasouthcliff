@@ -137,7 +137,7 @@ const ContactSection = () => {
                       country={'in'}
                       value={formData.phone}
                       onChange={(phone) => setFormData({ ...formData, phone })}
-                      inputClass="w-[15rem] px-4 border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent text-black"
+                      inputClass="w-[15rem] border border-gray-400 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent text-black"
                       dropdownClass="z-50"
                       enableSearch
                       inputStyle={{ height: '48px', color: '#000' }}
