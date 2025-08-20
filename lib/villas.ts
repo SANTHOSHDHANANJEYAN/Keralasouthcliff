@@ -35,11 +35,11 @@ export const villas: Villa[] = [
       'Daily housekeeping service'
     ],
     images: [
-      '/astega/1.jpg',
-      '/astega/2.jpg',
-      '/astega/3.jpg',
-      '/astega/4.jpg',
-      '/astega/5.jpg',
+      '/astega/1-min.jpg',
+      '/astega/2-min.jpg',
+      '/astega/3-min.jpg',
+      '/astega/4-min.jpg',
+      '/astega/5-min.jpg',
     ]
   },
   {
@@ -63,11 +63,11 @@ export const villas: Villa[] = [
       'Daily housekeeping'
     ],
     images: [
-      '/astega/6.jpg',
-      '/astega/7.jpg',
-      '/astega/8.jpg',
-      '/astega/9.jpg',
-      '/astega/10.jpg',
+      '/astega/6-min.jpg',
+      '/astega/7-min.jpg',
+      '/astega/8-min.jpg',
+      '/astega/9-min.jpg',
+      '/astega/10-min.jpg',
     ]
   },
   {
@@ -92,11 +92,11 @@ export const villas: Villa[] = [
       'High-speed WiFi'
     ],
     images: [
-      '/astega/11.jpg',
-      '/astega/12.jpg',
-      '/astega/13.jpg',
-      '/astega/14.jpg',
-      '/astega/15.jpg',
+      '/astega/11-min.jpg',
+      '/astega/12-min.jpg',
+      '/astega/13-min.jpg',
+      '/astega/14-min.jpg',
+      '/astega/15-min.jpg',
     ]
   }
 ];
