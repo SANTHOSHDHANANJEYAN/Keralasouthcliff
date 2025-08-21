@@ -21,7 +21,7 @@ const VillasPreview = () => {
       features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
       image: '/astega/7-min.jpg',
       rating: 4.9,
-      maxGuests: 6,
+      maxGuests: 4,
       slug: 'sea-garden-room',
     },
     {
@@ -31,7 +31,7 @@ const VillasPreview = () => {
       features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
       image: '/astega/20-min.jpg',
       rating: 4.9,
-      maxGuests: 6,
+      maxGuests: 4,
       slug: 'landscape-room',
     },
     {
@@ -41,7 +41,7 @@ const VillasPreview = () => {
       features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
       image: '/astega/5-min.jpg',
       rating: 5.0,
-      maxGuests: 6,
+      maxGuests: 4,
       slug: 'luxury-landscape',
       isLandscape: true,
     },
