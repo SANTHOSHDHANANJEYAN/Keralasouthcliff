@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { Star, Users, Bed, Bath } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -54,7 +53,7 @@ const VillasPreview = () => {
     []
   );
 
-  // Auto-sliding images
+  // Auto-slide images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndexes((prev) => {
@@ -65,7 +64,7 @@ const VillasPreview = () => {
         });
         return updated;
       });
-    }, 4000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [villas]);
 
@@ -73,46 +72,36 @@ const VillasPreview = () => {
     <section className="bg-white pb-[3rem]">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Asteya Villas</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             A peaceful sanctuary set on Kerala’s sun-kissed coast. Choose your experience — ground, sky, or panoramic luxury.
           </p>
-        </motion.div>
+        </div>
 
         {/* Regular Villas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
             return (
-              <Card
-                key={villa.id}
-                className="overflow-hidden rounded-2xl border border-gray-200"
-              >
+              <Card key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200">
                 <div className="relative h-72 overflow-hidden">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 1 }}
-                      className="absolute inset-0"
+                  {villa.images.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                        idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                      }`}
                     >
                       <Image
-                        src={villa.images[currentIndex]}
+                        src={img}
                         alt={villa.name}
                         fill
                         className="object-cover rounded-t-2xl"
                         onClick={() => setSelectedVilla(villa.id)}
                       />
-                    </motion.div>
-                  </AnimatePresence>
+                    </div>
+                  ))}
 
                   {/* Rating */}
                   <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
@@ -120,16 +109,12 @@ const VillasPreview = () => {
                     <span className="text-sm font-medium">{villa.rating}</span>
                   </div>
 
-                  {/* Image dots */}
-                  <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2">
-                    {villa.images.map((_, idx) => (
-                      <span
-                        key={idx}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          currentIndex === idx ? 'bg-white shadow-md' : 'bg-gray-300'
-                        }`}
-                      ></span>
-                    ))}
+                  {/* Progress Bar */}
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
+                    <div
+                      className="h-full bg-white animate-progress"
+                      key={currentIndex}
+                    />
                   </div>
                 </div>
 
@@ -171,29 +156,24 @@ const VillasPreview = () => {
         {villas.filter((v) => v.isLandscape).map((villa) => {
           const currentIndex = currentIndexes[villa.id] ?? 0;
           return (
-            <div
-              key={villa.id}
-              className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row"
-            >
+            <div key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row">
               <div className="md:w-1/2 relative overflow-hidden h-72 md:h-[500px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1 }}
-                    className="absolute inset-0"
+                {villa.images.map((img, idx) => (
+                  <div
+                    key={idx}
+                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                      idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                    }`}
                   >
                     <Image
-                      src={villa.images[currentIndex]}
+                      src={img}
                       alt={villa.name}
                       fill
                       className="object-cover rounded-l-2xl"
                       onClick={() => setSelectedVilla(villa.id)}
                     />
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                ))}
 
                 {/* Rating */}
                 <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
@@ -201,16 +181,9 @@ const VillasPreview = () => {
                   <span className="text-sm font-medium">{villa.rating}</span>
                 </div>
 
-                {/* Image dots */}
-                <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2">
-                  {villa.images.map((_, idx) => (
-                    <span
-                      key={idx}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        currentIndex === idx ? 'bg-white shadow-md' : 'bg-gray-300'
-                      }`}
-                    ></span>
-                  ))}
+                {/* Progress Bar */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
+                  <div className="h-full bg-white animate-progress" key={currentIndex} />
                 </div>
               </div>
 
@@ -249,16 +222,12 @@ const VillasPreview = () => {
 
         {/* Virtual Tour */}
         {selectedVilla && (
-          <motion.div
+          <div
             className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             onClick={() => setSelectedVilla(null)}
           >
-            <motion.div
+            <div
               className="bg-white w-full max-w-4xl rounded-xl shadow-lg relative border border-black p-6"
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
               onClick={(e) => e.stopPropagation()}
             >
               <Button
@@ -277,10 +246,25 @@ const VillasPreview = () => {
                     : 'landscape'
                 }
               />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         )}
       </div>
+
+      {/* Progress Animation */}
+      <style jsx>{`
+        @keyframes progressFill {
+          from {
+            width: 0%;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        .animate-progress {
+          animation: progressFill 6s linear forwards;
+        }
+      `}</style>
     </section>
   );
 };
