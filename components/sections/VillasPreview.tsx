@@ -48,7 +48,7 @@ const VillasPreview = () => {
   ];
 
   return (
-    <section className="bg-white pb-[5rem]">
+    <section className="bg-white pb-[3rem]">
       <div className="max-w-7xl mx-auto px-4">
         
         {/* Header */}
