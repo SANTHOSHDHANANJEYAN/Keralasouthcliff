@@ -38,7 +38,7 @@ const galleryData = [
   { src: '/astega/28-min.jpg', alt: 'Lighting' },
   { src: '/astega/29-min.jpg', alt: 'Dining' },
   { src: '/astega/30-min.jpg', alt: 'Room Decor' },
-  { src: '/astega/32-min.jpg', alt: 'Balcony' },
+
 
   // Rooms
   { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
