@@ -88,8 +88,8 @@ const ContactSection = () => {
     { label: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM' },
     { label: 'Advance Booking', value: '50% advance required' },
     { label: 'Cancellation', value: 'Free up to 48 hours' },
-    { label: 'Maximum Guests', value: '4 guests per villa' },
-    { label: 'Payment Methods', value: 'Credit card, bank transfer, PayPal' },
+    { label: 'Maximum Guests', value: 'Maximum 4 guests (For more than 4 persons, please inquire)' },
+    { label: 'Payment Methods', value: 'Cash / UPI / Bank Transfer' },
     { label: 'Confirmation', value: 'Email / WhatsApp' }
   ];
 

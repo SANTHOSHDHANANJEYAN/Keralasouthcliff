@@ -21,9 +21,6 @@ const slides = [
   {
     backgroundImage: '/astega/14-min.jpg',
   },
-    {
-    backgroundImage: '/astega/18-min.jpg',
-  },
 ];
 
 const Hero = () => {
