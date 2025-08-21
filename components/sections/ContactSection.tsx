@@ -245,7 +245,7 @@ const ContactSection = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="bg-green-700 text-white py-3 px-6 rounded-md hover:bg-green-800 transition-colors"
+                className="bg-black text-white py-3 px-6 rounded-md hover:bg-green-800 transition-colors"
               >
                 Enquire Now
               </button>
