@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <Image
-              src="/Asteya -website/image.png"
+              src="/image.png"
               alt="K Logo"
               width={180}
               height={40}
