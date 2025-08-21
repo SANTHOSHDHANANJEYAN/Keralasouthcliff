@@ -137,7 +137,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     className={`w-full p-3 border ${
                       errors.name ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
+                    } rounded-md focus:ring-2 focus:ring-black`}
                   />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     className={`w-full p-3 border ${
                       errors.email ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
+                    } rounded-md focus:ring-2 focus:ring-black`}
                   />
                 </div>
               </div>
@@ -166,7 +166,7 @@ const ContactSection = () => {
                   }}
                   inputClass={`!w-full !p-3 !rounded-md !border ${
                     errors.phone ? '!border-red-500' : '!border-gray-300'
-                  } !focus:ring-2 !focus:ring-yellow-400`}
+                  } !focus:ring-2 !focus:ring-black`}
                 />
               </div>
 
@@ -181,7 +181,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     className={`w-full p-3 border ${
                       errors.checkIn ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
+                    } rounded-md focus:ring-2 focus:ring-black`}
                   />
                 </div>
                 <div>
@@ -193,7 +193,7 @@ const ContactSection = () => {
                     onChange={handleChange}
                     className={`w-full p-3 border ${
                       errors.checkOut ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-yellow-400`}
+                    } rounded-md focus:ring-2 focus:ring-black`}
                   />
                 </div>
                 <div>
@@ -205,7 +205,7 @@ const ContactSection = () => {
                     max={4}
                     value={formData.guests}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                   />
                 </div>
               </div>
@@ -219,7 +219,7 @@ const ContactSection = () => {
                   onChange={handleChange}
                   className={`w-full p-3 border ${
                     errors.villa ? 'border-red-500' : 'border-gray-300'
-                  } rounded-md focus:ring-2 focus:ring-yellow-400`}
+                  } rounded-md focus:ring-2 focus:ring-black`}
                 >
                   <option value="">Choose an option</option>
                   <option value="Top Floor">Top Floor</option>
@@ -237,7 +237,7 @@ const ContactSection = () => {
                   maxLength={180}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-400"
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                 />
                 <span className="text-xs text-gray-400 float-right">{formData.message.length}/180</span>
               </div>
