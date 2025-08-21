@@ -23,7 +23,6 @@ const galleryData = [
   { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
   { src: '/astega/4-min.jpg', alt: 'Bedroom' },
   { src: '/astega/8-min.jpg', alt: 'Bathroom' },
-  { src: '/astega/9-min.jpg', alt: 'Living Area' },
   { src: '/astega/11-min.jpg', alt: 'Interior View' },
   { src: '/astega/12-min.jpg', alt: 'Modern Finish' },
   { src: '/astega/13-min.jpg', alt: 'Decor' },
