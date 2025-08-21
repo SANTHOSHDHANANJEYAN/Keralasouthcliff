@@ -16,7 +16,7 @@ const slides = [
     backgroundImage: '/astega/29-min.jpg',
   },
   {
-    backgroundImage: '/astega/9-min.jpg',
+    backgroundImage: '/astega/20-min.jpg',
   },
   {
     backgroundImage: '/astega/14-min.jpg',
