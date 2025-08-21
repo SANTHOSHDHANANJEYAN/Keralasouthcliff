@@ -115,7 +115,7 @@ const VillasPreview = () => {
                   </AnimatePresence>
 
                   {/* Rating */}
-                  <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
+                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
                     <Star size={16} className="text-yellow-500" />
                     <span className="text-sm font-medium">{villa.rating}</span>
                   </div>
@@ -126,7 +126,7 @@ const VillasPreview = () => {
                       <span
                         key={idx}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          currentIndex === idx ? 'bg-white shadow-md' : 'bg-white/40'
+                          currentIndex === idx ? 'bg-white shadow-md' : 'bg-gray-300'
                         }`}
                       ></span>
                     ))}
@@ -196,7 +196,7 @@ const VillasPreview = () => {
                 </AnimatePresence>
 
                 {/* Rating */}
-                <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
                   <Star size={16} className="text-yellow-500" />
                   <span className="text-sm font-medium">{villa.rating}</span>
                 </div>
@@ -207,7 +207,7 @@ const VillasPreview = () => {
                     <span
                       key={idx}
                       className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        currentIndex === idx ? 'bg-white shadow-md' : 'bg-white/40'
+                        currentIndex === idx ? 'bg-white shadow-md' : 'bg-gray-300'
                       }`}
                     ></span>
                   ))}
@@ -250,7 +250,7 @@ const VillasPreview = () => {
         {/* Virtual Tour */}
         {selectedVilla && (
           <motion.div
-            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => setSelectedVilla(null)}
