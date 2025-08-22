@@ -37,7 +37,7 @@ const ActivitiesSection: React.FC = () => {
 
   return (
     <section className="relative w-full h-[700px] sm:h-[800px] md:h-[950px] lg:h-[1100px] flex items-center justify-center overflow-hidden bg-black">
-      
+
       {/* Floating Words */}
       {floatingWords.map((word, i) => (
         <motion.div
@@ -46,7 +46,11 @@ const ActivitiesSection: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.5, duration: 1 }}
           className={`absolute left-1/2 top-1/2 -translate-x-1/2 z-0 transform ${
-            i === 0 ? '-translate-y-[160%] -rotate-6' : i === 1 ? '-translate-y-1/2 rotate-3' : '-translate-y-[10%] -rotate-1'
+            i === 0
+              ? '-translate-y-[160%] -rotate-6'
+              : i === 1
+              ? '-translate-y-1/2 rotate-3'
+              : '-translate-y-[10%] -rotate-1'
           }`}
         >
           <svg
@@ -101,9 +105,13 @@ const ActivitiesSection: React.FC = () => {
                   alt={`Activity Image ${i}`}
                   fill
                   className="object-cover rounded-3xl filter grayscale transition-transform duration-700 ease-in-out hover:scale-105 hover:brightness-110"
-                  sizes="(max-width: 640px) 180px, (max-width: 768px) 240px, (max-width: 1024px) 320px, 360px"
-                  quality={75}
-                  priority={i === 1 && index === 0}
+                  sizes="(max-width: 640px) 180px,
+                         (max-width: 768px) 240px,
+                         (max-width: 1024px) 320px,
+                         400px"
+                  quality={85} // Higher quality to prevent pixelation
+                  loading={i === 1 && index === 0 ? 'eager' : 'lazy'} // Lazy load non-priority images
+                  priority={i === 1 && index === 0} // Center image loads first for better LCP
                 />
               </motion.div>
             </AnimatePresence>
