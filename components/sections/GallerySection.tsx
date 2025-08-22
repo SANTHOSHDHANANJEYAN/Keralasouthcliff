@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const galleryData = [
   { src: '/astega/1-min.jpg', alt: 'Beach View' },
@@ -42,15 +43,14 @@ const galleryData = [
 ];
 
 const GallerySection = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [visibleImages, setVisibleImages] = useState(12); // Load first 12 images initially
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [visibleImages, setVisibleImages] = useState(12);
 
-  // Load more images function
   const loadMoreImages = useCallback(() => {
-    setVisibleImages(prev => Math.min(prev + 8, galleryData.length));
+    setVisibleImages((prev) => Math.min(prev + 8, galleryData.length));
   }, []);
 
-  // Intersection Observer for lazy loading more images
+  // Infinite scroll lazy load
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -64,12 +64,32 @@ const GallerySection = () => {
     );
 
     const sentinel = document.querySelector('.load-more-sentinel');
-    if (sentinel) {
-      observer.observe(sentinel);
-    }
+    if (sentinel) observer.observe(sentinel);
 
     return () => observer.disconnect();
   }, [visibleImages, loadMoreImages]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+
+      if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev + 1) % galleryData.length : prev
+        );
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
+        );
+      }
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedIndex]);
 
   return (
     <section className="py-16 bg-white text-black">
@@ -81,6 +101,7 @@ const GallerySection = () => {
           </p>
         </div>
 
+        {/* Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -97,7 +118,7 @@ const GallerySection = () => {
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setSelectedImage(image.src)}
+                onClick={() => setSelectedIndex(index)}
                 className="relative cursor-pointer overflow-hidden rounded-xl border border-black/10 bg-black/5 shadow-md hover:shadow-lg transition duration-300 group"
               >
                 <Image
@@ -106,21 +127,19 @@ const GallerySection = () => {
                   width={400}
                   height={300}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  priority={index < 6} // Prioritize first 6 images
-                  quality={70} // Slightly reduced quality for faster loading
+                  priority={index < 6}
+                  quality={70}
                   className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </motion.div>
             ))}
-
-            {/* Load more sentinel */}
             {visibleImages < galleryData.length && (
               <div className="load-more-sentinel col-span-full h-10"></div>
             )}
           </motion.div>
         </AnimatePresence>
 
-        {/* Manual load more button as fallback */}
+        {/* Fallback load more button */}
         {visibleImages < galleryData.length && (
           <div className="text-center mt-8">
             <button
@@ -132,23 +151,56 @@ const GallerySection = () => {
           </div>
         )}
 
-        {/* Image Preview Modal */}
-        <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-          <DialogContent className="max-w-4xl bg-transparent border-none shadow-none p-0 flex justify-center items-center">
-            {selectedImage && (
+        {/* Modal */}
+        <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
+          <DialogContent className="max-w-5xl bg-transparent border-none shadow-none p-0 flex justify-center items-center">
+            {selectedIndex !== null && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="relative w-full h-auto"
+                className="relative w-full h-auto flex justify-center items-center"
               >
+                {/* Close button (outside top-right) */}
+                <button
+                  onClick={() => setSelectedIndex(null)}
+                  className="absolute -top-12 right-0 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                >
+                  <X size={34} className="text-white" />
+                </button>
+
+                {/* Prev button */}
+                <button
+                  onClick={() =>
+                    setSelectedIndex((prev) =>
+                      prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
+                    )
+                  }
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                >
+                  <ChevronLeft size={40} className="text-white" />
+                </button>
+
+                {/* Next button */}
+                <button
+                  onClick={() =>
+                    setSelectedIndex((prev) =>
+                      prev !== null ? (prev + 1) % galleryData.length : prev
+                    )
+                  }
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                >
+                  <ChevronRight size={40} className="text-white" />
+                </button>
+
+                {/* Image */}
                 <Image
-                  src={selectedImage}
-                  alt="Preview"
+                  src={galleryData[selectedIndex].src}
+                  alt={galleryData[selectedIndex].alt}
                   width={1200}
                   height={800}
-                  quality={85} // Better quality for modal
+                  quality={85}
                   sizes="90vw"
                   className="rounded-lg object-contain max-h-[80vh] mx-auto"
                 />
