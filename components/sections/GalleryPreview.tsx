@@ -4,7 +4,7 @@ import React, { useState, memo, useCallback, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Heart, Share2, Maximize2 } from 'lucide-react';
+import { Heart, Share2, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
 const galleryImages = [
@@ -28,7 +28,7 @@ type GalleryItemProps = {
   index: number;
   likedImages: Set<number>;
   toggleLike: (index: number) => void;
-  onOpen: (image: GalleryImage) => void;
+  onOpen: (index: number) => void;
 };
 
 const GalleryItem = memo(function GalleryItem({
@@ -45,9 +45,9 @@ const GalleryItem = memo(function GalleryItem({
           src={image.src}
           alt={image.alt}
           fill
-          priority={index < 6} // All images get priority
-          quality={60} // Lower quality for faster loading
-          placeholder="empty" // No blur placeholder for faster rendering
+          priority={index < 6}
+          quality={60}
+          placeholder="empty"
           className="object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
@@ -90,7 +90,7 @@ const GalleryItem = memo(function GalleryItem({
 
         {/* View Button */}
         <div
-          onClick={() => onOpen(image)}
+          onClick={() => onOpen(index)}
           className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-150 bg-black/10"
         >
           <Button size="sm" className="bg-white/95 text-black border border-black/10 hover:bg-white shadow-lg">
@@ -105,9 +105,9 @@ GalleryItem.displayName = 'GalleryItem';
 
 export default function GalleryPreview() {
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [openImage, setOpenImage] = useState<GalleryImage | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  // Aggressive preloading - preload all images immediately
+  // Preload all images aggressively
   useEffect(() => {
     galleryImages.forEach((image) => {
       const img = new window.Image();
@@ -123,9 +123,15 @@ export default function GalleryPreview() {
     });
   }, []);
 
-  const handleOpen = useCallback((image: GalleryImage) => {
-    setOpenImage(image);
-  }, []);
+  const handleNext = () => {
+    if (openIndex === null) return;
+    setOpenIndex((openIndex + 1) % galleryImages.length);
+  };
+
+  const handlePrev = () => {
+    if (openIndex === null) return;
+    setOpenIndex((openIndex - 1 + galleryImages.length) % galleryImages.length);
+  };
 
   return (
     <section className="pt-8 bg-white text-black">
@@ -145,35 +151,64 @@ export default function GalleryPreview() {
               index={idx}
               likedImages={likedImages}
               toggleLike={toggleLike}
-              onOpen={handleOpen}
+              onOpen={setOpenIndex}
             />
           ))}
         </div>
 
-        {/* Single Centralized Dialog */}
-        <Dialog open={!!openImage} onOpenChange={() => setOpenImage(null)}>
-          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
-            {openImage && (
-              <div className="relative w-full h-[85vh]">
-                <Image
-                  src={openImage.src}
-                  alt={openImage.alt}
-                  fill
-                  quality={80} // Balanced quality for modal
-                  className="object-contain"
-                  sizes="90vw"
-                  priority
-                />
-                <div className="absolute bottom-0 left-0 right-0 bg-white/95 p-4 sm:p-6 border-t border-gray-200">
-                  <h3 className="text-black font-bold text-lg sm:text-xl mb-1">
-                    {openImage.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-700 mb-2">{openImage.alt}</p>
-                  <Badge className="bg-blue-100 text-blue-800 border border-blue-200 hover:bg-blue-200">
-                    {openImage.category}
-                  </Badge>
+        {/* Dialog with Close and Navigation */}
+        <Dialog open={openIndex !== null} onOpenChange={() => setOpenIndex(null)}>
+          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black rounded-xl overflow-hidden relative">
+            {openIndex !== null && (
+              <>
+                {/* Close Button */}
+                <button
+                  onClick={() => setOpenIndex(null)}
+                  className="absolute top-4 right-4 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                >
+                  <X size={20} className="text-black" />
+                </button>
+
+                {/* Prev Button */}
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                >
+                  <ChevronLeft size={24} className="text-black" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={handleNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                >
+                  <ChevronRight size={24} className="text-black" />
+                </button>
+
+                {/* Image */}
+                <div className="relative w-full h-[85vh]">
+                  <Image
+                    src={galleryImages[openIndex].src}
+                    alt={galleryImages[openIndex].alt}
+                    fill
+                    quality={80}
+                    className="object-contain"
+                    sizes="90vw"
+                    priority
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-white/95 p-4 sm:p-6 border-t border-gray-200">
+                    <h3 className="text-black font-bold text-lg sm:text-xl mb-1">
+                      {galleryImages[openIndex].title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-700 mb-2">
+                      {galleryImages[openIndex].alt}
+                    </p>
+                    <Badge className="bg-blue-100 text-blue-800 border border-blue-200 hover:bg-blue-200">
+                      {galleryImages[openIndex].category}
+                    </Badge>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </DialogContent>
         </Dialog>
