@@ -7,39 +7,40 @@ import Image from 'next/image';
 
 const LocationPreview = () => {
   const nearbyAttractions = [
-    {
-      name: 'Varkala Beach',
-      distance: '0.1 km',
-      time: '2 min walk',
-      description: 'Direct access to pristine beach',
-      image: '/Varkalabeach.jpg',
-      url: 'https://www.google.com/search?gs_ssp=eJzj4tLP1TdISoo3Mrc0YPTiLUssyk7MSVRISk1MzgAAbGIIUg&q=varkala+beach&oq=varkala+beach&gs_lcrp=EgZjaHJvbWUqEAgBEC4YkQIYsQMYgAQYigUyEwgAEAAYkQIY4wIYsQMYgAQYigUyEAgBEC4YkQIYsQMYgAQYigUyDQgCEAAYkQIYgAQYigUyBwgDEAAYgAQyBwgEEAAYgAQyBwgFEAAYgAQyEAgGEAAYkQIYsQMYgAQYigUyBwgHEAAYgAQyBwgIEAAYgAQyBwgJEAAYgATSAQg4MjYzajBqN6gCCLACAfEFAm6Gj3Hn4UM&sourceid=chrome&ie=UTF-8',
-    },
-    {
-      name: 'Varkala Cliff',
-      distance: '0.0 km',
-      time: 'On property',
-      description: 'Located on the famous South Cliff',
-      image: '/varkalacliff.jpg',
-      url: 'https://www.google.com/search?q=varkala+cliff&sca_esv=ce44fb6aa5ce43e4&sxsrf=AE3TifN72WcLOSLTVo6QRHb0Q2i9fLxnKw%3A1755873992685&ei=yIKoaJ3CKcTs1e8Phv2GwQw&oq=varkala+beach&gs_lp=Egxnd3Mtd2l6LXNlcnAiDXZhcmthbGEgYmVhY2gqAggAMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMg0QABiwAxjWBBhHGMkDMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMg4QABiABBiwAxiSAxiKBTINEC4YgAQYsAMYQxiKBTINEAAYgAQYsAMYQxiKBTINEAAYgAQYsAMYQxiKBTIOEAAYsAMY5AIY1gTYAQEyDhAAGLADGOQCGNYE2AEBMg4QABiwAxjkAhjWBNgBATITEC4YgAQYsAMYQxjIAxiKBdgBATITEC4YgAQYsAMYQxjIAxiKBdgBATIZEC4YgAQYsAMYQxjHARjIAxiKBRivAdgBATITEC4YgAQYsAMYQxjIAxiKBdgBAUjdDVAAWABwAXgBkAEAmAEAoAEAqgEAuAEByAEAmAIBoAI3mAMAiAYBkAYTugYGCAEQARgJkgcBMaAHALIHALgHAMIHAzUtMcgHMg&sclient=gws-wiz-serp',
-    },
-    {
-      name: 'Jadayu rock',
-      distance: '1.2 km',
-      time: '15 min walk',
-      description: 'Ancient temple with spiritual significance',
-      image: '/temple.jpg',
-      url: 'https://www.google.com/search?q=Jadayu+rock&oq=Jadayu%C2%A0rock&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTITCAEQLhivARjHARiRAhiABBiKBTITCAIQLhivARjHARiRAhiABBiKBTINCAMQABiRAhiABBiKBTIJCAQQABgKGIAEMgkIBRAAGAoYgAQyCQgGEAAYChiABDIPCAcQLhgKGK8BGMcBGIAEMgkICBAAGAoYgATSAQc4NDRqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8',
-    },
-    {
-      name: 'Kappil Beach',
-      distance: '4.5 km',
-      time: '10 min drive',
-      description: 'Secluded beach with backwaters',
-      image: '/kappilbeach.jpg',
-      url: 'https://www.google.com/search?q=Kappil+Beach&oq=Kappil+Beach&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBBzc5MmowajmoAgCwAgA&sourceid=chrome&ie=UTF-8',
-    },
-  ];
+  {
+    name: 'Varkala Beach',
+    distance: '0.1 km',
+    time: '2 min walk',
+    description: 'Golden sands and sunset views.',
+    image: '/Varkalabeach.jpg',
+    url: 'https://www.google.com/search?q=varkala+beach',
+  },
+  {
+    name: 'Varkala Cliff',
+    distance: '0.0 km',
+    time: 'On property',
+    description: 'Cliffside views and lively cafes.',
+    image: '/varkalacliff.jpg',
+    url: 'https://www.google.com/search?q=varkala+cliff',
+  },
+  {
+    name: 'Jadayu Rock',
+    distance: '1.2 km',
+    time: '15 min walk',
+    description: 'Mythical rock with scenic views.',
+    image: '/temple.jpg',
+    url: 'https://www.google.com/search?q=Jadayu+rock',
+  },
+  {
+    name: 'Kappil Beach',
+    distance: '4.5 km',
+    time: '10 min drive',
+    description: 'Where backwaters meet the sea.',
+    image: '/kappilbeach.jpg',
+    url: 'https://www.google.com/search?q=Kappil+Beach',
+  },
+];
+
 
   const transportOptions = [
     {
