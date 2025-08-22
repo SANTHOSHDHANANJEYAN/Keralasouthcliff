@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import Link from 'next/link';
 import Image from 'next/image';
 
 const contactInfo = [
@@ -74,18 +76,14 @@ const ContactPreview = () => {
 
         {/* Image + Booking Info Grid */}
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Optimized Image */}
+          {/* Image Instead of Form */}
           <div className="w-full h-full">
             <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
               <Image
-                src="/contactimg.webp"  // ✅ Use optimized WebP format
+                src="/contactimg.gif" // Replace this with your actual image path
                 alt="Contact Visual"
                 fill
-                priority={false}       // ✅ Lazy load on scroll
-                loading="lazy"
-                quality={90}           // ✅ Better image clarity
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 hover:scale-105"
+                className="object-cover"
               />
             </div>
           </div>
@@ -93,12 +91,10 @@ const ContactPreview = () => {
           {/* Booking Information */}
           <Card className="shadow-sm">
             <CardContent className="p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">
-                Booking Information
-              </h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
               <div className="space-y-5">
                 {[
-                  ['Room Rate', 'Give request for price details (both villas)'],
+                  ['Room Rate', 'Give request for price details(both villas)'],
                   ['Minimum Stay', '1 Day minimum booking required'],
                   ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
                   ['Advance Booking', '50% advance payment required'],
@@ -116,6 +112,8 @@ const ContactPreview = () => {
             </CardContent>
           </Card>
         </div>
+
+
       </div>
     </section>
   );
