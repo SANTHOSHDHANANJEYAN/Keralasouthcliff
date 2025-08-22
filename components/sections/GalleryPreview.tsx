@@ -3,7 +3,7 @@
 import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -46,9 +46,12 @@ const GalleryItem = memo(function GalleryItem({
           alt={image.alt}
           width={800}
           height={600}
+          quality={90} // Better clarity
+          placeholder="blur" // Smooth loading
+          blurDataURL="/blur-placeholder.webp"
           className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
-          loading={index === 0 ? 'eager' : 'lazy'}
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading={index <= 1 ? 'eager' : 'lazy'}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
 
         {/* Hover Buttons */}
@@ -57,14 +60,11 @@ const GalleryItem = memo(function GalleryItem({
             size="icon"
             variant="ghost"
             onClick={() => toggleLike(index)}
-            className="bg-white/80 p-2"
+            className="bg-white/80 p-2 rounded-full hover:scale-105 transition-transform"
           >
-            <Heart
-              size={16}
-              className={likedImages.has(index) ? 'fill-black text-black' : ''}
-            />
+            <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
           </Button>
-          <Button size="icon" variant="ghost" className="bg-white/80 p-2">
+          <Button size="icon" variant="ghost" className="bg-white/80 p-2 rounded-full hover:scale-105 transition-transform">
             <Share2 size={16} />
           </Button>
         </div>
@@ -84,7 +84,7 @@ const GalleryItem = memo(function GalleryItem({
           onClick={() => onOpen(image)}
           className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
         >
-          <Button size="sm" className="bg-white/90 text-black border border-black/10">
+          <Button size="sm" className="bg-white/90 text-black border border-black/10 hover:scale-105 transition-transform">
             <Maximize2 className="mr-2" size={16} /> View
           </Button>
         </div>
@@ -113,6 +113,7 @@ export default function GalleryPreview() {
   return (
     <section className="pt-[2rem] bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
@@ -120,6 +121,7 @@ export default function GalleryPreview() {
           </p>
         </div>
 
+        {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
           {galleryImages.map((img, idx) => (
             <GalleryItem
@@ -133,7 +135,7 @@ export default function GalleryPreview() {
           ))}
         </div>
 
-        {/* Single Centralized Dialog */}
+        {/* Image Dialog */}
         <Dialog open={!!openImage} onOpenChange={() => setOpenImage(null)}>
           <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
             {openImage && (
@@ -142,8 +144,12 @@ export default function GalleryPreview() {
                   src={openImage.src}
                   alt={openImage.alt}
                   fill
+                  quality={95}
+                  priority
                   className="object-contain"
-                  sizes="90vw"
+                  sizes="100vw"
+                  placeholder="blur"
+                  blurDataURL="/blur-placeholder.webp"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
                   <h3 className="text-black font-bold text-lg sm:text-xl mb-1">
