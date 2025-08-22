@@ -61,12 +61,6 @@ const Footer = () => {
               <a href="https://www.instagram.com/asteya_beachvilla?igsh=MWtlZzlndW9hanNvNA==" className="text-gray-400 hover:text-white transition-colors">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter size={20} />
-              </a>
               <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 512 512">
                   <path d="M256 0C114.836 0 0 114.84 0 256s114.836 256 256 256 256-114.84 256-256S397.164 0 256 0zm-43.3 380.1c-28.9-35.6-60.2-78.3-84.1-125.5-19.3-37.8-26.6-71.2-22.4-99.3 4.2-27.8 19.3-49.7 44.3-62.5 25-12.9 53.5-13.4 83.2-1.4 27.7 11.1 52.2 34.6 73 69.9 33.4 58.3 34.5 108.6 3.5 150.1-18.1 24.3-42.2 41.2-71.5 50.3-8.5 2.6-18.1-0.7-23.5-8.3zm53.5-97.2c14.8 0 26.9-12.1 26.9-26.9s-12.1-26.9-26.9-26.9-26.9 12.1-26.9 26.9 12.1 26.9 26.9 26.9z" />
