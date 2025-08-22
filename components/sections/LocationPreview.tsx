@@ -7,40 +7,39 @@ import Image from 'next/image';
 
 const LocationPreview = () => {
   const nearbyAttractions = [
-  {
-    name: 'Varkala Beach',
-    distance: '0.1 km',
-    time: '2 min walk',
-    description: 'Golden sands and sunset views.',
-    image: '/Varkalabeach.jpg',
-    url: 'https://www.google.com/search?q=varkala+beach',
-  },
-  {
-    name: 'Varkala Cliff',
-    distance: '0.0 km',
-    time: 'On property',
-    description: 'Cliffside views and lively cafes.',
-    image: '/varkalacliff.jpg',
-    url: 'https://www.google.com/search?q=varkala+cliff',
-  },
-  {
-    name: 'Jadayu Rock',
-    distance: '1.2 km',
-    time: '15 min walk',
-    description: 'Mythical rock with scenic views.',
-    image: '/temple.jpg',
-    url: 'https://www.google.com/search?q=Jadayu+rock',
-  },
-  {
-    name: 'Kappil Beach',
-    distance: '4.5 km',
-    time: '10 min drive',
-    description: 'Where backwaters meet the sea.',
-    image: '/kappilbeach.jpg',
-    url: 'https://www.google.com/search?q=Kappil+Beach',
-  },
-];
-
+    {
+      name: 'Varkala Beach',
+      distance: '0.1 km',
+      time: '2 min walk',
+      description: 'Golden sands and sunset views.',
+      image: '/Varkalabeach.webp',
+      url: 'https://www.google.com/search?q=varkala+beach',
+    },
+    {
+      name: 'Varkala Cliff',
+      distance: '0.0 km',
+      time: 'On property',
+      description: 'Cliffside views and lively cafes.',
+      image: '/varkalacliff.webp',
+      url: 'https://www.google.com/search?q=varkala+cliff',
+    },
+    {
+      name: 'Jadayu Rock',
+      distance: '1.2 km',
+      time: '15 min walk',
+      description: 'Mythical rock with scenic views.',
+      image: '/temple.webp',
+      url: 'https://www.google.com/search?q=Jadayu+rock',
+    },
+    {
+      name: 'Kappil Beach',
+      distance: '4.5 km',
+      time: '10 min drive',
+      description: 'Where backwaters meet the sea.',
+      image: '/kappilbeach.webp',
+      url: 'https://www.google.com/search?q=Kappil+Beach',
+    },
+  ];
 
   const transportOptions = [
     {
@@ -75,7 +74,7 @@ const LocationPreview = () => {
 
         {/* Map + Location */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16 items-start">
-          {/* Embedded Google Map */}
+          {/* Optimized Embedded Google Map */}
           <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition duration-300">
             <CardContent className="p-0">
               <div className="relative h-80 sm:h-96">
@@ -84,7 +83,7 @@ const LocationPreview = () => {
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen={false}
+                  allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="South Cliff Varkala Map"
@@ -152,7 +151,7 @@ const LocationPreview = () => {
                 rel="noopener noreferrer"
                 className="group block h-full"
               >
-                <Card className="h-full flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300">
+                <Card className="h-full flex flex-col bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-transform duration-300">
                   <CardContent className="p-0 flex flex-col h-full">
                     {/* Thumbnail */}
                     <div className="w-full h-40 relative">
@@ -160,7 +159,13 @@ const LocationPreview = () => {
                         src={attraction.image}
                         alt={attraction.name}
                         fill
+                        quality={95}
+                        priority={index < 2} // Preload first two images for speed
+                        loading={index < 2 ? 'eager' : 'lazy'}
+                        placeholder="blur"
+                        blurDataURL="/placeholder.webp"
                         className="object-cover rounded-t-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       />
                     </div>
                     {/* Text */}
