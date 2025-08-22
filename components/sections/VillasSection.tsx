@@ -24,17 +24,13 @@ const VillasSection = () => {
             <Link href={`/villas/${villa.id}`} key={villa.id} passHref>
               <div className="group block border rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 h-full flex flex-col">
                 {/* Villa Image */}
-                <div className="relative w-full h-64">
+                <div className="relative h-64 w-full">
                   <Image
                     src={villa.images[0]}
                     alt={villa.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    priority={false} // Lazy load by default
-                    quality={90} // Better quality images without pixelation
-                    placeholder="blur"
-                    blurDataURL="/placeholder.webp" // Add a lightweight placeholder image
+                    layout="fill"
+                    objectFit="cover"
+                    className="group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
 
