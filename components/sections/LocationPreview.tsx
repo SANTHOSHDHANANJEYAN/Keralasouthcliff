@@ -13,7 +13,7 @@ const LocationPreview = () => {
       time: '2 min walk',
       description: 'Direct access to pristine beach',
       image: '/Varkalabeach.jpg',
-      url: 'https://en.wikipedia.org/wiki/Varkala_Beach',
+      url: 'https://www.google.com/search?gs_ssp=eJzj4tLP1TdISoo3Mrc0YPTiLUssyk7MSVRISk1MzgAAbGIIUg&q=varkala+beach&oq=varkala+beach&gs_lcrp=EgZjaHJvbWUqEAgBEC4YkQIYsQMYgAQYigUyEwgAEAAYkQIY4wIYsQMYgAQYigUyEAgBEC4YkQIYsQMYgAQYigUyDQgCEAAYkQIYgAQYigUyBwgDEAAYgAQyBwgEEAAYgAQyBwgFEAAYgAQyEAgGEAAYkQIYsQMYgAQYigUyBwgHEAAYgAQyBwgIEAAYgAQyBwgJEAAYgATSAQg4MjYzajBqN6gCCLACAfEFAm6Gj3Hn4UM&sourceid=chrome&ie=UTF-8',
     },
     {
       name: 'Varkala Cliff',
@@ -21,15 +21,15 @@ const LocationPreview = () => {
       time: 'On property',
       description: 'Located on the famous South Cliff',
       image: '/varkalacliff.jpg',
-      url: 'https://en.wikipedia.org/wiki/Varkala',
+      url: 'https://www.google.com/search?q=varkala+cliff&sca_esv=ce44fb6aa5ce43e4&sxsrf=AE3TifN72WcLOSLTVo6QRHb0Q2i9fLxnKw%3A1755873992685&ei=yIKoaJ3CKcTs1e8Phv2GwQw&oq=varkala+beach&gs_lp=Egxnd3Mtd2l6LXNlcnAiDXZhcmthbGEgYmVhY2gqAggAMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMg0QABiwAxjWBBhHGMkDMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMgoQABiwAxjWBBhHMg4QABiABBiwAxiSAxiKBTINEC4YgAQYsAMYQxiKBTINEAAYgAQYsAMYQxiKBTINEAAYgAQYsAMYQxiKBTIOEAAYsAMY5AIY1gTYAQEyDhAAGLADGOQCGNYE2AEBMg4QABiwAxjkAhjWBNgBATITEC4YgAQYsAMYQxjIAxiKBdgBATITEC4YgAQYsAMYQxjIAxiKBdgBATIZEC4YgAQYsAMYQxjHARjIAxiKBRivAdgBATITEC4YgAQYsAMYQxjIAxiKBdgBAUjdDVAAWABwAXgBkAEAmAEAoAEAqgEAuAEByAEAmAIBoAI3mAMAiAYBkAYTugYGCAEQARgJkgcBMaAHALIHALgHAMIHAzUtMcgHMg&sclient=gws-wiz-serp',
     },
     {
-      name: 'Janardanaswamy Temple',
+      name: 'Jadayu rock',
       distance: '1.2 km',
       time: '15 min walk',
       description: 'Ancient temple with spiritual significance',
       image: '/temple.jpg',
-      url: 'https://en.wikipedia.org/wiki/Janardanaswamy_Temple',
+      url: 'https://www.google.com/search?q=Jadayu+rock&oq=Jadayu%C2%A0rock&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTITCAEQLhivARjHARiRAhiABBiKBTITCAIQLhivARjHARiRAhiABBiKBTINCAMQABiRAhiABBiKBTIJCAQQABgKGIAEMgkIBRAAGAoYgAQyCQgGEAAYChiABDIPCAcQLhgKGK8BGMcBGIAEMgkICBAAGAoYgATSAQc4NDRqMGo5qAIAsAIA&sourceid=chrome&ie=UTF-8',
     },
     {
       name: 'Kappil Beach',
@@ -37,7 +37,7 @@ const LocationPreview = () => {
       time: '10 min drive',
       description: 'Secluded beach with backwaters',
       image: '/kappilbeach.jpg',
-      url: 'https://en.wikipedia.org/wiki/Kappil_Beach',
+      url: 'https://www.google.com/search?q=Kappil+Beach&oq=Kappil+Beach&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBBzc5MmowajmoAgCwAgA&sourceid=chrome&ie=UTF-8',
     },
   ];
 
