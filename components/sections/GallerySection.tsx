@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const galleryData = [
-  // Exterior
   { src: '/astega/1-min.jpg', alt: 'Beach View' },
   { src: '/astega/2-min.jpg', alt: 'Sunset View' },
   { src: '/astega/5-min.jpg', alt: 'Terrace' },
@@ -44,20 +43,7 @@ const galleryData = [
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [visibleImages, setVisibleImages] = useState(12); // Load first 12 images initially
-
-  // Preload first few images on component mount
-  useEffect(() => {
-    const preloadImages = galleryData.slice(0, 6); // Preload first 6 images
-    preloadImages.forEach((image) => {
-      const img = new window.Image();
-      img.src = image.src;
-      img.onload = () => {
-        setLoadedImages(prev => new Set(prev).add(image.src));
-      };
-    });
-  }, []);
 
   // Load more images function
   const loadMoreImages = useCallback(() => {
@@ -85,10 +71,6 @@ const GallerySection = () => {
     return () => observer.disconnect();
   }, [visibleImages, loadMoreImages]);
 
-  const handleImageLoad = useCallback((src: string) => {
-    setLoadedImages(prev => new Set(prev).add(src));
-  }, []);
-
   return (
     <section className="py-16 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4">
@@ -110,7 +92,7 @@ const GallerySection = () => {
               <motion.div
                 key={index}
                 layout
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 whileHover={{ scale: 1.03 }}
@@ -118,13 +100,6 @@ const GallerySection = () => {
                 onClick={() => setSelectedImage(image.src)}
                 className="relative cursor-pointer overflow-hidden rounded-xl border border-black/10 bg-black/5 shadow-md hover:shadow-lg transition duration-300 group"
               >
-                {/* Loading placeholder */}
-                {!loadedImages.has(image.src) && (
-                  <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl flex items-center justify-center">
-                    <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-                )}
-                
                 <Image
                   src={image.src}
                   alt={image.alt}
@@ -132,27 +107,20 @@ const GallerySection = () => {
                   height={300}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   priority={index < 6} // Prioritize first 6 images
-                  quality={75} // Reduce quality for faster loading
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                  onLoad={() => handleImageLoad(image.src)}
-                  className={`w-full h-60 object-cover transition-all duration-500 group-hover:scale-110 ${
-                    loadedImages.has(image.src) ? 'opacity-100' : 'opacity-0'
-                  }`}
+                  quality={70} // Slightly reduced quality for faster loading
+                  className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </motion.div>
             ))}
-            
+
             {/* Load more sentinel */}
             {visibleImages < galleryData.length && (
-              <div className="load-more-sentinel col-span-full h-10 flex items-center justify-center">
-                <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              </div>
+              <div className="load-more-sentinel col-span-full h-10"></div>
             )}
           </motion.div>
         </AnimatePresence>
 
-        {/* Show remaining count */}
+        {/* Manual load more button as fallback */}
         {visibleImages < galleryData.length && (
           <div className="text-center mt-8">
             <button
@@ -180,7 +148,7 @@ const GallerySection = () => {
                   alt="Preview"
                   width={1200}
                   height={800}
-                  quality={90} // Higher quality for modal
+                  quality={85} // Better quality for modal
                   sizes="90vw"
                   className="rounded-lg object-contain max-h-[80vh] mx-auto"
                 />
