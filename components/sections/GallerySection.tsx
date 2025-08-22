@@ -18,8 +18,6 @@ const galleryData = [
   { src: '/astega/21-min.jpg', alt: 'Cliff View' },
   { src: '/astega/22-min.jpg', alt: 'Cliff View' },
   { src: '/astega/31-min.jpg', alt: 'Cliff View' },
-
-  // Interior
   { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
   { src: '/astega/4-min.jpg', alt: 'Bedroom' },
   { src: '/astega/8-min.jpg', alt: 'Bathroom' },
@@ -37,8 +35,6 @@ const galleryData = [
   { src: '/astega/28-min.jpg', alt: 'Lighting' },
   { src: '/astega/29-min.jpg', alt: 'Dining' },
   { src: '/astega/30-min.jpg', alt: 'Room Decor' },
-
-  // Rooms
   { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
 ];
 
@@ -60,7 +56,7 @@ const GallerySection = () => {
           }
         });
       },
-      { threshold: 0.1, rootMargin: '200px' }
+      { threshold: 0.2, rootMargin: '250px' }
     );
 
     const sentinel = document.querySelector('.load-more-sentinel');
@@ -69,7 +65,7 @@ const GallerySection = () => {
     return () => observer.disconnect();
   }, [visibleImages, loadMoreImages]);
 
-  // Keyboard navigation
+  // Keyboard navigation for modal
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (selectedIndex === null) return;
@@ -94,6 +90,7 @@ const GallerySection = () => {
   return (
     <section className="py-16 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4">
+        {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
@@ -101,7 +98,7 @@ const GallerySection = () => {
           </p>
         </div>
 
-        {/* Grid */}
+        {/* Gallery Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -113,7 +110,7 @@ const GallerySection = () => {
               <motion.div
                 key={index}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 whileHover={{ scale: 1.03 }}
@@ -128,7 +125,10 @@ const GallerySection = () => {
                   height={300}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   priority={index < 6}
-                  quality={70}
+                  quality={85} // Increased quality to avoid pixelation
+                  loading={index < 6 ? 'eager' : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL="/placeholder.webp"
                   className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </motion.div>
@@ -139,7 +139,7 @@ const GallerySection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Fallback load more button */}
+        {/* Load More Button */}
         {visibleImages < galleryData.length && (
           <div className="text-center mt-8">
             <button
@@ -151,18 +151,18 @@ const GallerySection = () => {
           </div>
         )}
 
-        {/* Modal */}
+        {/* Fullscreen Image Modal */}
         <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
           <DialogContent className="max-w-5xl bg-transparent border-none shadow-none p-0 flex justify-center items-center">
             {selectedIndex !== null && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="relative w-full h-auto flex justify-center items-center"
               >
-                {/* Close button (outside top-right) */}
+                {/* Close button */}
                 <button
                   onClick={() => setSelectedIndex(null)}
                   className="absolute -top-12 right-0 bg-black/70 hover:bg-black p-2 rounded-full transition"
@@ -194,13 +194,14 @@ const GallerySection = () => {
                   <ChevronRight size={40} className="text-white" />
                 </button>
 
-                {/* Image */}
+                {/* Large Image */}
                 <Image
                   src={galleryData[selectedIndex].src}
                   alt={galleryData[selectedIndex].alt}
                   width={1200}
                   height={800}
-                  quality={85}
+                  quality={90}
+                  loading="eager"
                   sizes="90vw"
                   className="rounded-lg object-contain max-h-[80vh] mx-auto"
                 />
