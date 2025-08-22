@@ -18,8 +18,9 @@ const VillasPreview = () => {
       {
         id: 1,
         name: 'Ground Floor Villa',
-        description: 'Spacious luxury with beach access and private terrace.',
-        features: ['Private Terrace', 'Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
+        description:
+          'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
+        features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
         images: ['/astega/6-min.jpg', '/astega/11-min.jpg', '/astega/21-min.jpg'],
         rating: 4.9,
         maxGuests: 2,
@@ -28,8 +29,9 @@ const VillasPreview = () => {
       {
         id: 2,
         name: 'Top Floor Villa',
-        description: 'Elevated stay with panoramic cliff views and private balcony.',
-        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedroom', '1 Bathroom'],
+        description:
+          'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
+        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
         images: ['/astega/14-min.jpg', '/astega/28-min.jpg', '/astega/Ateya - Living area-min.png'],
         rating: 4.9,
         maxGuests: 2,
@@ -38,8 +40,9 @@ const VillasPreview = () => {
       {
         id: 3,
         name: 'Entire Villa',
-        description: 'Expansive villa with glass panels and breathtaking views.',
-        features: ['Full Glass View', 'Private Garden', 'Infinity Pool', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
+        description:
+          'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
+        features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
         images: ['/astega/5-min.jpg', '/astega/14-min.jpg', '/astega/19-min.jpg'],
         rating: 5.0,
         maxGuests: 4,
@@ -50,6 +53,7 @@ const VillasPreview = () => {
     []
   );
 
+  // Auto-slide images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndexes((prev) => {
@@ -71,11 +75,11 @@ const VillasPreview = () => {
         <div className="text-center mb-16">
           <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Asteya Villas</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            A peaceful sanctuary on Kerala’s sun-kissed coast.
+            A peaceful sanctuary set on Kerala’s sun-kissed coast. Choose your experience — ground, sky, or panoramic luxury.
           </p>
         </div>
 
-        {/* Villa Cards */}
+        {/* Regular Villas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
@@ -93,7 +97,7 @@ const VillasPreview = () => {
                         src={img}
                         alt={villa.name}
                         fill
-                        className="object-cover rounded-t-2xl cursor-pointer"
+                        className="object-cover rounded-t-2xl"
                         onClick={() => setSelectedVilla(villa.id)}
                       />
                     </div>
@@ -107,15 +111,38 @@ const VillasPreview = () => {
 
                   {/* Progress Bar */}
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
-                    <div className="h-full bg-white animate-progress" key={currentIndex} />
+                    <div
+                      className="h-full bg-white animate-progress"
+                      key={currentIndex}
+                    />
                   </div>
                 </div>
 
                 <CardContent className="p-6">
-                  <h3 className="text-2xl font-bold text-black mb-2">{villa.name}</h3>
+                  <div className="flex flex-col gap-2 mb-4">
+                    <h3 className="text-2xl font-bold text-black">{villa.name}</h3>
+                    <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                      <span className="flex items-center gap-1">
+                        <Users size={16} /> {villa.maxGuests} guests
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Bed size={16} /> 1 bed
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Bath size={16} /> 1 bath
+                      </span>
+                    </div>
+                  </div>
                   <p className="text-gray-600 mb-4">{villa.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {villa.features.map((feature, idx) => (
+                      <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
                   <Link href={`/villas/${villa.slug}`} passHref>
-                    <Button asChild className="w-full bg-black text-white hover:bg-gray-800 rounded-full">
+                    <Button asChild className="mt-6 w-full bg-black text-white hover:bg-gray-800 rounded-full">
                       <a>Book Now</a>
                     </Button>
                   </Link>
@@ -142,7 +169,7 @@ const VillasPreview = () => {
                       src={img}
                       alt={villa.name}
                       fill
-                      className="object-cover rounded-l-2xl cursor-pointer"
+                      className="object-cover rounded-l-2xl"
                       onClick={() => setSelectedVilla(villa.id)}
                     />
                   </div>
@@ -161,8 +188,28 @@ const VillasPreview = () => {
               </div>
 
               <CardContent className="md:w-1/2 p-8 flex flex-col justify-between">
-                <h3 className="text-3xl font-bold text-black mb-3">{villa.name}</h3>
-                <p className="text-gray-600 mb-6">{villa.description}</p>
+                <div>
+                  <h3 className="text-3xl font-bold text-black mb-3">{villa.name}</h3>
+                  <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-4">
+                    <span className="flex items-center gap-1">
+                      <Users size={16} /> {villa.maxGuests} guests
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Bed size={16} /> 2 beds
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Bath size={16} /> 2 baths
+                    </span>
+                  </div>
+                  <p className="text-gray-600 mb-6">{villa.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {villa.features.map((feature, idx) => (
+                      <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
+                        {feature}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
                 <Link href={`/villas/${villa.slug}`} passHref>
                   <Button asChild className="mt-8 bg-black text-white hover:bg-gray-800 rounded-full w-full md:w-auto px-6 py-2">
                     <a>Book Now</a>
@@ -173,24 +220,23 @@ const VillasPreview = () => {
           );
         })}
 
-        {/* Virtual Tour Modal */}
+        {/* Virtual Tour */}
         {selectedVilla && (
           <div
-            className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
             onClick={() => setSelectedVilla(null)}
           >
             <div
-              className="bg-white w-full max-w-4xl rounded-xl shadow-lg relative p-6"
+              className="bg-white w-full max-w-4xl rounded-xl shadow-lg relative border border-black p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
-              <button
-                className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white text-black shadow-lg flex items-center justify-center text-xl font-bold z-50 hover:bg-gray-200"
+              <Button
+                variant="ghost"
+                className="absolute top-4 right-4 text-black"
                 onClick={() => setSelectedVilla(null)}
               >
                 ✕
-              </button>
-
+              </Button>
               <VirtualTour
                 villaType={
                   selectedVilla === 1
@@ -205,6 +251,7 @@ const VillasPreview = () => {
         )}
       </div>
 
+      {/* Progress Animation */}
       <style jsx>{`
         @keyframes progressFill {
           from {
