@@ -19,27 +19,15 @@ const navItemVariants: Variants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: {
-      delay: i * 0.08,
-      duration: 0.4,
-      ease: 'easeOut' as any,
-    },
+    transition: { delay: i * 0.08, duration: 0.4, ease: 'easeOut' },
   }),
 };
 
-// Animation for the mobile menu container
+// Animation for mobile menu container
 const mobileMenuVariants: Variants = {
   hidden: { opacity: 0, x: '100%' },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.35, ease: 'easeOut' as any },
-  },
-  exit: {
-    opacity: 0,
-    x: '100%',
-    transition: { duration: 0.25, ease: 'easeIn' as any },
-  },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: 'easeOut' } },
+  exit: { opacity: 0, x: '100%', transition: { duration: 0.25, ease: 'easeIn' } },
 };
 
 const Navbar = () => {
@@ -55,20 +43,19 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#333333]/80 shadow-lg backdrop-blur-lg'
-          : 'bg-[#333333]'
+        isScrolled ? 'bg-[#333333]/80 shadow-lg backdrop-blur-lg' : 'bg-[#333333]'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" aria-label="Home">
           <Image
             src="/image.png"
-            alt="Logo"
+            alt="Asteya Villas Logo"
             width={150}
             height={50}
-            className="rounded-full"
+            priority
+            className="rounded-full cursor-pointer"
           />
         </Link>
 
@@ -92,7 +79,7 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <button onClick={() => setIsOpen(true)} className="md:hidden text-white">
           <Menu size={28} />
         </button>
