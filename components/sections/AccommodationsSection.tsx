@@ -38,6 +38,8 @@ export default function HeroSection() {
             fill
             className="object-cover object-center"
             priority
+            sizes="100vw"
+            quality={90}
           />
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
         </motion.div>
@@ -82,7 +84,12 @@ export default function HeroSection() {
                 src={card.image}
                 alt={card.title}
                 fill
+                loading="lazy" // Lazy load for better performance
+                quality={80}
                 className="object-cover filter grayscale group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw,
+                       (max-width: 1200px) 50vw,
+                       33vw"
               />
               <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-20 transition duration-300" />
               <div className="absolute inset-0 flex items-center justify-center">
