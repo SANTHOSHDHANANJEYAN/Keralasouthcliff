@@ -1,77 +1,124 @@
-'use client';
-
-import React from 'react';
-import Link from 'next/link';
+import { getVillaById, villas } from '@/lib/villas';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { villas } from '@/lib/villas';
+import * as icons from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import Link from 'next/link';
 
-const VillasSection = () => {
-  return (
-    <section className="py-16 sm:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading */}
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-black mb-4">
-            Our Asteya&apos;s Luxury Villas
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose from our luxurious villas, each with a unique view and premium amenities.
-          </p>
-        </div>
-
-        {/* Villas Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {villas.map((villa, index) => (
-            <Link
-              href={`/villas/${villa.id}`}
-              key={villa.id}
-              prefetch={true}
-              passHref
-            >
-              <div className="group block border rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col bg-white">
-                {/* Villa Image */}
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={villa.images[0]}
-                    alt={villa.name}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    priority={index < 3} // Preload first 3 images for better performance
-                    loading={index < 3 ? 'eager' : 'lazy'}
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                {/* Villa Content */}
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-black mb-2">
-                    {villa.name}
-                  </h3>
-                  <p className="text-gray-700 mb-4 flex-grow">
-                    {villa.description.length > 120
-                      ? `${villa.description.substring(0, 120)}...`
-                      : villa.description}
-                  </p>
-
-                  {/* View Details Button */}
-                  <div className="flex justify-between items-center mt-auto">
-                    <Button
-                      asChild
-                      variant="default"
-                      className="bg-black text-white hover:bg-gray-800"
-                    >
-                      <span>View Details</span>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+const iconMap: { [key: string]: React.ElementType } = {
+  Bed: icons.Bed,
+  Bath: icons.Bath,
+  Wifi: icons.Wifi,
+  Car: icons.Car,
+  Waves: icons.Waves,
+  Mountain: icons.Mountain,
+  Sun: icons.Sun,
+  Shield: icons.Shield,
+  Crown: icons.Crown,
 };
 
-export default VillasSection;
+export default function VillaPage({ params }: { params: { id: string } }) {
+  const villa = getVillaById(params.id);
+
+  if (!villa) {
+    notFound();
+  }
+
+  return (
+    <>
+      <Navbar />
+      <main className="pt-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Villa Header */}
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
+            <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
+          </div>
+
+          {/* Image Gallery */}
+          <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
+            <div className="relative col-span-1 row-span-2">
+              <Image
+                src={villa.images[0]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+                priority
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={villa.images[1]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={villa.images[2]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Features & Amenities */}
+            <div className="lg:col-span-2">
+              <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                {villa.features.map(({ iconName, text }) => {
+                  const Icon = iconMap[iconName];
+                  return (
+                    <div
+                      key={text}
+                      className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
+                    >
+                      {Icon && <Icon className="text-black" size={20} />}
+                      <span className="text-sm font-medium text-black">{text}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
+                {villa.amenities.map((amenity) => (
+                  <li key={amenity} className="flex items-center gap-3">
+                    <icons.CheckCircle size={16} className="text-green-600" />
+                    <span>{amenity}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Booking CTA */}
+            <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
+              <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
+              <p className="text-gray-600 mb-4">
+                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
+              </p>
+              <Link href="/contact" passHref>
+                <Button className="w-full bg-black text-white hover:bg-gray-800">
+                  Book Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+// Generate static pages for each villa
+export async function generateStaticParams() {
+  return villas.map((villa) => ({
+    id: villa.id,
+  }));
+}
