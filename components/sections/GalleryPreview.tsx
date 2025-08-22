@@ -133,6 +133,18 @@ export default function GalleryPreview() {
     setOpenIndex((openIndex - 1 + galleryImages.length) % galleryImages.length);
   };
 
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (openIndex === null) return;
+      if (e.key === 'ArrowRight') handleNext();
+      if (e.key === 'ArrowLeft') handlePrev();
+      if (e.key === 'Escape') setOpenIndex(null);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [openIndex]);
+
   return (
     <section className="pt-8 bg-white text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,28 +173,28 @@ export default function GalleryPreview() {
           <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black rounded-xl overflow-hidden relative">
             {openIndex !== null && (
               <>
-                {/* Close Button */}
+                {/* Close Button (outside top-right) */}
                 <button
                   onClick={() => setOpenIndex(null)}
-                  className="absolute top-4 right-4 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
+                  className="absolute -right-12 top-4 z-50 bg-black/70 border border-white/30 p-3 rounded-full shadow-xl hover:bg-black/90 transition"
                 >
-                  <X size={20} className="text-black" />
+                  <X size={28} className="text-white" />
                 </button>
 
                 {/* Prev Button */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-black/70 border border-white/30 p-3 rounded-full shadow-xl hover:bg-black/90 transition"
                 >
-                  <ChevronLeft size={24} className="text-black" />
+                  <ChevronLeft size={32} className="text-white" />
                 </button>
 
                 {/* Next Button */}
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-black/70 border border-white/30 p-3 rounded-full shadow-xl hover:bg-black/90 transition"
                 >
-                  <ChevronRight size={24} className="text-black" />
+                  <ChevronRight size={32} className="text-white" />
                 </button>
 
                 {/* Image */}
