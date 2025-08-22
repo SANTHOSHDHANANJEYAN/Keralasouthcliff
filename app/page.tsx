@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
+import ReviewsSlider from '@/components/sections/ReviewsSlider';
 
 const AboutOurStory = dynamic(() => import('@/components/sections/AboutOurStory'), { ssr: false });
 const VillasPreview = dynamic(() => import('@/components/sections/VillasPreview'), { ssr: false });
@@ -26,7 +27,8 @@ export default function Home() {
           <VillasPreview />
           <GalleryPreview />
           <AmenitiesPreview />
-          <ContactPreview/>
+          <ReviewsSlider /> {/* NEW REVIEWS SECTION HERE */}
+          <ContactPreview />
           <SocialNetworksSection />
           <LocationPreview />
         </Suspense>
