@@ -2,17 +2,17 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
-import { Star, Users, Bed, Bath } from 'lucide-react';
+import { Star } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import VirtualTour from '@/components/interactive/VirtualTour';
 
 const VillasPreview = () => {
   const [selectedVilla, setSelectedVilla] = useState<number | null>(null);
   const [currentIndexes, setCurrentIndexes] = useState<{ [key: number]: number }>({});
 
+  // Villas Data
   const villas = useMemo(
     () => [
       {
@@ -20,7 +20,7 @@ const VillasPreview = () => {
         name: 'Ground Floor Villa',
         description: 'Spacious luxury with beach access and private terrace.',
         features: ['Private Terrace', 'Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
-        images: ['/astega/6-min.jpg', '/astega/11-min.jpg', '/astega/21-min.jpg'],
+        images: ['/astega/6-min.webp', '/astega/11-min.webp', '/astega/21-min.webp'], // Use WebP for better quality & speed
         rating: 4.9,
         maxGuests: 2,
         slug: 'sea-garden-room',
@@ -30,7 +30,7 @@ const VillasPreview = () => {
         name: 'Top Floor Villa',
         description: 'Elevated stay with panoramic cliff views and private balcony.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedroom', '1 Bathroom'],
-        images: ['/astega/14-min.jpg', '/astega/28-min.jpg', '/astega/Ateya - Living area-min.png'],
+        images: ['/astega/14-min.webp', '/astega/28-min.webp', '/astega/Ateya-Living-area-min.webp'],
         rating: 4.9,
         maxGuests: 2,
         slug: 'landscape-room',
@@ -40,7 +40,7 @@ const VillasPreview = () => {
         name: 'Entire Villa',
         description: 'Expansive villa with glass panels and breathtaking views.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
-        images: ['/astega/5-min.jpg', '/astega/14-min.jpg', '/astega/19-min.jpg'],
+        images: ['/astega/5-min.webp', '/astega/14-min.webp', '/astega/19-min.webp'],
         rating: 5.0,
         maxGuests: 4,
         slug: 'luxury-landscape',
@@ -50,6 +50,7 @@ const VillasPreview = () => {
     []
   );
 
+  // Auto-slide image carousel
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndexes((prev) => {
@@ -61,6 +62,7 @@ const VillasPreview = () => {
         return updated;
       });
     }, 6000);
+
     return () => clearInterval(interval);
   }, [villas]);
 
@@ -80,7 +82,7 @@ const VillasPreview = () => {
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
             return (
-              <Card key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200">
+              <Card key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200 shadow-lg">
                 <div className="relative h-72 overflow-hidden">
                   {villa.images.map((img, idx) => (
                     <div
@@ -93,6 +95,11 @@ const VillasPreview = () => {
                         src={img}
                         alt={villa.name}
                         fill
+                        quality={85} // Sharper images
+                        priority={idx === 0} // Preload first image
+                        placeholder="blur"
+                        blurDataURL="/blur-placeholder.webp"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover rounded-t-2xl cursor-pointer"
                         onClick={() => setSelectedVilla(villa.id)}
                       />
@@ -100,7 +107,7 @@ const VillasPreview = () => {
                   ))}
 
                   {/* Rating */}
-                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
+                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1 shadow-md">
                     <Star size={16} className="text-yellow-500" />
                     <span className="text-sm font-medium">{villa.rating}</span>
                   </div>
@@ -115,7 +122,7 @@ const VillasPreview = () => {
                   <h3 className="text-2xl font-bold text-black mb-2">{villa.name}</h3>
                   <p className="text-gray-600 mb-4">{villa.description}</p>
                   <Link href={`/villas/${villa.slug}`} passHref>
-                    <Button asChild className="w-full bg-black text-white hover:bg-gray-800 rounded-full">
+                    <Button asChild className="w-full bg-black text-white hover:bg-gray-800 rounded-full shadow-md">
                       <a>Book Now</a>
                     </Button>
                   </Link>
@@ -129,7 +136,7 @@ const VillasPreview = () => {
         {villas.filter((v) => v.isLandscape).map((villa) => {
           const currentIndex = currentIndexes[villa.id] ?? 0;
           return (
-            <div key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row">
+            <div key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row shadow-lg">
               <div className="md:w-1/2 relative overflow-hidden h-72 md:h-[500px]">
                 {villa.images.map((img, idx) => (
                   <div
@@ -142,6 +149,10 @@ const VillasPreview = () => {
                       src={img}
                       alt={villa.name}
                       fill
+                      quality={85}
+                      placeholder="blur"
+                      blurDataURL="/blur-placeholder.webp"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                       className="object-cover rounded-l-2xl cursor-pointer"
                       onClick={() => setSelectedVilla(villa.id)}
                     />
@@ -149,7 +160,7 @@ const VillasPreview = () => {
                 ))}
 
                 {/* Rating */}
-                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
+                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1 shadow-md">
                   <Star size={16} className="text-yellow-500" />
                   <span className="text-sm font-medium">{villa.rating}</span>
                 </div>
@@ -183,14 +194,12 @@ const VillasPreview = () => {
               className="bg-white w-full max-w-4xl rounded-xl shadow-lg relative p-6"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white text-black shadow-lg flex items-center justify-center text-xl font-bold z-50 hover:bg-gray-200"
                 onClick={() => setSelectedVilla(null)}
               >
                 ✕
               </button>
-
               <VirtualTour
                 villaType={
                   selectedVilla === 1
@@ -205,6 +214,7 @@ const VillasPreview = () => {
         )}
       </div>
 
+      {/* Animation Style */}
       <style jsx>{`
         @keyframes progressFill {
           from {
