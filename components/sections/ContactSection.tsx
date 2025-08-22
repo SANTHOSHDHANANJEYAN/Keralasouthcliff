@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import React, { useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
+
+// ✅ Dynamically import PhoneInput to improve initial page load speed
+const PhoneInput = dynamic(() => import('react-phone-input-2'), { ssr: false });
+import 'react-phone-input-2/lib/style.css';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -19,16 +22,20 @@ const ContactSection = () => {
   });
 
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: false }); // remove error once user types
-  };
+  // ✅ Optimized handleChange to prevent unnecessary re-renders
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+      setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+    },
+    []
+  );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const requiredFields = ['name', 'email', 'phone', 'checkIn', 'checkOut', 'villa'];
     const newErrors: { [key: string]: boolean } = {};
@@ -41,7 +48,7 @@ const ContactSection = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      alert('⚠️ Please fill all required fields before submitting.');
+      setIsSubmitting(false);
       return;
     }
 
@@ -57,11 +64,13 @@ const ContactSection = () => {
         `Message: ${formData.message}`
     );
 
+    // ✅ Open Gmail compose in a new tab
     window.open(
       `https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`,
       '_blank'
     );
 
+    // ✅ Reset form after submission
     setFormData({
       name: '',
       email: '',
@@ -73,13 +82,14 @@ const ContactSection = () => {
       message: ''
     });
     setErrors({});
+    setIsSubmitting(false);
   };
 
   const contactInfo = [
     { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7' },
     { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Reach us anytime' },
     { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond Immediately' }
+    { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond immediately' }
   ];
 
   const bookingInfo = [
@@ -109,7 +119,7 @@ const ContactSection = () => {
           {contactInfo.map((info, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition duration-300"
             >
               <div className="w-16 h-16 mb-4 rounded-full bg-black flex items-center justify-center">
                 <info.icon className="text-white" size={28} />
@@ -128,30 +138,25 @@ const ContactSection = () => {
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               {/* Name & Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full p-3 border ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-black`}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full p-3 border ${
-                      errors.email ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-black`}
-                  />
-                </div>
+                {['name', 'email'].map((field) => (
+                  <div key={field}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                      {field}
+                    </label>
+                    <input
+                      type={field === 'email' ? 'email' : 'text'}
+                      name={field}
+                      value={formData[field as keyof typeof formData]}
+                      onChange={handleChange}
+                      className={`w-full p-3 border ${
+                        errors[field] ? 'border-red-500' : 'border-gray-300'
+                      } rounded-md focus:ring-2 focus:ring-black`}
+                    />
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                    )}
+                  </div>
+                ))}
               </div>
 
               {/* Phone */}
@@ -161,41 +166,37 @@ const ContactSection = () => {
                   country={'in'}
                   value={formData.phone}
                   onChange={(phone) => {
-                    setFormData({ ...formData, phone });
-                    setErrors({ ...errors, phone: false });
+                    setFormData((prev) => ({ ...prev, phone }));
+                    setErrors((prev) => ({ ...prev, phone: false }));
                   }}
                   inputClass={`!w-full !p-3 !rounded-md !border ${
                     errors.phone ? '!border-red-500' : '!border-gray-300'
                   } !focus:ring-2 !focus:ring-black`}
                 />
+                {errors.phone && <p className="text-red-500 text-xs mt-1">Phone is required</p>}
               </div>
 
               {/* Check-in / Check-out / Guests */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Check-in</label>
-                  <input
-                    type="date"
-                    name="checkIn"
-                    value={formData.checkIn}
-                    onChange={handleChange}
-                    className={`w-full p-3 border ${
-                      errors.checkIn ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-black`}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Check-out</label>
-                  <input
-                    type="date"
-                    name="checkOut"
-                    value={formData.checkOut}
-                    onChange={handleChange}
-                    className={`w-full p-3 border ${
-                      errors.checkOut ? 'border-red-500' : 'border-gray-300'
-                    } rounded-md focus:ring-2 focus:ring-black`}
-                  />
-                </div>
+                {['checkIn', 'checkOut'].map((field) => (
+                  <div key={field}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                      {field.replace(/([A-Z])/g, ' $1')}
+                    </label>
+                    <input
+                      type="date"
+                      name={field}
+                      value={formData[field as keyof typeof formData]}
+                      onChange={handleChange}
+                      className={`w-full p-3 border ${
+                        errors[field] ? 'border-red-500' : 'border-gray-300'
+                      } rounded-md focus:ring-2 focus:ring-black`}
+                    />
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                    )}
+                  </div>
+                ))}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
                   <input
@@ -226,6 +227,9 @@ const ContactSection = () => {
                   <option value="Ground Floor">Ground Floor</option>
                   <option value="Entire Villa">Entire Villa</option>
                 </select>
+                {errors.villa && (
+                  <p className="text-red-500 text-xs mt-1">Please select a villa</p>
+                )}
               </div>
 
               {/* Message */}
@@ -239,15 +243,20 @@ const ContactSection = () => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                 />
-                <span className="text-xs text-gray-400 float-right">{formData.message.length}/180</span>
+                <span className="text-xs text-gray-400 float-right">
+                  {formData.message.length}/180
+                </span>
               </div>
 
               {/* Submit */}
               <button
                 type="submit"
-                className="bg-black text-white py-3 px-6 rounded-md hover:bg-green-800 transition-colors"
+                disabled={isSubmitting}
+                className={`bg-black text-white py-3 px-6 rounded-md transition-colors ${
+                  isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-green-800'
+                }`}
               >
-                Enquire Now
+                {isSubmitting ? 'Submitting...' : 'Enquire Now'}
               </button>
             </form>
           </div>
