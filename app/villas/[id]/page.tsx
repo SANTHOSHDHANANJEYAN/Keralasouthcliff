@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import * as icons from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
@@ -32,7 +31,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
       <Navbar />
       <main className="pt-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Header */}
+          {/* Villa Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
             <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
@@ -41,26 +40,44 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
             <div className="relative col-span-1 row-span-2">
-                <Image src={villa.images[0]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg" priority/>
+              <Image
+                src={villa.images[0]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+                priority
+              />
             </div>
             <div className="relative">
-                <Image src={villa.images[1]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg"/>
+              <Image
+                src={villa.images[1]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
             </div>
             <div className="relative">
-                <Image src={villa.images[2]} alt={villa.name} layout="fill" objectFit="cover" className="rounded-lg"/>
+              <Image
+                src={villa.images[2]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
             </div>
           </div>
 
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Left side: details and amenities */}
+            {/* Features & Amenities */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
                 {villa.features.map(({ iconName, text }) => {
-                  const Icon = iconMap[iconName as keyof typeof iconMap];
+                  const Icon = iconMap[iconName];
                   return (
-                    <div key={text} className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm">
+                    <div
+                      key={text}
+                      className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
+                    >
                       {Icon && <Icon className="text-black" size={20} />}
                       <span className="text-sm font-medium text-black">{text}</span>
                     </div>
@@ -79,16 +96,16 @@ export default function VillaPage({ params }: { params: { id: string } }) {
               </ul>
             </div>
 
-            {/* Right side: Booking form */}
+            {/* Booking CTA */}
             <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
               <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
-             
-              <Calendar
-                mode="single"
-                className="rounded-md border"
-              />
+              <p className="text-gray-600 mb-4">
+                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
+              </p>
               <Link href="/contact" passHref>
-                <Button className="w-full mt-4 bg-black text-white hover:bg-gray-800">Book Now</Button>
+                <Button className="w-full bg-black text-white hover:bg-gray-800">
+                  Book Now
+                </Button>
               </Link>
             </div>
           </div>
@@ -99,7 +116,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
   );
 }
 
-// To generate static pages for each villa
+// Generate static pages for each villa
 export async function generateStaticParams() {
   return villas.map((villa) => ({
     id: villa.id,
