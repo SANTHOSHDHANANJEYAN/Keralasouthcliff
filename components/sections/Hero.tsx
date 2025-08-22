@@ -2,30 +2,23 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Playfair_Display, Montserrat } from 'next/font/google';
 
 const playfair = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
 
+// Optimized images - Use high-quality WebP for smaller sizes & faster load
 const slides = [
-  {
-    backgroundImage: '/astega/5-min.jpg',
-  },
-    {
-    backgroundImage: '/astega/29-min.jpg',
-  },
-  {
-    backgroundImage: '/astega/20-min.jpg',
-  },
-  {
-    backgroundImage: '/astega/14-min.jpg',
-  },
+  { backgroundImage: '/astega/5-min.webp' },
+  { backgroundImage: '/astega/29-min.webp' },
+  { backgroundImage: '/astega/20-min.webp' },
+  { backgroundImage: '/astega/14-min.webp' },
 ];
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
 
+  // Auto-slide every 6 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -33,37 +26,37 @@ const Hero = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
-  const prevSlide = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
       {/* Background Images */}
       {slides.map((slide, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-            index === current ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === current ? 'opacity-100' : 'opacity-0'
           }`}
         >
           <Image
             src={slide.backgroundImage}
-            alt="Background"
+            alt={`Luxury Resort Slide ${index + 1}`}
             fill
-            className="object-cover"
-            priority={index === current}
+            className="object-cover object-center"
+            priority={index === 0} // Load first image instantly
+            quality={95} // Better quality images
+            loading={index === 0 ? 'eager' : 'lazy'} // Lazy load other images
+            sizes="100vw" // Use full viewport width for responsive images
           />
         </div>
       ))}
 
-      {/* Dark overlay */}
+      {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* Static Text Content (unchanging) */}
-      <div className=" absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+      {/* Center Content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
         <h1
           className={`${playfair.className} pt-[18rem] text-5xl md:text-7xl font-bold mb-4 tracking-widest`}
-          style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.5)' }}
+          style={{ textShadow: '0px 2px 10px rgba(0,0,0,0.6)' }}
         >
           ASTEYA
         </h1>
