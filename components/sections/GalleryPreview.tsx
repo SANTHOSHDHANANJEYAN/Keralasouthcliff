@@ -164,7 +164,7 @@ export default function GalleryPreview() {
                 {/* Close Button */}
                 <button
                   onClick={() => setOpenIndex(null)}
-                  className="absolute top-4 right-4 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                  className="absolute top-4 right-4 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
                 >
                   <X size={20} className="text-black" />
                 </button>
@@ -172,7 +172,7 @@ export default function GalleryPreview() {
                 {/* Prev Button */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
                 >
                   <ChevronLeft size={24} className="text-black" />
                 </button>
@@ -180,7 +180,7 @@ export default function GalleryPreview() {
                 {/* Next Button */}
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white p-2 rounded-full shadow-md hover:bg-gray-200 transition"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-white border border-gray-300 p-2 rounded-full shadow-lg hover:bg-gray-100 transition"
                 >
                   <ChevronRight size={24} className="text-black" />
                 </button>
