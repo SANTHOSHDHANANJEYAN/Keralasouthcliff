@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -38,13 +38,56 @@ const galleryData = [
   { src: '/astega/29-min.jpg', alt: 'Dining' },
   { src: '/astega/30-min.jpg', alt: 'Room Decor' },
 
-
   // Rooms
   { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
 ];
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [visibleImages, setVisibleImages] = useState(12); // Load first 12 images initially
+
+  // Preload first few images on component mount
+  useEffect(() => {
+    const preloadImages = galleryData.slice(0, 6); // Preload first 6 images
+    preloadImages.forEach((image) => {
+      const img = new window.Image();
+      img.src = image.src;
+      img.onload = () => {
+        setLoadedImages(prev => new Set(prev).add(image.src));
+      };
+    });
+  }, []);
+
+  // Load more images function
+  const loadMoreImages = useCallback(() => {
+    setVisibleImages(prev => Math.min(prev + 8, galleryData.length));
+  }, []);
+
+  // Intersection Observer for lazy loading more images
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && visibleImages < galleryData.length) {
+            loadMoreImages();
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    );
+
+    const sentinel = document.querySelector('.load-more-sentinel');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => observer.disconnect();
+  }, [visibleImages, loadMoreImages]);
+
+  const handleImageLoad = useCallback((src: string) => {
+    setLoadedImages(prev => new Set(prev).add(src));
+  }, []);
 
   return (
     <section className="py-16 bg-white text-black">
@@ -63,27 +106,63 @@ const GallerySection = () => {
             transition={{ duration: 0.4 }}
             className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           >
-            {galleryData.map((image, index) => (
+            {galleryData.slice(0, visibleImages).map((image, index) => (
               <motion.div
                 key={index}
                 layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setSelectedImage(image.src)}
-                className="relative cursor-pointer overflow-hidden rounded-xl border border-black/10 bg-black/5 shadow-md hover:shadow-lg transition duration-300"
+                className="relative cursor-pointer overflow-hidden rounded-xl border border-black/10 bg-black/5 shadow-md hover:shadow-lg transition duration-300 group"
               >
+                {/* Loading placeholder */}
+                {!loadedImages.has(image.src) && (
+                  <div className="absolute inset-0 bg-gray-200 animate-pulse rounded-xl flex items-center justify-center">
+                    <div className="w-8 h-8 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
+                
                 <Image
                   src={image.src}
                   alt={image.alt}
                   width={400}
                   height={300}
-                  loading="lazy"
-                  className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  priority={index < 6} // Prioritize first 6 images
+                  quality={75} // Reduce quality for faster loading
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                  onLoad={() => handleImageLoad(image.src)}
+                  className={`w-full h-60 object-cover transition-all duration-500 group-hover:scale-110 ${
+                    loadedImages.has(image.src) ? 'opacity-100' : 'opacity-0'
+                  }`}
                 />
               </motion.div>
             ))}
+            
+            {/* Load more sentinel */}
+            {visibleImages < galleryData.length && (
+              <div className="load-more-sentinel col-span-full h-10 flex items-center justify-center">
+                <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            )}
           </motion.div>
         </AnimatePresence>
+
+        {/* Show remaining count */}
+        {visibleImages < galleryData.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={loadMoreImages}
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium"
+            >
+              Load More ({galleryData.length - visibleImages} remaining)
+            </button>
+          </div>
+        )}
 
         {/* Image Preview Modal */}
         <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
@@ -101,6 +180,8 @@ const GallerySection = () => {
                   alt="Preview"
                   width={1200}
                   height={800}
+                  quality={90} // Higher quality for modal
+                  sizes="90vw"
                   className="rounded-lg object-contain max-h-[80vh] mx-auto"
                 />
               </motion.div>
