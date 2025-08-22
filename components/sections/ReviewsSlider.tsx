@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import Image from 'next/image';
 
 const reviews = [
   {
@@ -62,17 +61,8 @@ export default function ReviewsSlider() {
   return (
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Heading with Google Logo */}
-        <div className="flex items-center justify-center mb-12 gap-3">
-          <Image
-            src="/google-logo.png"
-            alt="Google Reviews"
-            width={40}
-            height={40}
-            className="rounded"
-          />
-          <h2 className="text-4xl font-bold text-center">What Our Guests Say</h2>
-        </div>
+        {/* Heading */}
+        <h2 className="text-4xl font-bold text-center mb-12">What Our Guests Say</h2>
 
         {/* Review Slider */}
         <div className="relative">
@@ -131,19 +121,6 @@ export default function ReviewsSlider() {
               }`}
             />
           ))}
-        </div>
-
-        {/* Read More on Google */}
-        <div className="text-center mt-8">
-          <a
-            href="https://www.google.com/maps/place/Asteya+Varkala/reviews"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-blue-600 font-medium hover:underline"
-          >
-            <Image src="/google-icon.png" alt="Google" width={20} height={20} />
-            Read More on Google
-          </a>
         </div>
       </div>
     </section>
