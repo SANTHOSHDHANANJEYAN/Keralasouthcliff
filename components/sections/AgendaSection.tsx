@@ -50,12 +50,12 @@ export default function AgendaSection() {
     center: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.5 },
     },
     exit: (dir: 'left' | 'right') => ({
       x: dir === 'right' ? -300 : 300,
       opacity: 0,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.5 },
     }),
   };
 
@@ -73,7 +73,16 @@ export default function AgendaSection() {
             exit="exit"
             className="absolute inset-0"
           >
-            <Image src={slides[index].leftImg} alt="Left" fill className="object-cover" />
+            <Image
+              src={slides[index].leftImg}
+              alt="Left Villa"
+              fill
+              className="object-cover"
+              priority={index === 0} // Load first slide immediately
+              loading={index === 0 ? 'eager' : 'lazy'} // Lazy load others
+              sizes="(max-width: 768px) 100vw, 33vw"
+              quality={85} // Prevents pixelation
+            />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -128,7 +137,16 @@ export default function AgendaSection() {
             exit="exit"
             className="absolute inset-0"
           >
-            <Image src={slides[index].rightImg} alt="Right" fill className="object-cover" />
+            <Image
+              src={slides[index].rightImg}
+              alt="Right Villa"
+              fill
+              className="object-cover"
+              priority={index === 0} // First slide loads immediately
+              loading={index === 0 ? 'eager' : 'lazy'}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              quality={85}
+            />
           </motion.div>
         </AnimatePresence>
       </div>
