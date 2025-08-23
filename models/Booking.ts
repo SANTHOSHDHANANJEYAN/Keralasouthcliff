@@ -5,11 +5,12 @@ export interface IBooking {
   name: string;
   email: string;
   phone: string;
+  guests: number;
+  villa: string;
   checkIn: Date;
   checkOut: Date;
-  guests: number;
-  roomType: string;
-  specialRequests?: string;
+  message?: string;
+  status?: "confirmed" | "pending" | "cancelled";
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -20,18 +21,23 @@ const BookingSchema = new Schema<IBooking>(
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String, required: true },
+    guests: { type: Number, required: true },
+    villa: { type: String, required: true },
     checkIn: { type: Date, required: true },
     checkOut: { type: Date, required: true },
-    guests: { type: Number, required: true },
-    roomType: { type: String, required: true },
-    specialRequests: { type: String },
+    message: { type: String },
+    status: {
+      type: String,
+      enum: ["confirmed", "pending", "cancelled"],
+      default: "confirmed",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-// Export the model with type assertion to prevent TS build errors
+// Export the model (safe for Vercel & Next.js)
 export const Booking =
   (models.Booking as Model<IBooking>) ||
   model<IBooking>("Booking", BookingSchema);
