@@ -5,105 +5,84 @@ import dynamic from 'next/dynamic';
 import { Card } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
 
-// Phone input (CSR only)
+// ✅ Dynamically import PhoneInput to improve initial page load speed
 const PhoneInput = dynamic(() => import('react-phone-input-2'), { ssr: false });
 import 'react-phone-input-2/lib/style.css';
 
-type FormState = {
-  name: string;
-  email: string;
-  phone: string;
-  checkIn: string;
-  checkOut: string;
-  guests: number;
-  villa: '' | 'Top Floor' | 'Ground Floor' | 'Entire Villa';
-  message: string;
-};
-
-const initialForm: FormState = {
-  name: '',
-  email: '',
-  phone: '',
-  checkIn: '',
-  checkOut: '',
-  guests: 1,
-  villa: '',
-  message: ''
-};
-
 const ContactSection = () => {
-  const [formData, setFormData] = useState<FormState>(initialForm);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [serverMessage, setServerMessage] = useState<{ type: 'success' | 'error' | ''; text: string }>({ type: '', text: '' });
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    checkIn: '',
+    checkOut: '',
+    guests: 1,
+    villa: '',
+    message: ''
+  });
 
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // ✅ Optimized handleChange to prevent unnecessary re-renders
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-      setErrors((prev) => ({ ...prev, [e.target.name]: '' }));
-      setServerMessage({ type: '', text: '' });
+      setErrors((prev) => ({ ...prev, [e.target.name]: false }));
     },
     []
   );
 
-  const validate = () => {
-    const req = ['name','email','phone','checkIn','checkOut','villa'] as const;
-    const next: Record<string, string> = {};
-    for (const f of req) {
-      const v = (formData as any)[f];
-      if (!v || (typeof v === 'string' && v.trim() === '')) next[f] = 'This field is required';
-    }
-    // extra checks
-    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) next.email = 'Enter a valid email';
-    if (formData.checkIn && formData.checkOut && !(formData.checkIn < formData.checkOut)) {
-      next.checkOut = 'Check-out must be after check-in';
-    }
-    if (formData.guests < 1) next.guests = 'At least 1 guest';
-    return next;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setServerMessage({ type: '', text: '' });
+    setIsSubmitting(true);
 
-    const v = validate();
-    if (Object.keys(v).length) {
-      setErrors(v);
+    const requiredFields = ['name', 'email', 'phone', 'checkIn', 'checkOut', 'villa'];
+    const newErrors: { [key: string]: boolean } = {};
+
+    requiredFields.forEach((field) => {
+      if (!formData[field as keyof typeof formData]) {
+        newErrors[field] = true;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
       return;
     }
 
-    try {
-      setIsSubmitting(true);
+    const subject = encodeURIComponent('Villa Booking & Inquiry');
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Guests: ${formData.guests}\n` +
+        `Check-in: ${formData.checkIn}\n` +
+        `Check-out: ${formData.checkOut}\n` +
+        `Villa Preference: ${formData.villa}\n` +
+        `Message: ${formData.message}`
+    );
 
-      const res = await fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+    // ✅ Open Gmail compose in a new tab
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`,
+      '_blank'
+    );
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (data?.code === 'DATE_UNAVAILABLE') {
-          setServerMessage({ type: 'error', text: 'Sorry, those dates are already booked for this villa. Please try different dates or choose another villa.' });
-        } else {
-          setServerMessage({ type: 'error', text: data?.error || 'Something went wrong. Please try again.' });
-        }
-        return;
-      }
-
-      // Success
-      setServerMessage({
-        type: 'success',
-        text: `Thanks ${formData.name}! Your booking request is confirmed. A confirmation email has been sent to ${formData.email}.`,
-      });
-      setFormData(initialForm);
-      setErrors({});
-    } catch (err) {
-      setServerMessage({ type: 'error', text: 'Network error. Please check your connection and try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // ✅ Reset form after submission
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      checkIn: '',
+      checkOut: '',
+      guests: 1,
+      villa: '',
+      message: ''
+    });
+    setErrors({});
+    setIsSubmitting(false);
   };
 
   const contactInfo = [
@@ -157,20 +136,9 @@ const ContactSection = () => {
           {/* Form */}
           <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-              {/* Global server message */}
-              {serverMessage.text && (
-                <div
-                  className={`p-3 rounded-md text-sm ${
-                    serverMessage.type === 'success' ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-red-100 text-red-800 border border-red-300'
-                  }`}
-                >
-                  {serverMessage.text}
-                </div>
-              )}
-
               {/* Name & Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {(['name','email'] as const).map((field) => (
+                {['name', 'email'].map((field) => (
                   <div key={field}>
                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
                       {field}
@@ -178,13 +146,15 @@ const ContactSection = () => {
                     <input
                       type={field === 'email' ? 'email' : 'text'}
                       name={field}
-                      value={formData[field]}
+                      value={formData[field as keyof typeof formData]}
                       onChange={handleChange}
                       className={`w-full p-3 border ${
                         errors[field] ? 'border-red-500' : 'border-gray-300'
                       } rounded-md focus:ring-2 focus:ring-black`}
                     />
-                    {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -197,17 +167,18 @@ const ContactSection = () => {
                   value={formData.phone}
                   onChange={(phone) => {
                     setFormData((prev) => ({ ...prev, phone }));
-                    setErrors((prev) => ({ ...prev, phone: '' }));
-                    setServerMessage({ type: '', text: '' });
+                    setErrors((prev) => ({ ...prev, phone: false }));
                   }}
-                  inputClass={`!w-full !p-3 !rounded-md !border ${errors.phone ? '!border-red-500' : '!border-gray-300'} !focus:ring-2 !focus:ring-black`}
+                  inputClass={`!w-full !p-3 !rounded-md !border ${
+                    errors.phone ? '!border-red-500' : '!border-gray-300'
+                  } !focus:ring-2 !focus:ring-black`}
                 />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                {errors.phone && <p className="text-red-500 text-xs mt-1">Phone is required</p>}
               </div>
 
               {/* Check-in / Check-out / Guests */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {(['checkIn','checkOut'] as const).map((field) => (
+                {['checkIn', 'checkOut'].map((field) => (
                   <div key={field}>
                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
                       {field.replace(/([A-Z])/g, ' $1')}
@@ -215,13 +186,15 @@ const ContactSection = () => {
                     <input
                       type="date"
                       name={field}
-                      value={formData[field]}
+                      value={formData[field as keyof typeof formData]}
                       onChange={handleChange}
                       className={`w-full p-3 border ${
                         errors[field] ? 'border-red-500' : 'border-gray-300'
                       } rounded-md focus:ring-2 focus:ring-black`}
                     />
-                    {errors[field] && <p className="text-red-500 text-xs mt-1">{errors[field]}</p>}
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                    )}
                   </div>
                 ))}
                 <div>
@@ -233,9 +206,8 @@ const ContactSection = () => {
                     max={4}
                     value={formData.guests}
                     onChange={handleChange}
-                    className={`w-full p-3 border ${errors.guests ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-2 focus:ring-black`}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                   />
-                  {errors.guests && <p className="text-red-500 text-xs mt-1">{errors.guests}</p>}
                 </div>
               </div>
 
@@ -246,14 +218,18 @@ const ContactSection = () => {
                   name="villa"
                   value={formData.villa}
                   onChange={handleChange}
-                  className={`w-full p-3 border ${errors.villa ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-2 focus:ring-black`}
+                  className={`w-full p-3 border ${
+                    errors.villa ? 'border-red-500' : 'border-gray-300'
+                  } rounded-md focus:ring-2 focus:ring-black`}
                 >
                   <option value="">Choose an option</option>
                   <option value="Top Floor">Top Floor</option>
                   <option value="Ground Floor">Ground Floor</option>
                   <option value="Entire Villa">Entire Villa</option>
                 </select>
-                {errors.villa && <p className="text-red-500 text-xs mt-1">{errors.villa}</p>}
+                {errors.villa && (
+                  <p className="text-red-500 text-xs mt-1">Please select a villa</p>
+                )}
               </div>
 
               {/* Message */}
@@ -267,7 +243,9 @@ const ContactSection = () => {
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                 />
-                <span className="text-xs text-gray-400 float-right">{formData.message.length}/180</span>
+                <span className="text-xs text-gray-400 float-right">
+                  {formData.message.length}/180
+                </span>
               </div>
 
               {/* Submit */}
@@ -280,11 +258,6 @@ const ContactSection = () => {
               >
                 {isSubmitting ? 'Submitting...' : 'Enquire Now'}
               </button>
-
-              {/* Small reassurance note */}
-              <p className="text-xs text-gray-500">
-                By submitting, you’ll receive a confirmation email. Your dates are secured immediately if available.
-              </p>
             </form>
           </div>
 
@@ -292,16 +265,7 @@ const ContactSection = () => {
           <Card className="bg-gray-100 shadow-lg rounded-3xl p-10 flex flex-col justify-between">
             <h3 className="text-3xl font-bold mb-8">Booking Information</h3>
             <div className="space-y-4">
-              {[
-                { label: 'Room Rate', value: 'PRICE ON REQUEST' },
-                { label: 'Minimum Stay', value: '1 DAY' },
-                { label: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM' },
-                { label: 'Advance Booking', value: '50% advance required' },
-                { label: 'Cancellation', value: 'Free up to 48 hours' },
-                { label: 'Maximum Guests', value: 'Maximum 4 guests (For more than 4 persons, please inquire)' },
-                { label: 'Payment Methods', value: 'Cash / UPI / Bank Transfer' },
-                { label: 'Confirmation', value: 'Email / WhatsApp' }
-              ].map((item, idx) => (
+              {bookingInfo.map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3">
                   <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
                   <div>
