@@ -18,9 +18,6 @@ const galleryData = [
   { src: '/astega/21-min.jpg', alt: 'Cliff View' },
   { src: '/astega/22-min.jpg', alt: 'Cliff View' },
   { src: '/astega/31-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
-  { src: '/astega/4-min.jpg', alt: 'Bedroom' },
-  { src: '/astega/8-min.jpg', alt: 'Bathroom' },
   { src: '/astega/11-min.jpg', alt: 'Interior View' },
   { src: '/astega/12-min.jpg', alt: 'Modern Finish' },
   { src: '/astega/13-min.jpg', alt: 'Decor' },
@@ -32,10 +29,12 @@ const galleryData = [
   { src: '/astega/25-min.jpg', alt: 'Lounge' },
   { src: '/astega/26-min.jpg', alt: 'TV Area' },
   { src: '/astega/27-min.jpg', alt: 'Furniture' },
-  { src: '/astega/28-min.jpg', alt: 'Lighting' },
   { src: '/astega/29-min.jpg', alt: 'Dining' },
   { src: '/astega/30-min.jpg', alt: 'Room Decor' },
   { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
+  { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
+  { src: '/astega/4-min.jpg', alt: 'Bedroom' },
+  { src: '/astega/8-min.jpg', alt: 'Bathroom' },
 ];
 
 const GallerySection = () => {
@@ -89,11 +88,11 @@ const GallerySection = () => {
 
   return (
     <section className="py-16 bg-white text-black">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Explore our elegant cliffside villa interiors and exotic beachfront views.
           </p>
         </div>
@@ -104,7 +103,7 @@ const GallerySection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           >
             {galleryData.slice(0, visibleImages).map((image, index) => (
               <motion.div
@@ -116,20 +115,23 @@ const GallerySection = () => {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setSelectedIndex(index)}
-                className="relative cursor-pointer overflow-hidden rounded-xl border border-black/10 bg-black/5 shadow-md hover:shadow-lg transition duration-300 group"
+                className="relative cursor-pointer overflow-hidden rounded-lg sm:rounded-xl border border-black/10 bg-black/5 shadow-sm hover:shadow-lg transition duration-300 group"
               >
                 <Image
                   src={image.src}
                   alt={image.alt}
                   width={400}
                   height={300}
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  sizes="(max-width: 640px) 100vw,
+                         (max-width: 768px) 50vw,
+                         (max-width: 1024px) 33vw,
+                         25vw"
                   priority={index < 6}
-                  quality={85} // Increased quality to avoid pixelation
+                  quality={85}
                   loading={index < 6 ? 'eager' : 'lazy'}
                   placeholder="blur"
                   blurDataURL="/placeholder.webp"
-                  className="w-full h-60 object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-56 sm:h-60 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </motion.div>
             ))}
@@ -144,7 +146,7 @@ const GallerySection = () => {
           <div className="text-center mt-8">
             <button
               onClick={loadMoreImages}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 font-medium"
+              className="px-5 sm:px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 text-sm sm:text-base font-medium"
             >
               Load More ({galleryData.length - visibleImages} remaining)
             </button>
@@ -153,45 +155,45 @@ const GallerySection = () => {
 
         {/* Fullscreen Image Modal */}
         <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
-          <DialogContent className="max-w-5xl bg-transparent border-none shadow-none p-0 flex justify-center items-center">
+          <DialogContent className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl">
             {selectedIndex !== null && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="relative w-full h-auto flex justify-center items-center"
+                className="relative w-full flex justify-center items-center"
               >
-                {/* Close button */}
+                {/* Close Button */}
                 <button
                   onClick={() => setSelectedIndex(null)}
-                  className="absolute -top-12 right-0 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
                 >
-                  <X size={34} className="text-white" />
+                  <X size={24} className="sm:w-7 sm:h-7 text-white" />
                 </button>
 
-                {/* Prev button */}
+                {/* Prev Button */}
                 <button
                   onClick={() =>
                     setSelectedIndex((prev) =>
                       prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
                     )
                   }
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
                 >
-                  <ChevronLeft size={40} className="text-white" />
+                  <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
                 </button>
 
-                {/* Next button */}
+                {/* Next Button */}
                 <button
                   onClick={() =>
                     setSelectedIndex((prev) =>
                       prev !== null ? (prev + 1) % galleryData.length : prev
                     )
                   }
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 rounded-full transition"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
                 >
-                  <ChevronRight size={40} className="text-white" />
+                  <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
                 </button>
 
                 {/* Large Image */}
@@ -202,8 +204,8 @@ const GallerySection = () => {
                   height={800}
                   quality={90}
                   loading="eager"
-                  sizes="90vw"
-                  className="rounded-lg object-contain max-h-[80vh] mx-auto"
+                  sizes="100vw"
+                  className="rounded-lg object-contain max-h-[70vh] sm:max-h-[80vh] w-auto mx-auto"
                 />
               </motion.div>
             )}

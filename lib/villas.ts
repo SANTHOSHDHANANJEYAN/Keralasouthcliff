@@ -16,7 +16,6 @@ export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
-    
     description: 'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
@@ -40,6 +39,9 @@ export const villas: Villa[] = [
       '/astega/21-min.jpg',
       '/astega/4-min.jpg',
       '/astega/5-min.jpg',
+      '/astega/7-min.jpg',
+      '/astega/8-min.jpg',
+      '/astega/12-min.jpg'
     ]
   },
   {
@@ -68,6 +70,9 @@ export const villas: Villa[] = [
       '/astega/Ateya - Living area-min.png',
       '/astega/9-min.jpg',
       '/astega/10-min.jpg',
+      '/astega/16-min.jpg',
+      '/astega/17-min.jpg',
+      '/astega/18-min.jpg'
     ]
   },
   {
@@ -95,8 +100,11 @@ export const villas: Villa[] = [
       '/astega/5-min.jpg',
       '/astega/14-min.jpg',
       '/astega/19-min.jpg',
-      '/astega/14-min.jpg',
       '/astega/15-min.jpg',
+      '/astega/20-min.jpg',
+      '/astega/22-min.jpg',
+      '/astega/23-min.jpg',
+      '/astega/24-min.jpg'
     ]
   }
 ];

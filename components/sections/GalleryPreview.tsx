@@ -2,25 +2,22 @@
 
 import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Heart, Share2, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 
 const galleryImages = [
-  { src: '/astega/31-min.jpg', alt: 'Beach View', category: 'Exterior', title: 'Pristine Beach Access' },
-  { src: '/astega/1-min.jpg', alt: 'Luxury Interior', category: 'Interior', title: 'Elegant Living Space' },
-  { src: '/astega/16-min.jpg', alt: 'Bedroom', category: 'Rooms', title: 'Master Bedroom Suite' },
-  { src: '/astega/5-min.jpg', alt: 'Bathroom', category: 'Amenities', title: 'Luxury Bathroom' },
-  { src: '/astega/4-min.jpg', alt: 'Sunset View', category: 'Views', title: 'Spectacular Sunset' },
-  { src: '/astega/13-min.jpg', alt: 'Terrace', category: 'Outdoor', title: 'Private Terrace' },
+  { src: '/astega/31-min.jpg', alt: '' },
+  { src: '/astega/1-min.jpg', alt: '' },
+  { src: '/astega/16-min.jpg', alt: '' },
+  { src: '/astega/5-min.jpg', alt: '' },
+  { src: '/astega/11-min.jpg', alt: '' },
+  { src: '/astega/13-min.jpg', alt: '' },
 ];
 
 type GalleryImage = {
   src: string;
   alt: string;
-  category: string;
-  title: string;
 };
 
 type GalleryItemProps = {
@@ -46,8 +43,8 @@ const GalleryItem = memo(function GalleryItem({
           alt={image.alt}
           width={800}
           height={600}
-          quality={90} // Better clarity
-          placeholder="blur" // Smooth loading
+          quality={90}
+          placeholder="blur"
           blurDataURL="/blur-placeholder.webp"
           className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
           loading={index <= 1 ? 'eager' : 'lazy'}
@@ -67,16 +64,6 @@ const GalleryItem = memo(function GalleryItem({
           <Button size="icon" variant="ghost" className="bg-white/80 p-2 rounded-full hover:scale-105 transition-transform">
             <Share2 size={16} />
           </Button>
-        </div>
-
-        {/* Hover Title */}
-        <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <h3 className="text-black font-semibold text-base sm:text-lg mb-1 bg-white/80 px-2 py-1 rounded">
-            {image.title}
-          </h3>
-          <p className="text-xs sm:text-sm text-gray-700 bg-white/70 px-2 py-1 rounded">
-            {image.alt}
-          </p>
         </div>
 
         {/* View Button */}
@@ -151,15 +138,6 @@ export default function GalleryPreview() {
                   placeholder="blur"
                   blurDataURL="/blur-placeholder.webp"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-white/90 p-4 sm:p-6">
-                  <h3 className="text-black font-bold text-lg sm:text-xl mb-1">
-                    {openImage.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-700">{openImage.alt}</p>
-                  <Badge className="mt-2 bg-gray-100 text-black border border-black/10">
-                    {openImage.category}
-                  </Badge>
-                </div>
               </div>
             )}
           </DialogContent>

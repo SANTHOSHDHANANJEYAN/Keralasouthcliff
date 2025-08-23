@@ -7,10 +7,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import VirtualTour from '@/components/interactive/VirtualTour';
 
 const VillasPreview = () => {
-  const [selectedVilla, setSelectedVilla] = useState<number | null>(null);
   const [currentIndexes, setCurrentIndexes] = useState<{ [key: number]: number }>({});
 
   const villas = useMemo(
@@ -98,7 +96,6 @@ const VillasPreview = () => {
                         alt={villa.name}
                         fill
                         className="object-cover rounded-t-2xl"
-                        onClick={() => setSelectedVilla(villa.id)}
                       />
                     </div>
                   ))}
@@ -170,7 +167,6 @@ const VillasPreview = () => {
                       alt={villa.name}
                       fill
                       className="object-cover rounded-l-2xl"
-                      onClick={() => setSelectedVilla(villa.id)}
                     />
                   </div>
                 ))}
@@ -219,36 +215,6 @@ const VillasPreview = () => {
             </div>
           );
         })}
-
-        {/* Virtual Tour */}
-        {selectedVilla && (
-          <div
-            className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedVilla(null)}
-          >
-            <div
-              className="bg-white w-full max-w-4xl rounded-xl shadow-lg relative border border-black p-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Button
-                variant="ghost"
-                className="absolute top-4 right-4 text-black"
-                onClick={() => setSelectedVilla(null)}
-              >
-                ✕
-              </Button>
-              <VirtualTour
-                villaType={
-                  selectedVilla === 1
-                    ? 'ground-floor'
-                    : selectedVilla === 2
-                    ? 'top-floor'
-                    : 'landscape'
-                }
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Progress Animation */}
