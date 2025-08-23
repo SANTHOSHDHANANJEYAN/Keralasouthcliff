@@ -6,7 +6,7 @@ import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap', // ✅ Avoids FOIT (Flash of Invisible Text)
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Experience luxury amidst nature's masterpiece. Only 2 exclusive villas on South Cliff, Varkala, Kerala.",
   keywords:
     'Kerala luxury villas, Varkala accommodation, South Cliff beach view, luxury rooms Kerala',
-  metadataBase: new URL('https://asteya-beach-villas.com'), // ✅ For SEO
+  metadataBase: new URL('https://asteya-beach-villas.com'),
   openGraph: {
     title: 'Asteya Beach Villas - Luxury Accommodation',
     description:
@@ -49,32 +49,51 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        {/* ✅ Preload custom font */}
+        <link
+          rel="preload"
+          href="/fonts/inter.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
+        {/* ✅ Preload hero image */}
+        <link rel="preload" as="image" href="/hero.jpg" />
+
+        {/* ✅ Preconnect to Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+      </head>
+
       <body className={`${inter.className} antialiased`}>
         {children}
         <Toaster />
 
-        {/* ✅ Preload critical fonts */}
-        <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-
-        {/* ✅ Preload hero image for better LCP */}
-        <link rel="preload" as="image" href="/hero.jpg" />
-
-        {/* ✅ Preconnect to Google Fonts to speed up fetching */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-
-        {/* ✅ Lazy load non-critical scripts */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID" strategy="lazyOnload" />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'GA_TRACKING_ID', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
+        {/* ✅ Load Google Analytics only if ID exists */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   );
