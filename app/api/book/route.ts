@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/mongodb";  
+import { connectDB } from "@/lib/mongodb";
 import { Booking } from "@/models/Booking";
 import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
 
-// Define booking type
 interface IBooking {
   name: string;
   email: string;
@@ -17,12 +16,10 @@ interface IBooking {
 
 export async function POST(req: Request) {
   try {
-    await connectDB();n
-    
+    await connectDB();
 
     const body: IBooking = await req.json();
 
-    // Create a new booking
     const booking = new Booking({
       ...body,
       checkIn: new Date(body.checkIn),
@@ -31,7 +28,6 @@ export async function POST(req: Request) {
 
     await booking.save();
 
-    // Convert mongoose doc to plain object + convert Date → string
     const bookingData: IBooking = {
       ...booking.toObject(),
       checkIn:
@@ -44,7 +40,6 @@ export async function POST(req: Request) {
           : (booking.checkOut as unknown as string),
     };
 
-    // Send emails
     await Promise.all([
       sendOwnerNotification(bookingData),
       sendGuestConfirmation(bookingData),
