@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase } from "@/lib/mongodb";
+import { dbConnect } from "@/lib/mongodb";   // ✅ changed from connectToDatabase → dbConnect
 import { Booking } from "@/models/Booking";
 import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
 
-
 export async function POST(req: Request) {
   try {
-    await connectToDatabase();
+    await dbConnect();   // ✅ updated function name
     const body = await req.json();
 
     // 1) Validate required fields
