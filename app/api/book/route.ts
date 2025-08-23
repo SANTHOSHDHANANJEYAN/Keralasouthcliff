@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { Booking } from "@/models/Booking";
-import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/mail";
+import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
+
 
 export async function POST(req: Request) {
   try {
