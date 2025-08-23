@@ -11,7 +11,7 @@ interface IBooking {
   villa: string;
   checkIn: string;
   checkOut: string;
-  message?: string;
+  message?: string | null; // ✅ Allow null also
 }
 
 export async function POST(req: Request) {
