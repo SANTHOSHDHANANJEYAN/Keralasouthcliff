@@ -1,67 +1,62 @@
 import { NextResponse } from "next/server";
-import { dbConnect } from "@/lib/mongodb";   // ✅ changed from connectToDatabase → dbConnect
-import { Booking } from "@/models/Booking";
-import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
+import connectDB from "@/lib/mongodb";
+import Booking from "@/models/Booking";
+import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/mailer";
+
+// Define booking type
+interface IBooking {
+  name: string;
+  email: string;
+  phone: string;
+  guests: number;
+  villa: string;
+  checkIn: string;
+  checkOut: string;
+  message?: string;
+}
 
 export async function POST(req: Request) {
   try {
-    await dbConnect();   // ✅ updated function name
-    const body = await req.json();
+    await connectDB();
 
-    // 1) Validate required fields
-    if (
-      !body.name ||
-      !body.email ||
-      !body.phone ||
-      !body.checkIn ||
-      !body.checkOut ||
-      !body.guests ||
-      !body.villa
-    ) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+    const body: IBooking = await req.json();
 
-    const checkIn = new Date(body.checkIn);
-    const checkOut = new Date(body.checkOut);
-    const guests = parseInt(body.guests, 10);
-
-    // 2) Save booking
-    const booking = await Booking.create({
-      name: body.name.trim(),
-      email: body.email.trim(),
-      phone: body.phone.trim(),
-      guests,
-      villa: body.villa,
-      checkIn,
-      checkOut,
-      message: (body.message || "").trim(),
-      status: "confirmed",
+    // Create a new booking
+    const booking = new Booking({
+      ...body,
+      checkIn: new Date(body.checkIn),
+      checkOut: new Date(body.checkOut),
     });
 
-    // 3) Send emails (best-effort; don't fail booking if email fails)
-    try {
-      const bookingData = booking.toObject(); // plain object (no mongoose metadata)
-      await Promise.all([
-        sendOwnerNotification(bookingData),
-        sendGuestConfirmation(bookingData),
-      ]);
-    } catch (e) {
-      console.error("Email send failed:", e);
-      // Continue – booking already saved
-    }
+    await booking.save();
 
-    // 4) Success response
+    // Convert mongoose doc to plain object + convert Date → string
+    const bookingData: IBooking = {
+      ...booking.toObject(),
+      checkIn:
+        booking.checkIn instanceof Date
+          ? booking.checkIn.toISOString()
+          : (booking.checkIn as unknown as string),
+      checkOut:
+        booking.checkOut instanceof Date
+          ? booking.checkOut.toISOString()
+          : (booking.checkOut as unknown as string),
+    };
+
+    // Send emails
+    await Promise.all([
+      sendOwnerNotification(bookingData),
+      sendGuestConfirmation(bookingData),
+    ]);
+
     return NextResponse.json(
-      { message: "Booking confirmed", booking },
+      { message: "Booking successful!", booking: bookingData },
       { status: 201 }
     );
   } catch (error) {
     console.error("Booking error:", error);
     return NextResponse.json(
-      { error: "Failed to create booking" },
+      { message: "Booking failed", error },
       { status: 500 }
     );
   }
