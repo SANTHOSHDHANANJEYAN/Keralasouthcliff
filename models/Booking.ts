@@ -1,43 +1,37 @@
-// /models/Booking.ts
 import { Schema, model, models, Model } from "mongoose";
 
-export type VillaType = "Top Floor" | "Ground Floor" | "Entire Villa";
-
+// Define the Booking interface
 export interface IBooking {
   name: string;
   email: string;
   phone: string;
+  checkIn: Date;
+  checkOut: Date;
   guests: number;
-  villa: VillaType;
-  checkIn: string;   // stored as YYYY-MM-DD (local date)
-  checkOut: string;  // stored as YYYY-MM-DD (local date)
-  message?: string;
-  createdAt: Date;
-  status: "confirmed"; // keep simple for now
+  roomType: string;
+  specialRequests?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-const BookingSchema = new Schema(
+// Define the Booking schema
+const BookingSchema = new Schema<IBooking>(
   {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, trim: true },
-    phone: { type: String, required: true, trim: true },
-    guests: { type: Number, required: true, min: 1, max: 8 },
-    villa: {
-      type: String,
-      required: true,
-      enum: ["Top Floor", "Ground Floor", "Entire Villa"],
-    },
-    checkIn: { type: String, required: true },  // YYYY-MM-DD
-    checkOut: { type: String, required: true }, // YYYY-MM-DD
-    message: { type: String, default: "" },
-    status: { type: String, default: "confirmed" },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    checkIn: { type: Date, required: true },
+    checkOut: { type: Date, required: true },
+    guests: { type: Number, required: true },
+    roomType: { type: String, required: true },
+    specialRequests: { type: String },
   },
-  { timestamps: { createdAt: true, updatedAt: false } }
+  {
+    timestamps: true,
+  }
 );
 
-// Compound index for fast overlap checks
-BookingSchema.index({ villa: 1, checkIn: 1, checkOut: 1 });
-
-// Export model with type safety
-export const Booking: Model<IBooking> =
-  models.Booking || model<IBooking>("Booking", BookingSchema);
+// Export the model with type assertion to prevent TS build errors
+export const Booking =
+  (models.Booking as Model<IBooking>) ||
+  model<IBooking>("Booking", BookingSchema);
