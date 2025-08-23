@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";  
-import Booking from "@/models/Booking";
+import { Booking } from "@/models/Booking";
 import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
 
 // Define booking type
@@ -17,7 +17,8 @@ interface IBooking {
 
 export async function POST(req: Request) {
   try {
-    await connectDB();
+    await connectDB();n
+    
 
     const body: IBooking = await req.json();
 
