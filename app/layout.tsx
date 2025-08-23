@@ -6,7 +6,7 @@ import Script from 'next/script';
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap',
+  display: 'swap', // Uses Google-hosted font, no manual preload needed
 });
 
 export const metadata: Metadata = {
@@ -50,19 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        {/* ✅ Preload custom font */}
-        <link
-          rel="preload"
-          href="/fonts/inter.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-
-        {/* ✅ Preload hero image */}
-        <link rel="preload" as="image" href="/hero.jpg" />
-
-        {/* ✅ Preconnect to Google Fonts */}
+        {/* Preconnect for Google Fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -75,7 +63,7 @@ export default function RootLayout({
         {children}
         <Toaster />
 
-        {/* ✅ Load Google Analytics only if ID exists */}
+        {/* Google Analytics - load only if GA ID exists */}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <Script
