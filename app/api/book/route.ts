@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Booking from "@/models/Booking";
-import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/mailer";
+import { sendOwnerNotification, sendGuestConfirmation } from "@/lib/email";
 
 // Define booking type
 interface IBooking {
