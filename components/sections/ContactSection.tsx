@@ -1,43 +1,56 @@
-'use client';
+"use client";
 
-import React, { useState, useCallback } from 'react';
-import dynamic from 'next/dynamic';
-import { Card } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
+import React, { useState, useCallback } from "react";
+import dynamic from "next/dynamic";
+import { Card } from "@/components/ui/card";
+import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
+import { toast } from "react-hot-toast";
 
-// ✅ Dynamically import PhoneInput to improve initial page load speed
-const PhoneInput = dynamic(() => import('react-phone-input-2'), { ssr: false });
-import 'react-phone-input-2/lib/style.css';
+// ✅ Dynamically import PhoneInput
+const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
+import "react-phone-input-2/lib/style.css";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    checkIn: '',
-    checkOut: '',
+    name: "",
+    email: "",
+    phone: "",
+    checkIn: "",
+    checkOut: "",
     guests: 1,
-    villa: '',
-    message: ''
+    villa: "",
+    message: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ Optimized handleChange to prevent unnecessary re-renders
+  // ✅ Optimized handleChange
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
+    ) => {
       setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
       setErrors((prev) => ({ ...prev, [e.target.name]: false }));
     },
     []
   );
 
+  // ✅ Submit Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const requiredFields = ['name', 'email', 'phone', 'checkIn', 'checkOut', 'villa'];
+    const requiredFields = [
+      "name",
+      "email",
+      "phone",
+      "checkIn",
+      "checkOut",
+      "villa",
+    ];
     const newErrors: { [key: string]: boolean } = {};
 
     requiredFields.forEach((field) => {
@@ -52,55 +65,76 @@ const ContactSection = () => {
       return;
     }
 
-    const subject = encodeURIComponent('Villa Booking & Inquiry');
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\n` +
-        `Email: ${formData.email}\n` +
-        `Phone: ${formData.phone}\n` +
-        `Guests: ${formData.guests}\n` +
-        `Check-in: ${formData.checkIn}\n` +
-        `Check-out: ${formData.checkOut}\n` +
-        `Villa Preference: ${formData.villa}\n` +
-        `Message: ${formData.message}`
-    );
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // ✅ Open Gmail compose in a new tab
-    window.open(
-      `https://mail.google.com/mail/?view=cm&fs=1&to=contact.asteya@gmail.com&su=${subject}&body=${body}`,
-      '_blank'
-    );
+      const data = await res.json();
 
-    // ✅ Reset form after submission
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      checkIn: '',
-      checkOut: '',
-      guests: 1,
-      villa: '',
-      message: ''
-    });
-    setErrors({});
-    setIsSubmitting(false);
+      if (!res.ok) {
+        toast.error(data.message || "Booking failed");
+      } else {
+        toast.success("Booking confirmed!");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          checkIn: "",
+          checkOut: "",
+          guests: 1,
+          villa: "",
+          message: "",
+        });
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
-    { icon: Phone, title: 'Phone', value: '+91 79941 44472', description: 'Available 24/7' },
-    { icon: Mail, title: 'Email', value: 'contact.asteya@gmail.com', description: 'Reach us anytime' },
-    { icon: MapPin, title: 'Location', value: 'South Cliff, Varkala', description: 'Kerala, India 695141' },
-    { icon: Clock, title: 'Response Time', value: 'Quick', description: 'We respond immediately' }
+    {
+      icon: Phone,
+      title: "Phone",
+      value: "+91 79941 44472",
+      description: "Available 24/7",
+    },
+    {
+      icon: Mail,
+      title: "Email",
+      value: "contact.asteya@gmail.com",
+      description: "Reach us anytime",
+    },
+    {
+      icon: MapPin,
+      title: "Location",
+      value: "South Cliff, Varkala",
+      description: "Kerala, India 695141",
+    },
+    {
+      icon: Clock,
+      title: "Response Time",
+      value: "Quick",
+      description: "We respond immediately",
+    },
   ];
 
   const bookingInfo = [
-    { label: 'Room Rate', value: 'PRICE ON REQUEST' },
-    { label: 'Minimum Stay', value: '1 DAY' },
-    { label: 'Check-in / Check-out', value: '3:00 PM / 12:00 PM' },
-    { label: 'Advance Booking', value: '50% advance required' },
-    { label: 'Cancellation', value: 'Free up to 48 hours' },
-    { label: 'Maximum Guests', value: 'Maximum 4 guests (For more than 4 persons, please inquire)' },
-    { label: 'Payment Methods', value: 'Cash / UPI / Bank Transfer' },
-    { label: 'Confirmation', value: 'Email / WhatsApp' }
+    { label: "Room Rate", value: "PRICE ON REQUEST" },
+    { label: "Minimum Stay", value: "1 DAY" },
+    { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
+    { label: "Advance Booking", value: "50% advance required" },
+    { label: "Cancellation", value: "Free up to 48 hours" },
+    {
+      label: "Maximum Guests",
+      value: "Maximum 4 guests (For more than 4 persons, please inquire)",
+    },
+    { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
+    { label: "Confirmation", value: "Email / WhatsApp" },
   ];
 
   return (
@@ -110,7 +144,8 @@ const ContactSection = () => {
         <div className="text-center mb-20">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Book Your Stay</h2>
           <p className="text-lg max-w-2xl mx-auto">
-            Experience luxury at Kerala South Cliff Beach View Villas. Fill out the form below or reach out directly.
+            Experience luxury at Kerala South Cliff Beach View Villas. Fill out
+            the form below or reach out directly.
           </p>
         </div>
 
@@ -138,22 +173,24 @@ const ContactSection = () => {
             <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
               {/* Name & Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {['name', 'email'].map((field) => (
+                {["name", "email"].map((field) => (
                   <div key={field}>
                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
                       {field}
                     </label>
                     <input
-                      type={field === 'email' ? 'email' : 'text'}
+                      type={field === "email" ? "email" : "text"}
                       name={field}
                       value={formData[field as keyof typeof formData]}
                       onChange={handleChange}
                       className={`w-full p-3 border ${
-                        errors[field] ? 'border-red-500' : 'border-gray-300'
+                        errors[field] ? "border-red-500" : "border-gray-300"
                       } rounded-md focus:ring-2 focus:ring-black`}
                     />
                     {errors[field] && (
-                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                      <p className="text-red-500 text-xs mt-1">
+                        This field is required
+                      </p>
                     )}
                   </div>
                 ))}
@@ -161,27 +198,31 @@ const ContactSection = () => {
 
               {/* Phone */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone
+                </label>
                 <PhoneInput
-                  country={'in'}
+                  country={"in"}
                   value={formData.phone}
                   onChange={(phone) => {
                     setFormData((prev) => ({ ...prev, phone }));
                     setErrors((prev) => ({ ...prev, phone: false }));
                   }}
                   inputClass={`!w-full !p-3 !rounded-md !border ${
-                    errors.phone ? '!border-red-500' : '!border-gray-300'
+                    errors.phone ? "!border-red-500" : "!border-gray-300"
                   } !focus:ring-2 !focus:ring-black`}
                 />
-                {errors.phone && <p className="text-red-500 text-xs mt-1">Phone is required</p>}
+                {errors.phone && (
+                  <p className="text-red-500 text-xs mt-1">Phone is required</p>
+                )}
               </div>
 
               {/* Check-in / Check-out / Guests */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['checkIn', 'checkOut'].map((field) => (
+                {["checkIn", "checkOut"].map((field) => (
                   <div key={field}>
                     <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-                      {field.replace(/([A-Z])/g, ' $1')}
+                      {field.replace(/([A-Z])/g, " $1")}
                     </label>
                     <input
                       type="date"
@@ -189,16 +230,20 @@ const ContactSection = () => {
                       value={formData[field as keyof typeof formData]}
                       onChange={handleChange}
                       className={`w-full p-3 border ${
-                        errors[field] ? 'border-red-500' : 'border-gray-300'
+                        errors[field] ? "border-red-500" : "border-gray-300"
                       } rounded-md focus:ring-2 focus:ring-black`}
                     />
                     {errors[field] && (
-                      <p className="text-red-500 text-xs mt-1">This field is required</p>
+                      <p className="text-red-500 text-xs mt-1">
+                        This field is required
+                      </p>
                     )}
                   </div>
                 ))}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Guests
+                  </label>
                   <input
                     type="number"
                     name="guests"
@@ -213,13 +258,15 @@ const ContactSection = () => {
 
               {/* Villa Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Villa</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Select Villa
+                </label>
                 <select
                   name="villa"
                   value={formData.villa}
                   onChange={handleChange}
                   className={`w-full p-3 border ${
-                    errors.villa ? 'border-red-500' : 'border-gray-300'
+                    errors.villa ? "border-red-500" : "border-gray-300"
                   } rounded-md focus:ring-2 focus:ring-black`}
                 >
                   <option value="">Choose an option</option>
@@ -228,13 +275,17 @@ const ContactSection = () => {
                   <option value="Entire Villa">Entire Villa</option>
                 </select>
                 {errors.villa && (
-                  <p className="text-red-500 text-xs mt-1">Please select a villa</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    Please select a villa
+                  </p>
                 )}
               </div>
 
               {/* Message */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Message
+                </label>
                 <textarea
                   name="message"
                   rows={4}
@@ -253,10 +304,10 @@ const ContactSection = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={`bg-black text-white py-3 px-6 rounded-md transition-colors ${
-                  isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-green-800'
+                  isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-green-800"
                 }`}
               >
-                {isSubmitting ? 'Submitting...' : 'Enquire Now'}
+                {isSubmitting ? "Submitting..." : "Enquire Now"}
               </button>
             </form>
           </div>
@@ -267,7 +318,10 @@ const ContactSection = () => {
             <div className="space-y-4">
               {bookingInfo.map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
+                  <CheckCircle
+                    className="text-black mt-1 flex-shrink-0"
+                    size={20}
+                  />
                   <div>
                     <p className="font-semibold">{item.label}</p>
                     <p className="text-sm">{item.value}</p>
@@ -278,7 +332,8 @@ const ContactSection = () => {
             <div className="mt-8 bg-white p-4 rounded-xl border border-black">
               <h4 className="font-semibold mb-1">Special Offer</h4>
               <p className="text-sm">
-                Book for 7 nights or more and get 15% discount. Seasonal offers available.
+                Book for 7 nights or more and get 15% discount. Seasonal offers
+                available.
               </p>
             </div>
           </Card>
