@@ -7,7 +7,7 @@ import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 
 // ✅ Dynamically import PhoneInput
-const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
+const PhoneInput = dynamic(() => import("react-phone-input-2").then((mod) => mod.default), { ssr: false });
 import "react-phone-input-2/lib/style.css";
 
 export default function ContactPage() {
