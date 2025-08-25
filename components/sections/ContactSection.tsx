@@ -38,19 +38,12 @@ const ContactSection = () => {
     []
   );
 
-  // ✅ Submit Handler
+  // ✅ Submit Handler with Formspree
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const requiredFields = [
-      "name",
-      "email",
-      "phone",
-      "checkIn",
-      "checkOut",
-      "villa",
-    ];
+    const requiredFields = ["name", "email", "phone", "checkIn", "checkOut", "villa"];
     const newErrors: { [key: string]: boolean } = {};
 
     requiredFields.forEach((field) => {
@@ -66,18 +59,17 @@ const ContactSection = () => {
     }
 
     try {
-      const res = await fetch("/api/bookings", {
+      const res = await fetch("https://formspree.io/f/xovnaykg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          _subject: "New Villa Booking Request", // ✅ Custom email subject
+        }),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        toast.error(data.message || "Booking failed");
-      } else {
-        toast.success("Booking confirmed!");
+      if (res.ok) {
+        toast.success("Booking confirmed! ✅ Check your email.");
         setFormData({
           name: "",
           email: "",
@@ -88,9 +80,11 @@ const ContactSection = () => {
           villa: "",
           message: "",
         });
+      } else {
+        toast.error("Booking failed. Try again!");
       }
     } catch (err) {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong.");
     } finally {
       setIsSubmitting(false);
     }
