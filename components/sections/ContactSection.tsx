@@ -10,165 +10,151 @@ export default function ContactSection() {
     name: "",
     email: "",
     phone: "",
-    date: "",
+    checkIn: "",
+    checkOut: "",
+    guests: 1,
     villa: "",
     message: "",
   });
 
-  const [bookings, setBookings] = useState<{ date: string; villa: string }[]>(
-    []
-  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
-  // ✅ Handles input, textarea, and select
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // ✅ handle form input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Handle form submit
+  // ✅ form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    // Check if date + villa already booked
-    const isBooked = bookings.some(
-      (b) => b.date === formData.date && b.villa === formData.villa
-    );
+    const requiredFields = ["name", "email", "phone", "checkIn", "checkOut", "villa"];
+    const newErrors: { [key: string]: boolean } = {};
 
-    if (isBooked) {
-      toast.error(`This ${formData.villa} is already booked on this date.`);
+    requiredFields.forEach((field) => {
+      if (!formData[field as keyof typeof formData]) {
+        newErrors[field] = true;
+      }
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setIsSubmitting(false);
       return;
     }
 
     try {
-      const res = await fetch("https://formspree.io/f/xovnaykg", {
+      const res = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (res.ok) {
-        toast.success("Booking successful! ✅");
-        setBookings([...bookings, { date: formData.date, villa: formData.villa }]);
+      const result = await res.json();
 
+      if (res.ok && result.success) {
+        toast.success(result.message || "Booking confirmed ✅");
         setFormData({
           name: "",
           email: "",
           phone: "",
-          date: "",
+          checkIn: "",
+          checkOut: "",
+          guests: 1,
           villa: "",
           message: "",
         });
       } else {
-        toast.error("Failed to submit booking.");
+        toast.error(result.message || "Booking failed ❌");
       }
     } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong!");
+      toast.error("Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contact" className="py-16 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Book Your Stay
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact Form */}
-          <Card className="p-6 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-4">
+    <section className="py-16 bg-gray-50" id="contact">
+      <div className="max-w-5xl mx-auto px-6">
+        <h2 className="text-3xl font-bold text-center mb-8">Book Your Stay</h2>
+        <Card className="p-6 shadow-lg">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+            <input
+              type="text"
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="p-3 border rounded"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="p-3 border rounded"
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              placeholder="Your Phone"
+              value={formData.phone}
+              onChange={handleChange}
+              className="p-3 border rounded"
+              required
+            />
+            <div className="grid grid-cols-2 gap-4">
               <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
+                type="date"
+                name="checkIn"
+                value={formData.checkIn}
                 onChange={handleChange}
-                className="w-full p-3 border rounded"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-3 border rounded"
-                required
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full p-3 border rounded"
+                className="p-3 border rounded"
                 required
               />
               <input
                 type="date"
-                name="date"
-                value={formData.date}
+                name="checkOut"
+                value={formData.checkOut}
                 onChange={handleChange}
-                className="w-full p-3 border rounded"
+                className="p-3 border rounded"
                 required
               />
-              <select
-                name="villa"
-                value={formData.villa}
-                onChange={handleChange}
-                className="w-full p-3 border rounded"
-                required
-              >
-                <option value="">Select Room</option>
-                <option value="Top Floor">Top Floor</option>
-                <option value="Ground Floor">Ground Floor</option>
-                <option value="Entire Floor">Entire Floor</option>
-              </select>
-              <textarea
-                name="message"
-                placeholder="Additional Message"
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full p-3 border rounded"
-              />
-              <button
-                type="submit"
-                className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700"
-              >
-                Book Now
-              </button>
-            </form>
-          </Card>
-
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-4">
-              <Mail className="text-green-600" />
-              <p>info@keralasouthcliff.com</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <Phone className="text-green-600" />
-              <p>+91 6374310315</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <MapPin className="text-green-600" />
-              <p>South Cliff, Kerala, India</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Clock className="text-green-600" />
-              <p>Check-in: 2:00 PM | Check-out: 11:00 AM</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <CheckCircle className="text-green-600" />
-              <p>100% Secure Booking</p>
-            </div>
-          </div>
-        </div>
+            <select
+              name="villa"
+              value={formData.villa}
+              onChange={handleChange}
+              className="p-3 border rounded"
+              required
+            >
+              <option value="">Select Villa</option>
+              <option value="Top Floor">Top Floor</option>
+              <option value="Ground Floor">Ground Floor</option>
+              <option value="Entire Floor">Entire Floor</option>
+            </select>
+            <textarea
+              name="message"
+              placeholder="Special requests (optional)"
+              value={formData.message}
+              onChange={handleChange}
+              className="p-3 border rounded"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-blue-600 text-white py-3 rounded hover:bg-blue-700"
+            >
+              {isSubmitting ? "Submitting..." : "Book Now"}
+            </button>
+          </form>
+        </Card>
       </div>
     </section>
   );
