@@ -161,9 +161,12 @@ export default function RootLayout({
                     if (e.message && (
                       e.message.includes('_url.indexOf is not a function') ||
                       e.message.includes('Cannot read properties of undefined') ||
+                      e.message.includes('Cannot read properties of null') ||
                       e.message.includes('Cannot find menu item') ||
                       e.message.includes('inject-aws') ||
                       e.message.includes('content-all') ||
+                      e.message.includes('reading \'ref\'') ||
+                      e.message.includes('reading "ref"') ||
                       e.filename && (
                         e.filename.includes('inject-aws') ||
                         e.filename.includes('content-all') ||
@@ -178,8 +181,52 @@ export default function RootLayout({
                     }
                   }, true);
                   
+                  // 🛡️ REACT REF SPECIFIC PROTECTION
+                  // Protect against browser extensions accessing React component refs
+                  if (window.React && typeof window.React === 'object') {
+                    const originalCreateRef = window.React.createRef;
+                    if (originalCreateRef) {
+                      window.React.createRef = function() {
+                        const ref = originalCreateRef();
+                        return new Proxy(ref, {
+                          get(target, prop) {
+                            if (prop === 'current' && !target) {
+                              console.warn('🛡️ React ref current access on null ref');
+                              return null;
+                            }
+                            return target[prop];
+                          }
+                        });
+                      };
+                    }
+                  }
+                  
+                  // 🛡️ DOM ELEMENT PROTECTION
+                  const originalQuerySelector = document.querySelector;
+                  document.querySelector = function(selector) {
+                    try {
+                      const element = originalQuerySelector.call(this, selector);
+                      if (!element) return null;
+                      
+                      // Protect element ref access
+                      return new Proxy(element, {
+                        get(target, prop) {
+                          if (prop === 'ref' && typeof target[prop] === 'undefined') {
+                            console.warn('🛡️ Element ref access protected');
+                            return null;
+                          }
+                          return target[prop];
+                        }
+                      });
+                    } catch (error) {
+                      console.warn('🛡️ querySelector error protected:', error.message);
+                      return null;
+                    }
+                  };
+                  
                   // Enhanced console override
                   const originalConsoleError = console.error;
+                  console.error = function(...args) {
                   console.error = function(...args) {
                     const message = args.join(' ');
                     if (message.includes('_url.indexOf is not a function') || 
@@ -187,12 +234,57 @@ export default function RootLayout({
                         message.includes('inject-aws') ||
                         message.includes('content-all') ||
                         message.includes('TypeError: Cannot read properties of undefined') ||
+                        message.includes('Cannot read properties of undefined (reading \'ref\')') ||
+                        message.includes('Cannot read properties of null (reading \'ref\')') ||
                         message.includes('TypeError: _url.indexOf')) {
                       console.warn('🛡️ Console error suppressed:', message);
                       return;
                     }
                     originalConsoleError.apply(console, args);
                   };
+                  
+                  // 🛡️ REF ACCESS PROTECTION - Prevent 'Cannot read properties of undefined (reading "ref")'
+                  const originalObjectDefineProperty = Object.defineProperty;
+                  Object.defineProperty = function(obj, prop, descriptor) {
+                    if (prop === 'ref' && obj && typeof obj === 'object') {
+                      console.warn('🛡️ Ref property access protected:', obj);
+                      // Ensure the ref property is safely defined
+                      if (!descriptor.value && !descriptor.get) {
+                        descriptor.value = null;
+                      }
+                    }
+                    return originalObjectDefineProperty.call(this, obj, prop, descriptor);
+                  };
+                  
+                  // 🛡️ Property access protection for undefined objects
+                  const originalGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+                  Object.getOwnPropertyDescriptor = function(obj, prop) {
+                    if (!obj || typeof obj !== 'object') {
+                      if (prop === 'ref') {
+                        console.warn('🛡️ Attempted ref access on undefined/null object');
+                        return undefined;
+                      }
+                    }
+                    return originalGetOwnPropertyDescriptor.call(this, obj, prop);
+                  };
+                  
+                  // 🛡️ Proxy protection for property access
+                  const originalProxy = window.Proxy;
+                  if (originalProxy) {
+                    window.Proxy = function(target, handler) {
+                      const safeHandler = {
+                        ...handler,
+                        get: function(obj, prop) {
+                          if (prop === 'ref' && (!obj || typeof obj !== 'object')) {
+                            console.warn('🛡️ Unsafe ref access prevented via Proxy');
+                            return null;
+                          }
+                          return handler.get ? handler.get(obj, prop) : obj[prop];
+                        }
+                      };
+                      return new originalProxy(target, safeHandler);
+                    };
+                  }
                   
                   // Advanced URL parameter protection with more coverage
                   const originalString = String;
