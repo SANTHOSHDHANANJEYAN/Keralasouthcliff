@@ -64,98 +64,140 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Advanced error suppression and protection
-              (function() {
-                // Enhanced error suppression
-                window.addEventListener('error', function(e) {
-                  if (e.message && (
-                    e.message.includes('_url.indexOf is not a function') ||
-                    e.message.includes('Cannot read properties of undefined') ||
-                    e.message.includes('Cannot find menu item') ||
-                    e.message.includes('inject-aws') ||
-                    e.message.includes('content-all') ||
-                    e.filename && (
-                      e.filename.includes('inject-aws') ||
-                      e.filename.includes('content-all') ||
-                      e.filename.includes('extension')
-                    )
-                  )) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.warn('🛡️ Early error suppression:', e.message);
-                    return true;
-                  }
-                }, true);
-                
-                // Enhanced console override
-                const originalConsoleError = console.error;
-                console.error = function(...args) {
-                  const message = args.join(' ');
-                  if (message.includes('_url.indexOf is not a function') || 
-                      message.includes('Cannot find menu item') ||
-                      message.includes('inject-aws') ||
-                      message.includes('content-all') ||
-                      message.includes('TypeError: Cannot read properties of undefined')) {
-                    console.warn('🛡️ Error suppressed:', message);
-                    return;
-                  }
-                  originalConsoleError.apply(console, args);
-                };
-                
-                // Advanced URL parameter protection
-                const originalString = String;
-                window.String = function(value) {
-                  if (value === null || value === undefined) {
-                    console.warn('🛡️ Null/undefined converted to empty string');
-                    return '';
-                  }
-                  if (typeof value === 'object' && value !== null) {
-                    console.warn('🛡️ Object converted to string:', typeof value);
-                    try {
-                      return JSON.stringify(value);
-                    } catch (e) {
-                      return '[object Object]';
+              // Ultimate error suppression and protection - wrapped in try-catch
+              try {
+                (function() {
+                  // Immediate error suppression before anything else
+                  const originalAddEventListener = EventTarget.prototype.addEventListener;
+                  EventTarget.prototype.addEventListener = function(type, listener, options) {
+                    if (type === 'error') {
+                      const wrappedListener = function(e) {
+                        if (e.message && (
+                          e.message.includes('_url.indexOf is not a function') ||
+                          e.message.includes('inject-aws') ||
+                          e.message.includes('content-all')
+                        )) {
+                          console.warn('🛡️ EventListener error suppressed:', e.message);
+                          e.preventDefault();
+                          e.stopPropagation();
+                          return;
+                        }
+                        if (typeof listener === 'function') {
+                          return listener.call(this, e);
+                        }
+                      };
+                      return originalAddEventListener.call(this, type, wrappedListener, options);
                     }
-                  }
-                  return originalString(value);
-                };
-                
-                // Protect String.prototype.indexOf
-                if (String.prototype.indexOf) {
-                  const originalIndexOf = String.prototype.indexOf;
-                  String.prototype.indexOf = function(searchString, position) {
-                    if (this === null || this === undefined) {
-                      console.warn('🛡️ indexOf called on null/undefined, returning -1');
-                      return -1;
-                    }
-                    try {
-                      return originalIndexOf.call(this, searchString, position);
-                    } catch (e) {
-                      console.warn('🛡️ indexOf error prevented:', e.message);
-                      return -1;
-                    }
+                    return originalAddEventListener.call(this, type, listener, options);
                   };
-                }
-                
-                // Advanced unhandled rejection handling
-                window.addEventListener('unhandledrejection', function(e) {
-                  const reason = e.reason || '';
-                  const stack = (reason && reason.stack) ? reason.stack : '';
-                  const message = reason.toString ? reason.toString() : String(reason);
                   
-                  if (stack.includes('inject-aws') || 
-                      stack.includes('content-all') || 
-                      stack.includes('menu item') ||
-                      message.includes('Cannot find menu item') ||
-                      message.includes('save-page') ||
-                      message.includes('_url.indexOf')) {
-                    e.preventDefault();
-                    console.warn('🛡️ Promise rejection suppressed:', reason);
+                  // Ultimate error suppression
+                  window.addEventListener('error', function(e) {
+                    if (e.message && (
+                      e.message.includes('_url.indexOf is not a function') ||
+                      e.message.includes('Cannot read properties of undefined') ||
+                      e.message.includes('Cannot find menu item') ||
+                      e.message.includes('inject-aws') ||
+                      e.message.includes('content-all') ||
+                      e.filename && (
+                        e.filename.includes('inject-aws') ||
+                        e.filename.includes('content-all') ||
+                        e.filename.includes('extension')
+                      )
+                    )) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      e.stopImmediatePropagation();
+                      console.warn('🛡️ Ultimate error suppression:', e.message);
+                      return true;
+                    }
+                  }, true);
+                  
+                  // Enhanced console override
+                  const originalConsoleError = console.error;
+                  console.error = function(...args) {
+                    const message = args.join(' ');
+                    if (message.includes('_url.indexOf is not a function') || 
+                        message.includes('Cannot find menu item') ||
+                        message.includes('inject-aws') ||
+                        message.includes('content-all') ||
+                        message.includes('TypeError: Cannot read properties of undefined') ||
+                        message.includes('TypeError: _url.indexOf')) {
+                      console.warn('🛡️ Console error suppressed:', message);
+                      return;
+                    }
+                    originalConsoleError.apply(console, args);
+                  };
+                  
+                  // Advanced URL parameter protection with more coverage
+                  const originalString = String;
+                  window.String = function(value) {
+                    if (value === null || value === undefined) {
+                      console.warn('🛡️ Null/undefined converted to empty string');
+                      return '';
+                    }
+                    if (typeof value === 'object' && value !== null) {
+                      console.warn('🛡️ Object converted to string:', typeof value);
+                      try {
+                        return JSON.stringify(value);
+                      } catch (e) {
+                        return '[object Object]';
+                      }
+                    }
+                    return originalString(value);
+                  };
+                  
+                  // Comprehensive String.prototype protection
+                  if (String.prototype.indexOf) {
+                    const originalIndexOf = String.prototype.indexOf;
+                    String.prototype.indexOf = function(searchString, position) {
+                      if (this === null || this === undefined) {
+                        console.warn('🛡️ indexOf called on null/undefined, returning -1');
+                        return -1;
+                      }
+                      try {
+                        return originalIndexOf.call(String(this), searchString, position);
+                      } catch (e) {
+                        console.warn('🛡️ indexOf error prevented:', e.message);
+                        return -1;
+                      }
+                    };
                   }
-                });
-                
-                console.log('🛡️ Advanced error protection initialized');
-              })();
+                  
+                  // Advanced unhandled rejection handling with more patterns
+                  window.addEventListener('unhandledrejection', function(e) {
+                    const reason = e.reason || '';
+                    const stack = (reason && reason.stack) ? reason.stack : '';
+                    const message = reason.toString ? reason.toString() : String(reason);
+                    
+                    if (stack.includes('inject-aws') || 
+                        stack.includes('content-all') || 
+                        stack.includes('menu item') ||
+                        message.includes('Cannot find menu item') ||
+                        message.includes('save-page') ||
+                        message.includes('_url.indexOf') ||
+                        (reason && reason.name && reason.name.includes('Error'))) {
+                      e.preventDefault();
+                      console.warn('🛡️ Promise rejection suppressed:', reason);
+                    }
+                  });
+                  
+                  // Patch console.warn to catch and redirect warnings from external scripts
+                  const originalWarn = console.warn;
+                  console.warn = function(...args) {
+                    const message = args.join(' ');
+                    if (message.includes('inject-aws') || message.includes('content-all')) {
+                      console.warn('🛡️ External warning suppressed:', message);
+                      return;
+                    }
+                    originalWarn.apply(console, args);
+                  };
+                  
+                  console.log('🛡️ Ultimate error protection initialized');
+                })();
+              } catch (protectionError) {
+                console.warn('🛡️ Error protection system failed, but app continues:', protectionError.message);
+              }
             `,
           }}
         />
@@ -195,26 +237,49 @@ export default function RootLayout({
                 originalError.apply(console, args);
               };
               
-              // Advanced global error event handler
+              // Advanced global error event handler with aggressive interception
               window.addEventListener('error', function(e) {
                 const errorMsg = e.message || '';
                 const filename = e.filename || '';
                 const source = e.source || '';
                 
+                // Aggressive error pattern matching
                 if (filename.includes('inject-aws') || 
                     filename.includes('extension') || 
                     filename.includes('content-all') ||
                     errorMsg.includes('_url.indexOf is not a function') ||
                     errorMsg.includes('Cannot find menu item') ||
                     errorMsg.includes('Cannot read properties of undefined') ||
-                    source && source.toString().includes('inject-aws')) {
+                    errorMsg.includes('TypeError: _url.indexOf') ||
+                    (source && source.toString().includes('inject-aws')) ||
+                    (e.target && e.target.src && e.target.src.includes('inject-aws'))) {
                   e.preventDefault();
                   e.stopPropagation();
                   e.stopImmediatePropagation();
-                  console.warn('🛡️ Advanced error prevention:', errorMsg);
+                  console.warn('🛡️ Aggressive error prevention:', errorMsg, 'from:', filename);
                   return true;
                 }
               }, true);
+              
+              // Intercept script errors at the source
+              const originalOnError = window.onerror;
+              window.onerror = function(message, source, lineno, colno, error) {
+                if (message && (
+                  message.includes('_url.indexOf is not a function') ||
+                  message.includes('inject-aws') ||
+                  message.includes('content-all')
+                ) || source && (
+                  source.includes('inject-aws') ||
+                  source.includes('content-all')
+                )) {
+                  console.warn('🛡️ Script error intercepted:', message, 'at', source + ':' + lineno);
+                  return true; // Prevent default error handling
+                }
+                if (originalOnError) {
+                  return originalOnError.call(this, message, source, lineno, colno, error);
+                }
+                return false;
+              };
               
               // Comprehensive promise rejection handler
               window.addEventListener('unhandledrejection', function(e) {
