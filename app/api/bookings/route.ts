@@ -4,10 +4,11 @@ import { MongoClient } from "mongodb";
 const uri =
   process.env.MONGO_URI ||
   "mongodb+srv://santokum9206:FAwgINhgtJeIClWi@astya.db33am7.mongodb.net/?retryWrites=true&w=majority&appName=astya";
+
 const client = new MongoClient(uri);
 const dbName = "astya";
 
-// your real Formspree endpoint from https://formspree.io/forms
+// your Formspree endpoint
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovnaykg";
 
 export async function POST(req: Request) {
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     });
 
-    // ✅ send to Formspree using form-urlencoded
+    // ✅ send booking details to Formspree
     const formData = new URLSearchParams();
     formData.append("name", name);
     formData.append("email", email);
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
 
     const formRes = await fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
-      headers: { "Accept": "application/json" },
+      headers: { Accept: "application/json" },
       body: formData,
     });
 
