@@ -18,15 +18,19 @@ const WaveParticles = () => {
   }, []);
 
   useFrame((state) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-      const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
-      
-      for (let i = 0; i < positions.length; i += 3) {
-        positions[i + 1] = Math.sin(state.clock.elapsedTime + positions[i] * 0.1) * 0.5;
+    try {
+      if (pointsRef.current) {
+        pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+        const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
+        
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i + 1] = Math.sin(state.clock.elapsedTime + positions[i] * 0.1) * 0.5;
+        }
+        
+        pointsRef.current.geometry.attributes.position.needsUpdate = true;
       }
-      
-      pointsRef.current.geometry.attributes.position.needsUpdate = true;
+    } catch (error) {
+      console.warn('WaveParticles animation error:', error);
     }
   });
 

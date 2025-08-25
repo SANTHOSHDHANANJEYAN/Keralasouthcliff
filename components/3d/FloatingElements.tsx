@@ -2,7 +2,6 @@
 
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere, Box, Torus } from '@react-three/drei';
 import * as THREE from 'three';
 
 type FloatingElementProps = {
@@ -15,10 +14,14 @@ const FloatingElement: React.FC<FloatingElementProps> = ({ position, color, shap
   const meshRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.3;
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+    try {
+      if (meshRef.current) {
+        meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.3;
+        meshRef.current.rotation.x = state.clock.elapsedTime * 0.2;
+        meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+      }
+    } catch (error) {
+      console.warn('FloatingElement animation error:', error);
     }
   });
 
