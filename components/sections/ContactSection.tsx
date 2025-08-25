@@ -119,7 +119,7 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success("Booking confirmed! ✅ Check your email.", {
+        toast.success("Booking confirmed! ✅ Thankyou.", {
           duration: 4000,
           position: "top-center",
         });
