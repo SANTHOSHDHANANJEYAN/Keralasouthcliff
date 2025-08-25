@@ -1,11 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 
-export default function ContactSection() {
+// ✅ Dynamically import PhoneInput
+const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
+import "react-phone-input-2/lib/style.css";
+
+const ContactSection = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,15 +22,38 @@ export default function ContactSection() {
     message: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // ✅ handle form input change
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  // ✅ Store already booked dates per villa (simulate database)
+  const [bookings, setBookings] = useState<
+    { villa: string; checkIn: string; checkOut: string }[]
+  >([]);
+
+  // ✅ Optimized handleChange
+  const handleChange = useCallback(
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >
+    ) => {
+      setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+      setErrors((prev) => ({ ...prev, [e.target.name]: false }));
+    },
+    []
+  );
+
+  // ✅ Check booking conflicts
+  const isDateOverlap = (
+    checkIn1: string,
+    checkOut1: string,
+    checkIn2: string,
+    checkOut2: string
+  ) => {
+    return !(new Date(checkOut1) < new Date(checkIn2) || new Date(checkIn1) > new Date(checkOut2));
   };
 
-  // ✅ form submit
+  // ✅ Submit Handler with Formspree + validation
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -45,17 +73,43 @@ export default function ContactSection() {
       return;
     }
 
+    // 🔴 Check if villa already booked in that date range
+    const conflict = bookings.some(
+      (b) =>
+        b.villa === formData.villa &&
+        isDateOverlap(b.checkIn, b.checkOut, formData.checkIn, formData.checkOut)
+    );
+
+    if (conflict) {
+      toast.error(`${formData.villa} is already booked for these dates ❌`);
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      const res = await fetch("/api/bookings", {
+      const res = await fetch("https://formspree.io/f/xovnaykg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          _subject: "New Villa Booking Request",
+        }),
       });
 
-      const result = await res.json();
+      if (res.ok) {
+        toast.success("Booking confirmed! ✅ Check your email.");
 
-      if (res.ok && result.success) {
-        toast.success(result.message || "Booking confirmed ✅");
+        // Save booking locally
+        setBookings((prev) => [
+          ...prev,
+          {
+            villa: formData.villa,
+            checkIn: formData.checkIn,
+            checkOut: formData.checkOut,
+          },
+        ]);
+
+        // Reset form
         setFormData({
           name: "",
           email: "",
@@ -67,7 +121,7 @@ export default function ContactSection() {
           message: "",
         });
       } else {
-        toast.error(result.message || "Booking failed ❌");
+        toast.error("Booking failed. Try again!");
       }
     } catch (err) {
       toast.error("Something went wrong.");
@@ -76,86 +130,251 @@ export default function ContactSection() {
     }
   };
 
+  const contactInfo = [
+    {
+      icon: Phone,
+      title: "Phone",
+      value: "+91 79941 44472",
+      description: "Available 24/7",
+    },
+    {
+      icon: Mail,
+      title: "Email",
+      value: "contact.asteya@gmail.com",
+      description: "Reach us anytime",
+    },
+    {
+      icon: MapPin,
+      title: "Location",
+      value: "South Cliff, Varkala",
+      description: "Kerala, India 695141",
+    },
+    {
+      icon: Clock,
+      title: "Response Time",
+      value: "Quick",
+      description: "We respond immediately",
+    },
+  ];
+
+  const bookingInfo = [
+    { label: "Room Rate", value: "PRICE ON REQUEST" },
+    { label: "Minimum Stay", value: "1 DAY" },
+    { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
+    { label: "Advance Booking", value: "50% advance required" },
+    { label: "Cancellation", value: "Free up to 48 hours" },
+    {
+      label: "Maximum Guests",
+      value: "Maximum 4 guests (For more than 4 persons, please inquire)",
+    },
+    { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
+    { label: "Confirmation", value: "Email / WhatsApp" },
+  ];
+
   return (
-    <section className="py-16 bg-gray-50" id="contact">
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-8">Book Your Stay</h2>
-        <Card className="p-6 shadow-lg">
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="p-3 border rounded"
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={formData.email}
-              onChange={handleChange}
-              className="p-3 border rounded"
-              required
-            />
-            <input
-              type="text"
-              name="phone"
-              placeholder="Your Phone"
-              value={formData.phone}
-              onChange={handleChange}
-              className="p-3 border rounded"
-              required
-            />
-            <div className="grid grid-cols-2 gap-4">
-              <input
-                type="date"
-                name="checkIn"
-                value={formData.checkIn}
-                onChange={handleChange}
-                className="p-3 border rounded"
-                required
-              />
-              <input
-                type="date"
-                name="checkOut"
-                value={formData.checkOut}
-                onChange={handleChange}
-                className="p-3 border rounded"
-                required
-              />
+    <section className="relative bg-white py-24 text-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Book Your Stay</h2>
+          <p className="text-lg max-w-2xl mx-auto">
+            Experience luxury at Kerala South Cliff Beach View Villas. Fill out
+            the form below or reach out directly.
+          </p>
+        </div>
+
+        {/* Contact Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+          {contactInfo.map((info, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition duration-300"
+            >
+              <div className="w-16 h-16 mb-4 rounded-full bg-black flex items-center justify-center">
+                <info.icon className="text-white" size={28} />
+              </div>
+              <h4 className="text-lg font-semibold mb-1">{info.title}</h4>
+              <p className="font-medium">{info.value}</p>
+              <p className="text-sm text-center mt-1">{info.description}</p>
             </div>
-            <select
-              name="villa"
-              value={formData.villa}
-              onChange={handleChange}
-              className="p-3 border rounded"
-              required
-            >
-              <option value="">Select Villa</option>
-              <option value="Top Floor">Top Floor</option>
-              <option value="Ground Floor">Ground Floor</option>
-              <option value="Entire Floor">Entire Floor</option>
-            </select>
-            <textarea
-              name="message"
-              placeholder="Special requests (optional)"
-              value={formData.message}
-              onChange={handleChange}
-              className="p-3 border rounded"
-            />
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-blue-600 text-white py-3 rounded hover:bg-blue-700"
-            >
-              {isSubmitting ? "Submitting..." : "Book Now"}
-            </button>
-          </form>
-        </Card>
+          ))}
+        </div>
+
+        {/* Form & Booking Info */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Form */}
+          <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
+            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+              {/* Name & Email */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {["name", "email"].map((field) => (
+                  <div key={field}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                      {field}
+                    </label>
+                    <input
+                      type={field === "email" ? "email" : "text"}
+                      name={field}
+                      value={formData[field as keyof typeof formData]}
+                      onChange={handleChange}
+                      className={`w-full p-3 border ${
+                        errors[field] ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:ring-2 focus:ring-black`}
+                    />
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">
+                        This field is required
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Phone */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone
+                </label>
+                <PhoneInput
+                  country={"in"}
+                  value={formData.phone}
+                  onChange={(phone) => {
+                    setFormData((prev) => ({ ...prev, phone }));
+                    setErrors((prev) => ({ ...prev, phone: false }));
+                  }}
+                  inputClass={`!w-full !p-3 !rounded-md !border ${
+                    errors.phone ? "!border-red-500" : "!border-gray-300"
+                  } !focus:ring-2 !focus:ring-black`}
+                />
+                {errors.phone && (
+                  <p className="text-red-500 text-xs mt-1">Phone is required</p>
+                )}
+              </div>
+
+              {/* Check-in / Check-out / Guests */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {["checkIn", "checkOut"].map((field) => (
+                  <div key={field}>
+                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                      {field.replace(/([A-Z])/g, " $1")}
+                    </label>
+                    <input
+                      type="date"
+                      name={field}
+                      value={formData[field as keyof typeof formData]}
+                      onChange={handleChange}
+                      className={`w-full p-3 border ${
+                        errors[field] ? "border-red-500" : "border-gray-300"
+                      } rounded-md focus:ring-2 focus:ring-black`}
+                    />
+                    {errors[field] && (
+                      <p className="text-red-500 text-xs mt-1">
+                        This field is required
+                      </p>
+                    )}
+                  </div>
+                ))}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Guests
+                  </label>
+                  <input
+                    type="number"
+                    name="guests"
+                    min={1}
+                    max={4}
+                    value={formData.guests}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
+                  />
+                </div>
+              </div>
+
+              {/* Villa Selection */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Select Villa
+                </label>
+                <select
+                  name="villa"
+                  value={formData.villa}
+                  onChange={handleChange}
+                  className={`w-full p-3 border ${
+                    errors.villa ? "border-red-500" : "border-gray-300"
+                  } rounded-md focus:ring-2 focus:ring-black`}
+                >
+                  <option value="">Choose an option</option>
+                  <option value="Top Floor">Top Floor</option>
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="Entire Villa">Entire Villa</option>
+                </select>
+                {errors.villa && (
+                  <p className="text-red-500 text-xs mt-1">
+                    Please select a villa
+                  </p>
+                )}
+              </div>
+
+              {/* Message */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  rows={4}
+                  maxLength={180}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
+                />
+                <span className="text-xs text-gray-400 float-right">
+                  {formData.message.length}/180
+                </span>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={`bg-black text-white py-3 px-6 rounded-md transition-colors ${
+                  isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-green-800"
+                }`}
+              >
+                {isSubmitting ? "Submitting..." : "Enquire Now"}
+              </button>
+            </form>
+          </div>
+
+          {/* Booking Info */}
+          <Card className="bg-gray-100 shadow-lg rounded-3xl p-10 flex flex-col justify-between">
+            <h3 className="text-3xl font-bold mb-8">Booking Information</h3>
+            <div className="space-y-4">
+              {bookingInfo.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <CheckCircle
+                    className="text-black mt-1 flex-shrink-0"
+                    size={20}
+                  />
+                  <div>
+                    <p className="font-semibold">{item.label}</p>
+                    <p className="text-sm">{item.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 bg-white p-4 rounded-xl border border-black">
+              <h4 className="font-semibold mb-1">Special Offer</h4>
+              <p className="text-sm">
+                Book for 7 nights or more and get 15% discount. Seasonal offers
+                available.
+              </p>
+            </div>
+          </Card>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default ContactSection;
