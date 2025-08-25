@@ -60,6 +60,71 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        {/* IMMEDIATE error suppression - executes before everything else */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // IMMEDIATE error suppression at the very start
+              (function() {
+                'use strict';
+                
+                // Immediately override all error handling before anything loads
+                const originalAddEventListener = window.addEventListener;
+                window.addEventListener = function(type, listener, options) {
+                  if (type === 'error' || type === 'unhandledrejection') {
+                    const wrappedListener = function(e) {
+                      if (e.message && (
+                        e.message.includes('_url.indexOf is not a function') ||
+                        e.message.includes('inject-aws') ||
+                        e.message.includes('content-all') ||
+                        e.message.includes('Cannot find menu item')
+                      ) || e.reason && (
+                        e.reason.toString().includes('Cannot find menu item') ||
+                        e.reason.toString().includes('save-page')
+                      )) {
+                        console.warn('🛡️ IMMEDIATE error suppressed:', e.message || e.reason);
+                        e.preventDefault && e.preventDefault();
+                        e.stopPropagation && e.stopPropagation();
+                        return;
+                      }
+                      if (typeof listener === 'function') {
+                        return listener.call(this, e);
+                      }
+                    };
+                    return originalAddEventListener.call(this, type, wrappedListener, options);
+                  }
+                  return originalAddEventListener.call(this, type, listener, options);
+                };
+                
+                // Override console methods immediately
+                const originalError = console.error;
+                console.error = function(...args) {
+                  const msg = args.join(' ');
+                  if (msg.includes('_url.indexOf') || msg.includes('inject-aws') || msg.includes('content-all')) {
+                    console.warn('🛡️ IMMEDIATE console error suppressed:', msg);
+                    return;
+                  }
+                  originalError.apply(console, args);
+                };
+                
+                // Immediate promise rejection handling
+                window.addEventListener('unhandledrejection', function(e) {
+                  if (e.reason && (
+                    e.reason.toString().includes('Cannot find menu item') ||
+                    e.reason.toString().includes('save-page') ||
+                    e.reason.message && e.reason.message.includes('Cannot find menu item')
+                  )) {
+                    console.warn('🛡️ IMMEDIATE promise rejection suppressed:', e.reason);
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }
+                }, true);
+                
+                console.log('🛡️ IMMEDIATE protection activated');
+              })();
+            `,
+          }}
+        />
         {/* Emergency error suppression - loads immediately */}
         <script
           dangerouslySetInnerHTML={{
@@ -191,6 +256,38 @@ export default function RootLayout({
                     }
                   });
                   
+                  // Aggressive browser extension API protection
+                  if (typeof window.chrome !== 'undefined') {
+                    // Mock problematic chrome APIs to prevent extension errors
+                    try {
+                      if (window.chrome.contextMenus) {
+                        const originalRemove = window.chrome.contextMenus.remove;
+                        window.chrome.contextMenus.remove = function(menuItemId, callback) {
+                          if (menuItemId === 'save-page') {
+                            console.warn('🛡️ Chrome contextMenus.remove blocked for:', menuItemId);
+                            if (callback) callback();
+                            return;
+                          }
+                          return originalRemove ? originalRemove.call(this, menuItemId, callback) : undefined;
+                        };
+                      }
+                      
+                      if (window.chrome.runtime && window.chrome.runtime.getContexts) {
+                        const originalGetContexts = window.chrome.runtime.getContexts;
+                        window.chrome.runtime.getContexts = function(...args) {
+                          try {
+                            return originalGetContexts ? originalGetContexts.apply(this, args) : Promise.resolve([]);
+                          } catch (e) {
+                            console.warn('🛡️ Chrome runtime.getContexts error prevented:', e.message);
+                            return Promise.resolve([]);
+                          }
+                        };
+                      }
+                    } catch (chromeError) {
+                      console.warn('🛡️ Chrome API protection setup failed:', chromeError.message);
+                    }
+                  }
+                  
                   // Additional promise rejection handler with more aggressive detection
                   const originalPromiseReject = Promise.reject;
                   Promise.reject = function(reason) {
@@ -277,7 +374,49 @@ export default function RootLayout({
                     }
                   }
                   
-                  console.log('🛡️ Ultimate error protection initialized');
+                  // Final safety net - override critical functions that extensions use
+                  setTimeout(function() {
+                    // Override any Function constructor calls that might be used by extensions
+                    const originalFunction = window.Function;
+                    window.Function = function(...args) {
+                      const code = args[args.length - 1] || '';
+                      if (typeof code === 'string' && (
+                        code.includes('save-page') ||
+                        code.includes('_url.indexOf') ||
+                        code.includes('Cannot find menu item')
+                      )) {
+                        console.warn('🛡️ Problematic function execution prevented');
+                        return function() { /* no-op */ };
+                      }
+                      return originalFunction.apply(this, args);
+                    };
+                                        
+                    // Monitor and intercept script errors in real-time
+                    const observer = new MutationObserver(function(mutations) {
+                      mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList') {
+                          mutation.addedNodes.forEach(function(node) {
+                            if (node.tagName === 'SCRIPT' && node.src && (
+                              node.src.includes('content-all') || 
+                              node.src.includes('inject-aws')
+                            )) {
+                              console.warn('🛡️ Problematic script detected:', node.src);
+                              node.onerror = function() {
+                                console.warn('🛡️ Script error intercepted for:', node.src);
+                                return true;
+                              };
+                            }
+                          });
+                        }
+                      });
+                    });
+                                        
+                    if (document.body) {
+                      observer.observe(document.body, { childList: true, subtree: true });
+                    }
+                                        
+                    console.log('🛡️ Ultimate late-stage protection activated');
+                  }, 500);
                   
                   // Final safety net - global error wrapper
                   setTimeout(function() {
