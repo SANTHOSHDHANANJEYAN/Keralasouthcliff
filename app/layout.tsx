@@ -3,18 +3,16 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/sonner';
 import Script from 'next/script';
 
-// Safer font loading
-let inter: any;
-try {
-  const { Inter } = require('next/font/google');
-  inter = Inter({
-    subsets: ['latin'],
-    display: 'swap',
-  });
-} catch (error) {
-  console.warn('Font loading failed, using system font', error);
-  inter = { className: 'font-sans' };
-}
+// Import Inter font with error handling
+import { Inter } from 'next/font/google';
+
+// Initialize font with fallback
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: 'Asteya Beach Villas - Luxury Accommodation',
@@ -23,6 +21,11 @@ export const metadata: Metadata = {
   keywords:
     'Kerala luxury villas, Varkala accommodation, South Cliff beach view, luxury rooms Kerala',
   metadataBase: new URL('https://asteya-beach-villas.com'),
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/logo.jpg',
+  },
   openGraph: {
     title: 'Asteya Beach Villas - Luxury Accommodation',
     description:
@@ -67,6 +70,38 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} antialiased`}>
+        {/* Global error handler script */}
+        <Script id="global-error-handler" strategy="beforeInteractive">
+          {`
+            // Prevent external script errors from breaking the app
+            window.addEventListener('error', function(e) {
+              if (e.filename && (e.filename.includes('inject-aws') || e.filename.includes('extension') || e.filename.includes('content-all'))) {
+                e.preventDefault();
+                console.warn('External script error prevented:', e.message);
+                return true;
+              }
+            });
+            
+            // Prevent unhandled promise rejections from external scripts
+            window.addEventListener('unhandledrejection', function(e) {
+              if (e.reason && e.reason.stack && (e.reason.stack.includes('inject-aws') || e.reason.stack.includes('content-all') || e.reason.stack.includes('menu item'))) {
+                e.preventDefault();
+                console.warn('External promise rejection prevented:', e.reason);
+              }
+            });
+            
+            // Override console.error for extension errors
+            const originalError = console.error;
+            console.error = function(...args) {
+              const message = args.join(' ');
+              if (message.includes('Cannot find menu item') || message.includes('save-page')) {
+                console.warn('Browser extension error suppressed:', message);
+                return;
+              }
+              originalError.apply(console, args);
+            };
+          `}
+        </Script>
         {children}
         <Toaster />
 

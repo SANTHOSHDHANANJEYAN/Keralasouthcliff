@@ -12,7 +12,7 @@ type FloatingElementProps = {
 };
 
 const FloatingElement: React.FC<FloatingElementProps> = ({ position, color, shape = 'sphere' }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Mesh>(null!);
 
   useFrame((state) => {
     if (meshRef.current) {
@@ -22,19 +22,29 @@ const FloatingElement: React.FC<FloatingElementProps> = ({ position, color, shap
     }
   });
 
-  const Element = shape === 'box' ? Box : shape === 'torus' ? Torus : Sphere;
-
-  const args: any =
-    shape === 'box'
-      ? ([0.5, 0.5, 0.5] as [width: number, height: number, depth: number])
-      : shape === 'torus'
-      ? ([0.3, 0.1, 16, 32] as [radius: number, tube: number, radialSegments: number, tubularSegments: number])
-      : ([0.3] as [radius: number]);
-
+  // Use mesh primitive instead of drei components to avoid ref forwarding issues
+  if (shape === 'box') {
+    return (
+      <mesh ref={meshRef} position={position}>
+        <boxGeometry args={[0.5, 0.5, 0.5]} />
+        <meshStandardMaterial color={color} transparent opacity={0.7} />
+      </mesh>
+    );
+  } else if (shape === 'torus') {
+    return (
+      <mesh ref={meshRef} position={position}>
+        <torusGeometry args={[0.3, 0.1, 16, 32]} />
+        <meshStandardMaterial color={color} transparent opacity={0.7} />
+      </mesh>
+    );
+  }
+  
+  // Default sphere
   return (
-    <Element ref={meshRef} args={args} position={position}>
+    <mesh ref={meshRef} position={position}>
+      <sphereGeometry args={[0.3]} />
       <meshStandardMaterial color={color} transparent opacity={0.7} />
-    </Element>
+    </mesh>
   );
 };
 

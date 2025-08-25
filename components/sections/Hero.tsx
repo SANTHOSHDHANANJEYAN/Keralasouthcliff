@@ -4,19 +4,24 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Safer font loading with fallback
-let playfair: any;
-let montserrat: any;
+import { Playfair_Display, Montserrat } from 'next/font/google';
 
-try {
-  const { Playfair_Display, Montserrat } = require('next/font/google');
-  playfair = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
-  montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
-} catch (error) {
-  console.warn('Font loading failed, using system fonts', error);
-  playfair = { className: 'font-serif' };
-  montserrat = { className: 'font-sans' };
-}
+// Initialize fonts with fallbacks
+const playfair = Playfair_Display({ 
+  subsets: ['latin'], 
+  weight: ['700'],
+  display: 'swap',
+  fallback: ['Georgia', 'serif'],
+  variable: '--font-playfair',
+});
+
+const montserrat = Montserrat({ 
+  subsets: ['latin'], 
+  weight: ['400', '500'],
+  display: 'swap',
+  fallback: ['system-ui', 'sans-serif'],
+  variable: '--font-montserrat',
+});
 
 const slides = [
   {
