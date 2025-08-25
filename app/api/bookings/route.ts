@@ -7,6 +7,9 @@ const uri =
 const client = new MongoClient(uri);
 const dbName = "astya";
 
+// your real Formspree endpoint from https://formspree.io/forms
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xovnaykg";
+
 export async function POST(req: Request) {
   try {
     const data = await req.json();
@@ -16,9 +19,9 @@ export async function POST(req: Request) {
     const db = client.db(dbName);
     const bookings = db.collection("bookings");
 
-    // ✅ check if villa already booked for overlapping dates
+    // ✅ prevent overlapping booking for same villa
     const existing = await bookings.findOne({
-      villa, // only block if same villa is booked
+      villa,
       $or: [
         {
           checkIn: { $lte: checkOut },
@@ -34,7 +37,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // ✅ Insert booking if available
+    // ✅ save booking in MongoDB
     await bookings.insertOne({
       name,
       email,
@@ -47,24 +50,34 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     });
 
-    // ✅ Send mail using Formspree (replace with your form ID)
-    await fetch("https://formspree.io/f/xovnaykg", {
+    // ✅ send to Formspree using form-urlencoded
+    const formData = new URLSearchParams();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("phone", phone);
+    formData.append("checkIn", checkIn);
+    formData.append("checkOut", checkOut);
+    formData.append("villa", villa);
+    formData.append("guests", guests.toString());
+    formData.append("message", message);
+
+    const formRes = await fetch(FORMSPREE_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        email,
-        phone,
-        checkIn,
-        checkOut,
-        villa,
-        guests,
-        message,
-      }),
+      headers: { "Accept": "application/json" },
+      body: formData,
     });
 
+    if (!formRes.ok) {
+      const errorData = await formRes.json().catch(() => ({}));
+      console.error("Formspree error:", errorData);
+      return NextResponse.json(
+        { success: false, message: "Booking saved, but email failed." },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
-      { success: true, message: "Booking confirmed." },
+      { success: true, message: "Booking confirmed & email sent via Formspree." },
       { status: 200 }
     );
   } catch (error) {
