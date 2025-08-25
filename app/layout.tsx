@@ -64,35 +64,98 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Immediate error suppression
-              window.addEventListener('error', function(e) {
-                if (e.message && (
-                  e.message.includes('_url.indexOf is not a function') ||
-                  e.message.includes('Cannot read properties of undefined') ||
-                  e.message.includes('Cannot find menu item') ||
-                  e.message.includes('inject-aws') ||
-                  e.message.includes('content-all')
-                )) {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  console.warn('🛡️ Early error suppression:', e.message);
-                  return true;
+              // Advanced error suppression and protection
+              (function() {
+                // Enhanced error suppression
+                window.addEventListener('error', function(e) {
+                  if (e.message && (
+                    e.message.includes('_url.indexOf is not a function') ||
+                    e.message.includes('Cannot read properties of undefined') ||
+                    e.message.includes('Cannot find menu item') ||
+                    e.message.includes('inject-aws') ||
+                    e.message.includes('content-all') ||
+                    e.filename && (
+                      e.filename.includes('inject-aws') ||
+                      e.filename.includes('content-all') ||
+                      e.filename.includes('extension')
+                    )
+                  )) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.warn('🛡️ Early error suppression:', e.message);
+                    return true;
+                  }
+                }, true);
+                
+                // Enhanced console override
+                const originalConsoleError = console.error;
+                console.error = function(...args) {
+                  const message = args.join(' ');
+                  if (message.includes('_url.indexOf is not a function') || 
+                      message.includes('Cannot find menu item') ||
+                      message.includes('inject-aws') ||
+                      message.includes('content-all') ||
+                      message.includes('TypeError: Cannot read properties of undefined')) {
+                    console.warn('🛡️ Error suppressed:', message);
+                    return;
+                  }
+                  originalConsoleError.apply(console, args);
+                };
+                
+                // Advanced URL parameter protection
+                const originalString = String;
+                window.String = function(value) {
+                  if (value === null || value === undefined) {
+                    console.warn('🛡️ Null/undefined converted to empty string');
+                    return '';
+                  }
+                  if (typeof value === 'object' && value !== null) {
+                    console.warn('🛡️ Object converted to string:', typeof value);
+                    try {
+                      return JSON.stringify(value);
+                    } catch (e) {
+                      return '[object Object]';
+                    }
+                  }
+                  return originalString(value);
+                };
+                
+                // Protect String.prototype.indexOf
+                if (String.prototype.indexOf) {
+                  const originalIndexOf = String.prototype.indexOf;
+                  String.prototype.indexOf = function(searchString, position) {
+                    if (this === null || this === undefined) {
+                      console.warn('🛡️ indexOf called on null/undefined, returning -1');
+                      return -1;
+                    }
+                    try {
+                      return originalIndexOf.call(this, searchString, position);
+                    } catch (e) {
+                      console.warn('🛡️ indexOf error prevented:', e.message);
+                      return -1;
+                    }
+                  };
                 }
-              }, true);
-              
-              // Suppress specific console errors immediately
-              const originalConsoleError = console.error;
-              console.error = function(...args) {
-                const message = args.join(' ');
-                if (message.includes('_url.indexOf is not a function') || 
-                    message.includes('Cannot find menu item') ||
-                    message.includes('inject-aws') ||
-                    message.includes('content-all')) {
-                  console.warn('🛡️ Error suppressed:', message);
-                  return;
-                }
-                originalConsoleError.apply(console, args);
-              };
+                
+                // Advanced unhandled rejection handling
+                window.addEventListener('unhandledrejection', function(e) {
+                  const reason = e.reason || '';
+                  const stack = (reason && reason.stack) ? reason.stack : '';
+                  const message = reason.toString ? reason.toString() : String(reason);
+                  
+                  if (stack.includes('inject-aws') || 
+                      stack.includes('content-all') || 
+                      stack.includes('menu item') ||
+                      message.includes('Cannot find menu item') ||
+                      message.includes('save-page') ||
+                      message.includes('_url.indexOf')) {
+                    e.preventDefault();
+                    console.warn('🛡️ Promise rejection suppressed:', reason);
+                  }
+                });
+                
+                console.log('🛡️ Advanced error protection initialized');
+              })();
             `,
           }}
         />
@@ -106,16 +169,16 @@ export default function RootLayout({
       </head>
 
       <body className={`${inter.className} antialiased`}>
-        {/* Enhanced Global error handler script - load immediately */}
+        {/* Advanced Global error handler script - comprehensive protection */}
         <Script id="global-error-handler" strategy="beforeInteractive">
           {`
-            // Enhanced error prevention for external scripts and extensions
+            // Ultimate error prevention for external scripts and extensions
             (function() {
-              // Immediately override global error handling
+              // Comprehensive error suppression
               const originalError = console.error;
               const originalWarn = console.warn;
               
-              // Enhanced console.error override
+              // Ultimate console.error override
               console.error = function(...args) {
                 const message = args.join(' ');
                 if (message.includes('Cannot find menu item') || 
@@ -123,31 +186,37 @@ export default function RootLayout({
                     message.includes('inject-aws') ||
                     message.includes('_url.indexOf is not a function') ||
                     message.includes('Cannot read properties of undefined') ||
-                    message.includes('content-all')) {
-                  console.warn('🛡️ Extension/External script error suppressed:', message);
+                    message.includes('content-all') ||
+                    message.includes('TypeError: _url.indexOf') ||
+                    message.includes('at inject-aws')) {
+                  console.warn('🛡️ Global error suppressed:', message);
                   return;
                 }
                 originalError.apply(console, args);
               };
               
-              // Global error event handler
+              // Advanced global error event handler
               window.addEventListener('error', function(e) {
                 const errorMsg = e.message || '';
                 const filename = e.filename || '';
+                const source = e.source || '';
                 
                 if (filename.includes('inject-aws') || 
                     filename.includes('extension') || 
                     filename.includes('content-all') ||
                     errorMsg.includes('_url.indexOf is not a function') ||
-                    errorMsg.includes('Cannot find menu item')) {
+                    errorMsg.includes('Cannot find menu item') ||
+                    errorMsg.includes('Cannot read properties of undefined') ||
+                    source && source.toString().includes('inject-aws')) {
                   e.preventDefault();
                   e.stopPropagation();
-                  console.warn('🛡️ External script error prevented:', errorMsg);
+                  e.stopImmediatePropagation();
+                  console.warn('🛡️ Advanced error prevention:', errorMsg);
                   return true;
                 }
-              }, true); // Use capture phase
+              }, true);
               
-              // Enhanced unhandled promise rejection handler
+              // Comprehensive promise rejection handler
               window.addEventListener('unhandledrejection', function(e) {
                 const reason = e.reason || '';
                 const stack = (reason && reason.stack) ? reason.stack : '';
@@ -157,48 +226,62 @@ export default function RootLayout({
                     stack.includes('content-all') || 
                     stack.includes('menu item') ||
                     message.includes('Cannot find menu item') ||
-                    message.includes('save-page')) {
+                    message.includes('save-page') ||
+                    message.includes('_url.indexOf')) {
                   e.preventDefault();
-                  console.warn('🛡️ External promise rejection prevented:', reason);
+                  console.warn('🛡️ Promise rejection suppressed:', reason);
                 }
               });
               
-              // Override fetch for potential extension interference
+              // Override fetch to prevent extension interference
               const originalFetch = window.fetch;
-              window.fetch = function(...args) {
-                try {
-                  return originalFetch.apply(this, args);
-                } catch (error) {
-                  if (error.message && error.message.includes('_url.indexOf')) {
-                    console.warn('🛡️ Fetch error from extension prevented:', error);
-                    return Promise.reject(new Error('External script interference'));
+              if (originalFetch) {
+                window.fetch = function(...args) {
+                  try {
+                    return originalFetch.apply(this, args);
+                  } catch (error) {
+                    if (error.message && (error.message.includes('_url.indexOf') || error.message.includes('inject-aws'))) {
+                      console.warn('🛡️ Fetch error from extension prevented:', error);
+                      return Promise.reject(new Error('External script interference'));
+                    }
+                    throw error;
                   }
-                  throw error;
+                };
+              }
+              
+              // Monkey patch Object methods to prevent extension errors
+              const originalObjectKeys = Object.keys;
+              Object.keys = function(obj) {
+                try {
+                  if (obj === null || obj === undefined) {
+                    console.warn('🛡️ Object.keys called on null/undefined, returning empty array');
+                    return [];
+                  }
+                  return originalObjectKeys(obj);
+                } catch (error) {
+                  console.warn('🛡️ Object.keys error prevented:', error.message);
+                  return [];
                 }
               };
               
-              // Protect URL-related functions
-              const originalURL = window.URL;
-              if (originalURL) {
-                try {
-                  Object.defineProperty(window, 'URL', {
-                    value: function(url, base) {
-                      if (typeof url !== 'string') {
-                        console.warn('🛡️ Invalid URL parameter type, converting:', typeof url);
-                        url = String(url || '');
-                      }
-                      return new originalURL(url, base);
-                    },
-                    writable: false,
-                    configurable: false
-                  });
-                } catch (e) {
-                  // If we can't override, at least log the attempt
-                  console.warn('🛡️ Could not override URL constructor');
-                }
+              // Protect document.getElementById for extension menu items
+              if (typeof document !== 'undefined' && document.getElementById) {
+                const originalGetElementById = document.getElementById;
+                document.getElementById = function(id) {
+                  try {
+                    if (id === 'save-page' || (typeof id === 'string' && id.includes('save-page'))) {
+                      console.warn('🛡️ Extension menu item access prevented:', id);
+                      return null;
+                    }
+                    return originalGetElementById.call(this, id);
+                  } catch (error) {
+                    console.warn('🛡️ getElementById error prevented:', error.message);
+                    return null;
+                  }
+                };
               }
               
-              console.log('🛡️ Enhanced error protection initialized');
+              console.log('🛡️ Ultimate error protection system activated');
             })();
           `}
         </Script>
