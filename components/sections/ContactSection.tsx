@@ -113,6 +113,8 @@ export default function ContactPage() {
         body: JSON.stringify({
           ...formData,
           _subject: "New Villa Booking Request",
+          _autoresponse:
+            "Thank you for booking with South Cliff Villas! ✅ Your request has been received. We will contact you shortly.",
         }),
       });
 
