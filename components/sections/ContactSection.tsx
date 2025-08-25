@@ -4,7 +4,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 // ✅ Dynamically import PhoneInput
 const PhoneInput = dynamic(() => import("react-phone-input-2"), { ssr: false });
@@ -88,17 +88,20 @@ export default function ContactPage() {
     }
 
     // 🔴 Check if villa already booked
-    const conflict = bookings.some(
+    const conflict = bookings.find(
       (b) =>
         b.villa === formData.villa &&
         isDateOverlap(b.checkIn, b.checkOut, formData.checkIn, formData.checkOut)
     );
 
     if (conflict) {
-      toast.error(`${formData.villa} is already booked for these dates ❌`, {
-        duration: 4000,
-        position: "top-center",
-      });
+      toast.error(
+        `${formData.villa} is already booked from ${conflict.checkIn} to ${conflict.checkOut} ❌`,
+        {
+          duration: 5000,
+          position: "top-center",
+        }
+      );
       setIsSubmitting(false);
       return;
     }
@@ -114,7 +117,10 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success("Booking confirmed! ✅ Check your email.");
+        toast.success("Booking confirmed! ✅ Check your email.", {
+          duration: 4000,
+          position: "top-center",
+        });
 
         setBookings((prev) => [
           ...prev,
@@ -136,10 +142,16 @@ export default function ContactPage() {
           message: "",
         });
       } else {
-        toast.error("Booking failed. Try again!");
+        toast.error("Booking failed. Try again!", {
+          duration: 4000,
+          position: "top-center",
+        });
       }
     } catch (err) {
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.", {
+        duration: 4000,
+        position: "top-center",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -189,6 +201,9 @@ export default function ContactPage() {
 
   return (
     <section className="relative bg-white py-24 text-gray-900">
+      {/* ✅ Toaster for toast notifications */}
+      <Toaster />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-20">
