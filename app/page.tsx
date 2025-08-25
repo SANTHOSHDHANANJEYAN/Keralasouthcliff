@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -8,14 +7,13 @@ import Hero from '@/components/sections/Hero';
 import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-
-const AboutOurStory = dynamic(() => import('@/components/sections/AboutOurStory'), { ssr: false });
-const VillasPreview = dynamic(() => import('@/components/sections/VillasPreview'), { ssr: false });
-const GalleryPreview = dynamic(() => import('@/components/sections/GalleryPreview'), { ssr: false });
-const AmenitiesPreview = dynamic(() => import('@/components/sections/AmenitiesPreview'), { ssr: false });
-const LocationPreview = dynamic(() => import('@/components/sections/LocationPreview'), { ssr: false });
-const SocialNetworksSection = dynamic(() => import('@/components/sections/SocialNetworksSection'), { ssr: false });
-const ContactPreview = dynamic(() => import('@/components/sections/ContactPreview'), { ssr: false });
+import AboutOurStory from '@/components/sections/AboutOurStory';
+import VillasPreview from '@/components/sections/VillasPreview';
+import GalleryPreview from '@/components/sections/GalleryPreview';
+import AmenitiesPreview from '@/components/sections/AmenitiesPreview';
+import LocationPreview from '@/components/sections/LocationPreview';
+import SocialNetworksSection from '@/components/sections/SocialNetworksSection';
+import ContactPreview from '@/components/sections/ContactPreview';
 
 export default function Home() {
   return (
