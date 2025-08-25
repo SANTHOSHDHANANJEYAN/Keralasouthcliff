@@ -1,13 +1,20 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { Toaster } from '@/components/ui/sonner';
 import Script from 'next/script';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap', // Uses Google-hosted font, no manual preload needed
-});
+// Safer font loading
+let inter: any;
+try {
+  const { Inter } = require('next/font/google');
+  inter = Inter({
+    subsets: ['latin'],
+    display: 'swap',
+  });
+} catch (error) {
+  console.warn('Font loading failed, using system font', error);
+  inter = { className: 'font-sans' };
+}
 
 export const metadata: Metadata = {
   title: 'Asteya Beach Villas - Luxury Accommodation',

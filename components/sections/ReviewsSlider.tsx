@@ -1,9 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Image from 'next/image';
+
+// Safer motion import with fallback
+let motion: any;
+let AnimatePresence: any;
+
+try {
+  const framerMotion = require('framer-motion');
+  motion = framerMotion.motion;
+  AnimatePresence = framerMotion.AnimatePresence;
+} catch (error) {
+  console.warn('Framer Motion not available, using div fallback', error);
+  motion = {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>
+  };
+  AnimatePresence = ({ children }: any) => <>{children}</>;
+}
 
 const reviews = [
   {

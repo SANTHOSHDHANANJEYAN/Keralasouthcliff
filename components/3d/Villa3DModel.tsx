@@ -6,7 +6,7 @@ import Image from 'next/image';
 const VillaImageCard = ({
   isGroundFloor = true,
   className = '',
-  imageSrc = '/Asteya-website/villa-1.png' // update with your actual path
+  imageSrc = '/astega/1-min.jpg' // Updated to use existing image path
 }) => {
   const title = isGroundFloor ? 'Ground Floor Villa' : 'Top Floor Villa';
 

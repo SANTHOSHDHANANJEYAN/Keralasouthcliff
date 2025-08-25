@@ -3,10 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Playfair_Display, Montserrat } from 'next/font/google';
 
-const playfair = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
+// Safer font loading with fallback
+let playfair: any;
+let montserrat: any;
+
+try {
+  const { Playfair_Display, Montserrat } = require('next/font/google');
+  playfair = Playfair_Display({ subsets: ['latin'], weight: ['700'] });
+  montserrat = Montserrat({ subsets: ['latin'], weight: ['400', '500'] });
+} catch (error) {
+  console.warn('Font loading failed, using system fonts', error);
+  playfair = { className: 'font-serif' };
+  montserrat = { className: 'font-sans' };
+}
 
 const slides = [
   {
