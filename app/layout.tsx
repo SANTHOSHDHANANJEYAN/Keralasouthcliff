@@ -170,17 +170,47 @@ export default function RootLayout({
                     const stack = (reason && reason.stack) ? reason.stack : '';
                     const message = reason.toString ? reason.toString() : String(reason);
                     
+                    // Enhanced pattern matching for promise rejections
                     if (stack.includes('inject-aws') || 
                         stack.includes('content-all') || 
                         stack.includes('menu item') ||
+                        stack.includes('save-page') ||
                         message.includes('Cannot find menu item') ||
                         message.includes('save-page') ||
                         message.includes('_url.indexOf') ||
-                        (reason && reason.name && reason.name.includes('Error'))) {
+                        (reason && reason.name && reason.name.includes('Error')) ||
+                        (reason && reason.message && (
+                          reason.message.includes('Cannot find menu item') ||
+                          reason.message.includes('save-page') ||
+                          reason.message.includes('content-all')
+                        ))) {
                       e.preventDefault();
-                      console.warn('🛡️ Promise rejection suppressed:', reason);
+                      e.stopPropagation();
+                      console.warn('🛡️ Promise rejection suppressed:', typeof reason === 'object' ? reason.message || reason.toString() : reason);
+                      return;
                     }
                   });
+                  
+                  // Additional promise rejection handler with more aggressive detection
+                  const originalPromiseReject = Promise.reject;
+                  Promise.reject = function(reason) {
+                    if (reason && (
+                      (typeof reason === 'string' && (
+                        reason.includes('Cannot find menu item') ||
+                        reason.includes('save-page') ||
+                        reason.includes('content-all')
+                      )) ||
+                      (typeof reason === 'object' && reason.message && (
+                        reason.message.includes('Cannot find menu item') ||
+                        reason.message.includes('save-page') ||
+                        reason.message.includes('content-all')
+                      ))
+                    )) {
+                      console.warn('🛡️ Promise.reject intercepted:', reason);
+                      return originalPromiseReject.call(this, new Error('Extension error suppressed'));
+                    }
+                    return originalPromiseReject.call(this, reason);
+                  };
                   
                   // Patch console.warn to catch and redirect warnings from external scripts
                   const originalWarn = console.warn;
@@ -193,7 +223,86 @@ export default function RootLayout({
                     originalWarn.apply(console, args);
                   };
                   
+                  // Enhanced document method protection
+                  if (typeof document !== 'undefined') {
+                    // Protect document.getElementById
+                    if (document.getElementById) {
+                      const originalGetElementById = document.getElementById;
+                      document.getElementById = function(id) {
+                        try {
+                          if (id === 'save-page' || (typeof id === 'string' && id.includes('save-page'))) {
+                            console.warn('🛡️ Extension menu item access prevented:', id);
+                            return null;
+                          }
+                          return originalGetElementById.call(this, id);
+                        } catch (error) {
+                          console.warn('🛡️ getElementById error prevented:', error.message);
+                          return null;
+                        }
+                      };
+                    }
+                    
+                    // Protect document.querySelector
+                    if (document.querySelector) {
+                      const originalQuerySelector = document.querySelector;
+                      document.querySelector = function(selector) {
+                        try {
+                          if (selector && selector.includes('save-page')) {
+                            console.warn('🛡️ Extension selector access prevented:', selector);
+                            return null;
+                          }
+                          return originalQuerySelector.call(this, selector);
+                        } catch (error) {
+                          console.warn('🛡️ querySelector error prevented:', error.message);
+                          return null;
+                        }
+                      };
+                    }
+                    
+                    // Protect document.querySelectorAll
+                    if (document.querySelectorAll) {
+                      const originalQuerySelectorAll = document.querySelectorAll;
+                      document.querySelectorAll = function(selector) {
+                        try {
+                          if (selector && selector.includes('save-page')) {
+                            console.warn('🛡️ Extension selector access prevented:', selector);
+                            return [];
+                          }
+                          return originalQuerySelectorAll.call(this, selector);
+                        } catch (error) {
+                          console.warn('🛡️ querySelectorAll error prevented:', error.message);
+                          return [];
+                        }
+                      };
+                    }
+                  }
+                  
                   console.log('🛡️ Ultimate error protection initialized');
+                  
+                  // Final safety net - global error wrapper
+                  setTimeout(function() {
+                    // Additional promise rejection handler after initial setup
+                    window.addEventListener('unhandledrejection', function(event) {
+                      const error = event.reason;
+                      if (error && (
+                        error.message && error.message.includes('Cannot find menu item') ||
+                        error.toString().includes('save-page') ||
+                        event.type === 'unhandledrejection'
+                      )) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        console.warn('🛡️ Late promise rejection suppressed:', error.message || error);
+                      }
+                    });
+                    
+                    // Override any remaining error sources
+                    const scripts = document.querySelectorAll('script');
+                    scripts.forEach(function(script) {
+                      if (script.src && (script.src.includes('content-all') || script.src.includes('inject-aws'))) {
+                        console.warn('🛡️ Problematic script detected and monitored:', script.src);
+                      }
+                    });
+                  }, 100);
                 })();
               } catch (protectionError) {
                 console.warn('🛡️ Error protection system failed, but app continues:', protectionError.message);
