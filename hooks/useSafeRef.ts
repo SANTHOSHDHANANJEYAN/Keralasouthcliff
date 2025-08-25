@@ -59,8 +59,8 @@ export function hasRef<T>(obj: any): obj is { ref: MutableRefObject<T> } {
  */
 export function safeRefAccess<T>(obj: any, defaultValue: T | null = null): T | null {
   try {
-    if (hasRef(obj)) {
-      return obj.ref.current ?? defaultValue;
+    if (hasRef<T>(obj)) {
+      return (obj.ref.current as T) ?? defaultValue;
     }
     return defaultValue;
   } catch (error) {
