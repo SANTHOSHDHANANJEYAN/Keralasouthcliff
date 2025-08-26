@@ -1,49 +1,52 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const galleryData = [
-  { src: '/astega/1-min.jpg', alt: 'Beach View' },
-  { src: '/astega/2-min.jpg', alt: 'Sunset View' },
-  { src: '/astega/5-min.jpg', alt: 'Terrace' },
-  { src: '/astega/6-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/7-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/10-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/15-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/20-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/21-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/22-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/31-min.jpg', alt: 'Cliff View' },
-  { src: '/astega/11-min.jpg', alt: 'Interior View' },
-  { src: '/astega/12-min.jpg', alt: 'Modern Finish' },
-  { src: '/astega/13-min.jpg', alt: 'Decor' },
-  { src: '/astega/14-min.jpg', alt: 'Details' },
-  { src: '/astega/16-min.jpg', alt: 'Living Room' },
-  { src: '/astega/17-min.jpg', alt: 'Cozy Corner' },
-  { src: '/astega/18-min.jpg', alt: 'Design' },
-  { src: '/astega/19-min.jpg', alt: 'Hallway' },
-  { src: '/astega/25-min.jpg', alt: 'Lounge' },
-  { src: '/astega/26-min.jpg', alt: 'TV Area' },
-  { src: '/astega/27-min.jpg', alt: 'Furniture' },
-  { src: '/astega/29-min.jpg', alt: 'Dining' },
-  { src: '/astega/30-min.jpg', alt: 'Room Decor' },
-  { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
-  { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
-  { src: '/astega/4-min.jpg', alt: 'Bedroom' },
-  { src: '/astega/8-min.jpg', alt: 'Bathroom' },
-];
-
 const GallerySection = () => {
+  const galleryData = useMemo(
+    () => [
+      { src: '/astega/1-min.jpg', alt: 'Beach View' },
+      { src: '/astega/2-min.jpg', alt: 'Sunset View' },
+      { src: '/astega/5-min.jpg', alt: 'Terrace' },
+      { src: '/astega/6-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/7-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/10-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/15-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/20-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/21-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/22-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/31-min.jpg', alt: 'Cliff View' },
+      { src: '/astega/11-min.jpg', alt: 'Interior View' },
+      { src: '/astega/12-min.jpg', alt: 'Modern Finish' },
+      { src: '/astega/13-min.jpg', alt: 'Decor' },
+      { src: '/astega/14-min.jpg', alt: 'Details' },
+      { src: '/astega/16-min.jpg', alt: 'Living Room' },
+      { src: '/astega/17-min.jpg', alt: 'Cozy Corner' },
+      { src: '/astega/18-min.jpg', alt: 'Design' },
+      { src: '/astega/19-min.jpg', alt: 'Hallway' },
+      { src: '/astega/25-min.jpg', alt: 'Lounge' },
+      { src: '/astega/26-min.jpg', alt: 'TV Area' },
+      { src: '/astega/27-min.jpg', alt: 'Furniture' },
+      { src: '/astega/29-min.jpg', alt: 'Dining' },
+      { src: '/astega/30-min.jpg', alt: 'Room Decor' },
+      { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
+      { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
+      { src: '/astega/4-min.jpg', alt: 'Bedroom' },
+      { src: '/astega/8-min.jpg', alt: 'Bathroom' },
+    ],
+    []
+  );
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleImages, setVisibleImages] = useState(12);
 
   const loadMoreImages = useCallback(() => {
     setVisibleImages((prev) => Math.min(prev + 8, galleryData.length));
-  }, []);
+  }, [galleryData.length]);
 
   // Infinite scroll lazy load
   useEffect(() => {
@@ -55,14 +58,14 @@ const GallerySection = () => {
           }
         });
       },
-      { threshold: 0.2, rootMargin: '250px' }
+      { threshold: 0.2, rootMargin: '200px' }
     );
 
     const sentinel = document.querySelector('.load-more-sentinel');
     if (sentinel) observer.observe(sentinel);
 
     return () => observer.disconnect();
-  }, [visibleImages, loadMoreImages]);
+  }, [visibleImages, loadMoreImages, galleryData.length]);
 
   // Keyboard navigation for modal
   useEffect(() => {
@@ -84,7 +87,7 @@ const GallerySection = () => {
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [selectedIndex]);
+  }, [selectedIndex, galleryData.length]);
 
   return (
     <section className="py-16 bg-white text-black">
@@ -111,8 +114,8 @@ const GallerySection = () => {
                 layout
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setSelectedIndex(index)}
                 className="relative cursor-pointer overflow-hidden rounded-lg sm:rounded-xl border border-black/10 bg-black/5 shadow-sm hover:shadow-lg transition duration-300 group"
@@ -126,9 +129,9 @@ const GallerySection = () => {
                          (max-width: 768px) 50vw,
                          (max-width: 1024px) 33vw,
                          25vw"
-                  priority={index < 6}
-                  quality={85}
-                  loading={index < 6 ? 'eager' : 'lazy'}
+                  priority={index < 4} // Only first 4 images are prioritized
+                  quality={75} // Lowered for faster load
+                  loading={index < 4 ? 'eager' : 'lazy'}
                   placeholder="blur"
                   blurDataURL="/placeholder.webp"
                   className="w-full h-56 sm:h-60 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
@@ -202,9 +205,11 @@ const GallerySection = () => {
                   alt={galleryData[selectedIndex].alt}
                   width={1200}
                   height={800}
-                  quality={90}
+                  quality={85}
                   loading="eager"
                   sizes="100vw"
+                  placeholder="blur"
+                  blurDataURL="/placeholder.webp"
                   className="rounded-lg object-contain max-h-[70vh] sm:max-h-[80vh] w-auto mx-auto"
                 />
               </motion.div>
