@@ -1,180 +1,159 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import { X, Filter } from 'lucide-react';
 
-const GallerySection = () => {
-  const galleryData = useMemo(
-    () => [
-      { src: '/astega/1-min.jpg', alt: 'Beach View' },
-      { src: '/astega/2-min.jpg', alt: 'Sunset View' },
-      { src: '/astega/5-min.jpg', alt: 'Terrace' },
-      { src: '/astega/6-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/7-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/10-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/15-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/20-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/21-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/22-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/31-min.jpg', alt: 'Cliff View' },
-      { src: '/astega/11-min.jpg', alt: 'Interior View' },
-      { src: '/astega/12-min.jpg', alt: 'Modern Finish' },
-      { src: '/astega/13-min.jpg', alt: 'Decor' },
-      { src: '/astega/14-min.jpg', alt: 'Details' },
-      { src: '/astega/16-min.jpg', alt: 'Living Room' },
-      { src: '/astega/17-min.jpg', alt: 'Cozy Corner' },
-      { src: '/astega/18-min.jpg', alt: 'Design' },
-      { src: '/astega/19-min.jpg', alt: 'Hallway' },
-      { src: '/astega/25-min.jpg', alt: 'Lounge' },
-      { src: '/astega/26-min.jpg', alt: 'TV Area' },
-      { src: '/astega/27-min.jpg', alt: 'Furniture' },
-      { src: '/astega/29-min.jpg', alt: 'Dining' },
-      { src: '/astega/30-min.jpg', alt: 'Room Decor' },
-      { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom' },
-      { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
-      { src: '/astega/4-min.jpg', alt: 'Bedroom' },
-      { src: '/astega/8-min.jpg', alt: 'Bathroom' },
-    ],
-    []
-  );
+export default function Gallery() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [visibleImages, setVisibleImages] = useState(8); // 👈 Start with 8
+  const categories = [
+    { id: 'all', name: 'All Photos' },
+    { id: 'training', name: 'Training Sessions' },
+    { id: 'facility', name: 'Our Facility' },
+    { id: 'kerala', name: 'Kerala Beauty' },
+    { id: 'graduation', name: 'Graduations' },
+    { id: 'retreat', name: 'Retreats' }
+  ];
 
-  const loadMoreImages = () => {
-    setVisibleImages((prev) => Math.min(prev + 4, galleryData.length)); // 👈 Load +4 each click
-  };
+  const images = [
+    { src: '/astega/1-min.jpg', alt: 'Beach View', category: 'kerala' },
+    { src: '/astega/2-min.jpg', alt: 'Sunset View', category: 'kerala' },
+    { src: '/astega/5-min.jpg', alt: 'Terrace', category: 'facility' },
+    { src: '/astega/6-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/7-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/10-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/15-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/20-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/21-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/22-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/31-min.jpg', alt: 'Cliff View', category: 'kerala' },
+    { src: '/astega/11-min.jpg', alt: 'Interior View', category: 'facility' },
+    { src: '/astega/12-min.jpg', alt: 'Modern Finish', category: 'facility' },
+    { src: '/astega/13-min.jpg', alt: 'Decor', category: 'facility' },
+    { src: '/astega/14-min.jpg', alt: 'Details', category: 'facility' },
+    { src: '/astega/16-min.jpg', alt: 'Living Room', category: 'facility' },
+    { src: '/astega/17-min.jpg', alt: 'Cozy Corner', category: 'facility' },
+    { src: '/astega/18-min.jpg', alt: 'Design', category: 'facility' },
+    { src: '/astega/19-min.jpg', alt: 'Hallway', category: 'facility' },
+    { src: '/astega/25-min.jpg', alt: 'Lounge', category: 'facility' },
+    { src: '/astega/26-min.jpg', alt: 'TV Area', category: 'facility' },
+    { src: '/astega/27-min.jpg', alt: 'Furniture', category: 'facility' },
+    { src: '/astega/29-min.jpg', alt: 'Dining', category: 'facility' },
+    { src: '/astega/30-min.jpg', alt: 'Room Decor', category: 'facility' },
+    { src: '/astega/PDF - Asteya-1-min.png', alt: 'Master Bedroom', category: 'facility' },
+    { src: '/astega/3-min.jpg', alt: 'Luxury Interior', category: 'facility' },
+    { src: '/astega/4-min.jpg', alt: 'Bedroom', category: 'facility' },
+    { src: '/astega/8-min.jpg', alt: 'Bathroom', category: 'facility' }
+  ];
+
+  const filteredImages = selectedCategory === 'all'
+    ? images
+    : images.filter(image => image.category === selectedCategory);
 
   return (
-    <section className="py-16 bg-white text-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Explore our elegant cliffside villa interiors and exotic beachfront views.
+    <div className="pt-16">
+      {/* Hero Section */}
+      <section className="py-20 bg-gradient-to-br from-emerald-50 to-green-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Our <span className="text-gradient">Gallery</span>
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Experience the beauty of our ashram, the serenity of Kerala, and the joy of learning through these captured moments.
           </p>
         </div>
+      </section>
 
-        {/* Gallery Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          >
-            {galleryData.slice(0, visibleImages).map((image, index) => (
-              <motion.div
-                key={index}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.03 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setSelectedIndex(index)}
-                className="relative cursor-pointer overflow-hidden rounded-lg sm:rounded-xl border border-black/10 bg-black/5 shadow-sm hover:shadow-lg transition duration-300 group"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  width={400}
-                  height={300}
-                  sizes="(max-width: 640px) 100vw,
-                         (max-width: 768px) 50vw,
-                         (max-width: 1024px) 33vw,
-                         25vw"
-                  priority={index < 4} // 👈 Only first 4 are prioritized
-                  quality={75}
-                  loading={index < 4 ? 'eager' : 'lazy'}
-                  placeholder="blur"
-                  blurDataURL="/placeholder.webp"
-                  className="w-full h-56 sm:h-60 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Load More Button */}
-        {visibleImages < galleryData.length && (
-          <div className="text-center mt-8">
-            <button
-              onClick={loadMoreImages}
-              className="px-5 sm:px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 text-sm sm:text-base font-medium"
-            >
-              Load More ({galleryData.length - visibleImages} remaining)
-            </button>
+      {/* Filter Section */}
+      <section className="py-12 bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center">
+            <Filter className="h-5 w-5 text-gray-500 mr-4" />
+            <div className="flex flex-wrap justify-center gap-4">
+              {categories.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                    selectedCategory === category.id
+                      ? 'bg-emerald-600 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-emerald-50 hover:text-emerald-600'
+                  }`}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
+        </div>
+      </section>
 
-        {/* Fullscreen Image Modal */}
-        <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
-          <DialogContent className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl">
-            {selectedIndex !== null && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="relative w-full flex justify-center items-center"
+      {/* Gallery Grid */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredImages.map((image, index) => (
+              <div 
+                key={`${selectedCategory}-${index}`}
+                className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group aspect-square"
+                onClick={() => setSelectedImage(image.src)}
               >
-                {/* Close Button */}
-                <button
-                  onClick={() => setSelectedIndex(null)}
-                  className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
-                >
-                  <X size={24} className="sm:w-7 sm:h-7 text-white" />
-                </button>
-
-                {/* Prev Button */}
-                <button
-                  onClick={() =>
-                    setSelectedIndex((prev) =>
-                      prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
-                    )
-                  }
-                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
-                >
-                  <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
-                </button>
-
-                {/* Next Button */}
-                <button
-                  onClick={() =>
-                    setSelectedIndex((prev) =>
-                      prev !== null ? (prev + 1) % galleryData.length : prev
-                    )
-                  }
-                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
-                >
-                  <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
-                </button>
-
-                {/* Large Image */}
-                <Image
-                  src={galleryData[selectedIndex].src}
-                  alt={galleryData[selectedIndex].alt}
-                  width={1200}
-                  height={800}
-                  quality={85}
-                  loading="eager"
-                  sizes="100vw"
-                  placeholder="blur"
-                  blurDataURL="/placeholder.webp"
-                  className="rounded-lg object-contain max-h-[70vh] sm:max-h-[80vh] w-auto mx-auto"
+                <img 
+                  src={image.src} 
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-              </motion.div>
-            )}
-          </DialogContent>
-        </Dialog>
-      </div>
-    </section>
-  );
-};
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                  <div className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                    <p className="text-sm font-medium">Click to enlarge</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-export default GallerySection;
+          {filteredImages.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">No images found in this category.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
+          <div className="relative max-w-5xl max-h-full">
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 text-white hover:text-gray-300 z-10 bg-black bg-opacity-50 rounded-full p-2"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <img 
+              src={selectedImage} 
+              alt="Gallery image"
+              className="max-w-full max-h-full object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-emerald-600 to-green-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Ready to Create Your Own Memories?
+          </h2>
+          <p className="text-xl mb-8 max-w-3xl mx-auto opacity-90">
+            Join us at Rishikul Yogshala Kerala and become part of our beautiful yoga community.
+          </p>
+          <button className="bg-white text-emerald-600 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            Book Your Program Today
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
