@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const galleryData = [
+const GallerySection = () => {
+  const galleryData = useMemo(
+    () => [
       { src: '/astega/1-min.jpg', alt: 'Beach View' },
       { src: '/astega/2-min.jpg', alt: 'Sunset View' },
       { src: '/astega/5-min.jpg', alt: 'Terrace' },
@@ -35,94 +37,188 @@ const galleryData = [
       { src: '/astega/3-min.jpg', alt: 'Luxury Interior' },
       { src: '/astega/4-min.jpg', alt: 'Bedroom' },
       { src: '/astega/8-min.jpg', alt: 'Bathroom' },
-];
+    ],
+    []
+  );
 
-export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [visibleCount, setVisibleCount] = useState(4); // 👈 start with 4 images
+  const [visibleImages, setVisibleImages] = useState(8); // 👈 Start with 8
 
-  const handlePrev = () => {
-    setSelectedIndex((prev) =>
-      prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : null
-    );
-  };
+  const loadMoreImages = useCallback(() => {
+    setVisibleImages((prev) => Math.min(prev + 8, galleryData.length)); // 👈 Add 8 each time
+  }, [galleryData.length]);
 
-  const handleNext = () => {
-    setSelectedIndex((prev) =>
-      prev !== null ? (prev + 1) % galleryData.length : null
+  // Infinite scroll lazy load
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && visibleImages < galleryData.length) {
+            loadMoreImages();
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: '200px' }
     );
-  };
+
+    const sentinel = document.querySelector('.load-more-sentinel');
+    if (sentinel) observer.observe(sentinel);
+
+    return () => observer.disconnect();
+  }, [visibleImages, loadMoreImages, galleryData.length]);
+
+  // Keyboard navigation for modal
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+
+      if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev + 1) % galleryData.length : prev
+        );
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) =>
+          prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
+        );
+      }
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedIndex, galleryData.length]);
 
   return (
-    <div className="container mx-auto p-4">
-      {/* Gallery Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {galleryData.slice(0, visibleCount).map((item, index) => (
-          <motion.div
-            key={index}
-            className="cursor-pointer rounded-xl overflow-hidden shadow-md hover:shadow-lg transition"
-            whileHover={{ scale: 1.05 }}
-            onClick={() => setSelectedIndex(index)}
-          >
-            <Image
-              src={item.src}
-              alt={item.alt}
-              width={400}
-              height={300}
-              className="object-cover w-full h-60"
-            />
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Load More Button */}
-      {visibleCount < galleryData.length && (
-        <div className="flex justify-center mt-6">
-          <button
-            onClick={() => setVisibleCount((prev) => prev + 4)} // 👈 load next 4
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
-          >
-            Load More
-          </button>
+    <section className="py-16 bg-white text-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+            Explore our elegant cliffside villa interiors and exotic beachfront views.
+          </p>
         </div>
-      )}
 
-      {/* Dialog for Image Preview */}
-      <AnimatePresence>
-        {selectedIndex !== null && (
-          <Dialog open={true} onOpenChange={() => setSelectedIndex(null)}>
-            <DialogContent className="max-w-4xl p-0 bg-black/90 text-white">
-              <div className="relative flex items-center justify-center">
+        {/* Gallery Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          >
+            {galleryData.slice(0, visibleImages).map((image, index) => (
+              <motion.div
+                key={index}
+                layout
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.03 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setSelectedIndex(index)}
+                className="relative cursor-pointer overflow-hidden rounded-lg sm:rounded-xl border border-black/10 bg-black/5 shadow-sm hover:shadow-lg transition duration-300 group"
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={400}
+                  height={300}
+                  sizes="(max-width: 640px) 100vw,
+                         (max-width: 768px) 50vw,
+                         (max-width: 1024px) 33vw,
+                         25vw"
+                  priority={index < 4} // Only first 4 images prioritized
+                  quality={70} // 👈 Lower quality for faster load
+                  loading={index < 4 ? 'eager' : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL="/placeholder.webp"
+                  className="w-full h-56 sm:h-60 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+              </motion.div>
+            ))}
+            {visibleImages < galleryData.length && (
+              <div className="load-more-sentinel col-span-full h-10"></div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Load More Button */}
+        {visibleImages < galleryData.length && (
+          <div className="text-center mt-8">
+            <button
+              onClick={loadMoreImages}
+              className="px-5 sm:px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 text-sm sm:text-base font-medium"
+            >
+              Load More ({galleryData.length - visibleImages} remaining)
+            </button>
+          </div>
+        )}
+
+        {/* Fullscreen Image Modal */}
+        <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
+          <DialogContent className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl">
+            {selectedIndex !== null && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full flex justify-center items-center"
+              >
+                {/* Close Button */}
                 <button
-                  className="absolute top-2 right-2 bg-white text-black rounded-full p-2"
                   onClick={() => setSelectedIndex(null)}
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
                 >
-                  <X size={20} />
+                  <X size={24} className="sm:w-7 sm:h-7 text-white" />
                 </button>
+
+                {/* Prev Button */}
                 <button
-                  className="absolute left-2 bg-white text-black rounded-full p-2"
-                  onClick={handlePrev}
+                  onClick={() =>
+                    setSelectedIndex((prev) =>
+                      prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
+                    )
+                  }
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
                 >
-                  <ChevronLeft size={20} />
+                  <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
                 </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={() =>
+                    setSelectedIndex((prev) =>
+                      prev !== null ? (prev + 1) % galleryData.length : prev
+                    )
+                  }
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
+                </button>
+
+                {/* Large Image */}
                 <Image
                   src={galleryData[selectedIndex].src}
                   alt={galleryData[selectedIndex].alt}
-                  width={800}
-                  height={600}
-                  className="rounded-xl object-contain max-h-[80vh]"
+                  width={1200}
+                  height={800}
+                  quality={80} // slightly compressed for speed
+                  loading="eager"
+                  sizes="100vw"
+                  placeholder="blur"
+                  blurDataURL="/placeholder.webp"
+                  className="rounded-lg object-contain max-h-[70vh] sm:max-h-[80vh] w-auto mx-auto"
                 />
-                <button
-                  className="absolute right-2 bg-white text-black rounded-full p-2"
-                  onClick={handleNext}
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        )}
-      </AnimatePresence>
-    </div>
+              </motion.div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </section>
   );
-}
+};
+
+export default GallerySection;
