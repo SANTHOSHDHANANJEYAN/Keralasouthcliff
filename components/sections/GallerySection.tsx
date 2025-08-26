@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
@@ -44,50 +44,9 @@ const GallerySection = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleImages, setVisibleImages] = useState(8); // 👈 Start with 8
 
-  const loadMoreImages = useCallback(() => {
-    setVisibleImages((prev) => Math.min(prev + 8, galleryData.length)); // 👈 Add 8 each time
-  }, [galleryData.length]);
-
-  // Infinite scroll lazy load
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && visibleImages < galleryData.length) {
-            loadMoreImages();
-          }
-        });
-      },
-      { threshold: 0.2, rootMargin: '200px' }
-    );
-
-    const sentinel = document.querySelector('.load-more-sentinel');
-    if (sentinel) observer.observe(sentinel);
-
-    return () => observer.disconnect();
-  }, [visibleImages, loadMoreImages, galleryData.length]);
-
-  // Keyboard navigation for modal
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (selectedIndex === null) return;
-
-      if (e.key === 'Escape') {
-        setSelectedIndex(null);
-      } else if (e.key === 'ArrowRight') {
-        setSelectedIndex((prev) =>
-          prev !== null ? (prev + 1) % galleryData.length : prev
-        );
-      } else if (e.key === 'ArrowLeft') {
-        setSelectedIndex((prev) =>
-          prev !== null ? (prev - 1 + galleryData.length) % galleryData.length : prev
-        );
-      }
-    };
-
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [selectedIndex, galleryData.length]);
+  const loadMoreImages = () => {
+    setVisibleImages((prev) => Math.min(prev + 4, galleryData.length)); // 👈 Load +4 each click
+  };
 
   return (
     <section className="py-16 bg-white text-black">
@@ -129,8 +88,8 @@ const GallerySection = () => {
                          (max-width: 768px) 50vw,
                          (max-width: 1024px) 33vw,
                          25vw"
-                  priority={index < 4} // Only first 4 images prioritized
-                  quality={70} // 👈 Lower quality for faster load
+                  priority={index < 4} // 👈 Only first 4 are prioritized
+                  quality={75}
                   loading={index < 4 ? 'eager' : 'lazy'}
                   placeholder="blur"
                   blurDataURL="/placeholder.webp"
@@ -138,9 +97,6 @@ const GallerySection = () => {
                 />
               </motion.div>
             ))}
-            {visibleImages < galleryData.length && (
-              <div className="load-more-sentinel col-span-full h-10"></div>
-            )}
           </motion.div>
         </AnimatePresence>
 
@@ -205,7 +161,7 @@ const GallerySection = () => {
                   alt={galleryData[selectedIndex].alt}
                   width={1200}
                   height={800}
-                  quality={80} // slightly compressed for speed
+                  quality={85}
                   loading="eager"
                   sizes="100vw"
                   placeholder="blur"
