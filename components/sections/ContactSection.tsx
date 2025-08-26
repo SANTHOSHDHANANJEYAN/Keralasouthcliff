@@ -111,7 +111,7 @@ export default function ContactPage() {
 
     try {
       // ✅ Send to Formspree
-      const res = await fetch("https://formspree.io/f/xovnaykg", {
+      const res = await fetch("https://formspree.io/f/myzdgaqo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
