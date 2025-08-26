@@ -7,7 +7,10 @@ import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 
 // ✅ Dynamically import PhoneInput
-const PhoneInput = dynamic(() => import("react-phone-input-2").then((mod) => mod.default), { ssr: false });
+const PhoneInput = dynamic(
+  () => import("react-phone-input-2").then((mod) => mod.default),
+  { ssr: false }
+);
 import "react-phone-input-2/lib/style.css";
 
 export default function ContactPage() {
@@ -54,7 +57,7 @@ export default function ContactPage() {
     []
   );
 
-  // ✅ Fix overlap check (inclusive)
+  // ✅ Fix overlap check
   const isDateOverlap = (
     checkIn1: string,
     checkOut1: string,
@@ -107,6 +110,7 @@ export default function ContactPage() {
     }
 
     try {
+      // ✅ Send to Formspree
       const res = await fetch("https://formspree.io/f/xovnaykg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,6 +137,27 @@ export default function ContactPage() {
           },
         ]);
 
+        // ✅ Also send details to WhatsApp
+        const whatsappNumber = "917994144472"; // ← Your WhatsApp number in international format without +
+        const whatsappMessage = `🛎️ New Booking Request
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Villa: ${formData.villa}
+Guests: ${formData.guests}
+Check-In: ${formData.checkIn}
+Check-Out: ${formData.checkOut}
+Message: ${formData.message}`;
+
+        // Open WhatsApp chat with message
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+            whatsappMessage
+          )}`,
+          "_blank"
+        );
+
+        // Reset form
         setFormData({
           name: "",
           email: "",
@@ -203,9 +228,7 @@ export default function ContactPage() {
 
   return (
     <section className="relative bg-white py-24 text-gray-900">
-      {/* ✅ Toaster for toast notifications */}
       <Toaster />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-20">
@@ -233,7 +256,7 @@ export default function ContactPage() {
           ))}
         </div>
 
-        {/* Form & Booking Info */}
+        {/* Form + Booking Info */}
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Form */}
           <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
@@ -284,7 +307,7 @@ export default function ContactPage() {
                 )}
               </div>
 
-              {/* Check-in / Check-out / Guests */}
+              {/* Dates & Guests */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {["checkIn", "checkOut"].map((field) => (
                   <div key={field}>
