@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -62,9 +63,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             {villa.images.slice(0, 3).map((img, idx) => (
               <div
                 key={idx}
-                className={`relative ${
-                  idx === 0 ? 'col-span-1 row-span-2' : ''
-                } cursor-pointer`}
+                className={`relative ${idx === 0 ? 'col-span-1 row-span-2' : ''} cursor-pointer`}
                 onClick={() => onOpen(idx)}
               >
                 <Image
