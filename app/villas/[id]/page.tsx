@@ -123,9 +123,10 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         </div>
 
         {/* ✅ Additional Sections */}
-        <ReviewsSlider />
+        
         <GalleryPreview />
         <AmenitiesPreview />
+        <ReviewsSlider />
         <VillasPreview />
       </main>
       <Footer />
