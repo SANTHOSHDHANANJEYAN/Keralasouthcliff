@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function VillaGallery({ images, name }: { images: string[]; name: string }) {
+export default function VillaGallery({
+  images,
+  name,
+}: {
+  images: string[];
+  name: string;
+}) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const openLightbox = (index: number) => {
@@ -26,6 +32,19 @@ export default function VillaGallery({ images, name }: { images: string[]; name:
       setLightboxIndex((lightboxIndex + 1) % images.length);
     }
   };
+
+  // ✅ Keyboard controls
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (lightboxIndex !== null) {
+        if (e.key === "ArrowLeft") showPrev();
+        if (e.key === "ArrowRight") showNext();
+        if (e.key === "Escape") closeLightbox();
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [lightboxIndex]);
 
   return (
     <>
@@ -61,11 +80,11 @@ export default function VillaGallery({ images, name }: { images: string[]; name:
 
       {/* Lightbox (fullscreen preview) */}
       {lightboxIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
           {/* Close button */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white"
+            className="absolute top-4 right-4 text-white hover:text-gray-300"
           >
             <X size={32} />
           </button>
@@ -73,13 +92,13 @@ export default function VillaGallery({ images, name }: { images: string[]; name:
           {/* Prev button */}
           <button
             onClick={showPrev}
-            className="absolute left-4 text-white"
+            className="absolute left-4 text-white hover:text-gray-300"
           >
             <ChevronLeft size={48} />
           </button>
 
           {/* Main image */}
-          <div className="relative w-[90%] max-w-4xl h-[80vh]">
+          <div className="relative w-[90%] max-w-5xl h-[80vh]">
             <Image
               src={images[lightboxIndex]}
               alt={`${name} full preview`}
@@ -91,7 +110,7 @@ export default function VillaGallery({ images, name }: { images: string[]; name:
           {/* Next button */}
           <button
             onClick={showNext}
-            className="absolute right-4 text-white"
+            className="absolute right-4 text-white hover:text-gray-300"
           >
             <ChevronRight size={48} />
           </button>
