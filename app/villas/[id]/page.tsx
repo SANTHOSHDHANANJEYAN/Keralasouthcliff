@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
-import GalleryPreview from '@/components/sections/GalleryPreview';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
@@ -110,11 +109,6 @@ export default function VillaPage({ params }: { params: { id: string } }) {
               </Link>
             </div>
           </div>
-        </div>
-
-        {/* ✅ Auto-Sliding Gallery Preview Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <GalleryPreview />
         </div>
       </main>
       <Footer />
