@@ -1,5 +1,3 @@
-
-import React, { useState } from 'react';
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
