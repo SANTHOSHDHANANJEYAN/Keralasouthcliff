@@ -1,39 +1,39 @@
-// app/villas/[id]/VillaClient.tsx
 "use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import * as icons from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import Link from 'next/link';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Villa } from '@/lib/villas';
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
 
-const iconMap: { [key: string]: React.ElementType } = {
-  Bed: icons.Bed,
-  Bath: icons.Bath,
-  Wifi: icons.Wifi,
-  Car: icons.Car,
-  Waves: icons.Waves,
-  Mountain: icons.Mountain,
-  Sun: icons.Sun,
-  Shield: icons.Shield,
-  Crown: icons.Crown,
-};
+interface Villa {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  images: string[];
+}
 
 export default function VillaClient({ villa }: { villa: Villa }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const currentIndex = selectedImage ? villa.images.indexOf(selectedImage) : -1;
 
   const showPrev = () => {
-    if (currentIndex > 0) setSelectedImage(villa.images[currentIndex - 1]);
+    if (selectedImage) {
+      const index = villa.images.indexOf(selectedImage);
+      if (index > 0) {
+        setSelectedImage(villa.images[index - 1]);
+      }
+    }
   };
+
   const showNext = () => {
-    if (currentIndex < villa.images.length - 1) setSelectedImage(villa.images[currentIndex + 1]);
+    if (selectedImage) {
+      const index = villa.images.indexOf(selectedImage);
+      if (index < villa.images.length - 1) {
+        setSelectedImage(villa.images[index + 1]);
+      }
+    }
   };
+
+  // ✅ calculate current index right before rendering
+  const currentIndex = selectedImage ? villa.images.indexOf(selectedImage) : -1;
 
   return (
     <>
@@ -42,114 +42,61 @@ export default function VillaClient({ villa }: { villa: Villa }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
-            <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
+            <p className="mt-4 text-lg text-gray-700">{villa.description}</p>
+            <p className="mt-2 text-2xl font-semibold text-green-600">
+              ₹{villa.price.toLocaleString()}
+            </p>
           </div>
 
-          {/* Image Gallery */}
-          <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            {villa.images.slice(0, 3).map((img, i) => (
+          {/* Image Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {villa.images.map((image, idx) => (
               <div
-                key={i}
-                className={relative ${i === 0 ? "col-span-1 row-span-2" : ""} cursor-pointer}
-                onClick={() => setSelectedImage(img)}
+                key={idx}
+                className="cursor-pointer overflow-hidden rounded-lg shadow-md"
+                onClick={() => setSelectedImage(image)}
               >
-                <Image
-                  src={img}
-                  alt={villa.name}
-                  fill
-                  className="rounded-lg object-cover"
-                  priority={i === 0}
+                <img
+                  src={image}
+                  alt={Villa image ${idx + 1}}
+                  className="w-full h-64 object-cover transform hover:scale-105 transition"
                 />
               </div>
             ))}
           </div>
-
-          {/* Features & Amenities */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-                {villa.features.map(({ iconName, text }) => {
-                  const Icon = iconMap[iconName];
-                  return (
-                    <div
-                      key={text}
-                      className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
-                    >
-                      {Icon && <Icon className="text-black" size={20} />}
-                      <span className="text-sm font-medium text-black">{text}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
-                {villa.amenities.map((amenity) => (
-                  <li key={amenity} className="flex items-center gap-3">
-                    <icons.CheckCircle size={16} className="text-green-600" />
-                    <span>{amenity}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Booking */}
-            <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
-              <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
-              <p className="text-gray-600 mb-4">
-                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
-              </p>
-              <Link href="/contact" passHref>
-                <Button className="w-full bg-black text-white hover:bg-gray-800">
-                  Book Now
-                </Button>
-              </Link>
-            </div>
-          </div>
         </div>
       </main>
 
-      {/* Image Preview Dialog */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-4xl bg-transparent border-none shadow-none p-0">
-          {selectedImage && (
-            <div className="relative">
-              <Image
-                src={selectedImage}
-                alt="Preview"
-                width={1000}
-                height={700}
-                className="rounded-lg object-contain max-h-[80vh] mx-auto"
-              />
-              <button
-                className="absolute top-2 right-2 bg-black/60 p-2 rounded-full"
-                onClick={() => setSelectedImage(null)}
-              >
-                <X className="text-white" size={20} />
-              </button>
-              {currentIndex > 0 && (
-                <button
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 p-2 rounded-full"
-                  onClick={showPrev}
-                >
-                  <ChevronLeft className="text-white" size={24} />
-                </button>
-              )}
-              {currentIndex < villa.images.length - 1 && (
-                <button
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 p-2 rounded-full"
-                  onClick={showNext}
-                >
-                  <ChevronRight className="text-white" size={24} />
-                </button>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      <Footer />
+      {/* Modal */}
+      {selectedImage && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center">
+          <button
+            className="absolute top-6 right-6 text-white text-3xl"
+            onClick={() => setSelectedImage(null)}
+          >
+            &times;
+          </button>
+          <button
+            className="absolute left-6 text-white text-4xl"
+            onClick={showPrev}
+            disabled={currentIndex <= 0}
+          >
+            &#8592;
+          </button>
+          <img
+            src={selectedImage}
+            alt="Selected Villa"
+            className="max-h-[80%] max-w-[80%] rounded-lg shadow-lg"
+          />
+          <button
+            className="absolute right-6 text-white text-4xl"
+            onClick={showNext}
+            disabled={currentIndex >= villa.images.length - 1}
+          >
+            &#8594;
+          </button>
+        </div>
+      )}
     </>
   );
 }
