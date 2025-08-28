@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 
 // Your villa type
 interface Villa {
