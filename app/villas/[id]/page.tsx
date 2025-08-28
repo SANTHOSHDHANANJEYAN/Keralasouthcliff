@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+"use client";
+
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -24,27 +26,25 @@ const iconMap: { [key: string]: React.ElementType } = {
 
 export default function VillaPage({ params }: { params: { id: string } }) {
   const villa = getVillaById(params.id);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   if (!villa) {
     notFound();
   }
 
-  // Preview state
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  // Get index for navigation
+  const currentIndex = selectedImage ? villa.images.indexOf(selectedImage) : -1;
 
-  const onOpen = (index: number) => setSelectedIndex(index);
-  const onClose = () => setSelectedIndex(null);
-
-  const nextImage = () => {
-    setSelectedIndex(prev =>
-      prev !== null ? (prev + 1) % villa.images.length : null
-    );
+  const showPrev = () => {
+    if (currentIndex > 0) {
+      setSelectedImage(villa.images[currentIndex - 1]);
+    }
   };
 
-  const prevImage = () => {
-    setSelectedIndex(prev =>
-      prev !== null ? (prev - 1 + villa.images.length) % villa.images.length : null
-    );
+  const showNext = () => {
+    if (currentIndex < villa.images.length - 1) {
+      setSelectedImage(villa.images[currentIndex + 1]);
+    }
   };
 
   return (
@@ -60,18 +60,18 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            {villa.images.slice(0, 3).map((img, idx) => (
+            {villa.images.slice(0, 3).map((img, i) => (
               <div
-                key={idx}
-                className={`relative ${idx === 0 ? 'col-span-1 row-span-2' : ''} cursor-pointer`}
-                onClick={() => onOpen(idx)}
+                key={i}
+                className={`relative ${i === 0 ? "col-span-1 row-span-2" : ""} cursor-pointer`}
+                onClick={() => setSelectedImage(img)}
               >
                 <Image
                   src={img}
-                  alt={`${villa.name} image ${idx + 1}`}
+                  alt={villa.name}
                   fill
                   className="rounded-lg object-cover"
-                  priority={idx === 0}
+                  priority={i === 0}
                 />
               </div>
             ))}
@@ -123,47 +123,43 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         </div>
       </main>
 
-      {/* Preview Dialog */}
-      <Dialog open={selectedIndex !== null} onOpenChange={onClose}>
-        <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black/90 backdrop-blur-lg border-none shadow-none flex justify-center items-center rounded-xl">
-          {selectedIndex !== null && (
-            <div className="relative w-full flex justify-center items-center">
+      {/* Image Preview Dialog */}
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl bg-transparent border-none shadow-none p-0">
+          {selectedImage && (
+            <div className="relative">
+              <Image
+                src={selectedImage}
+                alt="Preview"
+                width={1000}
+                height={700}
+                className="rounded-lg object-contain max-h-[80vh] mx-auto"
+              />
               {/* Close Button */}
               <button
-                onClick={onClose}
-                className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                className="absolute top-2 right-2 bg-black/60 p-2 rounded-full"
+                onClick={() => setSelectedImage(null)}
               >
-                <X size={24} className="text-white" />
+                <X className="text-white" size={20} />
               </button>
-
               {/* Prev Button */}
-              <button
-                onClick={prevImage}
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
-              >
-                <ChevronLeft size={28} className="text-white" />
-              </button>
-
+              {currentIndex > 0 && (
+                <button
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 p-2 rounded-full"
+                  onClick={showPrev}
+                >
+                  <ChevronLeft className="text-white" size={24} />
+                </button>
+              )}
               {/* Next Button */}
-              <button
-                onClick={nextImage}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
-              >
-                <ChevronRight size={28} className="text-white" />
-              </button>
-
-              {/* Large Image */}
-              <div className="w-full h-[80vh] relative">
-                <Image
-                  src={villa.images[selectedIndex]}
-                  alt={`${villa.name} preview ${selectedIndex + 1}`}
-                  fill
-                  quality={95}
-                  priority
-                  className="object-contain"
-                  sizes="100vw"
-                />
-              </div>
+              {currentIndex < villa.images.length - 1 && (
+                <button
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 p-2 rounded-full"
+                  onClick={showNext}
+                >
+                  <ChevronRight className="text-white" size={24} />
+                </button>
+              )}
             </div>
           )}
         </DialogContent>
@@ -174,7 +170,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
   );
 }
 
-// Generate static pages for each villa
+// Generate static pages foreach villa
 export async function generateStaticParams() {
   return villas.map((villa) => ({
     id: villa.id,
