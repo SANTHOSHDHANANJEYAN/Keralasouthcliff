@@ -7,6 +7,12 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 
+// ✅ Additional Sections
+import ReviewsSlider from '@/components/sections/ReviewsSlider';
+import VillasPreview from '@/components/sections/VillasPreview';
+import GalleryPreview from '@/components/sections/GalleryPreview';
+import AmenitiesPreview from '@/components/sections/AmenitiesPreview';
+
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
   Bath: icons.Bath,
@@ -115,6 +121,12 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             </div>
           </div>
         </div>
+
+        {/* ✅ Additional Sections */}
+        <ReviewsSlider />
+        <GalleryPreview />
+        <AmenitiesPreview />
+        <VillasPreview />
       </main>
       <Footer />
     </>
