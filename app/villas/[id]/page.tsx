@@ -1,3 +1,5 @@
+"use client";
+
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -6,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
+import { useState } from 'react';
 
 // ✅ Additional Sections
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
@@ -32,6 +35,9 @@ export default function VillaPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  // ✅ State for active preview image
+  const [mainImage, setMainImage] = useState(villa.images[0]);
+
   return (
     <>
       <Navbar />
@@ -45,31 +51,32 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
+            {/* Main Image */}
             <div className="relative col-span-1 row-span-2">
               <Image
-                src={villa.images[0]}
+                src={mainImage}
                 alt={villa.name}
                 fill
                 className="rounded-lg object-cover"
                 priority
               />
             </div>
-            <div className="relative">
-              <Image
-                src={villa.images[1]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={villa.images[2]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
+
+            {/* Preview Thumbnails */}
+            {villa.images.slice(1, 3).map((img, idx) => (
+              <div
+                key={idx}
+                className="relative cursor-pointer hover:opacity-80 transition"
+                onClick={() => setMainImage(img)}
+              >
+                <Image
+                  src={img}
+                  alt={`${villa.name} preview ${idx + 1}`}
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+            ))}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -123,10 +130,9 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         </div>
 
         {/* ✅ Additional Sections */}
-        
+        <ReviewsSlider />
         <GalleryPreview />
         <AmenitiesPreview />
-        <ReviewsSlider />
         <VillasPreview />
       </main>
       <Footer />
