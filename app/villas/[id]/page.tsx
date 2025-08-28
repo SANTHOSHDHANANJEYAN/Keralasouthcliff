@@ -1,6 +1,6 @@
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
+import { ImageGallery } from '@/components/ImageGallery';
 import * as icons from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
@@ -38,32 +38,8 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           </div>
 
           {/* Image Gallery */}
-          <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            <div className="relative col-span-1 row-span-2">
-              <Image
-                src={villa.images[0]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-                priority
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={villa.images[1]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={villa.images[2]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
+          <div className="mb-12">
+            <ImageGallery images={villa.images} description={villa.description} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
