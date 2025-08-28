@@ -79,7 +79,9 @@ export default function VillaPage({ params }: { params: { id: string } }) {
                       className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
                     >
                       {Icon && <Icon className="text-black" size={20} />}
-                      <span className="text-sm font-medium text-black">{text}</span>
+                      <span className="text-sm font-medium text-black">
+                        {text}
+                      </span>
                     </div>
                   );
                 })}
@@ -98,9 +100,12 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
             {/* Booking CTA */}
             <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
-              <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
+              <h2 className="text-2xl font-bold text-black mb-4">
+                Book Your Stay
+              </h2>
               <p className="text-gray-600 mb-4">
-                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
+                Ready to experience {villa.name}? Secure your stay now and enjoy
+                unmatched luxury.
               </p>
               <Link href="/contact" passHref>
                 <Button className="w-full bg-black text-white hover:bg-gray-800">
@@ -116,7 +121,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
   );
 }
 
-// Generate static pages for each villa
+// ✅ Generate static pages for each villa
 export async function generateStaticParams() {
   return villas.map((villa) => ({
     id: villa.id,
