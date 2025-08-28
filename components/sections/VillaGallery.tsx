@@ -1,39 +1,102 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function VillaGallery({ images, name }: { images: string[]; name: string }) {
-  const [mainImage, setMainImage] = useState(images[0]);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
+
+  const showPrev = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex - 1 + images.length) % images.length);
+    }
+  };
+
+  const showNext = () => {
+    if (lightboxIndex !== null) {
+      setLightboxIndex((lightboxIndex + 1) % images.length);
+    }
+  };
 
   return (
-    <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-      {/* Main Image */}
-      <div className="relative col-span-1 row-span-2">
-        <Image
-          src={mainImage}
-          alt={name}
-          fill
-          className="rounded-lg object-cover"
-          priority
-        />
-      </div>
-
-      {/* Preview Thumbnails */}
-      {images.slice(1, 3).map((img, idx) => (
+    <>
+      {/* Thumbnail grid */}
+      <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
         <div
-          key={idx}
-          className="relative cursor-pointer hover:opacity-80 transition"
-          onClick={() => setMainImage(img)}
+          className="relative col-span-1 row-span-2 cursor-pointer"
+          onClick={() => openLightbox(0)}
         >
           <Image
-            src={img}
-            alt={`${name} preview ${idx + 1}`}
+            src={images[0]}
+            alt={name}
             fill
             className="rounded-lg object-cover"
+            priority
           />
         </div>
-      ))}
-    </div>
+        {images.slice(1, 3).map((img, idx) => (
+          <div
+            key={idx}
+            className="relative cursor-pointer hover:opacity-80 transition"
+            onClick={() => openLightbox(idx + 1)}
+          >
+            <Image
+              src={img}
+              alt={`${name} preview ${idx + 1}`}
+              fill
+              className="rounded-lg object-cover"
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Lightbox (fullscreen preview) */}
+      {lightboxIndex !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+          {/* Close button */}
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white"
+          >
+            <X size={32} />
+          </button>
+
+          {/* Prev button */}
+          <button
+            onClick={showPrev}
+            className="absolute left-4 text-white"
+          >
+            <ChevronLeft size={48} />
+          </button>
+
+          {/* Main image */}
+          <div className="relative w-[90%] max-w-4xl h-[80vh]">
+            <Image
+              src={images[lightboxIndex]}
+              alt={`${name} full preview`}
+              fill
+              className="object-contain rounded-lg"
+            />
+          </div>
+
+          {/* Next button */}
+          <button
+            onClick={showNext}
+            className="absolute right-4 text-white"
+          >
+            <ChevronRight size={48} />
+          </button>
+        </div>
+      )}
+    </>
   );
 }
