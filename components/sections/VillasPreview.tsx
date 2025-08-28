@@ -15,7 +15,7 @@ const VillasPreview = () => {
     () => [
       {
         id: 1,
-        name: 'Ground Floor Villa',
+        name: 'Sea & Garden View Room',
         description:
           'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
         features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
@@ -26,7 +26,7 @@ const VillasPreview = () => {
       },
       {
         id: 2,
-        name: 'Top Floor Villa',
+        name: 'Landscape View Room',
         description:
           'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
@@ -37,7 +37,7 @@ const VillasPreview = () => {
       },
       {
         id: 3,
-        name: 'Entire Villa',
+        name: 'Exclusive Villa Stay',
         description:
           'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
@@ -82,8 +82,72 @@ const VillasPreview = () => {
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
             return (
-              <Card key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200">
-                <div className="relative h-72 overflow-hidden">
+              <Link key={villa.id} href={`/villas/${villa.slug}`} passHref>
+                <Card className="overflow-hidden rounded-2xl border border-gray-200 cursor-pointer hover:shadow-lg transition-shadow">
+                  <div className="relative h-72 overflow-hidden">
+                    {villa.images.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                          idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+                        }`}
+                      >
+                        <Image src={img} alt={villa.name} fill className="object-cover rounded-t-2xl" />
+                      </div>
+                    ))}
+
+                    {/* Rating */}
+                    <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
+                      <Star size={16} className="text-yellow-500" />
+                      <span className="text-sm font-medium">{villa.rating}</span>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
+                      <div className="h-full bg-white animate-progress" key={currentIndex} />
+                    </div>
+                  </div>
+
+                  <CardContent className="p-6">
+                    <div className="flex flex-col gap-2 mb-4">
+                      <h3 className="text-2xl font-bold text-black">{villa.name}</h3>
+                      <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                        <span className="flex items-center gap-1">
+                          <Users size={16} /> {villa.maxGuests} guests
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Bed size={16} /> 1 bed
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Bath size={16} /> 1 bath
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-4">{villa.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {villa.features.map((feature, idx) => (
+                        <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
+                          {feature}
+                        </Badge>
+                      ))}
+                    </div>
+                    <Button className="mt-6 w-full bg-black text-white hover:bg-gray-800 rounded-full">
+                      Book Now
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Landscape Villa */}
+        {villas.filter((v) => v.isLandscape).map((villa) => {
+          const currentIndex = currentIndexes[villa.id] ?? 0;
+          return (
+            <Link key={villa.id} href={`/villas/${villa.slug}`} passHref>
+              <div className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row cursor-pointer hover:shadow-lg transition-shadow">
+                <div className="md:w-1/2 relative overflow-hidden h-72 md:h-[500px]">
                   {villa.images.map((img, idx) => (
                     <div
                       key={idx}
@@ -91,12 +155,7 @@ const VillasPreview = () => {
                         idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
                       }`}
                     >
-                      <Image
-                        src={img}
-                        alt={villa.name}
-                        fill
-                        className="object-cover rounded-t-2xl"
-                      />
+                      <Image src={img} alt={villa.name} fill className="object-cover rounded-l-2xl" />
                     </div>
                   ))}
 
@@ -108,111 +167,39 @@ const VillasPreview = () => {
 
                   {/* Progress Bar */}
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
-                    <div
-                      className="h-full bg-white animate-progress"
-                      key={currentIndex}
-                    />
+                    <div className="h-full bg-white animate-progress" key={currentIndex} />
                   </div>
                 </div>
 
-                <CardContent className="p-6">
-                  <div className="flex flex-col gap-2 mb-4">
-                    <h3 className="text-2xl font-bold text-black">{villa.name}</h3>
-                    <div className="flex flex-wrap gap-3 text-sm text-gray-600">
+                <CardContent className="md:w-1/2 p-8 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-3xl font-bold text-black mb-3">{villa.name}</h3>
+                    <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-4">
                       <span className="flex items-center gap-1">
                         <Users size={16} /> {villa.maxGuests} guests
                       </span>
                       <span className="flex items-center gap-1">
-                        <Bed size={16} /> 1 bed
+                        <Bed size={16} /> 2 beds
                       </span>
                       <span className="flex items-center gap-1">
-                        <Bath size={16} /> 1 bath
+                        <Bath size={16} /> 2 baths
                       </span>
                     </div>
+                    <p className="text-gray-600 mb-6">{villa.description}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {villa.features.map((feature, idx) => (
+                        <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
+                          {feature}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-gray-600 mb-4">{villa.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {villa.features.map((feature, idx) => (
-                      <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                  <Link href={`/villas/${villa.slug}`} passHref>
-                    <Button asChild className="mt-6 w-full bg-black text-white hover:bg-gray-800 rounded-full">
-                      <a>Book Now</a>
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-
-        {/* Landscape Villa */}
-        {villas.filter((v) => v.isLandscape).map((villa) => {
-          const currentIndex = currentIndexes[villa.id] ?? 0;
-          return (
-            <div key={villa.id} className="overflow-hidden rounded-2xl border border-gray-200 flex flex-col md:flex-row">
-              <div className="md:w-1/2 relative overflow-hidden h-72 md:h-[500px]">
-                {villa.images.map((img, idx) => (
-                  <div
-                    key={idx}
-                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                      idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={villa.name}
-                      fill
-                      className="object-cover rounded-l-2xl"
-                    />
-                  </div>
-                ))}
-
-                {/* Rating */}
-                <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
-                  <Star size={16} className="text-yellow-500" />
-                  <span className="text-sm font-medium">{villa.rating}</span>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
-                  <div className="h-full bg-white animate-progress" key={currentIndex} />
-                </div>
-              </div>
-
-              <CardContent className="md:w-1/2 p-8 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-3xl font-bold text-black mb-3">{villa.name}</h3>
-                  <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-4">
-                    <span className="flex items-center gap-1">
-                      <Users size={16} /> {villa.maxGuests} guests
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Bed size={16} /> 2 beds
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Bath size={16} /> 2 baths
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-6">{villa.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {villa.features.map((feature, idx) => (
-                      <Badge key={idx} variant="outline" className="rounded-full border-gray-400 text-gray-700">
-                        {feature}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <Link href={`/villas/${villa.slug}`} passHref>
-                  <Button asChild className="mt-8 bg-black text-white hover:bg-gray-800 rounded-full w-full md:w-auto px-6 py-2">
-                    <a>Book Now</a>
+                  <Button className="mt-8 bg-black text-white hover:bg-gray-800 rounded-full w-full md:w-auto px-6 py-2">
+                    Book Now
                   </Button>
-                </Link>
-              </CardContent>
-            </div>
+                </CardContent>
+              </div>
+            </Link>
           );
         })}
       </div>
