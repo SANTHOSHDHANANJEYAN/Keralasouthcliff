@@ -1,5 +1,3 @@
-"use client";
-
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -8,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
-import React, { useState } from 'react';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
@@ -29,23 +26,6 @@ export default function VillaPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  // ✅ Modal State
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const openModal = (index: number) => {
-    setCurrentIndex(index);
-    setIsOpen(true);
-  };
-
-  const closeModal = () => setIsOpen(false);
-
-  const showPrev = () =>
-    setCurrentIndex((prev) => (prev === 0 ? villa.images.length - 1 : prev - 1));
-
-  const showNext = () =>
-    setCurrentIndex((prev) => (prev === villa.images.length - 1 ? 0 : prev + 1));
-
   return (
     <>
       <Navbar />
@@ -59,20 +39,31 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            {villa.images.slice(0, 3).map((img, index) => (
-              <div
-                key={img}
-                className={`relative ${index === 0 ? "col-span-1 row-span-2" : ""}`}
-                onClick={() => openModal(index)}
-              >
-                <Image
-                  src={img}
-                  alt={villa.name}
-                  fill
-                  className="rounded-lg object-cover cursor-pointer"
-                />
-              </div>
-            ))}
+            <div className="relative col-span-1 row-span-2">
+              <Image
+                src={villa.images[0]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+                priority
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={villa.images[1]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
+            <div className="relative">
+              <Image
+                src={villa.images[2]}
+                alt={villa.name}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -125,39 +116,6 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </main>
-
-      {/* ✅ Fullscreen Image Modal */}
-      {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-          <button
-            onClick={closeModal}
-            className="absolute top-5 right-5 text-white text-3xl"
-          >
-            ✕
-          </button>
-          <button
-            onClick={showPrev}
-            className="absolute left-5 text-white text-4xl"
-          >
-            ‹
-          </button>
-          <div className="relative w-[90%] h-[80%]">
-            <Image
-              src={villa.images[currentIndex]}
-              alt="Preview"
-              fill
-              className="object-contain rounded-lg"
-            />
-          </div>
-          <button
-            onClick={showNext}
-            className="absolute right-5 text-white text-4xl"
-          >
-            ›
-          </button>
-        </div>
-      )}
-
       <Footer />
     </>
   );
