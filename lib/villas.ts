@@ -16,7 +16,7 @@ export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
-    description: 'Enjoy a calming blend of lush garden surroundings with a glimpse of the sea.',
+    description: 'Wake up to the soothing charm of nature in our Sea & Garden View Room. Surrounded by lush greenery, the room offers a refreshing garden ambiance with a serene glimpse of the Arabian Sea. Designed for comfort and relaxation, it features cozy interiors, modern amenities, and a tranquil setting that invites you to unwind and reconnect with nature. Perfect for those who wish to enjoy both the calm of the garden and the beauty of the ocean.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
       { iconName: 'Bath', text: '1 Bathroom' },
@@ -47,7 +47,7 @@ export const villas: Villa[] = [
   {
     id: 'landscape-room',
     name: 'Landscape View Room',
-    description: 'Scenic landscape with partial sea and garden view – perfect for slow mornings.',
+    description: 'Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a partial sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
       { iconName: 'Bath', text: '1 Bathroom' },
@@ -78,7 +78,7 @@ export const villas: Villa[] = [
   {
     id: 'luxury-landscape',
     name: 'Exclusive Villa Stay – Sea & Garden View',
-    description: 'Book the entire villa for complete privacy, with serene sea and garden-facing rooms.',
+    description: 'Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.',
     features: [
       { iconName: 'Bed', text: '2 Bedrooms' },
       { iconName: 'Bath', text: '2 Bathrooms' },
