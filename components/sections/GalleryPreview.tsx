@@ -3,7 +3,7 @@
 import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Heart, Share2, Maximize2 } from 'lucide-react';
+import { Heart, Share2, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
 const galleryImages = [
@@ -25,7 +25,7 @@ type GalleryItemProps = {
   index: number;
   likedImages: Set<number>;
   toggleLike: (index: number) => void;
-  onOpen: (image: GalleryImage) => void;
+  onOpen: (index: number) => void;
 };
 
 const GalleryItem = memo(function GalleryItem({
@@ -68,7 +68,7 @@ const GalleryItem = memo(function GalleryItem({
 
         {/* View Button */}
         <div
-          onClick={() => onOpen(image)}
+          onClick={() => onOpen(index)}
           className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
         >
           <Button size="sm" className="bg-white/90 text-black border border-black/10 hover:scale-105 transition-transform">
@@ -83,7 +83,7 @@ GalleryItem.displayName = 'GalleryItem';
 
 export default function GalleryPreview() {
   const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
-  const [openImage, setOpenImage] = useState<GalleryImage | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null); // Changed to index
 
   const toggleLike = useCallback((index: number) => {
     setLikedImages(prev => {
@@ -93,9 +93,21 @@ export default function GalleryPreview() {
     });
   }, []);
 
-  const handleOpen = useCallback((image: GalleryImage) => {
-    setOpenImage(image);
+  const onOpen = useCallback((index: number) => {
+    setSelectedIndex(index);
   }, []);
+
+  const onClose = () => {
+    setSelectedIndex(null);
+  };
+
+  const nextImage = () => {
+    setSelectedIndex(prev => (prev !== null ? (prev + 1) % galleryImages.length : null));
+  };
+
+  const prevImage = () => {
+    setSelectedIndex(prev => (prev !== null ? (prev - 1 + galleryImages.length) % galleryImages.length : null));
+  };
 
   return (
     <section className="pt-[2rem] bg-white text-black">
@@ -117,27 +129,54 @@ export default function GalleryPreview() {
               index={idx}
               likedImages={likedImages}
               toggleLike={toggleLike}
-              onOpen={handleOpen}
+              onOpen={onOpen} // Pass index
             />
           ))}
         </div>
 
         {/* Image Dialog */}
-        <Dialog open={!!openImage} onOpenChange={() => setOpenImage(null)}>
-          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-white rounded-xl overflow-hidden">
-            {openImage && (
-              <div className="relative w-full h-[85vh]">
-                <Image
-                  src={openImage.src}
-                  alt={openImage.alt}
-                  fill
-                  quality={95}
-                  priority
-                  className="object-contain"
-                  sizes="100vw"
-                  placeholder="blur"
-                  blurDataURL="/blur-placeholder.webp"
-                />
+        <Dialog open={selectedIndex !== null} onOpenChange={onClose}>
+          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black/90 backdrop-blur-lg border-none shadow-none flex justify-center items-center rounded-xl">
+            {selectedIndex !== null && (
+              <div className="relative w-full flex justify-center items-center">
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <X size={24} className="sm:w-7 sm:h-7 text-white" />
+                </button>
+
+                {/* Prev Button */}
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
+                </button>
+
+                {/* Large Image */}
+                <div className="w-full h-[80vh] relative">
+                  <Image
+                    src={galleryImages[selectedIndex].src}
+                    alt={galleryImages[selectedIndex].alt}
+                    fill
+                    quality={95}
+                    priority
+                    className="object-contain"
+                    sizes="100vw"
+                    placeholder="blur"
+                    blurDataURL="/blur-placeholder.webp"
+                  />
+                </div>
               </div>
             )}
           </DialogContent>
