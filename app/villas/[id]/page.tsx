@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
-import GalleryPreview from '@/components/sections/GalleryPreview';
+import { useEffect, useState } from 'react';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
@@ -20,12 +20,31 @@ const iconMap: { [key: string]: React.ElementType } = {
   Crown: icons.Crown,
 };
 
+// ✅ Auto-slide gallery images
+const galleryImages = [
+  { src: '/astega/31-min.jpg', alt: '' },
+  { src: '/astega/1-min.jpg', alt: '' },
+  { src: '/astega/16-min.jpg', alt: '' },
+  { src: '/astega/5-min.jpg', alt: '' },
+  { src: '/astega/11-min.jpg', alt: '' },
+  { src: '/astega/13-min.jpg', alt: '' },
+];
+
 export default function VillaPage({ params }: { params: { id: string } }) {
   const villa = getVillaById(params.id);
 
   if (!villa) {
     notFound();
   }
+
+  // ✅ Auto-slide state
+  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % galleryImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <>
@@ -110,11 +129,27 @@ export default function VillaPage({ params }: { params: { id: string } }) {
               </Link>
             </div>
           </div>
-        </div>
 
-        {/* ✅ Auto-Sliding Gallery Preview Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <GalleryPreview />
+          {/* ✅ Auto-Sliding Gallery Section */}
+          <section className="mt-16 bg-white text-black py-12">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6">Gallery Preview</h2>
+              <p className="text-gray-600 mb-10">
+                A glimpse into the beauty and luxury that awaits you.
+              </p>
+
+              <div className="relative w-full h-[500px] overflow-hidden rounded-xl shadow-lg">
+                <Image
+                  key={galleryImages[current].src}
+                  src={galleryImages[current].src}
+                  alt={galleryImages[current].alt}
+                  fill
+                  className="object-cover transition-all duration-700"
+                  priority
+                />
+              </div>
+            </div>
+          </section>
         </div>
       </main>
       <Footer />
