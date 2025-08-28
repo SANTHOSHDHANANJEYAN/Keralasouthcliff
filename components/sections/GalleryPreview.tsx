@@ -1,16 +1,11 @@
 'use client';
 
-import { getVillaById, villas } from '@/lib/villas';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import * as icons from 'lucide-react';
+import React, { useState, memo, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Heart, Share2, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
-// ✅ Gallery images for auto-slide
 const galleryImages = [
   { src: '/astega/31-min.jpg', alt: '' },
   { src: '/astega/1-min.jpg', alt: '' },
@@ -20,149 +15,173 @@ const galleryImages = [
   { src: '/astega/13-min.jpg', alt: '' },
 ];
 
-const iconMap: { [key: string]: React.ElementType } = {
-  Bed: icons.Bed,
-  Bath: icons.Bath,
-  Wifi: icons.Wifi,
-  Car: icons.Car,
-  Waves: icons.Waves,
-  Mountain: icons.Mountain,
-  Sun: icons.Sun,
-  Shield: icons.Shield,
-  Crown: icons.Crown,
+type GalleryImage = {
+  src: string;
+  alt: string;
 };
 
-export default function VillaPage({ params }: { params: { id: string } }) {
-  const villa = getVillaById(params.id);
+type GalleryItemProps = {
+  image: GalleryImage;
+  index: number;
+  likedImages: Set<number>;
+  toggleLike: (index: number) => void;
+  onOpen: (index: number) => void;
+};
 
-  if (!villa) {
-    notFound();
-  }
-
-  // ✅ Auto-slide state
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % galleryImages.length);
-    }, 3000); // 3 seconds per slide
-    return () => clearInterval(timer);
-  }, []);
-
+const GalleryItem = memo(function GalleryItem({
+  image,
+  index,
+  likedImages,
+  toggleLike,
+  onOpen,
+}: GalleryItemProps) {
   return (
-    <>
-      <Navbar />
-      <main className="pt-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Villa Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
-            <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
-          </div>
+    <div className="group relative overflow-hidden rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="relative w-full h-64 sm:h-72 md:h-80">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          width={800}
+          height={600}
+          quality={90}
+          placeholder="blur"
+          blurDataURL="/blur-placeholder.webp"
+          className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
+          loading={index <= 1 ? 'eager' : 'lazy'}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
 
-          {/* Image Gallery */}
-          <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            <div className="relative col-span-1 row-span-2">
-              <Image
-                src={villa.images[0]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-                priority
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={villa.images[1]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={villa.images[2]}
-                alt={villa.name}
-                fill
-                className="rounded-lg object-cover"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Features & Amenities */}
-            <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-                {villa.features.map(({ iconName, text }) => {
-                  const Icon = iconMap[iconName];
-                  return (
-                    <div
-                      key={text}
-                      className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
-                    >
-                      {Icon && <Icon className="text-black" size={20} />}
-                      <span className="text-sm font-medium text-black">{text}</span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
-                {villa.amenities.map((amenity) => (
-                  <li key={amenity} className="flex items-center gap-3">
-                    <icons.CheckCircle size={16} className="text-green-600" />
-                    <span>{amenity}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Booking CTA */}
-            <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
-              <h2 className="text-2xl font-bold text-black mb-4">Book Your Stay</h2>
-              <p className="text-gray-600 mb-4">
-                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
-              </p>
-              <Link href="/contact" passHref>
-                <Button className="w-full bg-black text-white hover:bg-gray-800">
-                  Book Now
-                </Button>
-              </Link>
-            </div>
-          </div>
+        {/* Hover Buttons */}
+        <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={() => toggleLike(index)}
+            className="bg-white/80 p-2 rounded-full hover:scale-105 transition-transform"
+          >
+            <Heart size={16} className={likedImages.has(index) ? 'fill-black text-black' : ''} />
+          </Button>
+          <Button size="icon" variant="ghost" className="bg-white/80 p-2 rounded-full hover:scale-105 transition-transform">
+            <Share2 size={16} />
+          </Button>
         </div>
 
-        {/* ✅ Auto-Sliding Gallery Section */}
-        <section className="bg-white text-black py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Gallery</h2>
-            <p className="text-gray-600 mb-10">
-              Immerse yourself in the beauty of our villas through stunning visuals that capture the essence of luxury living by the Arabian Sea.
-            </p>
-
-            <div className="relative w-full h-[500px] overflow-hidden rounded-xl shadow-lg">
-              <Image
-                key={galleryImages[current].src}
-                src={galleryImages[current].src}
-                alt={galleryImages[current].alt}
-                fill
-                className="object-cover transition-all duration-700"
-                priority
-              />
-            </div>
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+        {/* View Button */}
+        <div
+          onClick={() => onOpen(index)}
+          className="absolute inset-0 flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        >
+          <Button size="sm" className="bg-white/90 text-black border border-black/10 hover:scale-105 transition-transform">
+            <Maximize2 className="mr-2" size={16} /> View
+          </Button>
+        </div>
+      </div>
+    </div>
   );
-}
+});
+GalleryItem.displayName = 'GalleryItem';
 
-// Generate static pages for each villa
-export async function generateStaticParams() {
-  return villas.map((villa) => ({
-    id: villa.id,
-  }));
+export default function GalleryPreview() {
+  const [likedImages, setLikedImages] = useState<Set<number>>(new Set());
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null); // Changed to index
+
+  const toggleLike = useCallback((index: number) => {
+    setLikedImages(prev => {
+      const updated = new Set(prev);
+      updated.has(index) ? updated.delete(index) : updated.add(index);
+      return updated;
+    });
+  }, []);
+
+  const onOpen = useCallback((index: number) => {
+    setSelectedIndex(index);
+  }, []);
+
+  const onClose = () => {
+    setSelectedIndex(null);
+  };
+
+  const nextImage = () => {
+    setSelectedIndex(prev => (prev !== null ? (prev + 1) % galleryImages.length : null));
+  };
+
+  const prevImage = () => {
+    setSelectedIndex(prev => (prev !== null ? (prev - 1 + galleryImages.length) % galleryImages.length : null));
+  };
+
+  return (
+    <section className="pt-[2rem] bg-white text-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading */}
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Gallery</h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-700 max-w-4xl mx-auto">
+            Immerse yourself in the beauty of our villas through stunning visuals that capture the essence of luxury living by the Arabian Sea.
+          </p>
+        </div>
+
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
+          {galleryImages.map((img, idx) => (
+            <GalleryItem
+              key={idx}
+              image={img}
+              index={idx}
+              likedImages={likedImages}
+              toggleLike={toggleLike}
+              onOpen={onOpen} // Pass index
+            />
+          ))}
+        </div>
+
+        {/* Image Dialog */}
+        <Dialog open={selectedIndex !== null} onOpenChange={onClose}>
+          <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black/90 backdrop-blur-lg border-none shadow-none flex justify-center items-center rounded-xl">
+            {selectedIndex !== null && (
+              <div className="relative w-full flex justify-center items-center">
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <X size={24} className="sm:w-7 sm:h-7 text-white" />
+                </button>
+
+                {/* Prev Button */}
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                >
+                  <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
+                </button>
+
+                {/* Large Image */}
+                <div className="w-full h-[80vh] relative">
+                  <Image
+                    src={galleryImages[selectedIndex].src}
+                    alt={galleryImages[selectedIndex].alt}
+                    fill
+                    quality={95}
+                    priority
+                    className="object-contain"
+                    sizes="100vw"
+                    placeholder="blur"
+                    blurDataURL="/blur-placeholder.webp"
+                  />
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
+      </div>
+    </section>
+  );
 }
