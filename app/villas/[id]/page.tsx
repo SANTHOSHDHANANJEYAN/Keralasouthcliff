@@ -1,7 +1,12 @@
+'use client'; // Added to enable client-side interactions for the modal
+
+import { useState } from 'react';
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import * as icons from 'lucide-react';
+import { Dialog, DialogContent } from '@/components/ui/dialog'; // Added for modal
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'; // Added icons for modal controls
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -26,6 +31,25 @@ export default function VillaPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  // State for image preview modal
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const openModal = (index: number) => {
+    setSelectedIndex(index);
+  };
+
+  const closeModal = () => {
+    setSelectedIndex(null);
+  };
+
+  const nextImage = () => {
+    setSelectedIndex((prev) => (prev !== null ? (prev + 1) % villa.images.length : null));
+  };
+
+  const prevImage = () => {
+    setSelectedIndex((prev) => (prev !== null ? (prev - 1 + villa.images.length) % villa.images.length : null));
+  };
+
   return (
     <>
       <Navbar />
@@ -39,29 +63,38 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
           {/* Image Gallery */}
           <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
-            <div className="relative col-span-1 row-span-2">
+            <div
+              className="relative col-span-1 row-span-2 cursor-pointer"
+              onClick={() => openModal(0)}
+            >
               <Image
                 src={villa.images[0]}
                 alt={villa.name}
                 fill
-                className="rounded-lg object-cover"
+                className="rounded-lg object-cover transition-transform duration-300 hover:scale-105"
                 priority
               />
             </div>
-            <div className="relative">
+            <div
+              className="relative cursor-pointer"
+              onClick={() => openModal(1)}
+            >
               <Image
                 src={villa.images[1]}
                 alt={villa.name}
                 fill
-                className="rounded-lg object-cover"
+                className="rounded-lg object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
-            <div className="relative">
+            <div
+              className="relative cursor-pointer"
+              onClick={() => openModal(2)}
+            >
               <Image
                 src={villa.images[2]}
                 alt={villa.name}
                 fill
-                className="rounded-lg object-cover"
+                className="rounded-lg object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
           </div>
@@ -109,6 +142,54 @@ export default function VillaPage({ params }: { params: { id: string } }) {
               </Link>
             </div>
           </div>
+
+          {/* Image Preview Modal */}
+          <Dialog open={selectedIndex !== null} onOpenChange={closeModal}>
+            <DialogContent className="max-w-6xl max-h-[90vh] p-0 bg-black/90 backdrop-blur-lg border-none shadow-none flex justify-center items-center rounded-xl">
+              {selectedIndex !== null && (
+                <div className="relative w-full flex justify-center items-center">
+                  {/* Close Button */}
+                  <button
+                    onClick={closeModal}
+                    className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                  >
+                    <X size={24} className="sm:w-7 sm:h-7 text-white" />
+                  </button>
+
+                  {/* Prev Button */}
+                  <button
+                    onClick={prevImage}
+                    className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                  >
+                    <ChevronLeft size={28} className="sm:w-9 sm:h-9 text-white" />
+                  </button>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={nextImage}
+                    className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 p-2 sm:p-3 rounded-full transition z-10"
+                  >
+                    <ChevronRight size={28} className="sm:w-9 sm:h-9 text-white" />
+                  </button>
+
+                  {/* Large Image */}
+                  <div className="w-full h-[80vh] relative">
+                    <Image
+                      src={villa.images[selectedIndex]}
+                      alt={villa.name}
+                      fill
+                      quality={95}
+                      priority
+                      className="object-contain"
+                      sizes="100vw"
+                      placeholder="blur"
+                      blurDataURL="/blur-placeholder.webp"
+                    />
+                  </div>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
       </main>
       <Footer />
