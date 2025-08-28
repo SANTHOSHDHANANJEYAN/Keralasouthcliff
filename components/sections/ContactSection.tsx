@@ -38,12 +38,21 @@ export default function ContactPage() {
   // ✅ Load saved bookings
   useEffect(() => {
     const saved = localStorage.getItem("villaBookings");
-    if (saved) setBookings(JSON.parse(saved));
+    if (saved) {
+      try {
+        setBookings(JSON.parse(saved));
+      } catch (error) {
+        console.error("Failed to parse bookings from localStorage:", error);
+        setBookings([]);
+      }
+    }
   }, []);
 
   // ✅ Save bookings
   useEffect(() => {
-    localStorage.setItem("villaBookings", JSON.stringify(bookings));
+    if (bookings.length > 0) {
+      localStorage.setItem("villaBookings", JSON.stringify(bookings));
+    }
   }, [bookings]);
 
   const handleChange = useCallback(
@@ -64,10 +73,15 @@ export default function ContactPage() {
     checkIn2: string,
     checkOut2: string
   ) => {
-    return (
-      new Date(checkIn1) <= new Date(checkOut2) &&
-      new Date(checkOut1) >= new Date(checkIn2)
-    );
+    if (!checkIn1 || !checkOut1 || !checkIn2 || !checkOut2) return false; // Prevent errors with invalid dates
+    const start1 = new Date(checkIn1);
+    const end1 = new Date(checkOut1);
+    const start2 = new Date(checkIn2);
+    const end2 = new Date(checkOut2);
+    if (isNaN(start1.getTime()) || isNaN(end1.getTime()) || isNaN(start2.getTime()) || isNaN(end2.getTime())) {
+      return false; // Invalid dates don't overlap
+    }
+    return start1 <= end2 && end1 >= start2;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,13 +89,25 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     const requiredFields = ["name", "email", "phone", "checkIn", "checkOut", "villa"];
-    const newErrors: { [key: string]: boolean } = {};
+    const newErrors: { [key: string]: any } = {}; // Allow string errors for better feedback
 
     requiredFields.forEach((field) => {
       if (!formData[field as keyof typeof formData]) {
         newErrors[field] = true;
       }
     });
+
+    // Additional validation for dates
+    if (formData.checkIn && formData.checkOut) {
+      const checkInDate = new Date(formData.checkIn);
+      const checkOutDate = new Date(formData.checkOut);
+      if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+        newErrors.checkIn = "Invalid date";
+        newErrors.checkOut = "Invalid date";
+      } else if (checkInDate >= checkOutDate) {
+        newErrors.checkOut = "Check-out must be after check-in";
+      }
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -138,10 +164,12 @@ Check-In: ${formData.checkIn}
 Check-Out: ${formData.checkOut}
 Message: ${formData.message}`;
 
-        window.open(
-          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
-          "_blank"
-        );
+        if (typeof window !== "undefined") {
+          window.open(
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
+            "_blank"
+          );
+        }
 
         setFormData({
           name: "",
@@ -236,8 +264,11 @@ Message: ${formData.message}`;
                             errors[field] ? "border-red-500" : "border-gray-300"
                           } rounded-md focus:ring-2 focus:ring-black`}
                         />
-                        {errors[field] && (
+                        {errors[field] && typeof errors[field] === "boolean" && (
                           <p className="text-red-500 text-xs mt-1">This field is required</p>
+                        )}
+                        {errors[field] && typeof errors[field] === "string" && (
+                          <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
                         )}
                       </div>
                     ))}
@@ -246,26 +277,36 @@ Message: ${formData.message}`;
                   {/* Phone */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                    <PhoneInput
-                      country={"in"}
-                      value={formData.phone}
-                      onChange={(phone) => {
-                        setFormData((prev) => ({ ...prev, phone }));
-                        setErrors((prev) => ({ ...prev, phone: false }));
-                      }}
-                      inputClass={`!w-full !p-3 !rounded-md !border ${
-                        errors.phone ? "!border-red-500" : "!border-gray-300"
-                      } !focus:ring-2 !focus:ring-black`}
-                    />
-                    {errors.phone && <p className="text-red-500 text-xs mt-1">Phone is required</p>}
+                    <div className="relative">
+                      <PhoneInput
+                        country={"in"}
+                        value={formData.phone}
+                        onChange={(phone) => {
+                          setFormData((prev) => ({ ...prev, phone }));
+                          setErrors((prev) => ({ ...prev, phone: false }));
+                        }}
+                        inputProps={{
+                          name: "phone",
+                          className: `w-full p-3 border ${
+                            errors.phone ? "border-red-500" : "border-gray-300"
+                          } rounded-md focus:ring-2 focus:ring-black`,
+                        }}
+                      />
+                    </div>
+                    {errors.phone && typeof errors.phone === "boolean" && (
+                      <p className="text-red-500 text-xs mt-1">Phone is required</p>
+                    )}
+                    {errors.phone && typeof errors.phone === "string" && (
+                      <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                    )}
                   </div>
 
                   {/* Dates & Guests */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {["checkIn", "checkOut"].map((field) => (
                       <div key={field}>
-                        <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
-                          {field.replace(/([A-Z])/g, " $1")}
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          {field.replace(/([A-Z])/g, " $1").replace(/^c/, "C")}
                         </label>
                         <input
                           type="date"
@@ -276,8 +317,11 @@ Message: ${formData.message}`;
                             errors[field] ? "border-red-500" : "border-gray-300"
                           } rounded-md focus:ring-2 focus:ring-black`}
                         />
-                        {errors[field] && (
+                        {errors[field] && typeof errors[field] === "boolean" && (
                           <p className="text-red-500 text-xs mt-1">This field is required</p>
+                        )}
+                        {errors[field] && typeof errors[field] === "string" && (
+                          <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
                         )}
                       </div>
                     ))}
@@ -335,7 +379,7 @@ Message: ${formData.message}`;
                     type="submit"
                     disabled={isSubmitting}
                     className={`bg-black text-white py-3 px-6 rounded-md transition-colors ${
-                      isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-green-800"
+                      isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800"
                     }`}
                   >
                     {isSubmitting ? "Submitting..." : "Enquire Now"}
