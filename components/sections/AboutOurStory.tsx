@@ -42,17 +42,15 @@ const AboutOurStory = () => {
         >
           <div className="relative h-[400px] md:h-[550px] w-full overflow-hidden rounded-2xl shadow-xl">
             <Image
-              src="/astega/23-min.webp"  // ✅ convert to webp
+              src="/astega/23-min.jpg"
               alt="Our Story"
               fill
               className="object-cover w-full h-full transition-transform duration-500 hover:scale-105 grayscale"
-              // ❌ remove priority (not hero image)
-              loading="lazy"   // ✅ defer until scrolled into view
-              decoding="async"
+              priority
               sizes="(max-width: 768px) 100vw,
                      (max-width: 1200px) 50vw,
                      50vw"
-              quality={70} // ✅ balance quality & performance
+              quality={85} // Better image quality without making it too heavy
             />
           </div>
         </motion.div>
