@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const bgImages = {
-  Apartments: '/Asteya -website/Ateya - Living area (1).png',
-  Chalets: '/Asteya -website/Ateya - Living area.png',
-  Hotels: '/Asteya -website/PDF - Asteya-2.png',
+  Apartments: '/astega/living-area-1.webp',  // ✅ convert to webp
+  Chalets: '/astega/living-area-2.webp',
+  Hotels: '/astega/hotel-view.webp',
 };
 
 const cards = [
@@ -37,9 +37,11 @@ export default function HeroSection() {
             alt="Background"
             fill
             className="object-cover object-center"
-            priority
+            // ❌ Remove priority (only for main hero on homepage)
+            loading="eager"
+            decoding="async"
+            quality={70} // ✅ lighter weight
             sizes="100vw"
-            quality={90}
           />
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
         </motion.div>
@@ -84,8 +86,9 @@ export default function HeroSection() {
                 src={card.image}
                 alt={card.title}
                 fill
-                loading="lazy" // Lazy load for better performance
-                quality={80}
+                loading="lazy" // ✅ defer these card previews
+                decoding="async"
+                quality={60} // ✅ reduce further for thumbnails
                 className="object-cover filter grayscale group-hover:grayscale-0 group-hover:brightness-110 group-hover:scale-105 transition-transform duration-500"
                 sizes="(max-width: 768px) 100vw,
                        (max-width: 1200px) 50vw,
