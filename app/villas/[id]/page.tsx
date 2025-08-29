@@ -11,6 +11,8 @@ import ReviewsSlider from '@/components/sections/ReviewsSlider';
 import VillasPreview from '@/components/sections/VillasPreview';
 import GalleryPreview from '@/components/sections/GalleryPreview';
 import AmenitiesPreview from '@/components/sections/AmenitiesPreview';
+import LocationPreview from '@/components/sections/LocationPreview';
+import ContactPreview from '@/components/sections/ContactPreview';
 
 // ✅ Client component for gallery
 import VillaGallery from '@/components/sections/VillaGallery';
@@ -101,6 +103,8 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         <ReviewsSlider />
         <GalleryPreview />
         <AmenitiesPreview />
+        <LocationPreview />   {/* ✅ New Section */}
+        <ContactPreview />    {/* ✅ New Section */}
         <VillasPreview />
       </main>
       <Footer />
