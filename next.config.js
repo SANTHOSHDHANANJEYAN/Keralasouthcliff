@@ -3,9 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { 
-    unoptimized: true,
-    domains: [], // Add any external image domains here if needed
+  images: {
+    // ✅ allow optimization
+    domains: ['www.theasteya.com'],
+    formats: ['image/avif', 'image/webp'], // ✅ modern formats
   },
   transpilePackages: ['react-phone-input-2'],
 };
