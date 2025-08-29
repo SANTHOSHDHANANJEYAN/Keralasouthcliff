@@ -21,10 +21,10 @@ const montserrat = Montserrat({
 
 // ✅ Use optimized images (convert to .webp if possible)
 const slides = [
-  { backgroundImage: '/astega/5-min.webp' },
-  { backgroundImage: '/astega/29-min.webp' },
-  { backgroundImage: '/astega/20-min.webp' },
-  { backgroundImage: '/astega/14-min.webp' },
+  { backgroundImage: '/astega/5.webp' },
+  { backgroundImage: '/astega/29.webp' },
+  { backgroundImage: '/astega/20.webp' },
+  { backgroundImage: '/astega/14.webp' },
 ];
 
 const Hero = () => {

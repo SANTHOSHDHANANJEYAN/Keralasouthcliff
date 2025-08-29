@@ -42,7 +42,7 @@ const AboutOurStory = () => {
         >
           <div className="relative h-[400px] md:h-[550px] w-full overflow-hidden rounded-2xl shadow-xl">
             <Image
-              src="/astega/23-min.webp"  // ✅ convert to webp
+              src="/astega/23.webp"  // ✅ convert to webp
               alt="Our Story"
               fill
               className="object-cover w-full h-full transition-transform duration-500 hover:scale-105 grayscale"
