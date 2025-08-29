@@ -19,12 +19,12 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 });
 
-// ✅ Use optimized images (convert to .webp if possible)
+// ✅ Use optimized webp images (add avif fallback if possible)
 const slides = [
-  { backgroundImage: '/astega/5.webp' },
-  { backgroundImage: '/astega/29.webp' },
-  { backgroundImage: '/astega/20.webp' },
-  { backgroundImage: '/astega/14.webp' },
+  { backgroundImage: '/astega/5.webp', alt: 'Luxury Villa Interior' },
+  { backgroundImage: '/astega/29.webp', alt: 'Villa Poolside' },
+  { backgroundImage: '/astega/20.webp', alt: 'Nature Surroundings' },
+  { backgroundImage: '/astega/14.webp', alt: 'Evening Ambience' },
 ];
 
 const Hero = () => {
@@ -39,7 +39,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background Images */}
+      {/* Background Slides */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -49,21 +49,19 @@ const Hero = () => {
         >
           <Image
             src={slide.backgroundImage}
-            alt="Background"
+            alt={slide.alt}
             fill
             className="object-cover"
-            // ✅ Only first visible slide is priority
-            priority={index === 0}
-            // ✅ Lazy load others
+            priority={index === 0} // ✅ first slide is critical (LCP)
             loading={index === 0 ? 'eager' : 'lazy'}
             decoding="async"
-            sizes="100vw"
-            quality={70} // compress
+            quality={70} // ✅ balanced compression
+            sizes="100vw" // ✅ responsive full-width
           />
         </div>
       ))}
 
-      {/* Dark overlay */}
+      {/* Dark overlay for text contrast */}
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Text Content */}
@@ -78,7 +76,7 @@ const Hero = () => {
           className={`${montserrat.className} text-lg md:text-2xl font-medium tracking-[0.25em] uppercase opacity-90`}
           style={{ textShadow: '0px 1px 6px rgba(0,0,0,0.4)' }}
         >
-          LUXURY. MINDFULNESS. NATURE.
+          Luxury. Mindfulness. Nature.
         </p>
       </div>
 
@@ -88,7 +86,7 @@ const Hero = () => {
       </div>
 
       {/* Progress Animation */}
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes progressFill {
           from {
             width: 0%;
