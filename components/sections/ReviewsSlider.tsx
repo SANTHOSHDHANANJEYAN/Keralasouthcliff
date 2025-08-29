@@ -3,7 +3,22 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+
+// Safer motion import with fallback
+let motion: any;
+let AnimatePresence: any;
+
+try {
+  const framerMotion = require('framer-motion');
+  motion = framerMotion.motion;
+  AnimatePresence = framerMotion.AnimatePresence;
+} catch (error) {
+  console.warn('Framer Motion not available, using div fallback', error);
+  motion = {
+    div: ({ children, ...props }: any) => <div {...props}>{children}</div>
+  };
+  AnimatePresence = ({ children }: any) => <>{children}</>;
+}
 
 const reviews = [
   {
@@ -46,13 +61,10 @@ const reviews = [
 export default function ReviewsSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-rotate reviews every 7s
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev === reviews.length - 1 ? 0 : prev + 1));
-    }, 7000);
+    const interval = setInterval(() => handleNext(), 7000);
     return () => clearInterval(interval);
-  }, []); // ✅ no dependency on currentIndex
+  }, [currentIndex]);
 
   const handlePrev = () =>
     setCurrentIndex((prev) => (prev === 0 ? reviews.length - 1 : prev - 1));
@@ -68,12 +80,12 @@ export default function ReviewsSlider() {
 
         <div className="relative">
           <AnimatePresence mode="wait">
-            <motion.figure
+            <motion.div
               key={currentIndex}
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -30 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="backdrop-blur-lg bg-white/80 shadow-xl rounded-3xl p-10 max-w-2xl mx-auto relative"
             >
               {/* Floating Google Badge */}
@@ -87,15 +99,14 @@ export default function ReviewsSlider() {
                   alt="Google"
                   width={28}
                   height={28}
-                  decoding="async"
                   className="object-contain"
                 />
               </motion.div>
 
               {/* Review Text */}
-              <blockquote className="text-gray-700 text-lg mb-6 leading-relaxed italic text-center">
-                “{reviews[currentIndex].text}”
-              </blockquote>
+              <p className="text-gray-700 text-lg mb-6 leading-relaxed italic text-center">
+                &quot;{reviews[currentIndex].text}&quot;
+              </p>
 
               {/* Star Rating */}
               <div className="flex justify-center mb-6">
@@ -103,8 +114,8 @@ export default function ReviewsSlider() {
                   <motion.div
                     key={i}
                     initial={{ scale: 0 }}
-                    animate={{ scale: i < reviews[currentIndex].rating ? 1 : 0.8 }}
-                    transition={{ delay: i * 0.05 }}
+                    animate={{ scale: i < reviews[currentIndex].rating ? 1 : 0.7 }}
+                    transition={{ delay: i * 0.1 }}
                   >
                     <Star
                       size={22}
@@ -119,29 +130,27 @@ export default function ReviewsSlider() {
               </div>
 
               {/* Reviewer */}
-              <figcaption className="flex flex-col items-center">
+              <div className="flex flex-col items-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-green-500 rounded-full flex items-center justify-center text-xl font-bold text-white shadow">
                   {reviews[currentIndex].name.charAt(0)}
                 </div>
                 <span className="mt-3 text-gray-800 font-semibold text-lg">
                   {reviews[currentIndex].name}
                 </span>
-              </figcaption>
-            </motion.figure>
+              </div>
+            </motion.div>
           </AnimatePresence>
 
           {/* Navigation Buttons */}
           <button
             onClick={handlePrev}
-            aria-label="Previous Review"
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md shadow-lg p-3 rounded-full hover:scale-110 transition"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-md shadow-lg p-3 rounded-full hover:scale-110 transition"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={handleNext}
-            aria-label="Next Review"
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md shadow-lg p-3 rounded-full hover:scale-110 transition"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-md shadow-lg p-3 rounded-full hover:scale-110 transition"
           >
             <ChevronRight size={24} />
           </button>
@@ -153,7 +162,6 @@ export default function ReviewsSlider() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              aria-label={`Go to review ${index + 1}`}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentIndex ? "bg-black scale-125" : "bg-gray-300"
               }`}
