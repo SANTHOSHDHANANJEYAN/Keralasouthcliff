@@ -44,9 +44,7 @@ const AboutOurStory = () => {
             <br />
             More than just a place to stay, Asteya is a philosophy of mindful
             living. It is where time slows down, distractions fade, and every
-            moment is infused with presence. We invite you to step into a world
-            of timeless serenity and soulful hospitality and leave with a
-            renewed spirit, lighter heart, and deeper sense of peace.
+            moment is infused with presence.
           </p>
         </motion.div>
 
