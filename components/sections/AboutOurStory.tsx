@@ -20,6 +20,7 @@ const AboutOurStory = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
+          className="flex flex-col justify-center"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug text-black">
             Asteya Story
@@ -54,11 +55,11 @@ const AboutOurStory = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="h-full"
+          className="flex"
         >
-          <div className="relative h-[400px] md:h-[550px] w-full overflow-hidden rounded-2xl shadow-xl">
+          <div className="relative w-full rounded-2xl shadow-xl overflow-hidden">
             <Image
-              src="/astega/23.webp" // ✅ optimized webp
+              src="/astega/23.webp"
               alt="Luxury villa exterior surrounded by nature at Asteya"
               fill
               className="object-cover w-full h-full transition-transform duration-500 hover:scale-105 grayscale"
@@ -69,7 +70,7 @@ const AboutOurStory = () => {
                      50vw"
               quality={70}
             />
-            {/* Optional gradient overlay for readability */}
+            {/* Gradient overlay */}
             <div
               className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"
               aria-hidden="true"
