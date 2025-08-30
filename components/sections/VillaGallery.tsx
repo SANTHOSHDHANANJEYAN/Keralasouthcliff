@@ -48,8 +48,9 @@ export default function VillaGallery({
 
   return (
     <>
-      {/* Thumbnail grid */}
+      {/* ✅ Preview Grid (only first 3 images) */}
       <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
+        {/* Big left image */}
         <div
           className="relative col-span-1 row-span-2 cursor-pointer"
           onClick={() => openLightbox(0)}
@@ -62,6 +63,8 @@ export default function VillaGallery({
             priority
           />
         </div>
+
+        {/* Two stacked images on right */}
         {images.slice(1, 3).map((img, idx) => (
           <div
             key={idx}
@@ -78,7 +81,7 @@ export default function VillaGallery({
         ))}
       </div>
 
-      {/* Lightbox (fullscreen preview) */}
+      {/* ✅ Lightbox (displays ALL images, not just first 3) */}
       {lightboxIndex !== null && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
           {/* Close button */}
