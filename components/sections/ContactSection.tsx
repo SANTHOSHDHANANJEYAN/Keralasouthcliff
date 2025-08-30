@@ -8,7 +8,6 @@ import { toast, Toaster } from "react-hot-toast";
 
 // ✅ Import Header & Footer
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 
 // ✅ Dynamically import PhoneInput
 const PhoneInput = dynamic(
@@ -410,9 +409,6 @@ Message: ${formData.message}`;
           </div>
         </section>
       </main>
-
-      {/* ✅ Footer at bottom */}
-      <Footer />
     </>
   );
 }
