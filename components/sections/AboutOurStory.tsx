@@ -57,12 +57,12 @@ const AboutOurStory = () => {
           viewport={{ once: true }}
           className="flex"
         >
-          <div className="relative w-full rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-2xl shadow-xl overflow-hidden">
             <Image
               src="/astega/23.webp"
               alt="Luxury villa exterior surrounded by nature at Asteya"
               fill
-              className="object-cover w-full h-full transition-transform duration-500 hover:scale-105 grayscale"
+              className="object-cover transition-transform duration-500 hover:scale-105 grayscale"
               loading="lazy"
               decoding="async"
               sizes="(max-width: 768px) 100vw,
