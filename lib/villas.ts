@@ -35,17 +35,14 @@ export const villas: Villa[] = [
       'Daily housekeeping service'
     ],
     images: [
-      '/astega/30-min.jpg',
-      '/astega/26-min.jpg',
-      '/astega/19-min.jpg',
-      '/astega/27-min.jpg',
-      '/astega/17-min.jpg',
-      '/astega/21-min.jpg',
-      '/astega/15-min.jpg',
-      '/astega/22-min.jpg',
-       '/astega/20-min.jpg',
-      '/astega/2-min.jpg',
-      '/astega/4-min.jpg'
+            '/astega/31-min.jpg',
+      '/astega/14-min.jpg',
+      '/astega/16-min.jpg',
+      '/astega/12-min.jpg',
+      '/astega/10-min.jpg',
+      '/astega/7-min.jpg',
+      '/astega/Ateya - Living area-min.png',
+      '/astega/3-min.jpg'
     ]
   },
   {
@@ -70,14 +67,19 @@ export const villas: Villa[] = [
       'Daily housekeeping'
     ],
     images: [
-      '/astega/31-min.jpg',
-      '/astega/14-min.jpg',
-      '/astega/16-min.jpg',
-      '/astega/12-min.jpg',
-      '/astega/10-min.jpg',
-      '/astega/7-min.jpg',
-      '/astega/Ateya - Living area-min.png',
-      '/astega/3-min.jpg'
+
+
+      '/astega/30-min.jpg',
+      '/astega/26-min.jpg',
+      '/astega/19-min.jpg',
+      '/astega/27-min.jpg',
+      '/astega/17-min.jpg',
+      '/astega/21-min.jpg',
+      '/astega/15-min.jpg',
+      '/astega/22-min.jpg',
+       '/astega/20-min.jpg',
+      '/astega/2-min.jpg',
+      '/astega/4-min.jpg'
     ]
   },
   {
