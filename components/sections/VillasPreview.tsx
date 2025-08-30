@@ -18,7 +18,7 @@ const VillasPreview = () => {
         name: 'Sea & Garden View Room (Ground Floor)',
         description:
           'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
-        features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
+        features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
         images: ['/astega/6-min.jpg', '/astega/11-min.jpg', '/astega/21-min.jpg'],
         rating: 4.9,
         maxGuests: 2,
@@ -29,7 +29,7 @@ const VillasPreview = () => {
         name: 'Landscape View Room (Top Floor)',
         description:
           'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
-        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
+        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', '1 Bedrooms', '1 Bathrooms'],
         images: ['/astega/14-min.jpg', '/astega/28-min.jpg', '/astega/Ateya - Living area-min.png'],
         rating: 4.9,
         maxGuests: 2,
@@ -40,7 +40,7 @@ const VillasPreview = () => {
         name: 'Exclusive Villa Stay(Entire Villa)',
         description:
           'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
-        features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
+        features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms','Garden Access','Private Parking Balcony Access'],
         images: ['/astega/5-min.jpg', '/astega/14-min.jpg', '/astega/19-min.jpg'],
         rating: 5.0,
         maxGuests: 4,
