@@ -47,7 +47,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
           </div>
 
-          {/* Image Gallery (interactive) */}
+          {/* ✅ Image Gallery (first 3 preview + lightbox for all) */}
           <VillaGallery images={villa.images} name={villa.name} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -103,8 +103,8 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         <ReviewsSlider />
         <GalleryPreview />
         <AmenitiesPreview />
-        <LocationPreview />   {/* ✅ New Section */}
-        <ContactPreview />    {/* ✅ New Section */}
+        <LocationPreview />   
+        <ContactPreview />    
         <VillasPreview />
       </main>
       <Footer />
