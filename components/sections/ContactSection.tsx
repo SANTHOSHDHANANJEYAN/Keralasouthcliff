@@ -137,8 +137,6 @@ export default function ContactPage() {
         body: JSON.stringify({
           ...formData,
           _subject: "New Villa Booking Request",
-          _autoresponse:
-            "Thank you for booking with South Cliff Villas! ✅ We will contact you shortly.",
         }),
       });
 
@@ -199,8 +197,8 @@ Message: ${formData.message}`;
   ];
 
   const bookingInfo = [
-    { label: "Room Rate", value: "PRICE ON REQUEST" },
-    { label: "Minimum Stay", value: "1 DAY" },
+    { label: "Room Rate", value: "Price on Request" },
+    { label: "Minimum Stay", value: "1 Day" },
     { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
     { label: "Advance Booking", value: "50% advance required" },
     { label: "Cancellation", value: "Free up to 48 hours" },
