@@ -15,7 +15,7 @@ const VillasPreview = () => {
     () => [
       {
         id: 1,
-        name: 'Sea & Garden View Room',
+        name: 'Sea & Garden View Room (Ground Floor)',
         description:
           'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
         features: ['Private Terrace', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
@@ -26,7 +26,7 @@ const VillasPreview = () => {
       },
       {
         id: 2,
-        name: 'Landscape View Room',
+        name: 'Landscape View Room (Top Floor)',
         description:
           'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Premium Luxury', '1 Bedrooms', '1 Bathrooms'],
@@ -37,7 +37,7 @@ const VillasPreview = () => {
       },
       {
         id: 3,
-        name: 'Exclusive Villa Stay',
+        name: 'Exclusive Villa Stay(Entire Floor)',
         description:
           'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
