@@ -13,7 +13,7 @@ const AboutOurStory = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* Text Content */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -57,7 +57,7 @@ const AboutOurStory = () => {
           viewport={{ once: true }}
           className="flex"
         >
-          <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-2xl shadow-xl overflow-hidden">
+          <div className="relative w-full h-[280px] sm:h-[350px] md:h-[500px] rounded-2xl shadow-xl overflow-hidden">
             <Image
               src="/astega/23.webp"
               alt="Luxury villa exterior surrounded by nature at Asteya"
