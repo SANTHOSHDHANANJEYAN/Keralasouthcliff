@@ -37,7 +37,7 @@ const VillasPreview = () => {
       },
       {
         id: 3,
-        name: 'Exclusive Villa Stay(Entire Floor)',
+        name: 'Exclusive Villa Stay(Entire Villa)',
         description:
           'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms'],
