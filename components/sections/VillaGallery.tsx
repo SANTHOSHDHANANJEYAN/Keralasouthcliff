@@ -48,42 +48,62 @@ export default function VillaGallery({
 
   return (
     <>
-      {/* ✅ Preview Grid (only first 3 images) */}
-      <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12">
-        {/* Big left image */}
-        <div
-          className="relative col-span-1 row-span-2 cursor-pointer"
-          onClick={() => openLightbox(0)}
-        >
-          <Image
-            src={images[0]}
-            alt={name}
-            width={800}
-            height={600}
-            className="rounded-lg w-full h-auto object-contain sm:object-cover"
-            priority
-          />
+      {/* ✅ Responsive Preview Grid */}
+      <div className="mb-12">
+        {/* Mobile: stacked full-width */}
+        <div className="grid grid-cols-1 gap-4 sm:hidden">
+          {images.slice(0, 3).map((img, idx) => (
+            <div
+              key={idx}
+              className="relative cursor-pointer"
+              onClick={() => openLightbox(idx)}
+            >
+              <Image
+                src={img}
+                alt={`${name} preview ${idx + 1}`}
+                width={800}
+                height={600}
+                className="rounded-lg w-full h-auto object-cover"
+              />
+            </div>
+          ))}
         </div>
 
-        {/* Two stacked images on right */}
-        {images.slice(1, 3).map((img, idx) => (
+        {/* Desktop: 1 big left + 2 stacked right */}
+        <div className="hidden sm:grid sm:grid-cols-2 sm:grid-rows-2 gap-4 h-[600px]">
+          {/* Big left image */}
           <div
-            key={idx}
-            className="relative cursor-pointer hover:opacity-80 transition"
-            onClick={() => openLightbox(idx + 1)}
+            className="relative col-span-1 row-span-2 cursor-pointer"
+            onClick={() => openLightbox(0)}
           >
             <Image
-              src={img}
-              alt={`${name} preview ${idx + 1}`}
-              width={400}
-              height={300}
-              className="rounded-lg w-full h-auto object-contain sm:object-cover"
+              src={images[0]}
+              alt={name}
+              fill
+              className="rounded-lg object-cover"
+              priority
             />
           </div>
-        ))}
+
+          {/* Two stacked images on right */}
+          {images.slice(1, 3).map((img, idx) => (
+            <div
+              key={idx}
+              className="relative cursor-pointer hover:opacity-80 transition"
+              onClick={() => openLightbox(idx + 1)}
+            >
+              <Image
+                src={img}
+                alt={`${name} preview ${idx + 1}`}
+                fill
+                className="rounded-lg object-cover"
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* ✅ Lightbox (displays ALL images, not just first 3) */}
+      {/* ✅ Lightbox */}
       {lightboxIndex !== null && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
           {/* Close button */}
