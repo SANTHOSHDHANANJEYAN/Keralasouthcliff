@@ -1,115 +1,120 @@
-"use client";
+import { getVillaById, villas } from '@/lib/villas';
+import { notFound } from 'next/navigation';
+import * as icons from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import Link from 'next/link';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+// ✅ Additional Sections
+import ReviewsSlider from '@/components/sections/ReviewsSlider';
+import VillasPreview from '@/components/sections/VillasPreview';
+import GalleryPreview from '@/components/sections/GalleryPreview';
+import AmenitiesPreview from '@/components/sections/AmenitiesPreview';
+import LocationPreview from '@/components/sections/LocationPreview';
+import ContactPreview from '@/components/sections/ContactPreview';
 
-export default function VillaGallery({
-  images,
-  name,
-}: {
-  images: string[];
-  name: string;
-}) {
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+// ✅ Client component for gallery
+import VillaGallery from '@/components/sections/VillaGallery';
 
-  const openLightbox = (index: number) => {
-    setLightboxIndex(index);
-  };
+const iconMap: { [key: string]: React.ElementType } = {
+  Bed: icons.Bed,
+  Bath: icons.Bath,
+  Wifi: icons.Wifi,
+  Car: icons.Car,
+  Waves: icons.Waves,
+  Mountain: icons.Mountain,
+  Sun: icons.Sun,
+  Shield: icons.Shield,
+  Crown: icons.Crown,
+};
 
-  const closeLightbox = () => {
-    setLightboxIndex(null);
-  };
+export default function VillaPage({ params }: { params: { id: string } }) {
+  const villa = getVillaById(params.id);
 
-  const showPrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLightboxIndex((prev) =>
-      prev !== null ? (prev - 1 + images.length) % images.length : null
-    );
-  };
-
-  const showNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setLightboxIndex((prev) =>
-      prev !== null ? (prev + 1) % images.length : null
-    );
-  };
-
-  // Close on ESC
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowLeft") showPrev(e as any);
-      if (e.key === "ArrowRight") showNext(e as any);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [images.length]);
+  if (!villa) {
+    notFound();
+  }
 
   return (
-    <div className="w-full">
-      {/* Grid Gallery */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-0">
-        {images.map((src, index) => (
-          <div
-            key={index}
-            className="relative w-full h-48 sm:h-64 md:h-72 lg:h-80 cursor-pointer"
-            onClick={() => openLightbox(index)}
-          >
-            <Image
-              src={src}
-              alt={`${name} - ${index + 1}`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center"
-          onClick={closeLightbox}
-        >
-          {/* Close Button */}
-          <button
-            className="absolute top-5 right-5 text-white text-3xl"
-            onClick={(e) => {
-              e.stopPropagation();
-              closeLightbox();
-            }}
-          >
-            <X size={32} />
-          </button>
-
-          {/* Left Arrow */}
-          <button
-            className="absolute left-3 sm:left-6 text-white p-2 bg-black bg-opacity-50 rounded-full"
-            onClick={showPrev}
-          >
-            <ChevronLeft size={36} />
-          </button>
-
-          {/* Image */}
-          <div className="relative w-[90%] max-w-4xl h-[70vh]">
-            <Image
-              src={images[lightboxIndex]}
-              alt={`${name} - ${lightboxIndex + 1}`}
-              fill
-              className="object-contain"
-            />
+    <>
+      <Navbar />
+      <main className="pt-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Villa Header */}
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
+            <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
           </div>
 
-          {/* Right Arrow */}
-          <button
-            className="absolute right-3 sm:right-6 text-white p-2 bg-black bg-opacity-50 rounded-full"
-            onClick={showNext}
-          >
-            <ChevronRight size={36} />
-          </button>
+          {/* ✅ Image Gallery (first 3 preview + lightbox for all) */}
+          <VillaGallery images={villa.images} name={villa.name} />
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* Features & Amenities */}
+            <div className="lg:col-span-2">
+              <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                {villa.features.map(({ iconName, text }) => {
+                  const Icon = iconMap[iconName];
+                  return (
+                    <div
+                      key={text}
+                      className="flex items-center gap-2 p-3 border rounded-md bg-white shadow-sm"
+                    >
+                      {Icon && <Icon className="text-black" size={20} />}
+                      <span className="text-sm font-medium text-black">
+                        {text}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
+                {villa.amenities.map((amenity) => (
+                  <li key={amenity} className="flex items-center gap-3">
+                    <icons.CheckCircle size={16} className="text-green-600" />
+                    <span>{amenity}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Booking CTA */}
+            <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
+              <h2 className="text-2xl font-bold text-black mb-4">
+                Book Your Stay
+              </h2>
+              <p className="text-gray-600 mb-4">
+                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
+              </p>
+              <Link href="/contact" passHref>
+                <Button className="w-full bg-black text-white hover:bg-gray-800">
+                  Book Now
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
-      )}
-    </div>
+
+        {/* ✅ Additional Sections */}
+        <ReviewsSlider />
+        <GalleryPreview />
+        <AmenitiesPreview />
+        <LocationPreview />   
+        <ContactPreview />    
+        <VillasPreview />
+      </main>
+      <Footer />
+    </>
   );
+}
+
+// ✅ Generate static pages for each villa
+export async function generateStaticParams() {
+  return villas.map((villa) => ({
+    id: villa.id,
+  }));
 }
