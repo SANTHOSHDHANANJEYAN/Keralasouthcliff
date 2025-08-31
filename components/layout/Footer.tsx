@@ -18,7 +18,7 @@ const Footer = () => {
               className="rounded-lg object-cover"
             />
             <p className="text-gray-400 text-sm">
-              Experience luxury amidst nature's masterpiece at Asteya South Cliff villas, Varkala, Kerala.
+              Experience luxury amidst nature&apos;s masterpiece at Asteya South Cliff villas, Varkala, Kerala.
             </p>
           </div>
 
@@ -58,7 +58,12 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="font-semibold text-lg">Follow Us</h3>
             <div className="flex space-x-4 items-center">
-              <a href="https://www.instagram.com/asteya_beachvilla?igsh=MWtlZzlndW9hanNvNA==" className="text-gray-400 hover:text-white transition-colors">
+              <a 
+                href="https://www.instagram.com/asteya_exotic_stays?igsh=MWtlZzlndW9hanNvNA==" 
+                className="text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Instagram size={20} />
               </a>
               <a href="https://airbnb.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
