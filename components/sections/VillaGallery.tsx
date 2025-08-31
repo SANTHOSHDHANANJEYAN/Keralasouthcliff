@@ -49,7 +49,7 @@ export default function VillaGallery({
   return (
     <>
       {/* ✅ Preview Grid (only first 3 images) */}
-      <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12 h-[600px]">
+      <div className="grid grid-cols-2 grid-rows-2 gap-4 mb-12">
         {/* Big left image */}
         <div
           className="relative col-span-1 row-span-2 cursor-pointer"
@@ -58,8 +58,9 @@ export default function VillaGallery({
           <Image
             src={images[0]}
             alt={name}
-            fill
-            className="rounded-lg object-cover"
+            width={800}
+            height={600}
+            className="rounded-lg w-full h-auto object-contain sm:object-cover"
             priority
           />
         </div>
@@ -74,8 +75,9 @@ export default function VillaGallery({
             <Image
               src={img}
               alt={`${name} preview ${idx + 1}`}
-              fill
-              className="rounded-lg object-cover"
+              width={400}
+              height={300}
+              className="rounded-lg w-full h-auto object-contain sm:object-cover"
             />
           </div>
         ))}
@@ -101,12 +103,13 @@ export default function VillaGallery({
           </button>
 
           {/* Main image */}
-          <div className="relative w-[90%] max-w-5xl h-[80vh]">
+          <div className="relative w-[90%] max-w-5xl h-[80vh] flex items-center justify-center">
             <Image
               src={images[lightboxIndex]}
               alt={`${name} full preview`}
-              fill
-              className="object-contain rounded-lg"
+              width={1200}
+              height={900}
+              className="object-contain rounded-lg w-auto h-auto max-w-full max-h-full"
             />
           </div>
 
