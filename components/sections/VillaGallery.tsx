@@ -114,10 +114,10 @@ export default function VillaGallery({
             <X size={32} />
           </button>
 
-          {/* Prev button */}
+          {/* Prev button (nudged in for mobile visibility) */}
           <button
             onClick={showPrev}
-            className="absolute left-4 text-white hover:text-gray-300"
+            className="absolute left-2 sm:left-4 text-white hover:text-gray-300"
           >
             <ChevronLeft size={48} />
           </button>
@@ -133,10 +133,10 @@ export default function VillaGallery({
             />
           </div>
 
-          {/* Next button */}
+          {/* Next button (nudged in for mobile visibility) */}
           <button
             onClick={showNext}
-            className="absolute right-4 text-white hover:text-gray-300"
+            className="absolute right-2 sm:right-4 text-white hover:text-gray-300"
           >
             <ChevronRight size={48} />
           </button>
