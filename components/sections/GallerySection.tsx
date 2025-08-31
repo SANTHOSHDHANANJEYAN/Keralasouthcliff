@@ -25,7 +25,6 @@ const GallerySection = () => {
       { src: '/astega/13-min.jpg', alt: 'Decor' },
       { src: '/astega/14-min.jpg', alt: 'Details' },
       { src: '/astega/16-min.jpg', alt: 'Living Room' },
-      { src: '/astega/17-min.jpg', alt: 'Cozy Corner' },
       { src: '/astega/18-min.jpg', alt: 'Design' },
       { src: '/astega/19-min.jpg', alt: 'Hallway' },
       { src: '/astega/25-min.jpg', alt: 'Lounge' },
