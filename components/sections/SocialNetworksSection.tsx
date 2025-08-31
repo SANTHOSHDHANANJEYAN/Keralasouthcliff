@@ -54,7 +54,7 @@ const SocialNetworksSection: React.FC = () => {
           {[
             {
               icon: faInstagram,
-              url: 'https://www.instagram.com/asteya_beachvilla?igsh=MWtlZzlndW9hanNvNA==',
+              url: 'https://www.instagram.com/asteya_exotic_stays?igsh=MWtlZzlndW9hanNvNA==',
               label: 'Instagram',
             },
             {
