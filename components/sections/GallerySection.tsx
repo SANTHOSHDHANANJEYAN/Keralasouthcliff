@@ -42,10 +42,10 @@ const GallerySection = () => {
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [visibleImages, setVisibleImages] = useState(8); // 👈 Start with 8
+  const [visibleImages, setVisibleImages] = useState(8);
 
   const loadMoreImages = () => {
-    setVisibleImages((prev) => Math.min(prev + 4, galleryData.length)); // 👈 Load +4 each click
+    setVisibleImages((prev) => Math.min(prev + 4, galleryData.length));
   };
 
   return (
@@ -88,7 +88,7 @@ const GallerySection = () => {
                          (max-width: 768px) 50vw,
                          (max-width: 1024px) 33vw,
                          25vw"
-                  priority={index < 4} // 👈 Only first 4 are prioritized
+                  priority={index < 4}
                   quality={75}
                   loading={index < 4 ? 'eager' : 'lazy'}
                   placeholder="blur"
@@ -114,7 +114,10 @@ const GallerySection = () => {
 
         {/* Fullscreen Image Modal */}
         <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
-          <DialogContent className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl">
+          <DialogContent
+            hideCloseButton
+            className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl"
+          >
             {selectedIndex !== null && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -123,7 +126,7 @@ const GallerySection = () => {
                 transition={{ duration: 0.3 }}
                 className="relative w-full flex justify-center items-center"
               >
-                {/* Close Button */}
+                {/* Custom Close Button */}
                 <button
                   onClick={() => setSelectedIndex(null)}
                   className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/70 hover:bg-black p-2 sm:p-3 rounded-full transition z-10"
