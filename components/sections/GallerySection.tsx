@@ -115,8 +115,7 @@ const GallerySection = () => {
         {/* Fullscreen Image Modal */}
         <Dialog open={selectedIndex !== null} onOpenChange={() => setSelectedIndex(null)}>
           <DialogContent
-            hideCloseButton
-            className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl"
+            className="max-w-full sm:max-w-4xl md:max-w-5xl bg-black/90 backdrop-blur-lg border-none shadow-none p-0 flex justify-center items-center rounded-xl [&>button]:hidden"
           >
             {selectedIndex !== null && (
               <motion.div
