@@ -3,13 +3,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
-import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 
-// ✅ Import Navbar
+// ✅ Navbar
 import Navbar from "@/components/layout/Navbar";
 
-// ✅ Dynamically import PhoneInput
+// ✅ Dynamic import for PhoneInput
 const PhoneInput = dynamic(
   () => import("react-phone-input-2").then((mod) => mod.default),
   { ssr: false }
@@ -33,15 +33,31 @@ export default function ContactPage() {
   const [bookings, setBookings] = useState<
     { villa: string; checkIn: string; checkOut: string }[]
   >([]);
+  const [defaultCountry, setDefaultCountry] = useState("us"); // ✅ fallback
 
-  // ✅ Load bookings
+  // ✅ Detect user country by IP
+  useEffect(() => {
+    async function fetchCountry() {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+        if (data?.country_code) {
+          setDefaultCountry(data.country_code.toLowerCase());
+        }
+      } catch (err) {
+        console.error("Failed to detect country:", err);
+      }
+    }
+    fetchCountry();
+  }, []);
+
+  // ✅ Load saved bookings
   useEffect(() => {
     const saved = localStorage.getItem("villaBookings");
     if (saved) {
       try {
         setBookings(JSON.parse(saved));
       } catch (error) {
-        console.error("Failed to parse bookings:", error);
         setBookings([]);
       }
     }
@@ -109,14 +125,10 @@ export default function ContactPage() {
       }
     });
 
-    // ✅ Validate dates
     if (formData.checkIn && formData.checkOut) {
       const checkInDate = new Date(formData.checkIn);
       const checkOutDate = new Date(formData.checkOut);
-      if (
-        isNaN(checkInDate.getTime()) ||
-        isNaN(checkOutDate.getTime())
-      ) {
+      if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
         newErrors.checkIn = "Invalid date";
         newErrors.checkOut = "Invalid date";
       } else if (checkInDate >= checkOutDate) {
@@ -143,7 +155,7 @@ export default function ContactPage() {
 
     if (conflict) {
       toast.error(
-        `${formData.villa} is already booked from ${conflict.checkIn} to ${conflict.checkOut} ❌`,
+        `${formData.villa} is already booked from ${conflict.checkIn} to ${conflict.checkOut}`,
         { duration: 5000, position: "top-center" }
       );
       setIsSubmitting(false);
@@ -161,7 +173,7 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success("Booking confirmed! ✅", {
+        toast.success("Booking confirmed!", {
           duration: 4000,
           position: "top-center",
         });
@@ -176,7 +188,7 @@ export default function ContactPage() {
         ]);
 
         const whatsappNumber = "917994144472";
-        const whatsappMessage = `🛎️ New Booking Request
+        const whatsappMessage = `New Booking Request
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
@@ -206,16 +218,10 @@ Message: ${formData.message}`;
           message: "",
         });
       } else {
-        toast.error("Booking failed. Try again!", {
-          duration: 4000,
-          position: "top-center",
-        });
+        toast.error("Booking failed. Try again!");
       }
     } catch (err) {
-      toast.error("Something went wrong.", {
-        duration: 4000,
-        position: "top-center",
-      });
+      toast.error("Something went wrong.");
     } finally {
       setIsSubmitting(false);
     }
@@ -240,8 +246,8 @@ Message: ${formData.message}`;
               </p>
             </div>
 
-            {/* Form */}
             <div className="grid lg:grid-cols-2 gap-12">
+              {/* Form */}
               <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
                 <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                   {/* Name & Email */}
@@ -266,24 +272,24 @@ Message: ${formData.message}`;
                     ))}
                   </div>
 
-                  {/* ✅ Phone Field Fixed */}
+                  {/* ✅ Phone with Auto-Detect + Backspace Fix */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone
                     </label>
                     <PhoneInput
-                      country={"us"} // ✅ default to United States (+1)
+                      country={defaultCountry}
                       value={formData.phone}
                       onChange={(phone) => {
                         setFormData((prev) => ({ ...prev, phone }));
                         setErrors((prev) => ({ ...prev, phone: false }));
                       }}
                       enableAreaCodes={true}
-                      countryCodeEditable={false} // ✅ prevents editing +1
+                      // ✅ removed countryCodeEditable so backspace works
                       inputClass="!w-full !p-3 !pl-12 !text-base !border !border-gray-300 !rounded-md focus:!ring-2 focus:!ring-black"
                       buttonClass="!border-gray-300 !bg-white"
                       dropdownClass="!text-base"
-                      placeholder="+1 202-555-0123"
+                      placeholder="Enter phone number"
                     />
                     {errors.phone && (
                       <p className="text-red-500 text-xs mt-1">
