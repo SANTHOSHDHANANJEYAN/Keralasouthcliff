@@ -14,7 +14,7 @@ const Footer = () => {
             {/* ✅ Logo now fully aligned to top */}
             <div className="mb-4">
               <Image
-                src="/image.png"
+                src="/images.png"
                 alt="Asteya Logo"
                 width={160}
                 height={40}
