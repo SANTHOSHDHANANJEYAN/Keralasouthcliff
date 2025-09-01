@@ -7,11 +7,10 @@ import { CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
 import Navbar from "@/components/layout/Navbar";
 
-// ✅ Dynamically import PhoneInput
-const PhoneInput = dynamic(
-  () => import("react-phone-input-2").then((mod) => mod.default),
-  { ssr: false }
-);
+// ✅ Safe dynamic import
+const PhoneInput = dynamic(() => import("react-phone-input-2"), {
+  ssr: false,
+});
 import "react-phone-input-2/lib/style.css";
 
 export default function ContactPage() {
@@ -32,21 +31,23 @@ export default function ContactPage() {
     { villa: string; checkIn: string; checkOut: string }[]
   >([]);
 
-  // ✅ Load bookings
+  // ✅ Load bookings safely
   useEffect(() => {
-    const saved = localStorage.getItem("villaBookings");
-    if (saved) {
-      try {
-        setBookings(JSON.parse(saved));
-      } catch {
-        setBookings([]);
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("villaBookings");
+      if (saved) {
+        try {
+          setBookings(JSON.parse(saved));
+        } catch {
+          setBookings([]);
+        }
       }
     }
   }, []);
 
-  // ✅ Save bookings
+  // ✅ Save bookings safely
   useEffect(() => {
-    if (bookings.length > 0) {
+    if (typeof window !== "undefined" && bookings.length > 0) {
       localStorage.setItem("villaBookings", JSON.stringify(bookings));
     }
   }, [bookings]);
@@ -156,8 +157,10 @@ export default function ContactPage() {
           },
         ]);
 
-        const whatsappNumber = "917994144472";
-        const whatsappMessage = `🛎️ New Booking Request
+        // ✅ Safe WhatsApp link
+        if (typeof window !== "undefined") {
+          const whatsappNumber = "917994144472";
+          const whatsappMessage = `🛎️ New Booking Request
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
@@ -167,13 +170,15 @@ Check-In: ${formData.checkIn}
 Check-Out: ${formData.checkOut}
 Message: ${formData.message}`;
 
-        window.open(
-          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-            whatsappMessage
-          )}`,
-          "_blank"
-        );
+          window.open(
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+              whatsappMessage
+            )}`,
+            "_blank"
+          );
+        }
 
+        // ✅ Reset form
         setFormData({
           name: "",
           email: "",
@@ -238,7 +243,7 @@ Message: ${formData.message}`;
                     ))}
                   </div>
 
-                  {/* ✅ Phone Field */}
+                  {/* Phone */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone
@@ -247,7 +252,6 @@ Message: ${formData.message}`;
                       country="us"
                       value={formData.phone}
                       onChange={(phone) => {
-                        // ✅ Always enforce + prefix
                         const fixedPhone = phone.startsWith("+")
                           ? phone
                           : `+${phone}`;
