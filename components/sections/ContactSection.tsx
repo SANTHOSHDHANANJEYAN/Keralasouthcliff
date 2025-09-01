@@ -322,9 +322,25 @@ Message: ${formData.message}`;
               </div>
 
               {/* Booking Info */}
-              <Card className="bg-gray-100 shadow-lg rounded-3xl p-10">
+              <Card className="bg-gray-100 shadow-lg rounded-3xl p-10 flex flex-col justify-between">
                 <h3 className="text-3xl font-bold mb-8">Booking Information</h3>
-                <p className="text-sm">Price on Request · Min Stay: 1 Day</p>
+                <div className="space-y-4">
+                  {bookingInfo.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
+                      <div>
+                        <p className="font-semibold">{item.label}</p>
+                        <p className="text-sm">{item.value}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 bg-white p-4 rounded-xl border border-black">
+                  <h4 className="font-semibold mb-1">Special Offer</h4>
+                  <p className="text-sm">
+                    Book for 7 nights or more and get 15% discount. Seasonal offers available.
+                  </p>
+                </div>
               </Card>
             </div>
           </div>
