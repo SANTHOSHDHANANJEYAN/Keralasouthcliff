@@ -12,6 +12,18 @@ const PhoneInput = dynamic(() => import("./PhoneInputWrapper"), {
   ssr: false,
 });
 
+// ✅ Booking Information moved outside
+const bookingInfo = [
+  { label: "Room Rate", value: "Price on Request" },
+  { label: "Minimum Stay", value: "1 Day" },
+  { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
+  { label: "Advance Booking", value: "50% advance required" },
+  { label: "Cancellation", value: "Free up to 48 hours" },
+  { label: "Maximum Guests", value: "Maximum 4 guests (ask for more)" },
+  { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
+  { label: "Confirmation", value: "Email / WhatsApp" },
+];
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -99,16 +111,7 @@ export default function ContactPage() {
       "villa",
     ];
     const newErrors: { [key: string]: boolean | string } = {};
-const bookingInfo = [
-    { label: "Room Rate", value: "Price on Request" },
-    { label: "Minimum Stay", value: "1 Day" },
-    { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
-    { label: "Advance Booking", value: "50% advance required" },
-    { label: "Cancellation", value: "Free up to 48 hours" },
-    { label: "Maximum Guests", value: "Maximum 4 guests (ask for more)" },
-    { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
-    { label: "Confirmation", value: "Email / WhatsApp" },
-  ];
+
     requiredFields.forEach((field) => {
       if (!formData[field as keyof typeof formData]) {
         newErrors[field] = true;
@@ -174,7 +177,7 @@ const bookingInfo = [
           },
         ]);
 
-        // ✅ WhatsApp link wrapped in try/catch
+        // ✅ WhatsApp link
         try {
           if (typeof window !== "undefined") {
             const whatsappNumber = "917994144472";
@@ -336,7 +339,10 @@ Message: ${formData.message}`;
                 <div className="space-y-4">
                   {bookingInfo.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
+                      <CheckCircle
+                        className="text-black mt-1 flex-shrink-0"
+                        size={20}
+                      />
                       <div>
                         <p className="font-semibold">{item.label}</p>
                         <p className="text-sm">{item.value}</p>
@@ -347,7 +353,8 @@ Message: ${formData.message}`;
                 <div className="mt-8 bg-white p-4 rounded-xl border border-black">
                   <h4 className="font-semibold mb-1">Special Offer</h4>
                   <p className="text-sm">
-                    Book for 7 nights or more and get 15% discount. Seasonal offers available.
+                    Book for 7 nights or more and get 15% discount. Seasonal
+                    offers available.
                   </p>
                 </div>
               </Card>
