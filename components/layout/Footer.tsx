@@ -8,14 +8,16 @@ const Footer = () => {
     <footer className="bg-[#202020] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
+          
           {/* Brand */}
-          <div className="space-y-4">
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Asteya</h3>
             <Image
               src="/image.png"
               alt="Asteya Logo"
               width={180}
               height={40}
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover mb-4"
             />
             <p className="text-gray-400 text-sm">
               Experience luxury amidst nature&apos;s masterpiece at Asteya South Cliff villas, Varkala, Kerala.
@@ -23,8 +25,8 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Quick Links</h3>
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
                 Villas
@@ -36,8 +38,8 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Contact Info</h3>
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-gray-400">
                 <MapPin size={16} />
@@ -47,18 +49,22 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Phone size={16} />
-                <span className="text-sm">+91 79941 44472</span>
+                <a href="tel:+917994144472" className="text-sm hover:text-white">
+                  +91 79941 44472
+                </a>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Mail size={16} />
-                <span className="text-sm">contact.asteya@gmail.com</span>
+                <a href="mailto:contact.asteya@gmail.com" className="text-sm hover:text-white">
+                  contact.asteya@gmail.com
+                </a>
               </div>
             </div>
           </div>
 
           {/* Social Media */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Follow Us</h3>
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex space-x-4 items-center">
               <a 
                 href="https://www.instagram.com/asteya_exotic_stays?igsh=MWtlZzlndW9hanNvNA==" 
@@ -79,7 +85,7 @@ const Footer = () => {
                 </svg>
               </a>
               <a 
-                href="https://maps.app.goo.gl/tJA7xEK8aJxHxFnW7" 
+                href="https://maps.app.goo.gl/sbbtj2xxEJfrK5YY7" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-gray-400 hover:text-white transition-colors"
