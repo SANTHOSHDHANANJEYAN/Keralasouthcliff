@@ -7,24 +7,26 @@ const Footer = () => {
   return (
     <footer className="bg-[#202020] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-16 items-start">
           
           {/* Brand (Logo + Description) */}
-          <div className="flex flex-col items-start">
-            <Image
-              src="/image.png"
-              alt="Asteya Logo"
-              width={160}
-              height={40}
-              className="rounded-lg object-contain mb-4"
-            />
+          <div>
+            <div className="mb-4">
+              <Image
+                src="/image.png"
+                alt="Asteya Logo"
+                width={160}
+                height={40}
+                className="rounded-lg object-contain"
+              />
+            </div>
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Experience luxury amidst nature's masterpiece at Asteya South Cliff villas, Varkala, Kerala.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-col items-start">
+          <div>
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
@@ -37,7 +39,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="flex flex-col items-start">
+          <div>
             <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
             <div className="space-y-2">
               <div className="flex items-start space-x-2 text-gray-400">
@@ -62,7 +64,7 @@ const Footer = () => {
           </div>
 
           {/* Social Media */}
-          <div className="flex flex-col items-start">
+          <div>
             <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex space-x-4 items-center">
               <a 
