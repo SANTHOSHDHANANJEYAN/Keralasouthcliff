@@ -9,18 +9,16 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
           
-          {/* Brand */}
-          <div className="flex flex-col">
-            <div className="mb-4">
-              <Image
-                src="/image.png"
-                alt="Asteya Logo"
-                width={180}
-                height={40}
-                className="rounded-lg object-cover"
-              />
-            </div>
-            <p className="text-gray-400 text-sm">
+          {/* Brand (Logo + Description aligned at top) */}
+          <div className="space-y-3">
+            <Image
+              src="/image.png"
+              alt="Asteya Logo"
+              width={160}
+              height={40}
+              className="rounded-lg object-contain"
+            />
+            <p className="text-gray-400 text-sm leading-relaxed">
               Experience luxury amidst nature&apos;s masterpiece at Asteya South Cliff villas, Varkala, Kerala.
             </p>
           </div>
@@ -42,10 +40,10 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
             <div className="space-y-2">
-              <div className="flex items-center space-x-2 text-gray-400">
+              <div className="flex items-start space-x-2 text-gray-400">
                 <MapPin size={16} />
                 <span className="text-sm">
-                  Asteya , Near Perumkulam , south cliff, varkala - 695141
+                  Asteya, Near Perumkulam, South Cliff, Varkala - 695141
                 </span>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
@@ -99,6 +97,7 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Bottom Footer */}
         <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
           <p>&copy; 2025 - Asteya beach villa - All rights reserved</p>
         </div>
