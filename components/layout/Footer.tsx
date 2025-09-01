@@ -11,7 +11,6 @@ const Footer = () => {
           
           {/* Brand */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Asteya</h3>
             <Image
               src="/image.png"
               alt="Asteya Logo"
