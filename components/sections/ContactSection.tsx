@@ -99,7 +99,16 @@ export default function ContactPage() {
       "villa",
     ];
     const newErrors: { [key: string]: boolean | string } = {};
-
+const bookingInfo = [
+    { label: "Room Rate", value: "Price on Request" },
+    { label: "Minimum Stay", value: "1 Day" },
+    { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
+    { label: "Advance Booking", value: "50% advance required" },
+    { label: "Cancellation", value: "Free up to 48 hours" },
+    { label: "Maximum Guests", value: "Maximum 4 guests (ask for more)" },
+    { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
+    { label: "Confirmation", value: "Email / WhatsApp" },
+  ];
     requiredFields.forEach((field) => {
       if (!formData[field as keyof typeof formData]) {
         newErrors[field] = true;
