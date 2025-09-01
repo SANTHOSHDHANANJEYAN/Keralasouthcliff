@@ -163,7 +163,7 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success("Booking confirmed! ✅", {
+        toast.success("Thankyou Your Booking has confirmed! ✅", {
           duration: 4000,
           position: "top-center",
         });
