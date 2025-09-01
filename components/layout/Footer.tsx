@@ -1,74 +1,115 @@
-'use client';
-
-import { motion } from 'framer-motion';
+import React from 'react';
+import Link from 'next/link';
+import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 import Image from 'next/image';
 
-const HeroSection = () => {
-  const locations = [
-    {
-      name: 'South Cliff',
-      image: '/southcliff.jpg',
-    },
-    {
-      name: 'North Cliff',
-      image: '/northcliff.jpg',
-    },
-    {
-      name: 'Paravur',
-      image: '/paravur.jpg',
-    },
-  ];
-
+const Footer = () => {
   return (
-    <section className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <Image
-          src="/kerala-bg.jpg"
-          alt="Kerala Tradition"
-          fill
-          className="object-cover opacity-30"
-        />
-      </div>
-
-      <motion.h1
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-4xl md:text-6xl font-bold text-white z-10 text-center drop-shadow-lg"
-      >
-        Rishikul Yogshala Kerala
-      </motion.h1>
-
-      <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 relative z-10 px-6 max-w-6xl">
-        {locations.map((loc, index) => (
-          <motion.div
-            key={index}
-            className="relative group rounded-2xl overflow-hidden shadow-lg cursor-pointer"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: index * 0.3 }}
-          >
-            <motion.div
-              whileHover={{ y: -20 }} // 👈 image moves upward on hover
-              transition={{ type: 'spring', stiffness: 200 }}
-              className="relative w-full h-72"
-            >
+    <footer className="bg-[#202020] text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-16 items-start">
+          
+          {/* Brand (Logo + Description) */}
+          <div className="flex flex-col items-start justify-start">
+            {/* ✅ Logo now fully aligned to top */}
+            <div className="mb-4">
               <Image
-                src={loc.image}
-                alt={loc.name}
-                fill
-                className="object-cover"
+                src="/image.png"
+                alt="Asteya Logo"
+                width={160}
+                height={40}
+                className="rounded-lg object-contain"
               />
-            </motion.div>
-
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
-              <p className="text-2xl font-semibold text-white">{loc.name}</p>
             </div>
-          </motion.div>
-        ))}
+            {/* Description */}
+            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
+              Experience luxury amidst nature's masterpiece at Asteya South Cliff villas, Varkala, Kerala.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div className="flex flex-col justify-start">
+            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <div className="space-y-2">
+              <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
+                Villas
+              </Link>
+              <Link href="/gallery" className="text-gray-400 hover:text-white transition-colors block">
+                Gallery
+              </Link>
+            </div>
+          </div>
+
+          {/* Contact Info */}
+          <div className="flex flex-col justify-start">
+            <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
+            <div className="space-y-2">
+              <div className="flex items-start space-x-2 text-gray-400">
+                <MapPin size={16} className="mt-1" />
+                <span className="text-sm">
+                  Asteya, Near Perumkulam, South Cliff, Varkala - 695141
+                </span>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Phone size={16} />
+                <a href="tel:+917994144472" className="text-sm hover:text-white">
+                  +91 79941 44472
+                </a>
+              </div>
+              <div className="flex items-center space-x-2 text-gray-400">
+                <Mail size={16} />
+                <a href="mailto:contact.asteya@gmail.com" className="text-sm hover:text-white">
+                  contact.asteya@gmail.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media */}
+          <div className="flex flex-col justify-start">
+            <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
+            <div className="flex space-x-4 items-center">
+              <a 
+                href="https://www.instagram.com/asteya_exotic_stays?igsh=MWtlZzlndW9hanNvNA==" 
+                className="text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram size={20} />
+              </a>
+              <a 
+                href="https://airbnb.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {/* Airbnb SVG */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 512 512">
+                  <path d="M256 0C114.836 0 0 114.84 0 256s114.836 256 256 256 256-114.84 256-256S397.164 0 256 0zm-43.3 380.1c-28.9-35.6-60.2-78.3-84.1-125.5-19.3-37.8-26.6-71.2-22.4-99.3 4.2-27.8 19.3-49.7 44.3-62.5 25-12.9 53.5-13.4 83.2-1.4 27.7 11.1 52.2 34.6 73 69.9 33.4 58.3 34.5 108.6 3.5 150.1-18.1 24.3-42.2 41.2-71.5 50.3-8.5 2.6-18.1-0.7-23.5-8.3zm53.5-97.2c14.8 0 26.9-12.1 26.9-26.9s-12.1-26.9-26.9-26.9-26.9 12.1-26.9 26.9 12.1 26.9 26.9 26.9z" />
+                </svg>
+              </a>
+              <a 
+                href="https://maps.app.goo.gl/sbbtj2xxEJfrK5YY7" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                {/* Google Maps SVG */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 384 512">
+                  <path d="M168 0C75.3 0 0 75.3 0 168c0 87.7 144 306.5 152.7 318.9 6.5 9.6 20.1 9.6 26.6 0C240 474.5 384 255.7 384 168 384 75.3 308.7 0 216 0zm0 256a88 88 0 1 1 0-176 88 88 0 0 1 0 176z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Footer */}
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+          <p>© 2025 - Asteya beach villa - All rights reserved</p>
+        </div>
       </div>
-    </section>
+    </footer>
   );
 };
 
-export default HeroSection;
+export default Footer;
