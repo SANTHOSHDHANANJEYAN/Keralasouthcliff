@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 import Link from 'next/link';
@@ -14,6 +13,7 @@ const contactInfo = [
     value: '+91 79941 44472',
     description: 'Available 24/7 for bookings and inquiries',
     gradient: 'from-gray-700 to-black',
+    href: 'tel:+917994144472',
   },
   {
     icon: Mail,
@@ -21,6 +21,7 @@ const contactInfo = [
     value: 'contact.asteya@gmail.com',
     description: 'Get in touch via email',
     gradient: 'from-gray-700 to-black',
+    href: 'mailto:contact.asteya@gmail.com?subject=Booking%20Inquiry&body=Hello%20Asteya%20Team,',
   },
   {
     icon: MapPin,
@@ -28,6 +29,7 @@ const contactInfo = [
     value: 'South Cliff, Varkala',
     description: 'Kerala, India',
     gradient: 'from-gray-700 to-black',
+    href: 'https://www.google.com/maps?q=South+Cliff,+Varkala,+Kerala,+India',
   },
   {
     icon: Clock,
@@ -35,6 +37,7 @@ const contactInfo = [
     value: 'Quick Response',
     description: 'Quick response guaranteed',
     gradient: 'from-gray-700 to-black',
+    href: null, // no link for this one
   },
 ];
 
@@ -55,23 +58,39 @@ const ContactPreview = () => {
 
         {/* Contact Cards */}
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-12">
-          {contactInfo.map((info, index) => (
-            <Card
-              key={index}
-              className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-            >
-              <CardContent className="p-6 text-center">
-                <div
-                  className={`w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-105 transition-transform`}
-                >
-                  <info.icon className="text-white" size={22} />
-                </div>
-                <h3 className="text-base font-semibold text-black">{info.title}</h3>
-                <p className="text-sm font-medium text-gray-800">{info.value}</p>
-                <p className="text-xs text-gray-500 mt-1">{info.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+          {contactInfo.map((info, index) => {
+            const Content = (
+              <Card
+                key={index}
+                className="group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
+              >
+                <CardContent className="p-6 text-center">
+                  <div
+                    className={`w-14 h-14 mx-auto mb-4 rounded-full bg-gradient-to-r ${info.gradient} flex items-center justify-center group-hover:scale-105 transition-transform`}
+                  >
+                    <info.icon className="text-white" size={22} />
+                  </div>
+                  <h3 className="text-base font-semibold text-black">{info.title}</h3>
+                  <p className="text-sm font-medium text-gray-800">{info.value}</p>
+                  <p className="text-xs text-gray-500 mt-1">{info.description}</p>
+                </CardContent>
+              </Card>
+            );
+
+            // Wrap with <Link> or <a> only if href exists
+            return info.href ? (
+              <a
+                key={index}
+                href={info.href}
+                target={info.title === 'Location' ? '_blank' : undefined}
+                rel={info.title === 'Location' ? 'noopener noreferrer' : undefined}
+              >
+                {Content}
+              </a>
+            ) : (
+              Content
+            );
+          })}
         </div>
 
         {/* Image + Booking Info Grid */}
@@ -91,7 +110,9 @@ const ContactPreview = () => {
           {/* Booking Information */}
           <Card className="shadow-sm">
             <CardContent className="p-6 sm:p-8">
-              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">
+                Booking Information
+              </h3>
               <div className="space-y-5">
                 {[
                   ['Room Rate', 'Give request for price details(both villas)'],
@@ -112,8 +133,6 @@ const ContactPreview = () => {
             </CardContent>
           </Card>
         </div>
-
-
       </div>
     </section>
   );
