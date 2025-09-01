@@ -7,10 +7,10 @@ const Footer = () => {
   return (
     <footer className="bg-[#202020] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-16">
           
           {/* Brand (Logo + Description) */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-start">
             <Image
               src="/image.png"
               alt="Asteya Logo"
@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-start">
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
@@ -37,11 +37,11 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-start">
             <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
             <div className="space-y-2">
               <div className="flex items-start space-x-2 text-gray-400">
-                <MapPin size={16} />
+                <MapPin size={16} className="mt-1" />
                 <span className="text-sm">
                   Asteya, Near Perumkulam, South Cliff, Varkala - 695141
                 </span>
@@ -62,7 +62,7 @@ const Footer = () => {
           </div>
 
           {/* Social Media */}
-          <div className="flex flex-col">
+          <div className="flex flex-col items-start">
             <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex space-x-4 items-center">
               <a 
