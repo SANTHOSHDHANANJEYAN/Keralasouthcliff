@@ -5,11 +5,9 @@ import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
-
-// ✅ Navbar
 import Navbar from "@/components/layout/Navbar";
 
-// ✅ Dynamic import for PhoneInput
+// ✅ Dynamically import PhoneInput
 const PhoneInput = dynamic(
   () => import("react-phone-input-2").then((mod) => mod.default),
   { ssr: false }
@@ -33,31 +31,14 @@ export default function ContactPage() {
   const [bookings, setBookings] = useState<
     { villa: string; checkIn: string; checkOut: string }[]
   >([]);
-  const [defaultCountry, setDefaultCountry] = useState("us"); // ✅ fallback
 
-  // ✅ Detect user country by IP
-  useEffect(() => {
-    async function fetchCountry() {
-      try {
-        const res = await fetch("https://ipapi.co/json/");
-        const data = await res.json();
-        if (data?.country_code) {
-          setDefaultCountry(data.country_code.toLowerCase());
-        }
-      } catch (err) {
-        console.error("Failed to detect country:", err);
-      }
-    }
-    fetchCountry();
-  }, []);
-
-  // ✅ Load saved bookings
+  // ✅ Load bookings
   useEffect(() => {
     const saved = localStorage.getItem("villaBookings");
     if (saved) {
       try {
         setBookings(JSON.parse(saved));
-      } catch (error) {
+      } catch {
         setBookings([]);
       }
     }
@@ -82,7 +63,6 @@ export default function ContactPage() {
     []
   );
 
-  // ✅ Date overlap check
   const isDateOverlap = (
     checkIn1: string,
     checkOut1: string,
@@ -94,14 +74,6 @@ export default function ContactPage() {
     const end1 = new Date(checkOut1);
     const start2 = new Date(checkIn2);
     const end2 = new Date(checkOut2);
-    if (
-      isNaN(start1.getTime()) ||
-      isNaN(end1.getTime()) ||
-      isNaN(start2.getTime()) ||
-      isNaN(end2.getTime())
-    ) {
-      return false;
-    }
     return start1 <= end2 && end1 >= start2;
   };
 
@@ -128,10 +100,7 @@ export default function ContactPage() {
     if (formData.checkIn && formData.checkOut) {
       const checkInDate = new Date(formData.checkIn);
       const checkOutDate = new Date(formData.checkOut);
-      if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
-        newErrors.checkIn = "Invalid date";
-        newErrors.checkOut = "Invalid date";
-      } else if (checkInDate >= checkOutDate) {
+      if (checkInDate >= checkOutDate) {
         newErrors.checkOut = "Check-out must be after check-in";
       }
     }
@@ -155,7 +124,7 @@ export default function ContactPage() {
 
     if (conflict) {
       toast.error(
-        `${formData.villa} is already booked from ${conflict.checkIn} to ${conflict.checkOut}`,
+        `${formData.villa} is already booked from ${conflict.checkIn} to ${conflict.checkOut} ❌`,
         { duration: 5000, position: "top-center" }
       );
       setIsSubmitting(false);
@@ -173,7 +142,7 @@ export default function ContactPage() {
       });
 
       if (res.ok) {
-        toast.success("Booking confirmed!", {
+        toast.success("Booking confirmed! ✅", {
           duration: 4000,
           position: "top-center",
         });
@@ -188,7 +157,7 @@ export default function ContactPage() {
         ]);
 
         const whatsappNumber = "917994144472";
-        const whatsappMessage = `New Booking Request
+        const whatsappMessage = `🛎️ New Booking Request
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
@@ -198,14 +167,12 @@ Check-In: ${formData.checkIn}
 Check-Out: ${formData.checkOut}
 Message: ${formData.message}`;
 
-        if (typeof window !== "undefined") {
-          window.open(
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-              whatsappMessage
-            )}`,
-            "_blank"
-          );
-        }
+        window.open(
+          `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+            whatsappMessage
+          )}`,
+          "_blank"
+        );
 
         setFormData({
           name: "",
@@ -220,7 +187,7 @@ Message: ${formData.message}`;
       } else {
         toast.error("Booking failed. Try again!");
       }
-    } catch (err) {
+    } catch {
       toast.error("Something went wrong.");
     } finally {
       setIsSubmitting(false);
@@ -230,7 +197,6 @@ Message: ${formData.message}`;
   return (
     <>
       <Navbar />
-
       <main>
         <section className="relative bg-white py-24 text-gray-900">
           <Toaster />
@@ -272,35 +238,39 @@ Message: ${formData.message}`;
                     ))}
                   </div>
 
-                  {/* ✅ Phone with Auto-Detect + Backspace Fix */}
+                  {/* ✅ Phone Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone
                     </label>
                     <PhoneInput
-                      country={defaultCountry}
+                      country="us"
                       value={formData.phone}
                       onChange={(phone) => {
-                        setFormData((prev) => ({ ...prev, phone }));
+                        // ✅ Always enforce + prefix
+                        const fixedPhone = phone.startsWith("+")
+                          ? phone
+                          : `+${phone}`;
+                        setFormData((prev) => ({
+                          ...prev,
+                          phone: fixedPhone,
+                        }));
                         setErrors((prev) => ({ ...prev, phone: false }));
                       }}
                       enableAreaCodes={true}
-                      // ✅ removed countryCodeEditable so backspace works
                       inputClass="!w-full !p-3 !pl-12 !text-base !border !border-gray-300 !rounded-md focus:!ring-2 focus:!ring-black"
                       buttonClass="!border-gray-300 !bg-white"
                       dropdownClass="!text-base"
-                      placeholder="Enter phone number"
+                      placeholder="+1 202-555-0123"
                     />
                     {errors.phone && (
                       <p className="text-red-500 text-xs mt-1">
-                        {typeof errors.phone === "string"
-                          ? errors.phone
-                          : "Phone is required"}
+                        Phone is required
                       </p>
                     )}
                   </div>
 
-                  {/* Dates */}
+                  {/* Dates + Guests */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {["checkIn", "checkOut"].map((field) => (
                       <div key={field}>
@@ -371,7 +341,6 @@ Message: ${formData.message}`;
                     />
                   </div>
 
-                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={isSubmitting}
