@@ -8,11 +8,7 @@ import Link from 'next/link';
 
 // ✅ Additional Sections
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
-import VillasPreview from '@/components/sections/VillasPreview';
-import GalleryPreview from '@/components/sections/GalleryPreview';
-import AmenitiesPreview from '@/components/sections/AmenitiesPreview';
-import LocationPreview from '@/components/sections/LocationPreview';
-import ContactPreview from '@/components/sections/ContactPreview';
+import ContactPreview from '@/components/sections/ContactSection';
 
 // ✅ Client component for gallery
 import VillaGallery from '@/components/sections/VillaGallery';
@@ -81,31 +77,12 @@ export default function VillaPage({ params }: { params: { id: string } }) {
                 ))}
               </ul>
             </div>
-
-            {/* Booking CTA */}
-            <div className="border rounded-lg p-6 shadow-lg bg-white h-fit sticky top-24">
-              <h2 className="text-2xl font-bold text-black mb-4">
-                Book Your Stay
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Ready to experience {villa.name}? Secure your stay now and enjoy unmatched luxury.
-              </p>
-              <Link href="/contact" passHref>
-                <Button className="w-full bg-black text-white hover:bg-gray-800">
-                  Book Now
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
 
         {/* ✅ Additional Sections */}
-        <ReviewsSlider />
-        <GalleryPreview />
-        <AmenitiesPreview />
-        <LocationPreview />   
-        <ContactPreview />    
-        <VillasPreview />
+        <ReviewsSlider /> 
+        <ContactSection />    
       </main>
       <Footer />
     </>
