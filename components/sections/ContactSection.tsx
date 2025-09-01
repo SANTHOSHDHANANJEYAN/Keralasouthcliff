@@ -3,14 +3,17 @@
 import React, { useState, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
-import { CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, CheckCircle } from "lucide-react";
 import { toast, Toaster } from "react-hot-toast";
+
+// ✅ Import Header & Footer
 import Navbar from "@/components/layout/Navbar";
 
-// ✅ Safe dynamic import
-const PhoneInput = dynamic(() => import("react-phone-input-2"), {
-  ssr: false,
-});
+// ✅ Dynamically import PhoneInput
+const PhoneInput = dynamic(
+  () => import("react-phone-input-2").then((mod) => mod.default),
+  { ssr: false }
+);
 import "react-phone-input-2/lib/style.css";
 
 export default function ContactPage() {
@@ -25,29 +28,28 @@ export default function ContactPage() {
     message: "",
   });
 
-  const [errors, setErrors] = useState<{ [key: string]: boolean | string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookings, setBookings] = useState<
     { villa: string; checkIn: string; checkOut: string }[]
   >([]);
 
-  // ✅ Load bookings safely
+  // ✅ Load saved bookings
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("villaBookings");
-      if (saved) {
-        try {
-          setBookings(JSON.parse(saved));
-        } catch {
-          setBookings([]);
-        }
+    const saved = localStorage.getItem("villaBookings");
+    if (saved) {
+      try {
+        setBookings(JSON.parse(saved));
+      } catch (error) {
+        console.error("Failed to parse bookings from localStorage:", error);
+        setBookings([]);
       }
     }
   }, []);
 
-  // ✅ Save bookings safely
+  // ✅ Save bookings
   useEffect(() => {
-    if (typeof window !== "undefined" && bookings.length > 0) {
+    if (bookings.length > 0) {
       localStorage.setItem("villaBookings", JSON.stringify(bookings));
     }
   }, [bookings]);
@@ -70,11 +72,14 @@ export default function ContactPage() {
     checkIn2: string,
     checkOut2: string
   ) => {
-    if (!checkIn1 || !checkOut1 || !checkIn2 || !checkOut2) return false;
+    if (!checkIn1 || !checkOut1 || !checkIn2 || !checkOut2) return false; // Prevent errors with invalid dates
     const start1 = new Date(checkIn1);
     const end1 = new Date(checkOut1);
     const start2 = new Date(checkIn2);
     const end2 = new Date(checkOut2);
+    if (isNaN(start1.getTime()) || isNaN(end1.getTime()) || isNaN(start2.getTime()) || isNaN(end2.getTime())) {
+      return false; // Invalid dates don't overlap
+    }
     return start1 <= end2 && end1 >= start2;
   };
 
@@ -82,15 +87,8 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const requiredFields = [
-      "name",
-      "email",
-      "phone",
-      "checkIn",
-      "checkOut",
-      "villa",
-    ];
-    const newErrors: { [key: string]: boolean | string } = {};
+    const requiredFields = ["name", "email", "phone", "checkIn", "checkOut", "villa"];
+    const newErrors: { [key: string]: any } = {}; // Allow string errors for better feedback
 
     requiredFields.forEach((field) => {
       if (!formData[field as keyof typeof formData]) {
@@ -98,10 +96,14 @@ export default function ContactPage() {
       }
     });
 
+    // Additional validation for dates
     if (formData.checkIn && formData.checkOut) {
       const checkInDate = new Date(formData.checkIn);
       const checkOutDate = new Date(formData.checkOut);
-      if (checkInDate >= checkOutDate) {
+      if (isNaN(checkInDate.getTime()) || isNaN(checkOutDate.getTime())) {
+        newErrors.checkIn = "Invalid date";
+        newErrors.checkOut = "Invalid date";
+      } else if (checkInDate >= checkOutDate) {
         newErrors.checkOut = "Check-out must be after check-in";
       }
     }
@@ -115,12 +117,7 @@ export default function ContactPage() {
     const conflict = bookings.find(
       (b) =>
         b.villa === formData.villa &&
-        isDateOverlap(
-          b.checkIn,
-          b.checkOut,
-          formData.checkIn,
-          formData.checkOut
-        )
+        isDateOverlap(b.checkIn, b.checkOut, formData.checkIn, formData.checkOut)
     );
 
     if (conflict) {
@@ -150,17 +147,11 @@ export default function ContactPage() {
 
         setBookings((prev) => [
           ...prev,
-          {
-            villa: formData.villa,
-            checkIn: formData.checkIn,
-            checkOut: formData.checkOut,
-          },
+          { villa: formData.villa, checkIn: formData.checkIn, checkOut: formData.checkOut },
         ]);
 
-        // ✅ Safe WhatsApp link
-        if (typeof window !== "undefined") {
-          const whatsappNumber = "917994144472";
-          const whatsappMessage = `🛎️ New Booking Request
+        const whatsappNumber = "917994144472";
+        const whatsappMessage = `🛎️ New Booking Request
 Name: ${formData.name}
 Email: ${formData.email}
 Phone: ${formData.phone}
@@ -170,15 +161,13 @@ Check-In: ${formData.checkIn}
 Check-Out: ${formData.checkOut}
 Message: ${formData.message}`;
 
+        if (typeof window !== "undefined") {
           window.open(
-            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-              whatsappMessage
-            )}`,
+            `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`,
             "_blank"
           );
         }
 
-        // ✅ Reset form
         setFormData({
           name: "",
           email: "",
@@ -190,33 +179,68 @@ Message: ${formData.message}`;
           message: "",
         });
       } else {
-        toast.error("Booking failed. Try again!");
+        toast.error("Booking failed. Try again!", { duration: 4000, position: "top-center" });
       }
-    } catch {
-      toast.error("Something went wrong.");
+    } catch (err) {
+      toast.error("Something went wrong.", { duration: 4000, position: "top-center" });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const contactInfo = [
+    { icon: Phone, title: "Phone", value: "+91 79941 44472", description: "Available 24/7" },
+    { icon: Mail, title: "Email", value: "contact.asteya@gmail.com", description: "Reach us anytime" },
+    { icon: MapPin, title: "Location", value: "South Cliff, Varkala", description: "Kerala, India 695141" },
+    { icon: Clock, title: "Response Time", value: "Quick", description: "We respond immediately" },
+  ];
+
+  const bookingInfo = [
+    { label: "Room Rate", value: "Price on Request" },
+    { label: "Minimum Stay", value: "1 Day" },
+    { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
+    { label: "Advance Booking", value: "50% advance required" },
+    { label: "Cancellation", value: "Free up to 48 hours" },
+    { label: "Maximum Guests", value: "Maximum 4 guests (ask for more)" },
+    { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
+    { label: "Confirmation", value: "Email / WhatsApp" },
+  ];
+
   return (
     <>
+      {/* ✅ Navbar on top */}
       <Navbar />
+
       <main>
         <section className="relative bg-white py-24 text-gray-900">
           <Toaster />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Heading */}
             <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Book Your Stay
-              </h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Book Your Stay</h2>
               <p className="text-lg max-w-2xl mx-auto">
-                Experience luxury at Kerala South Cliff Beach View Villas. Fill
-                out the form below or reach out directly.
+                Experience luxury at Kerala South Cliff Beach View Villas. Fill out the form below or reach out directly.
               </p>
             </div>
 
+            {/* Contact Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+              {contactInfo.map((info, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col items-center p-6 bg-gray-100 rounded-3xl shadow-md hover:shadow-lg transition duration-300"
+                >
+                  <div className="w-16 h-16 mb-4 rounded-full bg-black flex items-center justify-center">
+                    <info.icon className="text-white" size={28} />
+                  </div>
+                  <h4 className="text-lg font-semibold mb-1">{info.title}</h4>
+                  <p className="font-medium">{info.value}</p>
+                  <p className="text-sm text-center mt-1">{info.description}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Form + Booking Info */}
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Form */}
               <div className="w-full rounded-xl p-8 bg-white shadow-lg border border-gray-200">
@@ -234,52 +258,52 @@ Message: ${formData.message}`;
                           value={formData[field as keyof typeof formData]}
                           onChange={handleChange}
                           className={`w-full p-3 border ${
-                            errors[field]
-                              ? "border-red-500"
-                              : "border-gray-300"
+                            errors[field] ? "border-red-500" : "border-gray-300"
                           } rounded-md focus:ring-2 focus:ring-black`}
                         />
+                        {errors[field] && typeof errors[field] === "boolean" && (
+                          <p className="text-red-500 text-xs mt-1">This field is required</p>
+                        )}
+                        {errors[field] && typeof errors[field] === "string" && (
+                          <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+                        )}
                       </div>
                     ))}
                   </div>
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Phone
-                    </label>
-                    <PhoneInput
-                      country="us"
-                      value={formData.phone}
-                      onChange={(phone) => {
-                        const fixedPhone = phone.startsWith("+")
-                          ? phone
-                          : `+${phone}`;
-                        setFormData((prev) => ({
-                          ...prev,
-                          phone: fixedPhone,
-                        }));
-                        setErrors((prev) => ({ ...prev, phone: false }));
-                      }}
-                      enableAreaCodes={true}
-                      inputClass="!w-full !p-3 !pl-12 !text-base !border !border-gray-300 !rounded-md focus:!ring-2 focus:!ring-black"
-                      buttonClass="!border-gray-300 !bg-white"
-                      dropdownClass="!text-base"
-                      placeholder="+1 202-555-0123"
-                    />
-                    {errors.phone && (
-                      <p className="text-red-500 text-xs mt-1">
-                        Phone is required
-                      </p>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <div className="relative">
+                      <PhoneInput
+                        country={"in"}
+                        value={formData.phone}
+                        onChange={(phone) => {
+                          setFormData((prev) => ({ ...prev, phone }));
+                          setErrors((prev) => ({ ...prev, phone: false }));
+                        }}
+                        inputProps={{
+                          name: "phone",
+                          className: `w-full p-3 border ${
+                            errors.phone ? "border-red-500" : "border-gray-300"
+                          } rounded-md focus:ring-2 focus:ring-black`,
+                        }}
+                      />
+                    </div>
+                    {errors.phone && typeof errors.phone === "boolean" && (
+                      <p className="text-red-500 text-xs mt-1">Phone is required</p>
+                    )}
+                    {errors.phone && typeof errors.phone === "string" && (
+                      <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
                     )}
                   </div>
 
-                  {/* Dates + Guests */}
+                  {/* Dates & Guests */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {["checkIn", "checkOut"].map((field) => (
                       <div key={field}>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          {field.replace(/([A-Z])/g, " $1")}
+                          {field.replace(/([A-Z])/g, " $1").replace(/^c/, "C")}
                         </label>
                         <input
                           type="date"
@@ -287,17 +311,19 @@ Message: ${formData.message}`;
                           value={formData[field as keyof typeof formData]}
                           onChange={handleChange}
                           className={`w-full p-3 border ${
-                            errors[field]
-                              ? "border-red-500"
-                              : "border-gray-300"
+                            errors[field] ? "border-red-500" : "border-gray-300"
                           } rounded-md focus:ring-2 focus:ring-black`}
                         />
+                        {errors[field] && typeof errors[field] === "boolean" && (
+                          <p className="text-red-500 text-xs mt-1">This field is required</p>
+                        )}
+                        {errors[field] && typeof errors[field] === "string" && (
+                          <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+                        )}
                       </div>
                     ))}
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Guests
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Guests</label>
                       <input
                         type="number"
                         name="guests"
@@ -312,9 +338,7 @@ Message: ${formData.message}`;
 
                   {/* Villa */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Select Villa
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Select Villa</label>
                     <select
                       name="villa"
                       value={formData.villa}
@@ -328,13 +352,12 @@ Message: ${formData.message}`;
                       <option value="Ground Floor">Ground Floor</option>
                       <option value="Entire Villa">Entire Villa</option>
                     </select>
+                    {errors.villa && <p className="text-red-500 text-xs mt-1">Please select a villa</p>}
                   </div>
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Message
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                     <textarea
                       name="message"
                       rows={4}
@@ -343,15 +366,17 @@ Message: ${formData.message}`;
                       onChange={handleChange}
                       className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-black"
                     />
+                    <span className="text-xs text-gray-400 float-right">
+                      {formData.message.length}/180
+                    </span>
                   </div>
 
+                  {/* Submit */}
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className={`bg-black text-white py-3 px-6 rounded-md transition-colors ${
-                      isSubmitting
-                        ? "opacity-60 cursor-not-allowed"
-                        : "hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800"
+                      isSubmitting ? "opacity-60 cursor-not-allowed" : "hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-800"
                     }`}
                   >
                     {isSubmitting ? "Submitting..." : "Enquire Now"}
@@ -360,26 +385,25 @@ Message: ${formData.message}`;
               </div>
 
               {/* Booking Info */}
-              <Card className="bg-gray-100 shadow-lg rounded-3xl p-10">
+              <Card className="bg-gray-100 shadow-lg rounded-3xl p-10 flex flex-col justify-between">
                 <h3 className="text-3xl font-bold mb-8">Booking Information</h3>
-                {[
-                  { label: "Room Rate", value: "Price on Request" },
-                  { label: "Minimum Stay", value: "1 Day" },
-                  { label: "Check-in / Check-out", value: "3:00 PM / 12:00 PM" },
-                  { label: "Advance Booking", value: "50% advance required" },
-                  { label: "Cancellation", value: "Free up to 48 hours" },
-                  { label: "Maximum Guests", value: "Maximum 4 guests (ask for more)" },
-                  { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
-                  { label: "Confirmation", value: "Email / WhatsApp" },
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 mb-3">
-                    <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
-                    <div>
-                      <p className="font-semibold">{item.label}</p>
-                      <p className="text-sm">{item.value}</p>
+                <div className="space-y-4">
+                  {bookingInfo.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-3">
+                      <CheckCircle className="text-black mt-1 flex-shrink-0" size={20} />
+                      <div>
+                        <p className="font-semibold">{item.label}</p>
+                        <p className="text-sm">{item.value}</p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div className="mt-8 bg-white p-4 rounded-xl border border-black">
+                  <h4 className="font-semibold mb-1">Special Offer</h4>
+                  <p className="text-sm">
+                    Book for 7 nights or more and get 15% discount. Seasonal offers available.
+                  </p>
+                </div>
               </Card>
             </div>
           </div>
