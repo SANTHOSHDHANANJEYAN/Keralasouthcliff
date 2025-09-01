@@ -10,16 +10,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-16 items-start">
           
           {/* Brand (Logo + Description) */}
-          <div>
-            <div className="mb-4">
-              <Image
-                src="/image.png"
-                alt="Asteya Logo"
-                width={160}
-                height={40}
-                className="rounded-lg object-contain"
-              />
-            </div>
+          <div className="flex flex-col items-start">
+            {/* ✅ Logo moved up */}
+            <Image
+              src="/image.png"
+              alt="Asteya Logo"
+              width={160}
+              height={40}
+              className="rounded-lg object-contain mb-4"
+            />
+            {/* Description */}
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Experience luxury amidst nature's masterpiece at Asteya South Cliff villas, Varkala, Kerala.
             </p>
