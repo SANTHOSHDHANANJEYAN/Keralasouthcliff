@@ -118,6 +118,9 @@ const ContactPreview = () => {
                   ['Check-in / Check-out', '3:00 PM / 12:00 PM'],
                   ['Advance Booking', '50% advance payment required'],
                   ['Cancellation', 'Free cancellation up to 48 hours'],
+                  ["Maximum Guests",  'Maximum 4 guests (ask for more)'],
+                  ["Payment Methods", "Cash / UPI / Bank Transfer"],
+                  ["Confirmation", "Email / WhatsApp"],
                 ].map(([label, value], i) => (
                   <div className="flex items-start gap-3" key={i}>
                     <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
