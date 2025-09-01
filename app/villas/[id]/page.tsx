@@ -43,12 +43,13 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
           </div>
 
-          {/* ✅ Image Gallery (first 3 preview + lightbox for all) */}
+          {/* ✅ Image Gallery */}
           <VillaGallery images={villa.images} name={villa.name} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Features & Amenities */}
-            <div className="lg:col-span-2">
+          {/* Features & Amenities - fixed layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Features */}
+            <div>
               <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
                 {villa.features.map(({ iconName, text }) => {
@@ -66,7 +67,10 @@ export default function VillaPage({ params }: { params: { id: string } }) {
                   );
                 })}
               </div>
+            </div>
 
+            {/* Amenities */}
+            <div>
               <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
                 {villa.amenities.map((amenity) => (
@@ -81,8 +85,8 @@ export default function VillaPage({ params }: { params: { id: string } }) {
         </div>
 
         {/* ✅ Additional Sections */}
-        <ReviewsSlider /> 
-        <ContactSection />    
+        <ReviewsSlider />
+        <ContactSection />
       </main>
       <Footer />
     </>
