@@ -3,7 +3,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import Link from 'next/link';
 import Image from 'next/image';
 
 const contactInfo = [
@@ -29,7 +28,7 @@ const contactInfo = [
     value: 'South Cliff, Varkala',
     description: 'Kerala, India',
     gradient: 'from-gray-700 to-black',
-    href: 'https://www.google.com/maps?q=South+Cliff,+Varkala,+Kerala,+India',
+    href: 'https://maps.app.goo.gl/sbbtj2xxEJfrK5YY7',
   },
   {
     icon: Clock,
@@ -37,7 +36,7 @@ const contactInfo = [
     value: 'Quick Response',
     description: 'Quick response guaranteed',
     gradient: 'from-gray-700 to-black',
-    href: null, // no link for this one
+    href: null, // no link
   },
 ];
 
@@ -77,7 +76,6 @@ const ContactPreview = () => {
               </Card>
             );
 
-            // Wrap with <Link> or <a> only if href exists
             return info.href ? (
               <a
                 key={index}
@@ -95,7 +93,7 @@ const ContactPreview = () => {
 
         {/* Image + Booking Info Grid */}
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Image Instead of Form */}
+          {/* Image */}
           <div className="w-full h-full">
             <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
               <Image
