@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 // ✅ Additional Sections
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
-import ContactPreview from '@/components/sections/ContactSection';
+import ContactPreview from '@/components/sections/Contactsection';
 
 // ✅ Client component for gallery
 import VillaGallery from '@/components/sections/VillaGallery';
@@ -82,7 +82,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
 
         {/* ✅ Additional Sections */}
         <ReviewsSlider /> 
-        <ContactSection />    
+        <Contactsection />    
       </main>
       <Footer />
     </>
