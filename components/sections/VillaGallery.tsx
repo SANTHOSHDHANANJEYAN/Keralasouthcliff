@@ -106,24 +106,24 @@ export default function VillaGallery({
       {/* ✅ Lightbox */}
       {lightboxIndex !== null && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-          {/* Close button */}
+          {/* Close button - ✅ ensure visibility */}
           <button
             onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white hover:text-gray-300"
+            className="absolute top-4 right-4 text-white hover:text-gray-300 z-[60] bg-black/40 rounded-full p-2"
           >
-            <X size={32} />
+            <X size={28} />
           </button>
 
-          {/* Prev button (nudged in for mobile visibility) */}
+          {/* Prev button */}
           <button
             onClick={showPrev}
-            className="absolute left-2 sm:left-4 text-white hover:text-gray-300"
+            className="absolute left-2 sm:left-4 text-white hover:text-gray-300 z-[60] bg-black/40 rounded-full p-2"
           >
-            <ChevronLeft size={48} />
+            <ChevronLeft size={40} />
           </button>
 
           {/* Main image */}
-          <div className="relative w-[90%] max-w-5xl h-[80vh] flex items-center justify-center">
+          <div className="relative w-[90%] max-w-5xl h-[80vh] flex items-center justify-center z-[50]">
             <Image
               src={images[lightboxIndex]}
               alt={`${name} full preview`}
@@ -133,12 +133,12 @@ export default function VillaGallery({
             />
           </div>
 
-          {/* Next button (nudged in for mobile visibility) */}
+          {/* Next button */}
           <button
             onClick={showNext}
-            className="absolute right-2 sm:right-4 text-white hover:text-gray-300"
+            className="absolute right-2 sm:right-4 text-white hover:text-gray-300 z-[60] bg-black/40 rounded-full p-2"
           >
-            <ChevronRight size={48} />
+            <ChevronRight size={40} />
           </button>
         </div>
       )}
