@@ -26,7 +26,7 @@ const LocationPreview = () => {
   {
     name: 'Jadayu Rock',
     distance: '30 km',
-    time: '50 min Travel',
+    time: '50 min drive',
     description: 'Mythical rock with scenic views.',
     image: '/jatayu.jpg',
     url: 'https://www.google.com/search?q=Jadayu+rock',
