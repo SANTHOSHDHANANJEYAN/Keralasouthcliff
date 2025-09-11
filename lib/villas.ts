@@ -108,7 +108,7 @@ export const villas: Villa[] = [
       'High-speed WiFi'
     ],
     images: [
-      '/homepage.jpg',
+      '/homepage.png',
       '/topfloor/1.jpg',
       '/groundfloor/2.jpg',
       '/topfloor/3.jpg',
