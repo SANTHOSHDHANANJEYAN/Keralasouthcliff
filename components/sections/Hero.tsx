@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Playfair_Display, Montserrat } from 'next/font/google';
 
@@ -19,21 +19,47 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 });
 
+// ✅ Use optimized webp images (add avif fallback if possible)
+const slides = [
+  { backgroundImage: '/homepage.png', alt: 'Luxury Villa Interior' },
+  { backgroundImage: '/astega/29.webp', alt: 'Villa Poolside' },
+  { backgroundImage: '/astega/20.webp', alt: 'Nature Surroundings' },
+  { backgroundImage: '/astega/14.webp', alt: 'Evening Ambience' },
+];
+
 const Hero = () => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden text-white">
-      {/* Background Image (single) */}
-      <Image
-        src="/homepage.png"
-        alt="Luxury Villa Interior"
-        fill
-        className="object-cover"
-        priority // ✅ critical for LCP
-        loading="eager"
-        decoding="async"
-        quality={70}
-        sizes="100vw"
-      />
+      {/* Background Slides */}
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === current ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <Image
+            src={slide.backgroundImage}
+            alt={slide.alt}
+            fill
+            className="object-cover"
+            priority={index === 0} // ✅ first slide is critical (LCP)
+            loading={index === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            quality={70} // ✅ balanced compression
+            sizes="100vw" // ✅ responsive full-width
+          />
+        </div>
+      ))}
 
       {/* Dark overlay for text contrast */}
       <div className="absolute inset-0 bg-black/40" />
@@ -53,6 +79,26 @@ const Hero = () => {
           Luxury. Mindfulness. Nature.
         </p>
       </div>
+
+      {/* Progress Bar */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-40 h-1 bg-white/50 rounded-full overflow-hidden">
+        <div className="h-full bg-white animate-progress" key={current} />
+      </div>
+
+      {/* Progress Animation */}
+      <style jsx global>{`
+        @keyframes progressFill {
+          from {
+            width: 0%;
+          }
+          to {
+            width: 100%;
+          }
+        }
+        .animate-progress {
+          animation: progressFill 6s linear forwards;
+        }
+      `}</style>
     </section>
   );
 };
