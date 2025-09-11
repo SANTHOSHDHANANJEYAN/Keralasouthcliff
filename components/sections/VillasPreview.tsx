@@ -19,7 +19,7 @@ const VillasPreview = () => {
         description:
           'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
         features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
-        images: ['/groundfloor/2.jpg', '/groundfloor/3.jpg', '/groundfloor/1.jpg'],
+        images: ['/groundfloor/2.jpg', '/groundfloor/8.png', '/groundfloor/13.jpg'],
         rating: 4.9,
         maxGuests: 2,
         slug: 'sea-garden-room',
@@ -30,7 +30,7 @@ const VillasPreview = () => {
         description:
           'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', '1 Bedrooms', '1 Bathrooms','Luxury Amenities'],
-        images: ['/topfloor/1.jpg', '/topfloor/3.jpg', '/topfloor/4.jpg'],
+        images: ['/topfloor/6.jpg', '/topfloor/4.jpg', '/topfloor/5.jpg'],
         rating: 4.9,
         maxGuests: 2,
         slug: 'landscape-room',
