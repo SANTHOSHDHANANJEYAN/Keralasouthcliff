@@ -118,7 +118,7 @@ const ContactPreview = () => {
                   ['Check-in / Check-out', '11:00 AM / 1:30 PM'],
                   ['Advance Booking', '50% advance payment required'],
                   ['Cancellation', 'Free cancellation up to 48 hours'],
-                  ["Maximum Guests",  'Maximum 3 guests (ask for more)']
+                  ["Maximum Guests",  'Maximum 3 guests']
                 ].map(([label, value], i) => (
                   <div className="flex items-start gap-3" key={i}>
                     <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
