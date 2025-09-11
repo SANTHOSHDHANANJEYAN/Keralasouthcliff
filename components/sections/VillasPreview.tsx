@@ -41,7 +41,7 @@ const VillasPreview = () => {
         description:
           'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms','Garden Access','Private Parking Access','2 Wheeler and 4 Wheeler Parking'],
-        images: ['/homepage.jpg', '/groundfloor/2.jpg', '/topfloor/3.jpg'],
+        images: ['/homepage.png', '/groundfloor/2.jpg', '/topfloor/3.jpg'],
         rating: 5.0,
         maxGuests: 4,
         slug: 'luxury-landscape',
