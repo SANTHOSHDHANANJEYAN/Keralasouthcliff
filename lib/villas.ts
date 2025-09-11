@@ -35,7 +35,6 @@ export const villas: Villa[] = [
       'Daily housekeeping service'
     ],
     images: [
-            '/groundfloor/2.jpg',
       '/groundfloor/2.jpg',
       '/groundfloor/8.png',
       '/groundfloor/13.jpg',
