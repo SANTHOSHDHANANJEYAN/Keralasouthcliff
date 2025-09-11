@@ -73,17 +73,16 @@ export const villas: Villa[] = [
     images: [
 
 
-      '/astega/30-min.jpg',
-      '/astega/26-min.jpg',
-      '/astega/19-min.jpg',
-      '/astega/27-min.jpg',
-      '/astega/17-min.jpg',
-      '/astega/21-min.jpg',
-      '/astega/15-min.jpg',
-      '/astega/22-min.jpg',
-       '/astega/20-min.jpg',
-      '/astega/2-min.jpg',
-      '/astega/4-min.jpg'
+      '/topfloor/1.jpg',
+      '/topfloor/4.jpg',
+      '/topfloor/3.jpg',
+      '/topfloor/2.jpg',
+      '/topfloor/5.jpg',
+      '/topfloor/6.jpg',
+      '/topfloor/7.jpg',
+      '/topfloor/8.jpg',
+       '/topfloor/9.jpg',
+      '/topfloor/10.jpg',
     ]
   },
   {
@@ -109,14 +108,14 @@ export const villas: Villa[] = [
       'High-speed WiFi'
     ],
     images: [
-      '/astega/5-min.jpg',
-      '/astega/14-min.jpg',
-      '/astega/19-min.jpg',
-      '/astega/15-min.jpg',
-      '/astega/20-min.jpg',
-      '/astega/22-min.jpg',
-      '/astega/23-min.jpg',
-      '/astega/24-min.jpg'
+      '/homepage.jpg',
+      '/topfloor/1.jpg',
+      '/groundfloor/2.jpg',
+      '/topfloor/3.jpg',
+      '/groundfloor/4.jpg',
+      '/topfloor/5.jpg',
+      '/groundfloor/6.jpg',
+      '/topfloor/7.jpg'
     ]
   }
 ];
