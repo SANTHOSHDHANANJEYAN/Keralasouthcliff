@@ -24,7 +24,7 @@ const Hero = () => {
     <section className="relative min-h-screen w-full overflow-hidden text-white">
       {/* Background Image (single) */}
       <Image
-        src="/homepage.jpg"
+        src="/homepage.png"
         alt="Luxury Villa Interior"
         fill
         className="object-cover"
