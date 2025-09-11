@@ -19,7 +19,7 @@ const VillasPreview = () => {
         description:
           'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
         features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
-        images: ['/astega/6-min.jpg', '/astega/11-min.jpg', '/astega/21-min.jpg'],
+        images: ['/groundfloor/2.jpg', '/groundfloor/3.jpg', '/groundfloor/1.jpg'],
         rating: 4.9,
         maxGuests: 2,
         slug: 'sea-garden-room',

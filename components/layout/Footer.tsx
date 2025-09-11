@@ -11,8 +11,8 @@ const Footer = () => {
           
           {/* Brand (Logo + Description) */}
           <div className="flex flex-col items-start justify-start">
-            {/* ✅ Logo now fully aligned to top */}
             <div className="mb-4">
+              <Link href="/" aria-label="Home">
               <Image
                 src="/images.png"
                 alt="Asteya Logo"
@@ -20,8 +20,8 @@ const Footer = () => {
                 height={40}
                 className="rounded-lg object-contain"
               />
+              </Link>
             </div>
-            {/* Description */}
             <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
               Experience luxury amidst nature's masterpiece at Asteya South Cliff villas, Varkala, Kerala.
             </p>
@@ -46,9 +46,14 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-start space-x-2 text-gray-400">
                 <MapPin size={16} className="mt-1" />
-                <span className="text-sm">
+                <a
+                  href="https://share.google/0MyRI06OhgGmmh50P"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm hover:text-white"
+                >
                   Asteya, Near Perumkulam, South Cliff, Varkala - 695141
-                </span>
+                </a>
               </div>
               <div className="flex items-center space-x-2 text-gray-400">
                 <Phone size={16} />

@@ -35,14 +35,18 @@ export const villas: Villa[] = [
       'Daily housekeeping service'
     ],
     images: [
-            '/astega/31-min.jpg',
-      '/astega/14-min.jpg',
-      '/astega/16-min.jpg',
-      '/astega/12-min.jpg',
-      '/astega/10-min.jpg',
-      '/astega/7-min.jpg',
-      '/astega/Ateya - Living area-min.png',
-      '/astega/3-min.jpg'
+            '/groundfloor/2.jpg',
+      '/groundfloor/3.jpg',
+      '/groundfloor/1.jpg',
+      '/groundfloor/4.jpg',
+      '/groundfloor/5.jpg',
+      '/groundfloor/6.jpg',
+      '/groundfloor/8.png',
+      '/groundfloor/7.jpg',
+      '/groundfloor/9.jpg',
+      '/groundfloor/10.jpg',
+      '/groundfloor/11.jpg',
+      '/groundfloor/12.png',
     ]
   },
   {
