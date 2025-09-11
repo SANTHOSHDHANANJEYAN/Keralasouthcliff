@@ -36,17 +36,17 @@ export const villas: Villa[] = [
     ],
     images: [
             '/groundfloor/2.jpg',
-      '/groundfloor/3.jpg',
-      '/groundfloor/1.jpg',
-      '/groundfloor/4.jpg',
+      '/groundfloor/2.jpg',
+      '/groundfloor/8.png',
+      '/groundfloor/13.jpg',
       '/groundfloor/5.jpg',
       '/groundfloor/6.jpg',
-      '/groundfloor/8.png',
+      '/groundfloor/1.png',
       '/groundfloor/7.jpg',
       '/groundfloor/9.jpg',
       '/groundfloor/10.jpg',
       '/groundfloor/11.jpg',
-      '/groundfloor/12.png',
+      '/groundfloor/12.jpg',
     ]
   },
   {
@@ -73,12 +73,12 @@ export const villas: Villa[] = [
     images: [
 
 
-      '/topfloor/1.jpg',
-      '/topfloor/4.jpg',
-      '/topfloor/3.jpg',
-      '/topfloor/2.jpg',
-      '/topfloor/5.jpg',
       '/topfloor/6.jpg',
+      '/topfloor/4.jpg',
+      '/topfloor/5.jpg',
+      '/topfloor/2.jpg',
+      '/topfloor/1.jpg',
+      '/topfloor/3.jpg',
       '/topfloor/7.jpg',
       '/topfloor/8.jpg',
        '/topfloor/9.jpg',
