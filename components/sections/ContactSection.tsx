@@ -19,7 +19,7 @@ const bookingInfo = [
   { label: "Check-in / Check-out", value: "11:00 AM / 1:30 PM" },
   { label: "Advance Booking", value: "50% advance required" },
   { label: "Cancellation", value: "Free up to 48 hours" },
-  { label: "Maximum Guests", value: "Maximum 3 guests (ask for more)" },
+  { label: "Maximum Guests", value: "Maximum 3 guests" },
   { label: "Payment Methods", value: "Cash / UPI / Bank Transfer" },
   { label: "Confirmation", value: "Email / WhatsApp" },
 ];
