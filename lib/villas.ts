@@ -71,7 +71,7 @@ Ocean views, local attractions, and activities await you during your stay.
   },
   {
     id: 'landscape-room',
-    name: 'Landscape View Room',
+    name: 'Private balcony with Sea View',
     description: `
 Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a panoramic sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.
 `,
