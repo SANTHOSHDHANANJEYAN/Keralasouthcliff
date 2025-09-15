@@ -16,8 +16,29 @@ export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
-    description: 
-      'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.\n\nThe space:\n\uD83C\uDF3F First Floor: Spacious 550 sqft Studio with Tropical Oasis Bathroom\nStep into your sun-drenched studio sanctuary, where modern comfort meets jungle-chic elegance. This 550 sqft open-concept retreat blends seamless living with Varkala's natural beauty, featuring:\n\n\uD83D\uDECB Studio Highlights:\nAiry Open Layout: High ceilings, whitewashed walls, and rattan accents create a breezy, uncluttered vibe.\nLuxury King Bed: Drift asleep to the sound of waves in a handcrafted teak four-poster bed with premium linens.\nDesigner Workspace: A sleek teak desk with ocean views and high-speed Wi-Fi for productive workations.\nSmart Living: kettle, and curated local coffee/tea selection for effortless mornings.\n\n\uD83D\uDECB Tropical Oasis Bathroom:\nYour private jungle spa awaits:\nStone Rainfall Shower: Natural laterite stone walls and a showerhead for an earthy, immersive rinse.\nSkylit Vanity: Bathe in dappled sunlight under an open-air skylight (with privacy louvers).\nBotanical Luxury: Living vertical garden, coconut shell toiletries, and subtle palmarosa oil aromatherapy.\n\n"Wake up surrounded by light, work with ocean breezes, and rinse off under your private jungle waterfall—this is coastal Kerala living at its finest."\n\nOcean views, local attractions, and activities await you during your stay.',
+    description: `
+Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.
+
+The space:
+🌿 First Floor: Spacious 550 sqft Studio with Tropical Oasis Bathroom
+Step into your sun-drenched studio sanctuary, where modern comfort meets jungle-chic elegance. This 550 sqft open-concept retreat blends seamless living with Varkala's natural beauty, featuring:
+
+🛋 Studio Highlights:
+Airy Open Layout: High ceilings, whitewashed walls, and rattan accents create a breezy, uncluttered vibe.
+Luxury King Bed: Drift asleep to the sound of waves in a handcrafted teak four-poster bed with premium linens.
+Designer Workspace: A sleek teak desk with ocean views and high-speed Wi-Fi for productive workations.
+Smart Living: kettle, and curated local coffee/tea selection for effortless mornings.
+
+🚿 Tropical Oasis Bathroom:
+Your private jungle spa awaits:
+Stone Rainfall Shower: Natural laterite stone walls and a showerhead for an earthy, immersive rinse.
+Skylit Vanity: Bathe in dappled sunlight under an open-air skylight (with privacy louvers).
+Botanical Luxury: Living vertical garden, coconut shell toiletries, and subtle palmarosa oil aromatherapy.
+
+"Wake up surrounded by light, work with ocean breezes, and rinse off under your private jungle waterfall—this is coastal Kerala living at its finest."
+
+Ocean views, local attractions, and activities await you during your stay.
+`,
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
       { iconName: 'Bath', text: '1 Bathroom' },
@@ -51,8 +72,9 @@ export const villas: Villa[] = [
   {
     id: 'landscape-room',
     name: 'Landscape View Room',
-    description:
-      'Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a partial sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.',
+    description: `
+Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a panoramic sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.
+`,
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
       { iconName: 'Bath', text: '1 Bathroom' },
@@ -85,8 +107,9 @@ export const villas: Villa[] = [
   {
     id: 'luxury-landscape',
     name: 'Exclusive Villa Stay – Sea & Garden View',
-    description:
-      'Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.',
+    description: `
+Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.
+`,
     features: [
       { iconName: 'Bed', text: '2 Bedrooms' },
       { iconName: 'Bath', text: '2 Bathrooms' },
