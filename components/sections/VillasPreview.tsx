@@ -71,7 +71,7 @@ const VillasPreview = () => {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Asteya Beach Villas</h2>
+          <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Our Asteya's Luxury Villas - Asteya's Luxury Properties</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             A peaceful sanctuary set on Kerala’s sun-kissed coast. Choose your experience - ground, sky, or panoramic luxury.
           </p>
