@@ -90,7 +90,7 @@ const ContactPreview = () => {
           })}
         </div>
 
-        {/* Main Content: Cancellation/Date Policy on left, Booking Info on right */}
+        {/* Main Content: Policies on left, Booking Info on right */}
         <div className="grid gap-10 lg:grid-cols-2 mb-12">
           {/* Left Side: Cancellation and Date Change Policy */}
           <div className="space-y-6">
@@ -126,30 +126,27 @@ const ContactPreview = () => {
             </Card>
           </div>
 
-          {/* Right Side: Booking Information with updated content */}
+          {/* Right Side: Booking Information with updated check-in/check-out */}
           <Card className="shadow-sm">
             <CardContent className="p-6 sm:p-8">
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">Booking Information</h3>
-              <div className="space-y-5 text-gray-700 text-sm sm:text-base">
-                <div>
-                  <p className="font-semibold text-black">Cancellation Policy</p>
-                  <ul className="list-disc list-inside mt-2 text-gray-600">
-                    <li>Cancellation 30 days or more before check-in: ✅ Full refund of the advance payment.</li>
-                    <li>Cancellation between 15 to 29 days before check-in: 🔁 50% of the advance will be refunded.</li>
-                    <li>Cancellation within 14 days of check-in or no-show: ❌ No refund of the advance payment.</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-black">Date Change Policy</p>
-                  <ul className="list-disc list-inside mt-2 text-gray-600">
-                    <li>One-time date change allowed if requested at least 15 days before check-in, subject to availability.</li>
-                    <li>Date changes may not be possible during high-demand periods (e.g. long weekends, holidays).</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-semibold text-black">Check-in / Check-out</p>
-                  <p className="mt-2 text-gray-600">2:00 PM / 10:30 AM</p>
-                </div>
+              <div className="space-y-5">
+                {[
+                  ['Room Rate', 'Give request for price details (both villas)'],
+                  ['Minimum Stay', '1 Day minimum booking required'],
+                  ['Check-in / Check-out', '2:00 PM / 10:30 AM'],
+                  ['Advance Booking', '50% advance payment required'],
+                  ['Cancellation', 'Free cancellation up to 48 hours'],
+                  ['Maximum Guests', 'Maximum 3 guests'],
+                ].map(([label, value], i) => (
+                  <div className="flex items-start gap-3" key={i}>
+                    <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-black">{label}</p>
+                      <p className="text-sm text-gray-600">{value}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>
