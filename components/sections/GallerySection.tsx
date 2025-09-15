@@ -41,7 +41,7 @@ const GallerySection = () => {
   );
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [visibleImages, setVisibleImages] = useState(8);
+  const [visibleImages, setVisibleImages] = useState(16); // Show 4 rows by default (4 columns × 4 rows)
 
   const loadMoreImages = () => {
     setVisibleImages((prev) => Math.min(prev + 4, galleryData.length));
