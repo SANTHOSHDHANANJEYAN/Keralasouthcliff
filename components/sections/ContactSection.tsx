@@ -16,7 +16,7 @@ const PhoneInput = dynamic(() => import("./PhoneInputWrapper"), {
 const bookingInfo = [
   { label: "Room Rate", value: "Price on Request" },
   { label: "Minimum Stay", value: "1 Day" },
-  { label: "Check-in / Check-out", value: "11:00 AM / 1:30 PM" },
+  { label: "Check-in / Check-out", value: "02:00 PM / 10:30 AM" },
   { label: "Advance Booking", value: "50% advance required" },
   { label: "Cancellation", value: "Free up to 48 hours" },
   { label: "Maximum Guests", value: "Maximum 3 guests" },
