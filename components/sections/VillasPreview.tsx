@@ -17,7 +17,7 @@ const VillasPreview = () => {
         id: 1,
         name: 'Sea & Garden View Room (Ground Floor)',
         description:
-          'Spacious luxury accommodation with direct beach access and private terrace. Experience the rhythm of waves with unparalleled comfort.',
+          'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.',
         features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
         images: ['/groundfloor/2.jpg', '/groundfloor/8.png', '/groundfloor/13.jpg'],
         rating: 4.9,
@@ -28,7 +28,7 @@ const VillasPreview = () => {
         id: 2,
         name: 'Landscape View Room (Top Floor)',
         description:
-          'Elevated luxury with panoramic cliff views and private balcony. Watch the sunset over the Arabian Sea from your sanctuary.',
+          'Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a partial sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', '1 Bedrooms', '1 Bathrooms','Luxury Amenities'],
         images: ['/topfloor/6.jpg', '/topfloor/4.jpg', '/topfloor/5.jpg'],
         rating: 4.9,
@@ -37,9 +37,9 @@ const VillasPreview = () => {
       },
       {
         id: 3,
-        name: 'Exclusive Villa Stay(Entire Villa)',
+        name: 'Exclusive Villa Stay – Sea & Garden View',
         description:
-          'Expansive villa with wide glass panels offering breathtaking coastal panoramas. Ideal for relaxation and gatherings.',
+          'Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.',
         features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms','Garden Access','Private Parking Access','2 Wheeler and 4 Wheeler Parking'],
         images: ['/homepage.png', '/groundfloor/2.jpg', '/topfloor/3.jpg'],
         rating: 5.0,
@@ -51,7 +51,6 @@ const VillasPreview = () => {
     []
   );
 
-  // Auto-slide images
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndexes((prev) => {
@@ -69,7 +68,6 @@ const VillasPreview = () => {
   return (
     <section className="bg-white pb-[3rem]">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Our Asteya's Luxury Villas - Asteya's Luxury Properties</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -77,7 +75,6 @@ const VillasPreview = () => {
           </p>
         </div>
 
-        {/* Regular Villas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
@@ -95,14 +92,10 @@ const VillasPreview = () => {
                         <Image src={img} alt={villa.name} fill className="object-cover rounded-t-2xl" />
                       </div>
                     ))}
-
-                    {/* Rating */}
                     <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
                       <Star size={16} className="text-yellow-500" />
                       <span className="text-sm font-medium">{villa.rating}</span>
                     </div>
-
-                    {/* Progress Bar */}
                     <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
                       <div className="h-full bg-white animate-progress" key={currentIndex} />
                     </div>
@@ -141,7 +134,6 @@ const VillasPreview = () => {
           })}
         </div>
 
-        {/* Landscape Villa */}
         {villas.filter((v) => v.isLandscape).map((villa) => {
           const currentIndex = currentIndexes[villa.id] ?? 0;
           return (
@@ -158,14 +150,10 @@ const VillasPreview = () => {
                       <Image src={img} alt={villa.name} fill className="object-cover rounded-l-2xl" />
                     </div>
                   ))}
-
-                  {/* Rating */}
                   <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full border border-gray-300 flex items-center gap-1">
                     <Star size={16} className="text-yellow-500" />
                     <span className="text-sm font-medium">{villa.rating}</span>
                   </div>
-
-                  {/* Progress Bar */}
                   <div className="absolute bottom-0 left-0 w-full h-1 bg-white/30">
                     <div className="h-full bg-white animate-progress" key={currentIndex} />
                   </div>
@@ -204,7 +192,6 @@ const VillasPreview = () => {
         })}
       </div>
 
-      {/* Progress Animation */}
       <style jsx>{`
         @keyframes progressFill {
           from {
