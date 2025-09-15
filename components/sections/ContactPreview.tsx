@@ -3,7 +3,6 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
-import Image from 'next/image';
 
 const contactInfo = [
   {
@@ -36,7 +35,7 @@ const contactInfo = [
     value: 'Quick Response',
     description: 'Quick response guaranteed',
     gradient: 'from-gray-700 to-black',
-    href: null, // no link
+    href: null,
   },
 ];
 
@@ -91,21 +90,42 @@ const ContactPreview = () => {
           })}
         </div>
 
-        {/* Image + Booking Info Grid */}
+        {/* Cancellation and Date Change Policy */}
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Image */}
-          <div className="w-full h-full">
-            <div className="relative w-full h-[400px] sm:h-[450px] md:h-[500px] rounded-xl overflow-hidden shadow-md">
-              <Image
-                src="/contactimg.gif" // Replace this with your actual image path
-                alt="Contact Visual"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
+          <Card className="shadow-sm">
+            <CardContent className="p-6 sm:p-8 space-y-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-black mb-4">Cancellation Policy</h3>
+              <div className="space-y-4 text-gray-700 text-sm sm:text-base">
+                <p>👉🏻 <strong>Cancellation 30 days or more before check-in:</strong></p>
+                <ul className="list-disc list-inside text-gray-600">
+                  <li>✅ Full refund of the advance payment.</li>
+                </ul>
+                <p>👉🏻 <strong>Cancellation between 15 to 29 days before check-in:</strong></p>
+                <ul className="list-disc list-inside text-gray-600">
+                  <li>🔁 50% of the advance will be refunded.</li>
+                </ul>
+                <p>👉🏻 <strong>Cancellation within 14 days of check-in or no-show:</strong></p>
+                <ul className="list-disc list-inside text-gray-600">
+                  <li>❌ No refund of the advance payment.</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
 
-          {/* Booking Information */}
+          <Card className="shadow-sm">
+            <CardContent className="p-6 sm:p-8 space-y-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-black mb-4">Date Change Policy</h3>
+              <div className="space-y-4 text-gray-700 text-sm sm:text-base">
+                <p>👉🏻 <strong>One-time date change</strong> is allowed if requested at least 15 days before check-in, subject to availability.</p>
+                <p>Date changes may not be possible during high-demand periods (e.g. long weekends, holidays).</p>
+                <p className="mt-4">Looking forward to hosting you!</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Booking Information */}
+        <div className="mt-12">
           <Card className="shadow-sm">
             <CardContent className="p-6 sm:p-8">
               <h3 className="text-xl sm:text-2xl font-bold text-black mb-6">
@@ -113,12 +133,12 @@ const ContactPreview = () => {
               </h3>
               <div className="space-y-5">
                 {[
-                  ['Room Rate', 'Give request for price details(both villas)'],
+                  ['Room Rate', 'Give request for price details (both villas)'],
                   ['Minimum Stay', '1 Day minimum booking required'],
                   ['Check-in / Check-out', '11:00 AM / 1:30 PM'],
                   ['Advance Booking', '50% advance payment required'],
                   ['Cancellation', 'Free cancellation up to 48 hours'],
-                  ["Maximum Guests",  'Maximum 3 guests']
+                  ['Maximum Guests', 'Maximum 3 guests']
                 ].map(([label, value], i) => (
                   <div className="flex items-start gap-3" key={i}>
                     <div className="w-2 h-2 bg-black rounded-full mt-2 flex-shrink-0" />
