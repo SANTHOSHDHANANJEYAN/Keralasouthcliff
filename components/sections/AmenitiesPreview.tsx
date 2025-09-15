@@ -7,7 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 
 // ✅ Dynamically import Lucide icons for better performance
-const Crown = dynamic(() => import('lucide-react').then(mod => mod.Crown));
 const Bed = dynamic(() => import('lucide-react').then(mod => mod.Bed));
 const Bath = dynamic(() => import('lucide-react').then(mod => mod.Bath));
 const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles));
@@ -16,43 +15,45 @@ const Wind = dynamic(() => import('lucide-react').then(mod => mod.Wind));
 const Sun = dynamic(() => import('lucide-react').then(mod => mod.Sun));
 const Leaf = dynamic(() => import('lucide-react').then(mod => mod.Leaf));
 const Wifi = dynamic(() => import('lucide-react').then(mod => mod.Wifi));
-const Tv = dynamic(() => import('lucide-react').then(mod => mod.Tv));
 const Snowflake = dynamic(() => import('lucide-react').then(mod => mod.Snowflake));
-const Phone = dynamic(() => import('lucide-react').then(mod => mod.Phone));
 const Shield = dynamic(() => import('lucide-react').then(mod => mod.Shield));
 const Car = dynamic(() => import('lucide-react').then(mod => mod.Car));
 const Utensils = dynamic(() => import('lucide-react').then(mod => mod.Utensils));
 const Coffee = dynamic(() => import('lucide-react').then(mod => mod.Coffee));
+const Refrigerator = dynamic(() => import('lucide-react').then(mod => mod.Refrigerator));
+const Thermometer = dynamic(() => import('lucide-react').then(mod => mod.Thermometer));
+const Box = dynamic(() => import('lucide-react').then(mod => mod.Box));
+const Shirt = dynamic(() => import('lucide-react').then(mod => mod.Shirt));
 
 const AmenitiesPreview = () => {
-  const [selectedCategory, setSelectedCategory] = useState('luxury');
+  const [selectedCategory, setSelectedCategory] = useState('included');
 
   // ✅ UseMemo to prevent recreation of static data on every render
   const amenityCategories = useMemo(
     () => ({
-      luxury: [
-        { icon: Crown, title: 'Premium Luxury', description: 'Five-star amenities and services throughout your stay' },
-        { icon: Bed, title: 'King-Size Beds', description: 'Premium bedding with luxury linens and pillows' },
-        { icon: Bath, title: 'Marble Bathrooms', description: 'Luxury bathrooms with rainfall showers' },
-        { icon: Sparkles, title: 'Daily Housekeeping', description: 'Professional cleaning and maintenance services' },
+      included: [
+        { icon: Thermometer, title: 'Hair dryer', description: 'Powerful hair dryer for your convenience' },
+        { icon: Refrigerator, title: 'Refrigerator', description: 'Keep your drinks and snacks cool' },
+        { icon: Utensils, title: 'Kitchenette', description: 'Fully equipped with dishes and silverware' },
+        { icon: Coffee, title: 'Kettle', description: 'Electric kettle for your tea and coffee cravings' },
+      ],
+      features: [
+        { icon: Bed, title: 'King-Size Beds', description: 'Premium king-size beds with luxury linens' },
+        { icon: Bath, title: 'Luxury Bathrooms', description: 'Marble bathrooms with rainfall showers' },
+        { icon: Snowflake, title: 'Air Conditioning & Fan', description: 'Climate control and ceiling fans' },
+        { icon: Shield, title: 'CCTV 24 hours', description: '24-hour surveillance for your safety' },
+      ],
+      essentials: [
+        { icon: Box, title: 'Essentials', description: 'Towels, bed sheets, soap, and toilet paper' },
+        { icon: Shirt, title: 'Hangers & Storage', description: 'Hangers and clothing storage' },
+        { icon: Sparkles, title: 'Cleaning products', description: 'Eco-friendly cleaning products provided' },
+        { icon: Wifi, title: 'High-Speed WiFi', description: 'Complimentary high-speed internet access' },
       ],
       outdoor: [
         { icon: Waves, title: 'Direct Beach Access', description: 'Private pathway to pristine Varkala beach' },
-        { icon: Wind, title: 'Private Terrace/Balcony', description: 'Exclusive outdoor space with breathtaking views' },
+        { icon: Wind, title: 'Private Terrace/Balcony', description: 'Exclusive outdoor space with ocean views' },
         { icon: Sun, title: 'Sunset Views', description: 'Unobstructed views of spectacular sunsets' },
-        { icon: Leaf, title: 'Garden Views', description: 'Lush tropical gardens surrounding the property' },
-      ],
-      technology: [
-        { icon: Wifi, title: 'High-Speed WiFi', description: 'Complimentary high-speed internet access' },
-        { icon: Tv, title: 'Smart TV', description: 'Large smart TV with streaming services' },
-        { icon: Snowflake, title: 'Climate Control', description: 'Individual AC and ceiling fans for comfort' },
-        { icon: Phone, title: 'Concierge Service', description: '24/7 concierge for all your needs' },
-      ],
-      services: [
-        { icon: Shield, title: '24/7 Security', description: 'Round-the-clock security and safety' },
-        { icon: Car, title: 'Private Parking', description: 'Secure parking space for your vehicle' },
-        { icon: Utensils, title: 'Kitchenette', description: 'Fully equipped modern kitchen facilities' },
-        { icon: Coffee, title: 'Welcome Amenities', description: 'Complimentary refreshments and local treats' },
+        { icon: Car, title: 'Private Parking', description: 'Secure, dedicated parking space' },
       ]
     }),
     []
@@ -80,10 +81,10 @@ const AmenitiesPreview = () => {
           {/* Tabs */}
           <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-12 bg-gray-100 rounded-xl shadow-md border border-gray-300">
-              <TabsTrigger value="luxury" className="text-black">Luxury</TabsTrigger>
+              <TabsTrigger value="included" className="text-black">Included</TabsTrigger>
+              <TabsTrigger value="features" className="text-black">Features</TabsTrigger>
+              <TabsTrigger value="essentials" className="text-black">Essentials</TabsTrigger>
               <TabsTrigger value="outdoor" className="text-black">Outdoor</TabsTrigger>
-              <TabsTrigger value="technology" className="text-black">Technology</TabsTrigger>
-              <TabsTrigger value="services" className="text-black">Services</TabsTrigger>
             </TabsList>
 
             {/* Amenity Cards */}

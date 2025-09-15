@@ -16,10 +16,13 @@ import {
   Bed,
   Bath,
   Sun,
-  Tv,
   Snowflake,
   Phone,
   Camera,
+  Refrigerator,
+  Box,
+  Shirt,
+  Thermometer
 } from 'lucide-react';
 
 const AmenitiesSection = () => {
@@ -38,8 +41,23 @@ const AmenitiesSection = () => {
       items: [
         { icon: Bed, title: 'King-Size Beds', description: 'Premium king-size beds with luxury linens and pillows' },
         { icon: Bath, title: 'Luxury Bathrooms', description: 'Marble bathrooms with rainfall showers and premium toiletries' },
-        { icon: Snowflake, title: 'Air Conditioning', description: 'Individual climate control and ceiling fans for comfort' },
-        { icon: Tv, title: 'Smart TV', description: 'Large smart TV with streaming services and cable channels' },
+        { icon: Snowflake, title: 'Air Conditioning & Fan', description: 'Individual climate control and ceiling fans for comfort' },
+        { icon: Shield, title: 'CCTV 24 hours', description: '24-hour surveillance for your safety and security' },
+      ]
+    },
+    {
+      title: 'Included Amenities',
+      items: [
+        { icon: Thermometer, title: 'Hair dryer', description: 'Powerful hair dryer for your convenience' },
+        { icon: Sparkles, title: 'Cleaning products', description: 'Eco-friendly cleaning products provided' },
+        { icon: Shirt, title: 'Laundry', description: 'On-site laundry facilities available' },
+        { icon: Box, title: 'Essentials', description: 'Towels, bed sheets, soap, and toilet paper' },
+        { icon: Shirt, title: 'Hangers', description: 'Plenty of hangers for your clothes' },
+        { icon: Bed, title: 'Extra pillows and blankets', description: 'Available upon request for your comfort' },
+        { icon: Box, title: 'Clothing storage', description: 'Ample storage space for your belongings' },
+        { icon: Refrigerator, title: 'Refrigerator', description: 'Keep your drinks and snacks cool' },
+        { icon: Utensils, title: 'Kitchenette', description: 'Fully equipped with dishes and silverware' },
+        { icon: Coffee, title: 'Kettle', description: 'Electric kettle for your tea and coffee cravings' },
       ]
     },
     {
