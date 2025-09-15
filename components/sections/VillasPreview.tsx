@@ -26,7 +26,7 @@ const VillasPreview = () => {
       },
       {
         id: 2,
-        name: 'Landscape View Room (Top Floor)',
+        name: 'Private balcony with Sea View(Top Floor)',
         description:
           'Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a partial sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.',
         features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', '1 Bedrooms', '1 Bathrooms','Luxury Amenities'],
