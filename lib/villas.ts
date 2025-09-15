@@ -16,8 +16,8 @@ export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
-    description:
-      'Wake up to the soothing charm of nature in our Sea & Garden View Room. Surrounded by lush greenery, the room offers a refreshing garden ambiance with a serene glimpse of the Arabian Sea. Designed for comfort and relaxation, it features cozy interiors, modern amenities, and a tranquil setting that invites you to unwind and reconnect with nature. Perfect for those who wish to enjoy both the calm of the garden and the beauty of the ocean.',
+    description: 
+      'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.\n\nThe space:\n\uD83C\uDF3F First Floor: Spacious 550 sqft Studio with Tropical Oasis Bathroom\nStep into your sun-drenched studio sanctuary, where modern comfort meets jungle-chic elegance. This 550 sqft open-concept retreat blends seamless living with Varkala's natural beauty, featuring:\n\n\uD83D\uDECB Studio Highlights:\nAiry Open Layout: High ceilings, whitewashed walls, and rattan accents create a breezy, uncluttered vibe.\nLuxury King Bed: Drift asleep to the sound of waves in a handcrafted teak four-poster bed with premium linens.\nDesigner Workspace: A sleek teak desk with ocean views and high-speed Wi-Fi for productive workations.\nSmart Living: kettle, and curated local coffee/tea selection for effortless mornings.\n\n\uD83D\uDECB Tropical Oasis Bathroom:\nYour private jungle spa awaits:\nStone Rainfall Shower: Natural laterite stone walls and a showerhead for an earthy, immersive rinse.\nSkylit Vanity: Bathe in dappled sunlight under an open-air skylight (with privacy louvers).\nBotanical Luxury: Living vertical garden, coconut shell toiletries, and subtle palmarosa oil aromatherapy.\n\n"Wake up surrounded by light, work with ocean breezes, and rinse off under your private jungle waterfall—this is coastal Kerala living at its finest."\n\nOcean views, local attractions, and activities await you during your stay.',
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
       { iconName: 'Bath', text: '1 Bathroom' },
@@ -45,7 +45,7 @@ export const villas: Villa[] = [
       '/groundfloor/9.jpg',
       '/groundfloor/10.jpg',
       '/groundfloor/11.jpg',
-      '/groundfloor/12.jpg',
+      '/groundfloor/12.jpg'
     ]
   },
   {
@@ -70,8 +70,6 @@ export const villas: Villa[] = [
       'Daily housekeeping'
     ],
     images: [
-
-
       '/topfloor/6.jpg',
       '/topfloor/4.jpg',
       '/topfloor/5.jpg',
@@ -80,8 +78,8 @@ export const villas: Villa[] = [
       '/topfloor/3.jpg',
       '/topfloor/7.jpg',
       '/topfloor/8.jpg',
-       '/topfloor/9.jpg',
-      '/topfloor/10.jpg',
+      '/topfloor/9.jpg',
+      '/topfloor/10.jpg'
     ]
   },
   {
