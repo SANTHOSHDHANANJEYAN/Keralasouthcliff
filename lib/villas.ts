@@ -11,6 +11,9 @@ export interface Villa {
   features: VillaFeature[];
   amenities: string[];
   images: string[];
+  highlights?: string[];
+  experiences?: string[];
+  access?: string[];
 }
 
 export const villas: Villa[] = [
@@ -18,30 +21,54 @@ export const villas: Villa[] = [
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
     description: `
-Wake up to the sound of waves and gentle garden breezes. This modern 550 sq ft studio blends minimalist design with handcrafted Kerala touches and high-speed Wi-Fi for easy workations. A skylit tropical bathroom and plush king bed complete your private coastal retreat.
+Wake up to the soothing rhythm of waves against golden cliffs. Welcome to your modern minimalist sanctuary on Varkala Cliff — where every sunrise brings ocean vistas, and every sunset paints the horizon.
+550 sq. ft. of bohemian-inspired elegance with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi. Ground floor unit blending privacy, convenience, and coastal charm.
 `,
     features: [
-      { iconName: 'Bed', text: '1 Bedroom' },
-      { iconName: 'Bath', text: '1 Bathroom' },
-      { iconName: 'Waves', text: 'Sea Glimpse' },
+      { iconName: 'Bed', text: '1 Bedroom – Teak Four-Poster Bed' },
+      { iconName: 'Bath', text: '1 Bathroom – Rainfall Shower' },
+      { iconName: 'Waves', text: 'Cliffside & Sea Glimpse' },
       { iconName: 'Mountain', text: 'Garden Facing' },
-      { iconName: 'Wifi', text: 'High-Speed WiFi' },
+      { iconName: 'Wifi', text: 'Work-Friendly High-Speed WiFi' },
+      { iconName: 'Sun', text: 'Skylit Vanity' },
       { iconName: 'Shield', text: '24/7 Security' },
       { iconName: 'Snowflake', text: 'Air Conditioning' },
       { iconName: 'Fan', text: 'Ceiling Fan' },
-      { iconName: 'Coffee', text: 'Hot Water Kettle' },
+      { iconName: 'Coffee', text: 'Kettle & Local Coffee/Tea' },
     ],
     amenities: [
+      'Luxury king bed with premium linens',
+      'Handcrafted Kerala furniture',
+      'High ceilings, whitewashed walls & rattan accents',
+      'Ocean-view teak work desk',
       'Hair dryer',
       'Cleaning products',
       'Laundry essentials',
-      'Hangers',
+      'Hangers & clothing storage',
       'Extra pillows and blankets',
-      'Luxury bathrooms with rainfall showers',
-      'Clothing storage',
-      'Air conditioning',
-      'Ceiling fan',
+      'Luxury bathroom with stone rainfall shower',
+      'Coconut-shell toiletries',
+      'Natural aromatherapy & vertical garden',
+      'Air conditioning & ceiling fan',
       'Refrigerator',
+    ],
+    highlights: [
+      'Wake up in light, work with ocean breezes, refresh under your private jungle waterfall',
+      'Prime Location – 30s from Café Sarwa, 5 min to Papanasam Beach',
+      'Designed for Comfort – Spacious bohemian-inspired studio',
+      'Ground Floor – Private, convenient & coastal charm',
+    ],
+    experiences: [
+      '🌊 Beaches & Nature – Papanasam (2 min), Kappil (15 min), Ponnumthuruthu Island (20 min)',
+      '☕ Cliffside Culture – Café Sarwa (30 sec), Cliff Market (2 min), Cultural Evenings nearby',
+      '🏄 Adventure & Wellness – Surfing (5 min), Yoga studios walking distance, Ayurveda (3 min)',
+      '🛕 Spiritual Heritage – Janardanaswamy Temple (10 min), Sivagiri Mutt (15 min)',
+      '✨ Neighborhood Vibes – Tranquil mornings, vibrant cultural evenings with music & dining',
+    ],
+    access: [
+      'Private outdoor seating area with lounge chairs & coffee table',
+      'Lush garden space ideal for yoga or relaxation',
+      'Cozy patio for morning coffee or evening unwind',
     ],
     images: [
       '/groundfloor/2.jpg',
@@ -61,30 +88,54 @@ Wake up to the sound of waves and gentle garden breezes. This modern 550 sq ft s
     id: 'landscape-room',
     name: 'Private Balcony with Sea View',
     description: `
-Enjoy slow mornings with panoramic views of the sea and lush gardens. Bright and airy interiors combine soft tones with modern comforts, creating an inviting space to read, relax, or work. Step onto your private balcony and soak up Varkala’s coastal charm.
+Welcome to your modern, minimalist sanctuary on Varkala Cliff, where every day begins with breathtaking ocean views and adventure. Wake up to the sound of waves crashing against golden cliffs.
+
+550 sq. ft. of carefully designed space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi, perfect for digital nomads. Second floor retreat with a private balcony overlooking the edge of the cliff.
 `,
     features: [
-      { iconName: 'Bed', text: '1 Bedroom' },
-      { iconName: 'Bath', text: '1 Bathroom' },
-      { iconName: 'Mountain', text: 'Landscape View' },
-      { iconName: 'Sun', text: 'Natural Light' },
-      { iconName: 'Wifi', text: 'High-Speed WiFi' },
+      { iconName: 'Bed', text: '1 Bedroom – Teak Four-Poster Bed' },
+      { iconName: 'Bath', text: '1 Bathroom – Spa-Style' },
+      { iconName: 'Waves', text: 'Uninterrupted Ocean Views' },
+      { iconName: 'Mountain', text: 'Cliff & Landscape Facing' },
+      { iconName: 'Wifi', text: 'High-Speed WiFi – Work-Friendly' },
+      { iconName: 'Sun', text: 'Bright & Airy Open Layout' },
       { iconName: 'Car', text: 'Free Parking' },
       { iconName: 'Snowflake', text: 'Air Conditioning' },
       { iconName: 'Fan', text: 'Ceiling Fan' },
-      { iconName: 'Coffee', text: 'Hot Water Kettle' },
+      { iconName: 'Coffee', text: 'Kettle & Local Coffee/Tea' },
     ],
     amenities: [
+      'Luxury king bed with premium linens',
+      'Handcrafted Kerala furniture',
+      'High ceilings, whitewashed walls & rattan accents',
+      'Ocean-view teak work desk',
       'Hair dryer',
       'Cleaning products',
       'Laundry essentials',
-      'Hangers',
+      'Hangers & clothing storage',
       'Extra pillows and blankets',
-      'Luxury bathrooms with rainfall showers',
-      'Clothing storage',
-      'Air conditioning',
-      'Ceiling fan',
+      'Spa-style bathroom with rainfall shower',
+      'Curated coconut-shell toiletries',
+      'Air conditioning & ceiling fan',
       'Refrigerator',
+    ],
+    highlights: [
+      'Prime Cliffside Location – 30s from Café Sarwa, 5 min to Papanasam Beach',
+      'Second Floor Retreat – Spacious balcony with uninterrupted views',
+      'Designed for Bliss – Minimalist interiors with bohemian elegance',
+      'Wake up in natural light, work with ocean breezes, refresh in your private retreat',
+    ],
+    experiences: [
+      '🌊 Beaches & Nature – Papanasam (2 min), Kappil (15 min), Ponnumthuruthu Island (20 min)',
+      '☕ Cliffside Culture – Café Sarwa (30 sec), Cliff Market (2 min), Evening Cultural Shows nearby',
+      '🏄 Adventure & Wellness – Surfing at Varkala Beach (5 min), Yoga studios, Ayurveda (3 min)',
+      '🛕 Spiritual Heritage – Janardanaswamy Temple (10 min), Sivagiri Mutt (15 min)',
+      '✨ Neighborhood Vibes – Explore hidden beaches, spice farms, live music, or moonlit meditation',
+    ],
+    access: [
+      'Private balcony with lounge chairs & coffee table',
+      'Outdoor seating area in the front yard',
+      'Lush garden space, ideal for morning yoga or relaxation',
     ],
     images: [
       '/topfloor/6.jpg',
