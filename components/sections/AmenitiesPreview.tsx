@@ -10,10 +10,10 @@ import { Card, CardContent } from '@/components/ui/card';
 const Crown = dynamic(() => import('lucide-react').then(mod => mod.Crown));
 const Bath = dynamic(() => import('lucide-react').then(mod => mod.Bath));
 const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles));
-const Hanger = dynamic(() => import('lucide-react').then(mod => mod.Hanger));
+const Shirt = dynamic(() => import('lucide-react').then(mod => mod.Shirt)); // ✅ replaces Hanger
 const Wind = dynamic(() => import('lucide-react').then(mod => mod.Wind));
 const Snowflake = dynamic(() => import('lucide-react').then(mod => mod.Snowflake));
-const Refrigerator = dynamic(() => import('lucide-react').then(mod => mod.Fridge));
+const Refrigerator = dynamic(() => import('lucide-react').then(mod => mod.Refrigerator)); // ✅ replaces Fridge
 const Utensils = dynamic(() => import('lucide-react').then(mod => mod.Utensils));
 const Shield = dynamic(() => import('lucide-react').then(mod => mod.Shield));
 const Phone = dynamic(() => import('lucide-react').then(mod => mod.Phone));
@@ -24,7 +24,6 @@ const Package = dynamic(() => import('lucide-react').then(mod => mod.Package));
 const AmenitiesPreview = () => {
   const [selectedCategory, setSelectedCategory] = useState('luxury');
 
-  // ✅ Only the amenities you asked for
   const amenityCategories = useMemo(
     () => ({
       luxury: [
@@ -35,7 +34,7 @@ const AmenitiesPreview = () => {
       ],
       outdoor: [
         { icon: Shield, title: 'CCTV Camera - Exterior', description: '24/7 exterior surveillance for safety' },
-        { icon: Hanger, title: 'Clothing Storage', description: 'Ample space for your clothes and belongings' },
+        { icon: Shirt, title: 'Clothing Storage', description: 'Ample space for your clothes and belongings' }, // ✅
         { icon: Sparkles, title: 'Laundry', description: 'Laundry facility available' },
         { icon: Package, title: 'Essentials', description: 'Basic essentials stocked for your stay' },
       ],
@@ -43,7 +42,7 @@ const AmenitiesPreview = () => {
         { icon: Snowflake, title: 'Air Conditioning', description: 'Cool and comfortable rooms' },
         { icon: Wind, title: 'Ceiling Fan', description: 'Ceiling fans for natural airflow' },
         { icon: Phone, title: '12/7 Concierge', description: 'Concierge available for all your needs' },
-        { icon: Refrigerator, title: 'Refrigerator', description: 'Store your food & beverages easily' },
+        { icon: Refrigerator, title: 'Refrigerator', description: 'Store your food & beverages easily' }, // ✅
       ],
       services: [
         { icon: Utensils, title: 'Dishes & Silverware', description: 'Dining utensils provided for convenience' },
@@ -73,7 +72,6 @@ const AmenitiesPreview = () => {
             </p>
           </motion.div>
 
-          {/* Tabs */}
           <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-12 bg-gray-100 rounded-xl shadow-md border border-gray-300">
               <TabsTrigger value="luxury" className="text-black">Luxury</TabsTrigger>
@@ -82,7 +80,6 @@ const AmenitiesPreview = () => {
               <TabsTrigger value="services" className="text-black">Services</TabsTrigger>
             </TabsList>
 
-            {/* Amenity Cards */}
             {Object.entries(amenityCategories).map(([category, amenities]) => (
               <TabsContent key={category} value={category}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
