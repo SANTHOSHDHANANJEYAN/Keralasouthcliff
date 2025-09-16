@@ -47,7 +47,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             </p>
           </div>
 
-          {/* ✅ Image Gallery */}
+          {/* Image Gallery */}
           <VillaGallery images={villa.images} name={villa.name} />
 
           {/* Features & Amenities */}
@@ -76,18 +76,24 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             {/* Amenities */}
             <div>
               <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-gray-700">
                 {villa.amenities.map((amenity: string) => (
-                  <li key={amenity} className="flex items-center gap-3">
-                    <icons.CheckCircle size={16} className="text-green-600" />
-                    <span>{amenity}</span>
+                  <li
+                    key={amenity}
+                    className="flex items-start gap-3"
+                  >
+                    <icons.CheckCircle
+                      size={18}
+                      className="text-green-600 mt-0.5 shrink-0"
+                    />
+                    <span className="leading-snug">{amenity}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </div>
+          </div>{/* ✅ close the grid before next sections */}
 
-          {/* ✅ Highlights */}
+          {/* Highlights */}
           {villa.highlights && (
             <div className="mt-12">
               <h2 className="text-2xl font-bold text-black mb-4">Highlights</h2>
@@ -99,7 +105,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             </div>
           )}
 
-          {/* ✅ Experiences & Attractions */}
+          {/* Experiences & Attractions */}
           {villa.experiences && (
             <div className="mt-12">
               <h2 className="text-2xl font-bold text-black mb-4">
@@ -116,7 +122,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             </div>
           )}
 
-          {/* ✅ Guest Access */}
+          {/* Guest Access */}
           {villa.access && (
             <div className="mt-12">
               <h2 className="text-2xl font-bold text-black mb-4">
@@ -131,7 +137,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           )}
         </div>
 
-        {/* ✅ Additional Sections */}
+        {/* Additional Sections */}
         <ReviewsSlider />
         <ContactSection />
       </main>
@@ -140,7 +146,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
   );
 }
 
-// ✅ Static params
+// Static params
 export async function generateStaticParams() {
   return villas.map((villa) => ({
     id: villa.id,
