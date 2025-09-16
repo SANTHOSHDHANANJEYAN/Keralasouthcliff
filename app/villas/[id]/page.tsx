@@ -1,3 +1,5 @@
+'use client';
+
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import * as icons from 'lucide-react';
@@ -13,6 +15,7 @@ import ContactSection from '@/components/sections/ContactSection';
 // ✅ Client component for gallery
 import VillaGallery from '@/components/sections/VillaGallery';
 
+// Map of string keys to Lucide icons
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
   Bath: icons.Bath,
@@ -24,6 +27,12 @@ const iconMap: { [key: string]: React.ElementType } = {
   Shield: icons.Shield,
   Crown: icons.Crown,
 };
+
+// ✅ Explicit types for features and amenities
+interface Feature {
+  iconName: keyof typeof iconMap;
+  text: string;
+}
 
 export default function VillaPage({ params }: { params: { id: string } }) {
   const villa = getVillaById(params.id);
@@ -46,13 +55,13 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           {/* ✅ Image Gallery */}
           <VillaGallery images={villa.images} name={villa.name} />
 
-          {/* Features & Amenities - fixed layout */}
+          {/* Features & Amenities */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Features */}
             <div>
               <h2 className="text-2xl font-bold text-black mb-4">Features</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
-                {villa.features.map(({ iconName, text }) => {
+                {villa.features.map(({ iconName, text }: Feature) => {
                   const Icon = iconMap[iconName];
                   return (
                     <div
@@ -73,7 +82,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
             <div>
               <h2 className="text-2xl font-bold text-black mb-4">Amenities</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-gray-700">
-                {villa.amenities.map((amenity) => (
+                {villa.amenities.map((amenity: string) => (
                   <li key={amenity} className="flex items-center gap-3">
                     <icons.CheckCircle size={16} className="text-green-600" />
                     <span>{amenity}</span>
