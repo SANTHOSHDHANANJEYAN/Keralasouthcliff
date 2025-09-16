@@ -17,8 +17,8 @@ const VillasPreview = () => {
         id: 1,
         name: 'Sea & Garden View Room (Ground Floor)',
         description:
-          'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.',
-        features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedrooms', '1 Bathrooms'],
+          'Modern, minimalist 550 sqft retreat with handcrafted Kerala furniture, high-speed Wi-Fi and uninterrupted ocean views. Steps from Café Sarwa and Papanasam Beach.',
+        features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
         images: ['/groundfloor/2.jpg', '/groundfloor/8.png', '/groundfloor/13.jpg'],
         rating: 4.9,
         maxGuests: 2,
@@ -26,10 +26,10 @@ const VillasPreview = () => {
       },
       {
         id: 2,
-        name: 'Private balcony with Sea View(Top Floor)',
+        name: 'Private Balcony with Sea View (Top Floor)',
         description:
-          'Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a partial sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.',
-        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', '1 Bedrooms', '1 Bathrooms','Luxury Amenities'],
+          'Bright airy room with private balcony, lush garden plus partial sea view. Styled for slow mornings and peaceful stays.',
+        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
         images: ['/topfloor/6.jpg', '/topfloor/4.jpg', '/topfloor/5.jpg'],
         rating: 4.9,
         maxGuests: 2,
@@ -39,8 +39,16 @@ const VillasPreview = () => {
         id: 3,
         name: 'Exclusive Villa Stay – Sea & Garden View',
         description:
-          'Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.',
-        features: ['Full Glass View', 'Private Garden', 'Infinity Pool Access', 'Luxury Interior', '2 Bedrooms', '2 Bathrooms','Garden Access','Private Parking Access','2 Wheeler and 4 Wheeler Parking'],
+          'Entire villa for families or long retreats. Spacious sea- and garden-facing rooms with modern amenities and complete privacy.',
+        features: [
+          'Full Glass View',
+          'Private Garden',
+          'Infinity Pool Access',
+          'Luxury Interior',
+          '2 Bedrooms',
+          '2 Bathrooms',
+          'Private Parking',
+        ],
         images: ['/homepage.png', '/groundfloor/2.jpg', '/topfloor/3.jpg'],
         rating: 5.0,
         maxGuests: 4,
@@ -69,12 +77,11 @@ const VillasPreview = () => {
     <section className="bg-white pb-[3rem]">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Our Asteya's Luxury Villas - Asteya's Luxury Properties</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose from our luxurious properties, each with a unique view and premium amenities.
-          </p>
+          <h2 className="text-5xl font-extrabold tracking-tight text-black mb-4">Our Properties</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Asteya's Exotic Stays</p>
         </div>
 
+        {/* first two */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
           {villas.slice(0, 2).map((villa) => {
             const currentIndex = currentIndexes[villa.id] ?? 0;
@@ -124,9 +131,7 @@ const VillasPreview = () => {
                         </Badge>
                       ))}
                     </div>
-                    <Button className="mt-6 w-full bg-black text-white hover:bg-gray-800 rounded-full">
-                      Book Now
-                    </Button>
+                    <Button className="mt-6 w-full bg-black text-white hover:bg-gray-800 rounded-full">Book Now</Button>
                   </CardContent>
                 </Card>
               </Link>
@@ -134,6 +139,7 @@ const VillasPreview = () => {
           })}
         </div>
 
+        {/* Landscape style villa */}
         {villas.filter((v) => v.isLandscape).map((villa) => {
           const currentIndex = currentIndexes[villa.id] ?? 0;
           return (
