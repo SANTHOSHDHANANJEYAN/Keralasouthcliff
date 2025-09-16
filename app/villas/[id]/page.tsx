@@ -1,21 +1,14 @@
-'use client';
-
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import * as icons from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Link from 'next/link';
-
-// ✅ Additional Sections
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
 import ContactSection from '@/components/sections/ContactSection';
 
-// ✅ Client component for gallery
+// ✅ Client component
 import VillaGallery from '@/components/sections/VillaGallery';
 
-// Map of string keys to Lucide icons
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
   Bath: icons.Bath,
@@ -28,7 +21,6 @@ const iconMap: { [key: string]: React.ElementType } = {
   Crown: icons.Crown,
 };
 
-// ✅ Explicit types for features and amenities
 interface Feature {
   iconName: keyof typeof iconMap;
   text: string;
@@ -102,7 +94,7 @@ export default function VillaPage({ params }: { params: { id: string } }) {
   );
 }
 
-// ✅ Generate static pages for each villa
+// ✅ Static params
 export async function generateStaticParams() {
   return villas.map((villa) => ({
     id: villa.id,
