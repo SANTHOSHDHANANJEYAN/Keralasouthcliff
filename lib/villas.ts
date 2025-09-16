@@ -1,3 +1,4 @@
+// types/villa.ts
 export interface VillaFeature {
   iconName: string;
   text: string;
@@ -12,32 +13,15 @@ export interface Villa {
   images: string[];
 }
 
+// data/villas.ts
+import { Villa } from './types/villa';
+
 export const villas: Villa[] = [
   {
     id: 'sea-garden-room',
     name: 'Sea & Garden View Room',
     description: `
-Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff—where every day begins with breathtaking ocean views and adventure. Prime Cliffside Location – Uninterrupted sunset views, just 30 seconds from Café Sarwa and 5 minutes from sacred Papanasam Beach. Designed for Bliss – 550 sqft of Bohemian space with handcrafted Kerala furniture, luxury linens, and high-speed Wi-Fi for digital nomads. Ground Floor unit.
-
-The space:
-🌿 First Floor: Spacious 550 sqft Studio with Tropical Oasis Bathroom
-Step into your sun-drenched studio sanctuary, where modern comfort meets jungle-chic elegance. This 550 sqft open-concept retreat blends seamless living with Varkala's natural beauty, featuring:
-
-🛋 Studio Highlights:
-Airy Open Layout: High ceilings, whitewashed walls, and rattan accents create a breezy, uncluttered vibe.
-Luxury King Bed: Drift asleep to the sound of waves in a handcrafted teak four-poster bed with premium linens.
-Designer Workspace: A sleek teak desk with ocean views and high-speed Wi-Fi for productive workations.
-Smart Living: kettle, and curated local coffee/tea selection for effortless mornings.
-
-🚿 Tropical Oasis Bathroom:
-Your private jungle spa awaits:
-Stone Rainfall Shower: Natural laterite stone walls and a showerhead for an earthy, immersive rinse.
-Skylit Vanity: Bathe in dappled sunlight under an open-air skylight (with privacy louvers).
-Botanical Luxury: Living vertical garden, coconut shell toiletries, and subtle palmarosa oil aromatherapy.
-
-"Wake up surrounded by light, work with ocean breezes, and rinse off under your private jungle waterfall—this is coastal Kerala living at its finest."
-
-Ocean views, local attractions, and activities await you during your stay.
+Wake up to the sound of waves and gentle garden breezes. This modern 550 sq ft studio blends minimalist design with handcrafted Kerala touches and high-speed Wi-Fi for easy workations. A skylit tropical bathroom and plush king bed complete your private coastal retreat.
 `,
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
@@ -45,7 +29,7 @@ Ocean views, local attractions, and activities await you during your stay.
       { iconName: 'Waves', text: 'Sea Glimpse' },
       { iconName: 'Mountain', text: 'Garden Facing' },
       { iconName: 'Wifi', text: 'High-Speed WiFi' },
-      { iconName: 'Shield', text: '24/7 Security' }
+      { iconName: 'Shield', text: '24/7 Security' },
     ],
     amenities: [
       'Comfortable double bed',
@@ -53,7 +37,7 @@ Ocean views, local attractions, and activities await you during your stay.
       'Elegant en-suite bathroom',
       'Air conditioning and ceiling fan',
       'Complimentary WiFi',
-      'Daily housekeeping service'
+      'Daily housekeeping service',
     ],
     images: [
       '/groundfloor/2.jpg',
@@ -66,14 +50,14 @@ Ocean views, local attractions, and activities await you during your stay.
       '/groundfloor/9.jpg',
       '/groundfloor/10.jpg',
       '/groundfloor/11.jpg',
-      '/groundfloor/12.jpg'
-    ]
+      '/groundfloor/12.jpg',
+    ],
   },
   {
     id: 'landscape-room',
-    name: 'Private balcony with Sea View',
+    name: 'Private Balcony with Sea View',
     description: `
-Embrace slow mornings with the soothing charm of our Landscape View Room. Offering a scenic blend of lush gardens and a panoramic sea view, this room is designed for peaceful stays. Bright, airy, and thoughtfully styled with modern comforts, it creates the perfect space to relax, recharge, and enjoy the beauty of Varkala’s natural surroundings.
+Enjoy slow mornings with panoramic views of the sea and lush gardens. Bright and airy interiors combine soft tones with modern comforts, creating an inviting space to read, relax, or work. Step onto your private balcony and soak up Varkala’s coastal charm.
 `,
     features: [
       { iconName: 'Bed', text: '1 Bedroom' },
@@ -81,7 +65,7 @@ Embrace slow mornings with the soothing charm of our Landscape View Room. Offeri
       { iconName: 'Mountain', text: 'Landscape View' },
       { iconName: 'Sun', text: 'Natural Light' },
       { iconName: 'Wifi', text: 'High-Speed WiFi' },
-      { iconName: 'Car', text: 'Free Parking' }
+      { iconName: 'Car', text: 'Free Parking' },
     ],
     amenities: [
       'Large window with scenic views',
@@ -89,7 +73,7 @@ Embrace slow mornings with the soothing charm of our Landscape View Room. Offeri
       'Modern bathroom amenities',
       'Complimentary WiFi',
       'Air conditioning',
-      'Daily housekeeping'
+      'Daily housekeeping',
     ],
     images: [
       '/topfloor/6.jpg',
@@ -101,14 +85,14 @@ Embrace slow mornings with the soothing charm of our Landscape View Room. Offeri
       '/topfloor/7.jpg',
       '/topfloor/8.jpg',
       '/topfloor/9.jpg',
-      '/topfloor/10.jpg'
-    ]
+      '/topfloor/10.jpg',
+    ],
   },
   {
     id: 'luxury-landscape',
     name: 'Exclusive Villa Stay – Sea & Garden View',
     description: `
-Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for families, friends, or long retreats, this option gives you the entire villa with spacious sea- and garden-facing rooms. Surrounded by lush greenery and glimpses of the Arabian Sea, the villa offers a serene setting where comfort meets nature. Enjoy personalized space, modern amenities, and the freedom to unwind at your own pace.
+Treat your family or friends to the full villa experience with spacious sea- and garden-facing rooms. Private balconies, tropical bathrooms, and airy common spaces give you freedom to unwind at your own pace. The perfect blend of privacy, comfort, and Kerala’s natural beauty.
 `,
     features: [
       { iconName: 'Bed', text: '2 Bedrooms' },
@@ -116,7 +100,7 @@ Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for
       { iconName: 'Waves', text: 'Sea View' },
       { iconName: 'Mountain', text: 'Garden View' },
       { iconName: 'Wifi', text: 'High-Speed WiFi' },
-      { iconName: 'Crown', text: 'Exclusive Privacy' }
+      { iconName: 'Crown', text: 'Exclusive Privacy' },
     ],
     amenities: [
       'Entire villa for your group',
@@ -125,7 +109,7 @@ Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for
       'Full-service kitchen',
       'Butler and concierge services',
       'Daily housekeeping',
-      'High-speed WiFi'
+      'High-speed WiFi',
     ],
     images: [
       '/homepage.png',
@@ -135,11 +119,10 @@ Experience Asteya in complete privacy with our Exclusive Villa Stay. Perfect for
       '/groundfloor/4.jpg',
       '/topfloor/5.jpg',
       '/groundfloor/6.jpg',
-      '/topfloor/7.jpg'
-    ]
-  }
+      '/topfloor/7.jpg',
+    ],
+  },
 ];
 
-export const getVillaById = (id: string): Villa | undefined => {
-  return villas.find((villa) => villa.id === id);
-};
+export const getVillaById = (id: string): Villa | undefined =>
+  villas.find((villa) => villa.id === id);
