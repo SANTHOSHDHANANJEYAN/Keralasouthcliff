@@ -1,5 +1,3 @@
-'use client';
-
 import { getVillaById, villas } from '@/lib/villas';
 import { notFound } from 'next/navigation';
 import * as icons from 'lucide-react';
@@ -12,7 +10,8 @@ import Link from 'next/link';
 import ReviewsSlider from '@/components/sections/ReviewsSlider';
 import ContactSection from '@/components/sections/ContactSection';
 
-import React, { useState } from 'react';
+// ✅ Client component for gallery
+import VillaGallery from '@/components/sections/VillaGallery';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Bed: icons.Bed,
@@ -24,47 +23,6 @@ const iconMap: { [key: string]: React.ElementType } = {
   Sun: icons.Sun,
   Shield: icons.Shield,
   Crown: icons.Crown,
-};
-
-// ✅ Simple in-page gallery with load more button
-const VillaGallery: React.FC<{ images: string[]; name: string }> = ({
-  images,
-  name,
-}) => {
-  const [visibleCount, setVisibleCount] = useState(3); // initial images count
-
-  const handleLoadMore = () => {
-    setVisibleCount((prev) =>
-      prev + 3 > images.length ? images.length : prev + 3
-    );
-  };
-
-  return (
-    <div className="mb-12">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images.slice(0, visibleCount).map((src, idx) => (
-          <div key={idx} className="overflow-hidden rounded-xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={src}
-              alt={`${name} image ${idx + 1}`}
-              className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-        ))}
-      </div>
-      {visibleCount < images.length && (
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={handleLoadMore}
-            className="bg-black text-white hover:bg-gray-800"
-          >
-            Load More
-          </Button>
-        </div>
-      )}
-    </div>
-  );
 };
 
 export default function VillaPage({ params }: { params: { id: string } }) {
@@ -82,12 +40,10 @@ export default function VillaPage({ params }: { params: { id: string } }) {
           {/* Villa Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black">{villa.name}</h1>
-            <p className="text-lg text-gray-600 mt-2 whitespace-pre-line">
-              {villa.description}
-            </p>
+            <p className="text-lg text-gray-600 mt-2">{villa.description}</p>
           </div>
 
-          {/* ✅ Image Gallery with load more */}
+          {/* ✅ Image Gallery */}
           <VillaGallery images={villa.images} name={villa.name} />
 
           {/* Features & Amenities - fixed layout */}
