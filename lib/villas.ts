@@ -43,7 +43,7 @@ Wake up to the sound of waves and gentle garden breezes. This modern 550 sq ft s
       '/groundfloor/13.jpg',
       '/groundfloor/5.jpg',
       '/groundfloor/6.jpg',
-      '/groundfloor/1.png',
+      '/groundfloor/1.jpg',
       '/groundfloor/7.jpg',
       '/groundfloor/9.jpg',
       '/groundfloor/10.jpg',
