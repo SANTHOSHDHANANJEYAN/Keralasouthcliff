@@ -13,8 +13,6 @@ export interface Villa {
   images: string[];
 }
 
-// data/villas.ts
-import { Villa } from './types/villa';
 
 export const villas: Villa[] = [
   {
