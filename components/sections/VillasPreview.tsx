@@ -17,7 +17,7 @@ const VillasPreview = () => {
         id: 1,
         name: 'Sea & Garden View Room (Ground Floor)',
         description:
-          'Modern, minimalist 550 sqft retreat with handcrafted Kerala furniture, high-speed Wi-Fi and uninterrupted ocean views. Steps from Café Sarwa and Papanasam Beach.',
+          'Modern, minimalist 550 sqft retreat with handcrafted Kerala furniture, high-speed Wi-Fi and uninterrupted ocean views. Steps from Cafe Sarwa and Papanasam Beach.',
         features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
         images: ['/groundfloor/2.jpg', '/groundfloor/8.png', '/groundfloor/13.jpg'],
         rating: 4.9,
