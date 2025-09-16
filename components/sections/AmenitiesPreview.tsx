@@ -3,47 +3,54 @@
 import React, { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 
 // ✅ Dynamically import Lucide icons for better performance
-const Wind = dynamic(() => import('lucide-react').then(mod => mod.Wind));          // Hair dryer
-const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles));  // Cleaning products
-const Laundry = dynamic(() => import('lucide-react').then(mod => mod.Washer));     // Laundry
-const Package = dynamic(() => import('lucide-react').then(mod => mod.Package));    // Essentials
-const Hanger = dynamic(() => import('lucide-react').then(mod => mod.Hanger));      // Hangers
-const Pillow = dynamic(() => import('lucide-react').then(mod => mod.Pillow));      // Extra pillows
-const Bath = dynamic(() => import('lucide-react').then(mod => mod.Bath));          // Luxury Bathrooms
-const Box = dynamic(() => import('lucide-react').then(mod => mod.Box));            // Clothing storage
-const Shield = dynamic(() => import('lucide-react').then(mod => mod.Shield));      // CCTV Cameras
-const Snowflake = dynamic(() => import('lucide-react').then(mod => mod.Snowflake));// Air conditioning
-const Fan = dynamic(() => import('lucide-react').then(mod => mod.Fan));            // Ceiling fan
-const Refrigerator = dynamic(() => import('lucide-react').then(mod => mod.Refrigerator)); // Refrigerator
-const Utensils = dynamic(() => import('lucide-react').then(mod => mod.Utensils));  // Dishes & silverware
-const Phone = dynamic(() => import('lucide-react').then(mod => mod.Phone));        // 12/7 concierge
-const Coffee = dynamic(() => import('lucide-react').then(mod => mod.Coffee));      // Hot water kettle
-const CupSoda = dynamic(() => import('lucide-react').then(mod => mod.CupSoda));    // Kettle
+const Crown = dynamic(() => import('lucide-react').then(mod => mod.Crown));
+const Bath = dynamic(() => import('lucide-react').then(mod => mod.Bath));
+const Sparkles = dynamic(() => import('lucide-react').then(mod => mod.Sparkles));
+const Hanger = dynamic(() => import('lucide-react').then(mod => mod.Hanger));
+const Wind = dynamic(() => import('lucide-react').then(mod => mod.Wind));
+const Snowflake = dynamic(() => import('lucide-react').then(mod => mod.Snowflake));
+const Refrigerator = dynamic(() => import('lucide-react').then(mod => mod.Fridge));
+const Utensils = dynamic(() => import('lucide-react').then(mod => mod.Utensils));
+const Shield = dynamic(() => import('lucide-react').then(mod => mod.Shield));
+const Phone = dynamic(() => import('lucide-react').then(mod => mod.Phone));
+const Droplet = dynamic(() => import('lucide-react').then(mod => mod.Droplet));
+const Coffee = dynamic(() => import('lucide-react').then(mod => mod.Coffee));
+const Package = dynamic(() => import('lucide-react').then(mod => mod.Package));
 
 const AmenitiesPreview = () => {
-  // one category for all amenities
-  const amenities = useMemo(
-    () => [
-      { icon: Wind, title: 'Hair Dryer' },
-      { icon: Sparkles, title: 'Cleaning Products' },
-      { icon: Laundry, title: 'Laundry' },
-      { icon: Package, title: 'Essentials' },
-      { icon: Hanger, title: 'Hangers' },
-      { icon: Pillow, title: 'Extra Pillows & Blankets' },
-      { icon: Bath, title: 'Luxury Bathrooms' },
-      { icon: Box, title: 'Clothing Storage' },
-      { icon: Shield, title: 'CCTV Camera - Exterior' },
-      { icon: Snowflake, title: 'Air Conditioning' },
-      { icon: Fan, title: 'Ceiling Fan' },
-      { icon: Refrigerator, title: 'Refrigerator' },
-      { icon: Utensils, title: 'Dishes & Silverware' },
-      { icon: Phone, title: '12/7 Concierge for All Your Needs' },
-      { icon: Coffee, title: 'Hot Water Kettle' },
-      { icon: CupSoda, title: 'Kettle' },
-    ],
+  const [selectedCategory, setSelectedCategory] = useState('luxury');
+
+  // ✅ Only the amenities you asked for
+  const amenityCategories = useMemo(
+    () => ({
+      luxury: [
+        { icon: Crown, title: 'Luxury Bathrooms', description: 'High-end bathrooms with premium fittings' },
+        { icon: Sparkles, title: 'Cleaning Products', description: 'All cleaning essentials provided' },
+        { icon: Droplet, title: 'Hot Water Kettle', description: 'Enjoy hot water anytime with the kettle' },
+        { icon: Package, title: 'Extra Pillows & Blankets', description: 'Added comfort for your stay' },
+      ],
+      outdoor: [
+        { icon: Shield, title: 'CCTV Camera - Exterior', description: '24/7 exterior surveillance for safety' },
+        { icon: Hanger, title: 'Clothing Storage', description: 'Ample space for your clothes and belongings' },
+        { icon: Sparkles, title: 'Laundry', description: 'Laundry facility available' },
+        { icon: Package, title: 'Essentials', description: 'Basic essentials stocked for your stay' },
+      ],
+      technology: [
+        { icon: Snowflake, title: 'Air Conditioning', description: 'Cool and comfortable rooms' },
+        { icon: Wind, title: 'Ceiling Fan', description: 'Ceiling fans for natural airflow' },
+        { icon: Phone, title: '12/7 Concierge', description: 'Concierge available for all your needs' },
+        { icon: Refrigerator, title: 'Refrigerator', description: 'Store your food & beverages easily' },
+      ],
+      services: [
+        { icon: Utensils, title: 'Dishes & Silverware', description: 'Dining utensils provided for convenience' },
+        { icon: Coffee, title: 'Kettle', description: 'Brew tea or coffee anytime' },
+        { icon: Sparkles, title: 'Hair Dryer', description: 'Hair dryer provided in-room' },
+      ]
+    }),
     []
   );
 
@@ -58,32 +65,49 @@ const AmenitiesPreview = () => {
             className="text-center mb-16"
           >
             <h2 className="text-5xl md:text-6xl font-bold text-black mb-6">
-              Amenities
+              Premium Amenities
             </h2>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              All the essentials and thoughtful touches to make your stay comfortable.
+              Every detail has been carefully curated to provide an unforgettable
+              luxury experience at the South Cliff of Varkala, Kerala.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {amenities.map((amenity, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <Card className="group hover:shadow-lg hover:scale-[1.02] transition-all duration-300 bg-white border border-gray-200 rounded-lg">
-                  <CardContent className="p-6 text-center h-full flex flex-col">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-black text-white flex items-center justify-center">
-                      <amenity.icon size={24} />
-                    </div>
-                    <h3 className="text-lg font-semibold text-black mb-2">{amenity.title}</h3>
-                  </CardContent>
-                </Card>
-              </motion.div>
+          {/* Tabs */}
+          <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-12 bg-gray-100 rounded-xl shadow-md border border-gray-300">
+              <TabsTrigger value="luxury" className="text-black">Luxury</TabsTrigger>
+              <TabsTrigger value="outdoor" className="text-black">Outdoor</TabsTrigger>
+              <TabsTrigger value="technology" className="text-black">Technology</TabsTrigger>
+              <TabsTrigger value="services" className="text-black">Services</TabsTrigger>
+            </TabsList>
+
+            {/* Amenity Cards */}
+            {Object.entries(amenityCategories).map(([category, amenities]) => (
+              <TabsContent key={category} value={category}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {amenities.map((amenity, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.08 }}
+                    >
+                      <Card className="group hover:shadow-lg hover:scale-[1.02] transition-all duration-300 bg-white border border-gray-200 rounded-lg">
+                        <CardContent className="p-6 text-center h-full flex flex-col">
+                          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-black text-white flex items-center justify-center">
+                            <amenity.icon size={24} />
+                          </div>
+                          <h3 className="text-lg font-semibold text-black mb-2">{amenity.title}</h3>
+                          <p className="text-gray-700 text-sm flex-grow">{amenity.description}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              </TabsContent>
             ))}
-          </div>
+          </Tabs>
         </LazyMotion>
       </div>
     </section>
