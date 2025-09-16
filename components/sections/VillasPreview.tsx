@@ -28,7 +28,7 @@ const VillasPreview = () => {
   id: 2,
   name: 'Private Balcony with Sea View (Top Floor)',
   description:
-    'Experience unmatched serenity in this bright and airy room perched on the top floor, complete with a private balcony overlooking lush gardens and a partial sea view. The room is thoughtfully styled to encourage slow mornings, mindful relaxation, and peaceful stays. Wake up to the sound of waves, sip your morning coffee while enjoying panoramic views, and unwind with luxury amenities designed to make every moment special. Whether you are seeking a romantic escape or a tranquil retreat, this space offers the perfect blend of comfort and elegance.',
+    'Experience unmatched serenity in this bright and airy room perched on the top floor, complete with a private balcony overlooking lush gardens and a partial sea view.',
   features: [
     'Private Balcony',
     'Panoramic Views',
