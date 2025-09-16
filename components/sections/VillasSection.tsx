@@ -12,9 +12,9 @@ const VillasSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Heading */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-black mb-4">Our Asteya's Luxury Villas</h2>
+          <h2 className="text-4xl font-bold text-black mb-4">Our Properties</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Choose from our luxurious villas, each with a unique view and premium amenities.
+           Asteya's Exotic Stays
           </p>
         </div>
 
