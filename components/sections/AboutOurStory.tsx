@@ -22,9 +22,12 @@ const AboutOurStory = () => {
           viewport={{ once: true }}
           className="flex flex-col justify-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug text-black">
-            Asteya Story
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 leading-snug text-black">
+            Our Properties
           </h2>
+          <h3 className="text-xl md:text-2xl font-semibold text-gray-600 mb-6">
+            Asteya's Exotic Stays
+          </h3>
           <p className="text-base md:text-lg leading-relaxed text-[#555]">
             Asteya Villas was born from a heartfelt desire to offer a tranquil
             escape from the noise of everyday life where luxury and nature live
