@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function VillaGallery({
   images,
@@ -11,15 +11,11 @@ export default function VillaGallery({
   images: string[];
   name: string;
 }) {
+  // ✅ Lightbox
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const openLightbox = (index: number) => {
-    setLightboxIndex(index);
-  };
-
-  const closeLightbox = () => {
-    setLightboxIndex(null);
-  };
+  const openLightbox = (index: number) => setLightboxIndex(index);
+  const closeLightbox = () => setLightboxIndex(null);
 
   const showPrev = () => {
     if (lightboxIndex !== null) {
@@ -37,14 +33,22 @@ export default function VillaGallery({
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (lightboxIndex !== null) {
-        if (e.key === "ArrowLeft") showPrev();
-        if (e.key === "ArrowRight") showNext();
-        if (e.key === "Escape") closeLightbox();
+        if (e.key === 'ArrowLeft') showPrev();
+        if (e.key === 'ArrowRight') showNext();
+        if (e.key === 'Escape') closeLightbox();
       }
     };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
   }, [lightboxIndex]);
+
+  // ✅ Load More state
+  const [visibleCount, setVisibleCount] = useState(3);
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 3, images.length));
+  };
+
+  const visibleImages = images.slice(0, visibleCount);
 
   return (
     <>
@@ -52,7 +56,7 @@ export default function VillaGallery({
       <div className="mb-12">
         {/* Mobile: stacked full-width */}
         <div className="grid grid-cols-1 gap-4 sm:hidden">
-          {images.slice(0, 3).map((img, idx) => (
+          {visibleImages.map((img, idx) => (
             <div
               key={idx}
               className="relative cursor-pointer"
@@ -69,44 +73,47 @@ export default function VillaGallery({
           ))}
         </div>
 
-        {/* Desktop: 1 big left + 2 stacked right */}
-        <div className="hidden sm:grid sm:grid-cols-2 sm:grid-rows-2 gap-4 h-[600px]">
-          {/* Big left image */}
-          <div
-            className="relative col-span-1 row-span-2 cursor-pointer"
-            onClick={() => openLightbox(0)}
-          >
-            <Image
-              src={images[0]}
-              alt={name}
-              fill
-              className="rounded-lg object-cover"
-              priority
-            />
-          </div>
-
-          {/* Two stacked images on right */}
-          {images.slice(1, 3).map((img, idx) => (
+        {/* Desktop: big + grid */}
+        <div className="hidden sm:grid sm:grid-cols-3 gap-4">
+          {visibleImages.map((img, idx) => (
             <div
               key={idx}
-              className="relative cursor-pointer hover:opacity-80 transition"
-              onClick={() => openLightbox(idx + 1)}
+              className={`relative cursor-pointer hover:opacity-80 transition ${
+                idx === 0 && 'sm:col-span-2 sm:row-span-2 h-[600px]'
+              }`}
+              onClick={() => openLightbox(idx)}
+              style={{
+                height: idx === 0 ? '600px' : '290px',
+              }}
             >
               <Image
                 src={img}
                 alt={`${name} preview ${idx + 1}`}
                 fill
                 className="rounded-lg object-cover"
+                priority={idx === 0}
               />
             </div>
           ))}
         </div>
+
+        {/* ✅ Load More button */}
+        {visibleCount < images.length && (
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={handleLoadMore}
+              className="px-6 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition"
+            >
+              Load More Photos
+            </button>
+          </div>
+        )}
       </div>
 
       {/* ✅ Lightbox */}
       {lightboxIndex !== null && (
         <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100]">
-          {/* Close button - always visible */}
+          {/* Close button */}
           <button
             onClick={closeLightbox}
             className="fixed top-4 right-4 text-white hover:text-gray-300 z-[110] bg-black/60 rounded-full p-2"
