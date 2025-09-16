@@ -25,16 +25,27 @@ const VillasPreview = () => {
         slug: 'sea-garden-room',
       },
       {
-        id: 2,
-        name: 'Private Balcony with Sea View (Top Floor)',
-        description:
-          'Bright airy room with private balcony, lush garden plus partial sea view. Styled for slow mornings and peaceful stays.',
-        features: ['Private Balcony', 'Panoramic Views', 'Sunset Views', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
-        images: ['/topfloor/6.jpg', '/topfloor/4.jpg', '/topfloor/5.jpg'],
-        rating: 4.9,
-        maxGuests: 2,
-        slug: 'landscape-room',
-      },
+  id: 2,
+  name: 'Private Balcony with Sea View (Top Floor)',
+  description:
+    'Experience unmatched serenity in this bright and airy room perched on the top floor, complete with a private balcony overlooking lush gardens and a partial sea view. The room is thoughtfully styled to encourage slow mornings, mindful relaxation, and peaceful stays. Wake up to the sound of waves, sip your morning coffee while enjoying panoramic views, and unwind with luxury amenities designed to make every moment special. Whether you are seeking a romantic escape or a tranquil retreat, this space offers the perfect blend of comfort and elegance.',
+  features: [
+    'Private Balcony',
+    'Panoramic Views',
+    'Sunset Views',
+    'Luxury Amenities',
+    '1 Bedroom',
+    '1 Bathroom'
+  ],
+  images: [
+    '/topfloor/6.jpg',
+    '/topfloor/4.jpg',
+    '/topfloor/5.jpg'
+  ],
+  rating: 4.9,
+  maxGuests: 2,
+  slug: 'landscape-room'
+},
       {
         id: 3,
         name: 'Exclusive Villa Stay – Sea & Garden View',
