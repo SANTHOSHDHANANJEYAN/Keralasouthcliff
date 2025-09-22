@@ -79,7 +79,7 @@ const Footer = () => {
             <h3 className="font-semibold text-lg mb-4">Follow Us</h3>
             <div className="flex space-x-4 items-center">
               <a 
-                href="https://www.instagram.com/asteya_exotic_stays?igsh=MWtlZzlndW9hanNvNA==" 
+                href="https://www.instagram.com/asteya_boutiquestays?igsh=MWtlZzlndW9hanNvNA==" 
                 className="text-gray-400 hover:text-white transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
