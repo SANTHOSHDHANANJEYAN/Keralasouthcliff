@@ -34,7 +34,6 @@ const AmenitiesPreview = () => {
       ],
       outdoor: [
         { icon: Shield, title: 'CCTV Camera - Exterior', description: '24/7 exterior surveillance for safety' },
-        { icon: Shirt, title: 'Clothing Storage', description: 'Ample space for your clothes and belongings' }, // ✅
         { icon: Sparkles, title: 'Laundry', description: 'Laundry facility available' },
         { icon: Package, title: 'Essentials', description: 'Basic essentials stocked for your stay' },
       ],
