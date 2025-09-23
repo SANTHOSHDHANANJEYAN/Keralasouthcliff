@@ -1,5 +1,6 @@
 // types/villa.ts
 
+
 export interface VillaFeature {
   iconName: string;
   text: string;
