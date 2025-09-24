@@ -36,13 +36,13 @@ const Footer = () => {
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
+                Book Now
+              </Link>
+              <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
                 Villas
               </Link>
               <Link href="/gallery" className="text-gray-400 hover:text-white transition-colors block">
                 Gallery
-              </Link>
-               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
-                Book Now
               </Link>
             </div>
           </div>
