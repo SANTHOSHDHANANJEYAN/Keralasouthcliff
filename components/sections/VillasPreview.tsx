@@ -17,7 +17,7 @@ const VillasPreview = () => {
         id: 1,
         name: 'Sea & Garden View Room (Ground Floor)',
         description:
-          'Modern, minimalist 550 sqft retreat with handcrafted Kerala furniture, high-speed Wi-Fi and uninterrupted ocean views. Steps from Cafe Sarwa and Papanasam Beach.',
+          'Welcome to your modern, minimalist sanctuary on Varkala Cliff. A ground-floor retreat wrapped in lush gardens and whispers of the ocean breeze. 🌿 First Floor Studio (550 sqft) with a tropical oasis bathroom. Perfect for travelers seeking comfort, privacy, and Kerala’s natural beauty.',
         features: ['Garden Access', 'Direct Beach Access', 'Ocean View', 'Luxury Amenities', '1 Bedroom', '1 Bathroom'],
         images: ['/groundfloor/2.jpg', '/groundfloor/8.png', '/groundfloor/13.jpg'],
         rating: 4.9,
@@ -28,7 +28,7 @@ const VillasPreview = () => {
   id: 2,
   name: 'Private Balcony with Sea View (Top Floor)',
   description:
-    'Experience unmatched serenity in this bright and airy room perched on the top floor, complete with a private balcony overlooking lush gardens and a partial sea view.',
+    'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff — where every day begins with breathtaking ocean views and adventure. 🌿 Second Floor Studio (550 sqft) with a spacious private balcony overlooking the Arabian Sea. Designed for digital nomads and travelers seeking comfort, style, and natural beauty.',
   features: [
     'Private Balcony',
     'Panoramic Views',
@@ -50,7 +50,7 @@ const VillasPreview = () => {
         id: 3,
         name: 'Exclusive Villa Stay – Sea & Garden View',
         description:
-          'Entire villa for families or long retreats. Spacious sea- and garden-facing rooms with modern amenities and complete privacy.',
+          'Treat your family or group to the full villa experience. A private haven combining both sea-facing balcony suites and lush garden retreats. Spacious interiors, tropical bathrooms, and airy common areas give you freedom to unwind at your own pace. 🌿 Two-Floor Villa (1100+ sqft). The perfect blend of privacy, comfort, and Kerala’s natural beauty.',
         features: [
           'Full Glass View',
           'Private Garden',
