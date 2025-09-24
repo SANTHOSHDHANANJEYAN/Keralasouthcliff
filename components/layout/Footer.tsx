@@ -41,6 +41,9 @@ const Footer = () => {
               <Link href="/gallery" className="text-gray-400 hover:text-white transition-colors block">
                 Gallery
               </Link>
+               <Link href="/villas" className="text-gray-400 hover:text-white transition-colors block">
+                Book Now
+              </Link>
             </div>
           </div>
 
