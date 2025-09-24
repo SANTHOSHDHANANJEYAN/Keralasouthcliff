@@ -19,7 +19,7 @@ export interface Villa {
 export const villas: Villa[] = [
   {
     id: 'landscape-room',
-    name: 'Cliffside Bohemian Haven – Private Balcony',
+    name: 'Private Balcony with Sea View (Top Floor)',
     description: `
 Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff — where every day begins with breathtaking ocean views and adventure.
 
@@ -80,7 +80,7 @@ Wake up to the sound of waves crashing against golden cliffs. Welcome to your mo
   },
   {
     id: 'sea-garden-room',
-    name: 'Cliffside Bohemian Haven – Sea & Garden Room',
+    name: 'Sea & Garden View Room (Ground Floor)',
     description: `
 Welcome to your modern, minimalist sanctuary on Varkala Cliff. A ground-floor retreat wrapped in lush gardens and whispers of the ocean breeze.
 
