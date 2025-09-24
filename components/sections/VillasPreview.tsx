@@ -28,7 +28,7 @@ const VillasPreview = () => {
   id: 2,
   name: 'Private Balcony with Sea View (Top Floor)',
   description:
-    'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff — where every day begins with breathtaking ocean views and adventure. 🌿 Second Floor Studio (550 sqft) with a spacious private balcony overlooking the Arabian Sea. Designed for digital nomads and travelers seeking comfort, style, and natural beauty.',
+    'Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff — where every day begins with breathtaking ocean views and adventure. 🌿 Second Floor Studio with a spacious private balcony overlooking the Arabian Sea. Designed for digital nomads and travelers seeking comfort, style.',
   features: [
     'Private Balcony',
     'Panoramic Views',
