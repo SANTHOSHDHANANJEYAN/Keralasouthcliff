@@ -18,7 +18,7 @@ export interface Villa {
 
 export const villas: Villa[] = [
   {
-    id: 'landscape-room',
+    id: 'private-balcony-sea-view',
     name: 'Private Balcony with Sea View (Top Floor)',
     description: `
 Wake up to the sound of waves crashing against golden cliffs. Welcome to your modern, minimalist sanctuary on Varkala Cliff — where every day begins with breathtaking ocean views and adventure.
