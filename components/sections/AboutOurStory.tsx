@@ -20,12 +20,12 @@ const AboutOurStory = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="flex flex-col justify-center items-center md:items-start text-center md:text-left"
+          className="flex flex-col justify-center"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug text-black">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug text-black text-center md:text-left">
             Asteya Story
           </h2>
-          <p className="text-base md:text-lg leading-relaxed text-[#555] max-w-xl">
+          <p className="text-base md:text-lg leading-relaxed text-[#555]">
             Asteya Villas was born from a heartfelt desire to offer a tranquil
             escape from the noise of everyday life where luxury and nature live
             in harmony. Nestled amidst serene landscapes, Asteya is a sanctuary
