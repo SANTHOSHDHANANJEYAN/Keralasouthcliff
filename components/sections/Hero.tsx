@@ -25,7 +25,7 @@ const slides = [
 { backgroundImage: '/astega/15-min.jpg', alt: 'Nature Surroundings' },
     { backgroundImage: '/topfloor/4.jpg', alt: 'Villa Poolside' },
   { backgroundImage: '/astega/20.webp', alt: 'Nature Surroundings' },
-  { backgroundImage: '/astega/14.webp', alt: 'Evening Ambience' },
+  { backgroundImage: '/groundfloor/9.jpg', alt: 'Evening Ambience' },
 ];
 
 const Hero = () => {
