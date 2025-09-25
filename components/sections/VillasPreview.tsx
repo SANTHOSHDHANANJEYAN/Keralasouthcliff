@@ -63,7 +63,7 @@ const VillasPreview = () => {
         images: ['/homepage.png', '/groundfloor/2.jpg', '/topfloor/3.jpg'],
         rating: 5.0,
         maxGuests: 4,
-        slug: 'luxury-landscape',
+        slug: 'EXclusive-villa-stay',
         isLandscape: true,
       },
     ],
