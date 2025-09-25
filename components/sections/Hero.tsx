@@ -22,7 +22,7 @@ const montserrat = Montserrat({
 // ✅ Use optimized webp images (add avif fallback if possible)
 const slides = [
   { backgroundImage: '/homepage.png', alt: 'Luxury Villa Interior' },
-  { backgroundImage: '/astega/29.webp', alt: 'Villa Poolside' },
+  { backgroundImage: '/topfloor/4.jpg', alt: 'Villa Poolside' },
   { backgroundImage: '/astega/20.webp', alt: 'Nature Surroundings' },
   { backgroundImage: '/astega/14.webp', alt: 'Evening Ambience' },
 ];
