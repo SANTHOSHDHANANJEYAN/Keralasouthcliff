@@ -44,7 +44,7 @@ const VillasPreview = () => {
   ],
   rating: 4.9,
   maxGuests: 2,
-  slug: 'landscape-room'
+  slug: 'private-balcony-sea-view'
 },
       {
         id: 3,
