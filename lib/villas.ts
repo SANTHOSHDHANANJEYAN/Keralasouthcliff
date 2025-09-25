@@ -140,7 +140,7 @@ Welcome to your modern, minimalist sanctuary on Varkala Cliff. A ground-floor re
     ],
   },
   {
-    id: 'luxury-villa',
+    id: 'EXclusive-villa-stay',
     name: 'Exclusive Villa Stay – Sea & Garden View',
     description: `
 Treat your family or group to the full villa experience. A private haven combining both sea-facing balcony suites and lush garden retreats. Spacious interiors, tropical bathrooms, and airy common areas give you freedom to unwind at your own pace.
